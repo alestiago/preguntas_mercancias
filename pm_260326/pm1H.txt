@@ -1,0 +1,2944 @@
+COD: 1H01001
+PREGUNTA: ¿Qué período de vigencia tendrá el permiso de conducción de la clase C cuando el titular haya cumplido 66 años?
+A: 5 años.
+B: 3 años.
+C: 2 años.
+D: 1 año.
+SOLUCION: B
+NORMA: RD 818/2009, art. 12
+
+COD: 1H01002
+PREGUNTA: ¿Qué período de vigencia tendrán los permisos de conducción de las clases C1 y C1+E cuando el titular tenga 25 años?
+A: 2 años.
+B: 3 años.
+C: 5 años.
+D: 10 años.
+SOLUCION: C
+NORMA: RD 818/2009, art. 12
+
+COD: 1H01003
+PREGUNTA: El permiso de conducción de la clase C+E solo podrá expedirse a los conductores que ya sean titulares de un permiso en vigor de la clase:
+A: C1.
+B: C.
+C: B.
+D: BTP.
+SOLUCION: B
+NORMA: RD 818/2009, art. 5
+
+COD: 1H01004
+PREGUNTA: Como regla general, ¿durante cuánto tiempo puede conducir en España una persona titular de un permiso de conducción extranjero no expedido por un país de la UE o el EEE?
+A: Tres meses desde su entrada en España.
+B: Seis meses desde su entrada en España.
+C: Un año desde su entrada en España.
+D: No puede conducir en España si no convalida el permiso antes.
+SOLUCION: B
+NORMA: RD 818/2009, art. 21
+
+COD: 1H01005
+PREGUNTA: Como regla general, ¿durante cuánto tiempo puede conducir en España una persona titular de un permiso de conducción extranjero no expedido por un país de la UE o el EEE?
+A: Tres meses desde que obtenga permiso de residencia en España.
+B: Seis meses desde que obtenga permiso de residencia en España.
+C: Un año desde que obtenga permiso de residencia en España.
+D: No puede conducir en España, debe examinarse y obtener un permiso español.
+SOLUCION: B
+NORMA: RD 818/2009, art. 21
+
+COD: 1H01006
+PREGUNTA: Transcurrido el plazo de validez de un permiso extranjero, no UE ni EEE, ¿qué debe hacer su titular para poder seguir conduciendo en España?
+A: Debe examinarse y obtener un permiso español.
+B: Puede solicitar la prórroga de la validez de su permiso por seis meses más.
+C: Puede solicitar la prórroga de validez hasta un año más.
+D: Deber solicitar el canje de su permiso por su equivalente español.
+SOLUCION: D
+NORMA: RD 818/2009, art. 22
+
+COD: 1H01007
+PREGUNTA: En el permiso español procedente de un canje de un permiso extranjero no comunitario se hará constar…
+A: una validez reducida de tres años.
+B: la fecha de expedición del permiso extranjero.
+C: el hecho de que procede de un canje de permiso no comunitario.
+D: No tendrá ninguna mención especial.
+SOLUCION: C
+NORMA: RD 818/2009, art. 23
+
+COD: 1H01008
+PREGUNTA: ¿Qué es la autorización administrativa especial para conducir vehículos que transportan mercancías peligrosas?
+A: Es una clase especial de permiso de conducción.
+B: Es una autorización que complementa el permiso de conducción en relación con el transporte internacional de mercancías peligrosas en vehículos pesados.
+C: Es una autorización que deben llevar los conductores de vehículos que transporten mercancías peligrosas cuando así lo exija el ADR. 
+D: Es una clase especial de licencia de conducción.
+SOLUCION: C
+NORMA: RD 818/2009, art. 25
+
+COD: 1H01009
+PREGUNTA: La autorización administrativa especial para conducir vehículos que transportan mercancías peligrosas, ¿habilita por sí misma para la conducción?
+A: Sí, es una clase especial de permiso de conducción.
+B: No, es una autorización que complementa el permiso de conducción en relación con el transporte internacional de mercancías peligrosas en vehículos pesados.
+C: No, es una autorización que deben llevar los conductores de vehículos que transporten mercancías peligrosas, junto con su permiso de conducción, cuando así lo exija el ADR. 
+D: Sí, es una clase especial de licencia de conducción.
+SOLUCION: C
+NORMA: RD 818/2009, art. 25
+
+COD: 1H01010
+PREGUNTA: ¿Qué requisitos son necesarios para obtener la autorización administrativa especial para conducir vehículos que transportan mercancías peligrosas?
+A: Poseer, al menos, un permiso de la clase B con una antigüedad mínima de un año.
+B: Poseer, al menos, un permiso de la clase C1.
+C: Poseer, al menos, un permiso de la clase C1+E.
+D: No es necesario poseer un permiso de conducción.
+SOLUCION: A
+NORMA: RD 818/2009, art. 26
+
+COD: 1H01011
+PREGUNTA: ¿Qué requisitos son necesarios para prorrogar la autorización administrativa especial para conducir vehículos que transportan mercancías peligrosas?
+A: Tener residencia normal en España.
+B: Poseer, al menos, un permiso de la clase B con una antigüedad mínima de un año.
+C: Superar con aprovechamiento en curso establecido por la norma.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: RD 818/2009, art. 26
+
+COD: 1H01012
+PREGUNTA: ¿Qué vigencia tiene la autorización administrativa especial para conducir vehículos que transportan mercancías peligrosas?
+A: Tres años.
+B: Cinco años.
+C: Cinco años, hasta que el conductor cumpla 60 años.
+D: Diez años, hasta que el conductor cumpla 60 años.
+SOLUCION: B
+NORMA: RD 818/2009, art. 28
+
+COD: 1H01013
+PREGUNTA: ¿Puede prorrogarse la autorización administrativa especial para conducir vehículos que transportan mercancías peligrosas?
+A: Sí, por períodos de 5 años.
+B: Sí, por períodos de 5 años, hasta que el conductor cumpla 60 años.
+C: Sí, por períodos de 3 años.
+D: No puede prorrogarse
+SOLUCION: A
+NORMA: RD 818/2009, art. 28
+
+COD: 1H01014
+PREGUNTA: ¿Qué requisitos son necesarios para prorrogar la autorización administrativa especial para conducir vehículos que transportan mercancías peligrosas?
+A: Poseer, al menos, un permiso de la clase C1.
+B: Superar con aprovechamiento en curso establecido por la norma.
+C: No haber sido sancionado por la comisión de una infracción muy grave con el tráfico y la seguridad vial en el último año.
+D: Todas las respuestas son correctas.
+SOLUCION: B
+NORMA: RD 818/2009, art. 28
+
+COD: 1H01015
+PREGUNTA: El permiso de conducción de la clase C1+E solo podrá expedirse a los conductores que ya sean titulares de un permiso en vigor de la clase:
+A: B.
+B: C1.
+C: BTP.
+D: D1.
+SOLUCION: B
+NORMA: RD 818/2009, art. 5
+
+COD: 1H01016
+PREGUNTA: ¿Qué automóviles autoriza a conducir el permiso de la clase C1?
+A: Los mismos que autoriza a conducir el permiso de la clase D1.
+B: Los mismos que autoriza a conducir el permiso de la clase D.
+C: Distintos de los que autoriza a conducir el permiso de las clases D1 o D.
+D: Cualquier automóvil que esté destinado al transporte de mercancías.
+SOLUCION: C
+NORMA: RD 818/2009, art. 4
+
+COD: 1H01017
+PREGUNTA: ¿Cuál será la edad mínima requerida para la obtención del permiso de conducción de la clase C si no se ha obtenido el CAP en la modalidad inicial ordinaria?
+A: 20 años.
+B: 18 años.
+C: 21 años.
+D: 16 años.
+SOLUCION: C
+NORMA: RD 818/2009, art. 4
+
+COD: 1H01018
+PREGUNTA: ¿Qué documento puede sustituir temporalmente, cuando sea necesario, un permiso de circulación con los mismos efectos que este?
+A: Una licencia provisional.
+B: Un permiso provisional.
+C: Una autorización temporal.
+D: No existe ese tipo de documento.
+SOLUCION: C
+NORMA: RD 818/2009, art. 1
+
+COD: 1H01019
+PREGUNTA: ¿De cuántos permisos de conducción puede ser titular una persona?
+A: Uno por categoría de vehículo que esté habilitado para conducir.
+B: Dos, el propio de su país y otro temporal en el país donde resida más de seis meses continuados.
+C: Puede llegar a tener hasta tres si es titular del permiso ADR.
+D: Puede ser titular de dos si uno de ellos es el permiso ADR.
+SOLUCION: A
+NORMA: RD 818/2009, art. 1
+
+COD: 1H01020
+PREGUNTA: ¿Qué organismo será competente para expedir los permisos y licencias de conducción?
+A: El Ministerio de Transportes.
+B: Las Jefaturas Provinciales de Tráfico con las excepciones que se establezcan reglamentariamente.
+C: La Dirección General de la Guardia Civil.
+D: La Dirección General de la Policía.
+SOLUCION: B
+NORMA: RD 818/2009, art. 2
+
+COD: 1H01021
+PREGUNTA: ¿Cuál será la edad mínima requerida para la obtención del permiso de conducción de la clase C1+E?
+A: 18 años.
+B: 20 años.
+C: 21 años.
+D: 24 años.
+SOLUCION: A
+NORMA: RD 818/2009, art. 4
+
+COD: 1H01022
+PREGUNTA: ¿Cuál será la edad mínima requerida para la obtención del permiso de conducción de la clase C+E si no se ha obtenido el CAP en la modalidad inicial ordinaria?
+A: 24 años.
+B: 21 años.
+C: 20 años.
+D: 18 años.
+SOLUCION: B
+NORMA: RD 818/2009, art. 4
+
+COD: 1H01023
+PREGUNTA: Cualquier variación de los datos que figuran en el permiso de conducción deberá ser comunicada por el titular a la Jefatura Provincial de Tráfico dentro del plazo de:
+A: 10 días.
+B: 15 días.
+C: 20 días.
+D: 5 días.
+SOLUCION: B
+NORMA: RD 818/2009, art. 10
+
+COD: 1H01024
+PREGUNTA: ¿Qué vehículos autoriza a conducir el permiso de la clase C1+E?
+A: Conjuntos de vehículos acoplados compuestos por un vehículo tractor de los que autoriza a conducir el permiso de la clase C1 y un remolque o semirremolque cuya Masa Máxima Autorizada exceda de 750 kg.
+B: Conjuntos de vehículos acoplados compuestos por un vehículo tractor de los que autoriza a conducir el permiso de la clase C y un remolque o semirremolque cuya Masa Máxima Autorizada exceda de 750 kg.
+C: Conjuntos de vehículos acoplados compuestos por un vehículo tractor de los que autoriza a conducir el permiso de la clase C1 y un remolque o semirremolque cuya Masa Máxima Autorizada no exceda de 750 kg.
+D: Conjuntos de vehículos acoplados compuestos por un vehículo tractor de los que autoriza a conducir el permiso de la clase C1 y un remolque o semirremolque cuya Masa Máxima Autorizada no exceda de 3.500 kg.
+SOLUCION: A
+NORMA: RD 818/2009, art. 4
+
+COD: 1H01025
+PREGUNTA: ¿Qué vehículos autoriza a conducir el permiso de la clase B+E?
+A: Conjuntos de vehículos acoplados compuestos por un vehículo tractor de los que autoriza a conducir el permiso de la clase B1 y un remolque o semirremolque cuya Masa Máxima Autorizada exceda de 750 kg.
+B: Conjuntos de vehículos acoplados compuestos por un vehículo tractor de los que autoriza a conducir el permiso de la clase B y un remolque o semirremolque cuya Masa Máxima Autorizada no exceda de 3.500 kg.
+C: Conjuntos de vehículos acoplados compuestos por un vehículo tractor de los que autoriza a conducir el permiso de la clase B y un remolque o semirremolque cuya Masa Máxima Autorizada exceda de 3.500 kg.
+D: Conjuntos de vehículos acoplados compuestos por un vehículo tractor de los que autoriza a conducir el permiso de la clase B y un remolque o semirremolque cuya Masa Máxima Autorizada exceda de 3.000 kg.
+SOLUCION: B
+NORMA: RD 818/2009, art. 4
+
+COD: 1H01026
+PREGUNTA: ¿Qué vehículos autoriza a conducir el permiso de la clase C?
+A: Automóviles distintos de los que autoriza a conducir el permiso de las clases D1 y D, cuya Masa Máxima Autorizada no exceda de 3.500, que estén diseñados y construidos para el transporte de no más de 8 pasajeros además del conductor.
+B: Automóviles distintos de los que autoriza a conducir el permiso de las clases D1 y D, cuya Masa Máxima Autorizada exceda de 3.500, que estén diseñados y construidos para el transporte de no más de 8 pasajeros además del conductor.
+C: Automóviles distintos de los que autoriza a conducir el permiso de las clases D1 y D, cuya Masa Máxima Autorizada no exceda de 3.500, que estén diseñados y construidos para el transporte de no más de 9 pasajeros además del conductor.
+D: Automóviles distintos de los que autoriza a conducir el permiso de las clases D1 y D, cuya Masa Máxima Autorizada no exceda de 3.500, que estén diseñados y construidos para el transporte de más de 8 pasajeros además del conductor.
+SOLUCION: B
+NORMA: RD 818/2009, art. 4
+
+COD: 1H01027
+PREGUNTA: ¿Qué requisito es necesario para obtener un permiso de conducción?
+A: Ser nacional español o de un país de la UE.
+B: No ser titular de un permiso de conducción expedido en otro Estado miembro de la Unión Europea.
+C: No ser titular de otro permiso de conducción expedido por cualquier Estado firmante del Convenio de Viena.
+D: No haber obtenido otro permiso, de clase diferente, en el último año natural.
+SOLUCION: B
+NORMA: RD 818/2009, art. 7
+
+COD: 1H01028
+PREGUNTA: ¿Qué requisitos son necesarios para obtener un permiso de conducción?
+A: Reunir las actitudes psicofísicas requeridas en relación con la clase del permiso o licencia de conducción que se solicite.
+B: Ser declarado apto por la Jefatura Provincial de Tráfico en las pruebas teóricas y prácticas establecidas en la norma.
+C: En el caso de extranjeros, acreditar la situación de residencia normal o estancia por estudios en España de, al menos, seis meses y haber cumplido la edad requerida.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: RD 818/2009, art. 7
+
+COD: 1H01029
+PREGUNTA: Señale la afirmación correcta.
+A: La obtención del permiso de las clases D y C implica la concesión del de las clases C1 y D1, respectivamente.
+B: La obtención del permiso de las clases C+E y D implica la concesión del de las clases C1 y D1, respectivamente.
+C: La obtención del permiso de las clases C y D implica la concesión del de las clases C1 y D1, respectivamente.
+D: La obtención del permiso de las clases C y D+E implica la concesión del de las clases C1 y D1, respectivamente.
+SOLUCION: C
+NORMA: RD 818/2009, art. 5
+
+COD: 1H01030
+PREGUNTA: ¿Qué período de vigencia tendrá el permiso de conducir de la clase B si su titular tiene menos de 65 años?
+A: 5 años.
+B: 10 años.
+C: 4 años.
+D: 3 años.
+SOLUCION: B
+NORMA: RD 818/2009, art. 12
+
+COD: 1H01031
+PREGUNTA: Los permisos de conducción expedidos en países de la UE o del EEE …
+A: deben ser convalidados para ser usados en España.
+B: son válidos en España, pero deben ser prorrogados cada dos años.
+C: son válidos en España, en las condiciones en que hubieran sido expedidos en su lugar de origen.
+D: solo son válidos en España los equivalentes a las clases B. C1 y D1.
+SOLUCION: C
+NORMA: RD 818/2009, art. 15
+
+COD: 1H01032
+PREGUNTA: Las pruebas de aptitud psicofísica tendrán por objeto dejar constancia de que no existe enfermedad o deficiencia que pueda suponer incapacidad para conducir asociada con:
+A: la capacidad neolectora.
+B: la capacidad intelectual.
+C: la posición socio-cultural.
+D: la capacidad visual y auditiva.
+SOLUCION: D
+NORMA: RD 818/2009, art. 43
+
+COD: 1H01033
+PREGUNTA: La obtención del permiso de conducir C+E implica la concesión del permiso..
+A: D+E si ya se es titular de un permiso de clase D.
+B: D1.
+C: D1+E
+D: Ninguna respuesta es correcta.
+SOLUCION: A
+NORMA: RD 818/2009, art. 5
+
+COD: 1H01035
+PREGUNTA: ¿En qué caso se podrán expedir duplicados del permiso de conducción?
+A: Siempre que lo solicite el titular, previo pago de la tasa.
+B: Cuando haya variación de algún dato de los que deben constar en el permiso.
+C: Solamente en caso de deterioro del original que lo haga ilegible.
+D: No existen los duplicados de permiso de conducción, solo las nuevas expediciones.
+SOLUCION: B
+NORMA: RD 818/2009, art. 11
+
+COD: 1H01036
+PREGUNTA: ¿En qué casos se podrán expedir duplicados del permiso de conducción?
+A: En cualquier caso, previa solicitud del interesado ante las Jefaturas Provinciales de Tráfico.
+B: Solamente en caso de deterioro del original.
+C: En los casos de sustracción, extravío o deterioro del original.
+D: En ningún caso.
+SOLUCION: C
+NORMA: RD 818/2009, art. 11
+
+COD: 1H01037
+PREGUNTA: ¿Qué documentos deben adjuntarse a la solicitud de duplicado del permiso de conducción?
+A: El permiso original cuando la causa de la solicitud sea por sustracción.
+B: Una fotografía del solicitante de 30 por 25 mm.
+C: El documento que acredite la variación de los datos que figuran en el permiso cuando la causa sea la variación de datos.
+D: El documento original acreditativo del código de identificación fiscal o CIF.
+SOLUCION: C
+NORMA: RD 818/2009, Anexo III.A y C
+
+COD: 1H01038
+PREGUNTA: La solicitud de prórroga de vigencia del permiso podrá presentarse:
+A: con una antelación máxima de dos meses a su fecha de caducidad, computándose desde esta última fecha el nuevo período de vigencia de la autorización. En supuestos excepcionales debidamente justificados, se podrá solicitar con una antelación mayor.
+B: con una antelación máxima de seis meses a su fecha de caducidad, computándose desde esta última fecha el nuevo período de vigencia de la autorización. En supuestos excepcionales debidamente justificados, se podrá solicitar con una antelación mayor.
+C: con una antelación mínima de tres meses a su fecha de caducidad, computándose desde esta última fecha el nuevo período de vigencia de la autorización. En supuestos excepcionales debidamente justificados, se podrá solicitar con una antelación menor.
+D: con una antelación máxima de tres meses a su fecha de caducidad, computándose desde esta última fecha el nuevo período de vigencia de la autorización. En supuestos excepcionales debidamente justificados, se podrá solicitar con una antelación mayor.
+SOLUCION: D
+NORMA: RD 818/2009, art. 13
+
+COD: 1H01039
+PREGUNTA: Para conducir vehículos que transporten mercancías peligrosas, se exigirá una autorización:
+A: administrativa especial que habilite para ello y el permiso de conducción de la clase C+E en vigor.
+B: administrativa especial de conducción que habilite para ser utilizada con cualquier tipo de vehículo.
+C: del propietario del vehículo para poder transportar la mercancía peligrosa.
+D: administrativa especial que habilite para ello y el permiso de conducción ordinario en vigor, requerido para el vehículo de que se trate.
+SOLUCION: D
+NORMA: RD 818/2009, art. 25
+
+COD: 1H01040
+PREGUNTA: ¿Cuál será la edad mínima requerida para la obtención del permiso de conducción de la clase C si se ha obtenido previamente el CAP con un curso de la modalidad inicial ordinaria?
+A: 20 años.
+B: 18 años.
+C: 21 años.
+D: 16 años.
+SOLUCION: B
+NORMA: RD 818/2009, art. 4
+
+COD: 1H01041
+PREGUNTA: ¿Cuál será la edad mínima requerida para la obtención del permiso de conducción de la clase C+E si se ha obtenido previamente el CAP con un curso de la modalidad inicial ordinaria?
+A: 24 años.
+B: 21 años.
+C: 20 años.
+D: 18 años.
+SOLUCION: D
+NORMA: RD 818/2009, art. 4
+
+COD: 1H02001
+PREGUNTA: ¿Cuál es la velocidad máxima a la que pueden circular los vehículos que transporten mercancías peligrosas en travesías?
+A: 60 kilómetros/hora.
+B: 50 kilómetros/hora.
+C: 40 kilómetros/hora.
+D: 30 kilómetros/hora.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 50
+
+COD: 1H02002
+PREGUNTA: ¿Cuál es la velocidad máxima a la que pueden circular los vehículos que realicen transporte de mercancías peligrosas en vías urbanas con límite genérico de 50 km/h?
+A: 50 kilómetros/hora.
+B: 45 kilómetros/hora.
+C: 40 kilómetros/hora.
+D: 35 kilómetros/hora.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 50
+
+COD: 1H02003
+PREGUNTA: ¿Quiénes quedan obligados a someterse a las pruebas para la detección de posibles intoxicaciones por alcohol?
+A: Todos los conductores de vehículos.
+B: Solo los conductores de vehículos con signos de embriaguez.
+C: Solo aquellos conductores que estén implicados directa o indirectamente en algún accidente o incidente.
+D: Solo aquellos conductores que estén implicados directamente en algún accidente.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 21
+
+COD: 1H02004
+PREGUNTA: Por razones de fluidez del tráfico, la autoridad competente puede establecer…
+A: el seguimiento obligatorio de itinerarios concretos.
+B: la circulación en sentido opuesto al habitual .
+C: la prohibición del acceso a la vía a determinados usuarios.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: RD 1428/2003, art. 37
+
+COD: 1H02005
+PREGUNTA: ¿Se pueden establecer restricciones a la circulación por una carretera a vehículos con Masa Máxima Autorizada superior a 3.500 kilogramos?
+A: Sí, por razones climatológicas.
+B: Sí, cuando se prevea una elevada intensidad de tráfico.
+C: Solo en tramos urbanos.
+D: No, nunca.
+SOLUCION: B
+NORMA: RD 1428/2003, art. 37
+
+COD: 1H02006
+PREGUNTA: ¿Qué constituye un delito contra la seguridad vial?
+A: Conducir un vehículo en vía urbana 40 km por encima de la velocidad permitida.
+B: Conducir un vehículo en vía urbana 50 km por encima de la velocidad permitida.
+C: Conducir un vehículo en vía urbana 60 km por encima de la velocidad permitida.
+D: Todas las respuestas son faltas administrativas.
+SOLUCION: C
+NORMA: Ley Orgánica 10/1995, art. 379
+
+COD: 1H02007
+PREGUNTA: ¿Qué constituye un delito contra la seguridad vial?
+A: Conducir un vehículo en vía interurbana 60 km/h por encima de la velocidad permitida.
+B: Conducir un vehículo en vía interurbana 80 km/h por encima de la velocidad permitida.
+C: Conducir un vehículo en vía urbana 40 km/h por encima de la velocidad permitida.
+D: Conducir un vehículo en vía urbana 50 km/h por encima de la velocidad permitida.
+SOLUCION: B
+NORMA: Ley Orgánica 10/1995, art. 379
+
+COD: 1H02008
+PREGUNTA: ¿Cuál es la tasa de alcohol en sangre a partir de la cual establece el Código Penal que un conductor ha cometido un delito contra la seguridad vial?
+A: 1 gr/l.
+B: 1,2 gr/l.
+C: 1,5 gr/l.
+D: 1,8 gr/l.
+SOLUCION: B
+NORMA: Ley Orgánica 10/1995, art. 379
+
+COD: 1H02009
+PREGUNTA: Conducir un vehículo con temeridad manifiesta, sin poner en peligro concreto la vida o integridad de las personas, ¿es un delito contra la seguridad vial?
+A: Sí, es un delito.
+B: No, no es delito pero sí una causa de suspensión de permiso de conducción.
+C: No, es una falta administrativa muy grave.
+D: No, es una falta administrativa grave.
+SOLUCION: A
+NORMA: Ley Orgánica 10/1995, art. 381
+
+COD: 1H02010
+PREGUNTA: Colocar en una vía un obstáculo imprevisto que origina un grave riesgo para la seguridad del tráfico:
+A: es una falta administrativa muy grave.
+B: es una falta administrativa grave.
+C: es un delito contra la seguridad del tráfico.
+D: Ninguna de las respuestas es correcta.
+SOLUCION: C
+NORMA: Ley Orgánica 10/1995, art. 385
+
+COD: 1H02011
+PREGUNTA: Cuando se circule por carriles reversibles…
+A: los conductores deberán llevar encendida la luz de corto alcance o de cruce, tanto de día como de noche.
+B: los conductores deberán llevar encendida la luz de corto alcance o de cruce, solo de noche.
+C: no es necesario utilizar luces especiales.
+D: los conductores deberán circular a la mitad de la velocidad permitida en el sentido normal de la circulación.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 40
+
+COD: 1H02012
+PREGUNTA: El recorrido marcha atrás…
+A: está prohibido en todos los casos.
+B: se permite como maniobra complementaria de la parada, el estacionamiento o la incorporación y no podrá ser superior a quince metros ni invadir un cruce de vías.
+C: se permite como maniobra complementaria de cualquier otra que la exija y siempre con el recorrido mínimo indispensable para efectuarla.
+D: está permitido en todos los casos sin limitaciones, siempre que se adopten las debidas precauciones.
+SOLUCION: B
+NORMA: RD 1428/2003, art. 80
+
+COD: 1H02013
+PREGUNTA: Mientras conduce, ¿a qué está obligado el conductor por normativa?
+A: A mantener su propia libertad de movimientos.
+B: A conservar el campo necesario de visión.
+C: A atender de manera constante a la conducción.
+D: Todas las respuestas son correctas
+SOLUCION: D
+NORMA: RD 1428/2003, art. 18
+
+COD: 1H02014
+PREGUNTA: ¿El uso de qué dispositivos prohíbe la normativa con el vehículo en movimiento?
+A: Dispositivos GPS.
+B: Monitores de visión de cámaras de maniobras traseras.
+C: Cascos o auriculares conectados a aparatos receptores o reproductores de sonido.
+D: Todos los dispositivos anteriores están prohibidos.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 18
+
+COD: 1H02015
+PREGUNTA: En ausencia de regulación para el paso de vehículos por puentes u obras en los que uno de ellos tenga que dar marcha atrás, los vehículos y transportes especiales que excedan de los pesos o dimensiones establecidos tendrán preferencia de paso:
+A: sobre el resto de los vehículos.
+B: sobre el resto de los vehículos, a excepción de los que transporten viajeros.
+C: sobre los turismos y motocicletas, exclusivamente.
+D: sobre los que transporten mercancías peligrosas, exclusivamente.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 62
+
+COD: 1H02016
+PREGUNTA: En calzadas con doble sentido de circulación y tres carriles separados por marcas longitudinales discontinuas, ¿en qué caso se puede utilizar el carril central?
+A: Solo para efectuar adelantamientos.
+B: Tan solo para efectuar adelantamientos precisos y para cambiar de dirección hacia la izquierda.
+C: Solo para cambiar de dirección hacia la izquierda.
+D: Para poder desplazarse al carril situado más a su izquierda.
+SOLUCION: B
+NORMA: RD 1428/2003, art. 30
+
+COD: 1H02017
+PREGUNTA: ¿Qué vehículos deben circular por el arcén transitable de su derecha?
+A: Los vehículos cuya Masa Máxima Autorizada no exceda de 3.500 kilogramos y que, por razones de emergencia, lo hagan a velocidad anormalmente reducida.
+B: Los vehículos especiales con Masa Máxima Autorizada superior a 3.500 kilogramos.
+C: Los vehículos cuya Masa Máxima Autorizada exceda de 3.500 kilogramos y que, por razones de emergencia, lo hagan a velocidad anormalmente reducida.
+D: Solo los vehículos para personas de movilidad reducida.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 36
+
+COD: 1H02018
+PREGUNTA: En los tramos estrechos de gran pendiente, como norma general, tendrá preferencia de paso el vehículo que circule en sentido:
+A: No se establecen preferencias en este caso.
+B: descendente.
+C: ascendente.
+D: Depende de la cercanía al final de la pendiente.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 63
+
+COD: 1H02019
+PREGUNTA: ¿A qué velocidad máxima puede circular un camión que transporta mercancías peligrosas por una autopista?
+A: 100 km/h.
+B: 90 km/h.
+C: 80 km/h.
+D: Depende de la mercancía que transporte.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 48
+
+COD: 1H02020
+PREGUNTA: ¿A qué velocidad máxima puede circular un camión que transporta mercancías peligrosas por una carretera convencional?
+A: 90 km/h.
+B: 80 km/h.
+C: 70 km/h.
+D: Depende de la mercancía que transporte.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 48
+
+COD: 1H02021
+PREGUNTA: La velocidad para no entorpecer la marcha normal de otros vehículos circulando no deberá ser inferior:
+A: a 60 km/h en carreteras convencionales.
+B: si es un camión, a 50 km/h en carreteras convencionales.
+C: si es un camión, a 45 km/h en carreteras convencionales.
+D: si es un camión, a 40 km/h en carreteras convencionales.
+SOLUCION: D
+NORMA: RD 1428/2003, art. 49
+
+COD: 1H02022
+PREGUNTA: La velocidad para no entorpecer la marcha normal de otros vehículos circulando no deberá ser inferior a:
+A: 70 kilómetros por hora, en autopistas y autovías sólo cuando circulen otros vehículos.
+B: 60 kilómetros por hora, en autopistas y autovías.
+C: 60 kilómetros por hora, en autovías y carreteras de una sola calzada.
+D: 50 Kilómetros por hora en cualquier tipo de vía fuera de poblado incluso cuando no circulen otros vehículos.
+SOLUCION: B
+NORMA: RD 1428/2003, art. 49
+
+COD: 1H02023
+PREGUNTA: Los vehículos especiales o en régimen de transporte especial que no excedan las masas o dimensiones establecidas reglamentariamente y que no puedan desarrollar una velocidad superior a 60 km/h en autopistas…
+A: deberán ir señalizados con distintivos rojos.
+B: deberán llevar vehículo de acompañamiento.
+C: no podrán circular por las mismas.
+D: podrán circular libremente sin ninguna restricción.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 38
+
+COD: 1H02024
+PREGUNTA: Para el cómputo de carriles en las vías de circulación:
+A: se tendrán en cuenta todos los que existan señalizados como tales y los arcenes.
+B: se tendrán en cuenta todos los que existan señalizados como tales, excepto los arcenes.
+C: no se tendrán en cuenta los reservados a determinados vehículos o a ciertas maniobras.
+D: No existe normativa legal al efecto del cómputo de carriles.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 34
+
+COD: 1H02025
+PREGUNTA: Salvo causa justificada, se prohíbe la circulación por autopistas y autovías de vehículos a motor a una velocidad:
+A: superior a 110 kilómetros por hora si son furgonetas de MMA superior a 3.500 Kg.
+B: de 60 kilómetros por hora.
+C: inferior a 60 kilómetros por hora.
+D: Solo se establecen límites de velocidad máxima para este tipo de vías.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 49
+
+COD: 1H02026
+PREGUNTA: Un carril delimitado por ambos lados por líneas dobles discontinuas es un carril:
+A: reversible.
+B: de preferencia para servicios públicos.
+C: VAO. 
+D: de sentido provisional.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 40
+
+COD: 1H02027
+PREGUNTA: ¿Cómo debe circularse por un carril reversible?
+A: Con una velocidad máxima reducida en 20 km/h a la máxima permitida para la vía.
+B: Con las luces de cruce, tanto de día como de noche.
+C: Guardando una distancia de seguridad de, al menos, el doble de la normal.
+D: Todas las respuestas son correctas.
+SOLUCION: B
+NORMA: RD 1428/2003, art. 40
+
+COD: 1H02028
+PREGUNTA: Se circulará a velocidad moderada y, si fuera preciso, se detendrá el vehículo cuando las circunstancias lo exijan, especialmente:
+A: al aproximarse a un autobús en situación de parada.
+B: cuando pueda salpicarse o proyectarse agua a los demás usuarios de la vía.
+C: en caso de deslumbramiento.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: RD 1428/2003, art. 46
+
+COD: 1H02029
+PREGUNTA: Se circulará a velocidad moderada y, si fuera preciso, se detendrá el vehículo cuando las circunstancias lo exijan, especialmente:
+A: cuando haya peatones en la parte de la vía que se esté utilizando o pueda preverse racionalmente su irrupción en ella.
+B: cuando no haya animales en la parte de la vía que se esté utilizando o sea poco previsible su irrupción en ella.
+C: cuando no haya peatones en la parte de la vía que se esté utilizando o sea poco previsible su irrupción en ella.
+D: en los tramos con edificios sin inmediato acceso a la parte de la vía que se está utilizando.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 46
+
+COD: 1H02030
+PREGUNTA: Según el orden de prioridad entre los distintos tipos de señales de circulación, las prescripciones indicadas por las señales verticales prevalecerán sobre las indicadas por:
+A: las marcas viales.
+B: los semáforos.
+C: la señalización circunstancial que modifique el régimen normal de utilización de la vía.
+D: las señales y órdenes de los agentes de circulación.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 133
+
+COD: 1H02031
+PREGUNTA: Según el orden de prioridad entre los distintos tipos de señales de circulación, las prescripciones indicadas por los semáforos prevalecerán sobre las indicadas por:
+A: las señales verticales de circulación y las marcas viales.
+B: las señales y órdenes de los agentes de circulación.
+C: la señalización circunstancial.
+D: cualquier otra señalización.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 133
+
+COD: 1H02032
+PREGUNTA: Conducir un vehículo sin poseer el permiso de conducción necesario es …
+A: una falta administrativa muy grave.
+B: un delito contra la seguridad vial.
+C: un delito o una falta administrativa en función de la vía por la que se circule.
+D: una falta administrativa grave.
+SOLUCION: B
+NORMA: Ley Orgánica 10/1995, art. 384
+
+COD: 1H02033
+PREGUNTA: Abandonar el lugar de los hechos tras causar un accidente en el que haya víctimas y heridos graves es ...
+A: una falta administrativa muy grave.
+B: un delito contra la seguridad vial.
+C: una delito o una falta administrativa en función del número de víctimas del accidente.
+D: una falta administrativa grave.
+SOLUCION: B
+NORMA: Ley Orgánica 10/1995, art. 382
+
+COD: 1H02034
+PREGUNTA: Un conductor que, a requerimiento de un agente de la autoridad, se niegue a someterse a las pruebas legalmente establecidas para la comprobación de las tasas de alcoholemia:
+A: comete un delito de imprudencia grave.
+B: comete un delito de desacato.
+C: comete un delito contra la seguridad vial.
+D: no comete ningún delito.
+SOLUCION: C
+NORMA: Ley Orgánica 10/1995, art. 383
+
+COD: 1H02035
+PREGUNTA: Derramar en una vía una sustancia inflamable que altere la seguridad de tráfico:
+A: es una falta administrativa muy grave.
+B: es una falta administrativa grave.
+C: es un delito contra la seguridad del tráfico.
+D: Ninguna de las respuestas es correcta.
+SOLUCION: C
+NORMA: Ley Orgánica 10/1995, art. 385
+
+COD: 1H03001
+PREGUNTA: ¿Cuál de los elementos que se señalan a continuación no constituye seguridad pasiva de un vehículo?
+A: La carrocería.
+B: El cinturón de seguridad.
+C: Los frenos.
+D: El parabrisas.
+SOLUCION: C
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03002
+PREGUNTA: ¿Cuáles de los que se citan son elementos de seguridad activa de un vehículo?
+A: La dirección y el cinturón de seguridad.
+B: La dirección y los frenos.
+C: Los frenos y los apoyacabezas.
+D: Los neumáticos y el airbag.
+SOLUCION: B
+NORMA: Programa de Intervención, Sensibilización y Reeducación Vial - Manual del formador. Dirección General de Tráfico - INTRAS
+REFERENCIA DOCTRINAL: Programa de Intervención, Sensibilización y Reeducación Vial - Manual del formador. Dirección General de Tráfico - INTRAS
+
+COD: 1H03003
+PREGUNTA: ¿Cada cuánto es conveniente revisar el correcto funcionamiento de todas las lámparas del alumbrado de un vehículo?
+A: Cada semana
+B: Cada dos semanas.
+C: Cada mes.
+D: Cada dos meses.
+SOLUCION: C
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03004
+PREGUNTA: ¿Cada cuánto es conveniente revisar el correcto reglaje de los faros del vehículo?
+A: Cada mes.
+B: Cada dos meses.
+C: Cada tres meses.
+D: Cada seis meses.
+SOLUCION: A
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03005
+PREGUNTA: ¿Qué debe hacerse en caso de que no funcionen las luces de gálibo?
+A: Deben cambiarse lo más rápidamente posible.
+B: Puede finalizarse el viaje ya que no afectan a la seguridad.
+C: Depende de las luces que se hayan fundido, se podrá continuar o no.
+D: Se debe parar inmediatamente y proceder al cambio.
+SOLUCION: A
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03006
+PREGUNTA: ¿Qué es aconsejable respecto de los dos neumáticos de un mismo eje?
+A: Sustituirlos a la vez.
+B: Que sean de la misma marca.
+C: Que sean de las mismas características
+D: Todas las respuestas son correctas
+SOLUCION: D
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03007
+PREGUNTA: ¿En qué eje deben ir los neumáticos más nuevos?
+A: No deben ir en el mismo eje.
+B: Es indiferente.
+C: En el eje delantero.
+D: En el eje trasero.
+SOLUCION: D
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03008
+PREGUNTA: Para tener una frenada eficaz, es conveniente…
+A: comprobar únicamente el freno de los ejes tándem.
+B: asegurarse que los ejes traseros frenan más que los delanteros.
+C: asegurarse que los ejes delanteros frenan más que los traseros.
+D: asegurarse que no hay ejes que frenen más que otros.
+SOLUCION: D
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03009
+PREGUNTA: ¿Cómo influye la carga en la eficacia de la frenada del vehículo?
+A: Influye la cantidad de carga.
+B: Influye la distribución de la carga en el vehículo.
+C: Influye la correcta sujeción de la carga.
+D: Todas las respuestas son correctas
+SOLUCION: D
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03010
+PREGUNTA: ¿Qué es un lecho de frenado?
+A: La zona del taller en la que revisa el sistema de frenado.
+B: Una zona cerrada de prueba del estado de los frenos.
+C: Una pista para frenado de emergencia en carretera.
+D: Un tipo de cubierta que existe en carreteras de montaña para facilitar la acción del sistema de frenado de los vehículos.
+SOLUCION: C
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03011
+PREGUNTA: Normalmente, ¿a qué distancia de su entrada encontraremos una señal que indique la existencia de un lecho de frenado?
+A: A 200 m.
+B: A 1 km.
+C: A 1,5 km.
+D: A 2 km.
+SOLUCION: B
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03012
+PREGUNTA: ¿Qué especialidad presenta la cabina de un camión respecto de la seguridad?
+A: Que se encuentra por encima del posible impacto con un turismo.
+B: Que tiene un tamaño reducido respecto del resto del vehículo.
+C: Que, en caso de impacto, debe responder a la acción de la carga, que lleva detrás, sobre ella.
+D: Todas las respuestas son correctas.
+SOLUCION: C
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03013
+PREGUNTA: ¿Cómo debe ser la cabina de un camión para que sea segura?
+A: Especialmente resistente.
+B: Parcialmente deformable.
+C: Rígida en la zona del conductor y en el resto deformable.
+D: Especialmente resistente a impactos laterales.
+SOLUCION: A
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03014
+PREGUNTA: Los distribuidores de mercancías, ¿están exentos de utilizar cinturones u otros sistemas de retención homologados?
+A: Sí, cuando realicen sucesivas operaciones de carga y descarga de mercancías en lugares situados a corta distancia unos de otros.
+B: Sí, en todos los casos.
+C: No, en ningún caso.
+D: Sí, los que realicen sucesivas operaciones de carga y descarga de mercancías en lugares situados a corta distancia unos de otros, cuando circulen en poblado.
+SOLUCION: D
+NORMA: RD 1428/2003, art. 119
+
+COD: 1H03015
+PREGUNTA: ¿Qué se entiende por "seguridad vial activa"?
+A: La referida a elementos de un vehículo que pueden evitar un accidente
+B: La que depende de factores externos a la conducción.
+C: La que guarda relación con el motor y partes mecánicas del vehículo.
+D: La que hace referencia al estado de la carretera.
+SOLUCION: A
+NORMA: Programa de Intervención, Sensibilización y Reeducación Vial - Manual del formador. Dirección General de Tráfico - INTRAS
+REFERENCIA DOCTRINAL: Programa de Intervención, Sensibilización y Reeducación Vial - Manual del formador. Dirección General de Tráfico - INTRAS
+
+COD: 1H03016
+PREGUNTA: ¿Quiénes están obligados a utilizar el cinturón de seguridad?
+A: Solo los pasajeros menores de 12 años.
+B: Solo el conductor y los pasajeros cuya estatura sea inferior a 1,50 metros.
+C: El conductor y los pasajeros, tanto en circulación urbana como interurbana.
+D: Las personas provistas de un certificado de exención por razones médicas.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 117
+
+COD: 1H03017
+PREGUNTA: El conductor y pasajeros de los asientos equipados con cinturones de seguridad u otros sistemas de retención homologados de vehículos destinados al transporte de mercancías y de los vehículos mixtos, ¿están obligados a utilizar el cinturón de seguridad?
+A: Sí, con carácter general.
+B: Solo el conductor.
+C: Solo los pasajeros.
+D: No.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 117
+
+COD: 1H03018
+PREGUNTA: ¿Qué es la seguridad preventiva en relación con el vehículo?
+A: La formación sobre el uso de los dispositivos de seguridad del vehículo.
+B: El conjunto de actuaciones de mantenimiento de los sistema de seguridad del vehículo.
+C: Cualquier sistema que ayude al conductor a mantener su atención en la conducción.
+D: No existe este concepto.
+SOLUCION: C
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03019
+PREGUNTA: ¿Qué constituye parte de la seguridad preventiva del vehículo?
+A: Los espejos retrovisores.
+B: Los dispositivos de señalización.
+C: El sistema de climatización
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03020
+PREGUNTA: La seguridad activa se refiere a factores:
+A: anteriores al accidente.
+B: posteriores al accidente.
+C: durante el accidente.
+D: anteriores y posteriores al accidente.
+SOLUCION: A
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03021
+PREGUNTA: La seguridad pasiva se refiere a factores:
+A: durante el accidente.
+B: de la construcción del vehículo.
+C: anteriores al accidente.
+D: de a la señalización de la vía.
+SOLUCION: A
+NORMA: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual II Profesor de Formación Vial, Cuestiones de seguridad vial, Dirección General de Tráfico, 2019
+
+COD: 1H03022
+PREGUNTA: En un vehículo, que conserva las características esenciales de los turismos, que esté dispuesto para el transporte de mercancías con una Masa Máxima Autorizada de hasta 3.500 kilogramos, ¿es obligatorio utilizar cinturones de seguridad?
+A: Sí, por el conductor y los pasajeros.
+B: Solo los ocupantes de los asientos delanteros.
+C: Solamente cuando circulan con carga.
+D: No, en ningún caso.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 117
+
+COD: 1H04001
+PREGUNTA: ¿Cómo debe señalizarse la inmovilización por emergencia de un vehículo en la calzada?
+A: Mediante la luz de emergencia, si el vehículo la lleva, y, cuando proceda, con las luces de posición y de gálibo y obligatoriamente con los dispositivos de preseñalización de peligro.
+B: Con las luces de cruce y señales con el brazo.
+C: Con las luces de cruce y un trapo rojo. 
+D: Mediante la colocación de cualquier obstáculo sobre la calzada que avise de nuestra presencia.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 130
+
+COD: 1H04002
+PREGUNTA: ¿Cómo se debe comprobar que se ha producido parada cardiaca?
+A: Mediante examen termodinámico.
+B: Tomando el pulso radial.
+C: Tomando el pulso en el cuello.
+D: Comprobando la temperatura de la víctima.
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2019
+
+COD: 1H04003
+PREGUNTA: ¿Cómo se debe realizar la reanimación cardiopulmonar?
+A: Se harán treinta compresiones torácicas, seguidas de dos ventilaciones de aire.
+B: Se aplicarán dos respiraciones cada dos masajes cardíacos.
+C: Solo hay que aplicar ventilaciones boca a boca.
+D: Ninguna de las respuestas anteriores es correcta.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04004
+PREGUNTA: ¿Con qué ritmo se debe realizar el masaje cardiaco en adultos?
+A: Aproximadamente 30 compresiones torácicas por minuto.
+B: Aproximadamente 60 compresiones torácicas por minuto.
+C: Aproximadamente 100 compresiones torácicas por minuto.
+D: Aproximadamente 1 compresión torácica por segundo.
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04005
+PREGUNTA: ¿Cuál debe ser la relación entre las compresiones y ventilaciones en la reanimación cardiopulmonar?
+A: Cinco compresiones por una ventilación.
+B: Diez compresiones por tres ventilaciones.
+C: Diez compresiones por una ventilación.
+D: Treinta compresiones por dos ventilaciones.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04006
+PREGUNTA: ¿Cuál es el segundo paso a realizar, tras preservar la seguridad de la circulación, ante un accidente de tráfico con víctimas?
+A: Socorrer a los heridos.
+B: No detenerse para no entorpecer el tráfico.
+C: Pedir ayuda especializada.
+D: Dar agua a los heridos.
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04007
+PREGUNTA: ¿Cuáles son síntomas de que un accidentado entra en estado de shock o colapso?
+A: Piel enrojecida y pulso lento.
+B: Palidez y sudoración fría.
+C: Respiración lenta y confusión
+D: Todas las respuestas son correctas.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04008
+PREGUNTA: ¿Cuál es la causa más frecuente de que un accidentado entre en estado de shock o colapso?
+A: Las hemorragias.
+B: La fiebre.
+C: La insolación. 
+D: La deshidratación.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04009
+PREGUNTA: ¿Cuál es la mejor forma de trasladar a los heridos de un accidente de tráfico?
+A: En taxi.
+B: En ambulancia.
+C: En moto.
+D: En camión.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04010
+PREGUNTA: ¿Cuál es la posición más adecuada para practicar la reanimación cardiopulmonar (RCP) a un accidentado?
+A: Boca arriba sobre una superficie dura.
+B: Semisentado.
+C: Acostado de lado, con la pierna superior flexionada.
+D: Boca abajo.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04011
+PREGUNTA: ¿Cuáles son las características de las hemorragias arteriales?
+A: La sangre es de color oscuro y sale de modo continuo.
+B: La sangre es de color rojo vivo y sale con fuerza o a borbotones.
+C: La sangre es oscura y sale a borbotones.
+D: La sangre mana de forma continua.
+SOLUCION: B
+NORMA: Guía de primeros auxilios, Junta de Andalucía, Empresa Pública de Emergencias Sanitarias
+REFERENCIA DOCTRINAL: Guía de primeros auxilios, Junta de Andalucía, Empresa Pública de Emergencias Sanitarias
+
+COD: 1H04012
+PREGUNTA: ¿Debemos evitar mover el cuello de los heridos en accidente de circulación?
+A: Sí, siempre.
+B: Solo en el caso de conductores de motocicletas.
+C: Solo si están inconscientes.
+D: Únicamente si llevan el casco puesto.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023
+
+COD: 1H04013
+PREGUNTA: ¿Dónde se tomará el pulso carotídeo?
+A: En el brazo.
+B: En la mano.
+C: En la pierna.
+D: En el cuello.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2019
+
+COD: 1H04014
+PREGUNTA: ¿Qué actuación se debe tener ante un accidentado que presenta una hemorragia?
+A: Se le dará a beber agua porque la hemorragia da sed.
+B: Se le administrará líquidos para reponer las pérdidas por la hemorragia.
+C: La regla general es que no se debe dar a los heridos comida, bebida o medicación.
+D: Se le dará de beber siempre que la víctima lo solicite.
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04015
+PREGUNTA: ¿Qué es la parada cardiorrespiratoria?
+A: Una asfixia, con pulso en el cuello.
+B: Un shock o colapso.
+C: La parada de la circulación sanguínea y de la respiración a la vez.
+D: La obstrucción de la vía aérea.
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04016
+PREGUNTA: ¿Qué es lo primero que debemos hacer en caso de encontrarnos con un accidente de tráfico con víctimas?
+A: Ayudar a las víctimas.
+B: Solicitar ayuda especializada.
+C: Preservar la seguridad de la circulación.
+D: No hay prioridades.
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04017
+PREGUNTA: ¿Quiénes están legalmente obligados a actuar ante un accidente de tráfico?
+A: Cualquier usuario de la vía que lo presencie.
+B: Solo los servicios de emergencia.
+C: Únicamente las fuerzas de seguridad.
+D: Solo el conductor del vehículo causante del accidente si está en condiciones de prestar ayuda.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 129
+
+COD: 1H04018
+PREGUNTA: ¿Se debe tapar a los heridos de un accidente de tráfico?
+A: No, en ningún caso.
+B: Sí, para mantener la temperatura del cuerpo.
+C: Solo si la temperatura ambiente es inferior a 5 grados.
+D: Solo si sangran.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04019
+PREGUNTA: ¿Se deben desprender las ropas pegadas a la piel de una zona quemada?
+A: Sí, es la primera medida a adoptar.
+B: Sí, pero solo en el caso de que sean tejidos sintéticos.
+C: Sí, pero únicamente en las quemaduras de tercer grado.
+D: No, nunca. 
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04020
+PREGUNTA: Al auxiliar a los heridos de un accidente, ¿debemos darles calmantes del dolor?
+A: No, en ningún caso.
+B: Sí, pues siempre hay que aliviar el dolor.
+C: Sí, siempre que sean medicamentos aprobados.
+D: Solo si no son alérgicos.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2019
+
+COD: 1H04021
+PREGUNTA: Al realizar una verificación de materias extrañas en la boca, ¿en qué posición debe estar la cabeza?
+A: Inclinada hacia atrás.
+B: No importa la posición de la cabeza.
+C: Inclinada hacia delante.
+D: Ladeada.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04022
+PREGUNTA: Ante la presencia de un accidente, atendiendo a la seguridad de la circulación, ¿dónde debemos estacionarnos?
+A: Fuera de la calzada, con las luces de emergencia.
+B: No debemos estacionarnos para evitar mas atropellos.
+C: Junto a los vehículos accidentados.
+D: Es indiferente el lugar donde nos detengamos.
+SOLUCION: A
+NORMA: Programa de Intervención, Sensibilización y Reeducación Vial - Manual del formador. Dirección General de Tráfico - INTRAS
+REFERENCIA DOCTRINAL: Programa de Intervención, Sensibilización y Reeducación Vial - Manual del formador. Dirección General de Tráfico - INTRAS
+
+COD: 1H04023
+PREGUNTA: ¿Cuáles son los síntomas de una posible lesión medular?
+A: Vómitos.
+B: Sudor frío.
+C: Modificación de la sensibilidad en alguna parte del cuerpo.
+D: Todas las respuestas son correctas
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04024
+PREGUNTA: ¿Es habitual el politraumatismo en las víctimas de accidentes de tráfico?
+A: Sí.
+B: Solo en ciclistas y motociclistas.
+C: Solo en peatones.
+D: No.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04025
+PREGUNTA: ¿Qué es una fractura cerrada?
+A: Aquella en la que no hay separación entre las partes del hueso lindantes con la fractura.
+B: Aquella en la que no hay rotura de la piel.
+C: La que no supone rotura total del hueso.
+D: Todas las fracturas son cerradas.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04026
+PREGUNTA: Las fracturas abiertas…
+A: se caracterizan por producirse un hematoma en la zona de la fractura.
+B: pueden ocasionar infección en la herida.
+C: no suponen la rotura total del hueso.
+D: Todas las fracturas son abiertas.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04027
+PREGUNTA: Los síntomas característicos de la existencia de una fractura son:
+A: sudoración y piel fría.
+B: falta de sensibilidad en la zona.
+C: vómitos.
+D: edema o hematoma.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04028
+PREGUNTA: Los síntomas característicos de la existencia de una fractura son:
+A: sudoración y piel fría.
+B: falta de sensibilidad en la zona.
+C: vómitos.
+D: deformidad o acortamiento en la extremidad.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04029
+PREGUNTA: Ante la sospecha de que se ha producido una fractura, ¿qué se debe hacer?
+A: Mover la zona afectada levemente para comprobar si esta se ha producido y, si es así, esperar el auxilio de un experto.
+B: Presionar la fractura e inmovilizar el miembro.
+C: No inmovilizar el miembro afectado.
+D: Inmovilizar la zona fracturada.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04030
+PREGUNTA: Ante un quemado en un accidente, se debe extinguir el fuego que pueda haber en sus ropas …
+A: únicamente cubriéndolo con una manta.
+B: preferiblemente con un extintor.
+C: preferiblemente con agua.
+D: Cualquier medio es bueno.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04031
+PREGUNTA: Ante un quemado en un accidente:
+A: se debe aplicar pomada sobre las quemaduras.
+B: deben dejarse al aire las quemaduras.
+C: se deben tapar las quemaduras con apósitos secos.
+D: se deben tapar las quemaduras con apósitos humedecidos en agua.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04032
+PREGUNTA: Ante un quemado en un accidente:
+A: debemos romper las ampollas para evitar que se hagan grandes.
+B: no hay que retirar los restos de ropa quemada.
+C: hay que darle pastillas para el dolor.
+D: no hay que taparlo porque ya está caliente.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04033
+PREGUNTA: Ante una hemorragia externa, ¿qué se debe hacer?
+A: Cubrirla con un vendaje y aplicar una presión moderada.
+B: Aplicar una pomada antibiótica.
+C: Lavar abundantemente con cualquier líquido.
+D: Aplicar un torniquete en cualquier caso.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04034
+PREGUNTA: Ante una hemorragia nasal, ¿qué se debe hacer?
+A: No se debe movilizar al herido.
+B: Se pinza la nariz con dos dedos con cierta fuerza, manteniendo la cabeza inclinada hacia delante.
+C: Como primera medida, se introducirán gasas a presión.
+D: La cabeza siempre deberá estar inclinada hacia atrás.
+SOLUCION: B
+NORMA: Manual de primeros auxilios, Cruz Roja
+REFERENCIA DOCTRINAL: Manual de primeros auxilios, Cruz Roja
+
+COD: 1H04035
+PREGUNTA: Cuando ponemos a un accidentado herido en posición de "defensa", lo hacemos para:
+A: evitar que el herido vomite.
+B: evitar la obstrucción de las vías respiratorias y la aspiración del vómito.
+C: inmovilizar al herido.
+D: ayudar a recuperar la consciencia.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04036
+PREGUNTA: Cuando quede inmovilizado un vehículo en un accidente, el conductor...
+A: se alejará, al menos, 50 metros del vehículo permaneciendo en el arcén.
+B: utilizará el dispositivo de preseñalización de peligro reglamentario.
+C: señalizará el vehículo con todos los medios luminosos de que disponga.
+D: No se alejará más de 25 metros del vehículo y permanecerá en el arcén.
+SOLUCION: B
+NORMA: RD 1428/2003, art. 130
+
+COD: 1H04037
+PREGUNTA: En caso de accidente con víctimas y heridos inconscientes:
+A: se colocará a estos últimos en la posición más cómoda posible.
+B: se sacará a los heridos del vehículo, aunque ello suponga un peligro para su seguridad o para la circulación.
+C: se deberán suministrar los primeros auxilios fuera de la calzada.
+D: no deberá moverse a los heridos, salvo si peligra su seguridad o la de la circulación.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04038
+PREGUNTA: En caso de accidente con víctimas, en relación con la actuación con los heridos,:
+A: únicamente se les suministrará agua a requerimiento de ellos.
+B: solo deben administrarse alimentos sólidos.
+C: no debe dársele al herido ni bebida ni comida.
+D: se le dará al herido de beber si lo desea.
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04039
+PREGUNTA: En caso de accidente, ¿cuáles son las primeras medidas que debemos adoptar al llegar al lugar de los hechos?
+A: Reconocer al accidentado y tranquilizarlo.
+B: Proteger el lugar y eliminar peligros.
+C: Poner ropa de abrigo al accidentado.
+D: Tomar el pulso y vigilar la respiración del accidentado.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04040
+PREGUNTA: En caso de tener que auxiliar a un accidentado que presente una herida sangrante con hemorragia externa abundante, ¿dónde se debe realizar la compresión directa?
+A: En el trayecto de la arteria, antes de la herida.
+B: En el trayecto de la arteria, después de la herida.
+C: Solo debe vendarse, no comprimirse.
+D: Hay que esperar a la asistencia médica.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04041
+PREGUNTA: En el caso de una herida arterial sangrante en el brazo de un accidentado, ¿dónde se aplicará la presión directa?
+A: Por encima del codo.
+B: En la mano.
+C: En la muñeca.
+D: En la zona radial media.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04042
+PREGUNTA: En general, ¿hay que dar agua a los accidentados?
+A: Siempre.
+B: No, en general nunca hay que dar de beber a un accidentado.
+C: Solo hay que dar agua a los que presenten síntomas de asfixia.
+D: Solo pueden suministrarse líquidos a los heridos inconscientes.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04043
+PREGUNTA: La forma más rápida, fácil y segura de detener inicialmente una hemorragia externa es:
+A: aplicar alcohol sobre la parte afectada.
+B: el torniquete.
+C: inmovilizar al accidentado.
+D: la presión directa.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04044
+PREGUNTA: Los usuarios de las vías que se vean implicados en un accidente de tráfico, lo presencien o tengan conocimiento de él, ¿a qué estarán obligados?
+A: Solo a solicitar auxilio.
+B: A auxiliar o solicitar auxilio, solo si se ha alterado la seguridad de la circulación como consecuencia de los hechos.
+C: A auxiliar o solicitar auxilio, prestar su colaboración para evitar mayores peligros o daños y restablecer, en la medida de lo posible, la seguridad de la circulación y esclarecer los hechos.
+D: A detenerse en cualquier caso para recabar cuanta información pueda resultar necesaria para la correcta intervención del personal de emergencias.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 129
+
+COD: 1H04045
+PREGUNTA: Respecto de la respiración de un accidentado, ¿qué hechos deben alertar?
+A: Únicamente nos debe preocupar el aumento de respiraciones por minuto, la disminución no es patológica.
+B: Que respire unas doce veces por minuto.
+C: Que la respiración sea lenta o sea excesivamente rápida.
+D: Solo debemos alertarnos ante una respiración muy lenta, el aumento de ritmo no es valorable.
+SOLUCION: C
+NORMA: Manual de primeros auxilios, Cruz Roja
+REFERENCIA DOCTRINAL: Manual de primeros auxilios, Cruz Roja
+
+COD: 1H04046
+PREGUNTA: Si el apósito con el que se comprime una hemorragia externa se empapa de sangre, ¿qué se debe hacer?
+A: Tirarlo y poner otro limpio en su lugar.
+B: Proceder a limpiar de nuevo la herida y comprimir en el punto de la hemorragia con un nuevo apósito.
+C: Aplicar alcohol sobre el apósito que teníamos.
+D: Añadir otro apósito encima del que teníamos.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04047
+PREGUNTA: Si en un accidente de tráfico un herido sufre una hemorragia externa, ¿qué debemos hacer, entre otras cosas, para intentar que deje de sangrar?
+A: Lavar la herida con agua fría.
+B: Esperar a que coagule espontáneamente.
+C: Darle agua para que no se deshidrate y compensar la pérdida de líquido.
+D: Presionar con un trapo limpio sobre el punto que sangra.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04048
+PREGUNTA: Si existe fundada sospecha de que una víctima de accidente tiene una lesión en la columna vertebral…
+A: se la deberá colocar en posición de "defensa".
+B: no se deberá mover nunca al accidentado.
+C: se la colocará en posición semisentada.
+D: se deberá intentar que el accidentado camine para comprobar la extensión de la lesión.
+SOLUCION: B
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04049
+PREGUNTA: Si fuera preciso pedir auxilio, ¿se utilizará el poste de socorro más próximo si la vía dispone de ellos?
+A: No, su uso está reservado a las fuerzas de seguridad.
+B: Sí, y en caso de no existir podrá solicitarse de otros usuarios o a través de cualquier otro medio.
+C: Sí, pero su uso está reservado para cuando existan víctimas mortales de accidentes de tráfico.
+D: No.
+SOLUCION: B
+NORMA: RD 1428/2003, art. 130
+
+COD: 1H04050
+PREGUNTA: Si nos encontramos ante un accidente de tráfico con heridos graves:
+A: debemos movilizar a los heridos para que no se duerman.
+B: debemos trasladarlos en nuestro vehículo al hospital mas cercano.
+C: salvo peligro de incendio o atropello, no hay que mover a los heridos.
+D: no hay que detenerse para evitar obstáculos en la vía.
+SOLUCION: C
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04051
+PREGUNTA: Si se comprueba que un accidentado no respira una vez abiertas las vías respiratorias, …
+A: se deberá esperar la llegada de la ambulancia.
+B: se comenzará a efectuar el masaje cardiaco.
+C: se administrará agua a la víctima.
+D: se iniciará inmediatamente la RCP.
+SOLUCION: D
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2019
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2019
+
+COD: 1H04052
+PREGUNTA: Si se sospecha de una lesión en la columna vertebral en un accidentado que solo manifiesta rigidez y dolor de cuello,:
+A: se le inmovilizará la cabeza, si es necesario con nuestras manos, todo el tiempo que haga falta.
+B: hay que situar a la víctima boca abajo.
+C: se debe colocar al lesionado acostado sobre su lado derecho.
+D: no es necesario hacer nada si no tiene mareos.
+SOLUCION: A
+NORMA: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+REFERENCIA DOCTRINAL: Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2024
+
+COD: 1H04053
+PREGUNTA: Teniendo en cuenta la gravedad de los accidentados, ¿qué elementos, de los que se citan, determinan el orden de actuación con los heridos?
+A: El estado de consciencia, la respiración y la circulación sanguínea.
+B: La presencia de cualquier tipo de hemorragia.
+C: La presencia de dolor.
+D: Los procesos infecciosos.
+SOLUCION: A
+NORMA: Primeros auxilios en conflictos armados y otras situaciones de violencia. CICR - GINEBRA, 2006
+REFERENCIA DOCTRINAL: Primeros auxilios en conflictos armados y otras situaciones de violencia. CICR - GINEBRA, 2006
+
+COD: 1H04054
+PREGUNTA: Una quemadura de primer grado es:
+A: aquella en la que la piel se calcina por completo, lesionando los tejidos que se encuentran por debajo de la misma y llegando, en algunos casos, a destruir músculos y vasos sanguíneos.
+B: la que afecta las capas superiores de la piel formando ampollas.
+C: la que afecta exclusivamente el pelo o las uñas.
+D: aquella que se manifiesta como un enrojecimiento de la parte externa de la piel produciendo una ligera inflamación. Es muy dolorosa.
+SOLUCION: D
+NORMA: Manual básico de primeros auxilios. Cruz Roja Española
+REFERENCIA DOCTRINAL: Manual básico de primeros auxilios. Cruz Roja Española
+
+COD: 1H04055
+PREGUNTA: Una quemadura de tercer grado es:
+A: aquella en la que la piel se calcina por completo, lesionando los tejidos que se encuentran por debajo de la misma y llegando, en algunos casos, a destruir músculos y vasos sanguíneos.
+B: la que afecta las capas superiores de la piel formando ampollas.
+C: la que afecta exclusivamente el pelo o las uñas.
+D: aquella que se manifiesta como un enrojecimiento de la parte externa de la piel produciendo una ligera inflamación. Es muy dolorosa.
+SOLUCION: A
+NORMA: Manual básico de primeros auxilios. Cruz Roja Española
+REFERENCIA DOCTRINAL: Manual básico de primeros auxilios. Cruz Roja Española
+
+COD: 1H04086
+PREGUNTA: Una quemadura de segundo grado es:
+A: aquella en la que la piel se calcina por completo, lesionando los tejidos que se encuentran por debajo de la misma y llegando, en algunos casos, a destruir músculos y vasos sanguíneos.
+B: la que afecta las capas superiores de la piel formando ampollas.
+C: la que afecta exclusivamente el pelo o las uñas.
+D: aquella que se manifiesta como un enrojecimiento de la parte externa de la piel produciendo una ligera inflamación. Es muy dolorosa.
+SOLUCION: B
+NORMA: Manual básico de primeros auxilios. Cruz Roja Española
+REFERENCIA DOCTRINAL: Manual básico de primeros auxilios. Cruz Roja Española
+
+COD: 1H05001
+PREGUNTA: ¿Cómo se denomina la colocación adecuada de las mercancías en el vehículo para evitar posibles daños, facilitar descargas y proteger a las personas y a la propia mercancía?
+A: Manipulación.
+B: Estiba.
+C: Desestiba.
+D: Agrupamiento.
+SOLUCION: B
+NORMA: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+REFERENCIA DOCTRINAL: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+
+COD: 1H05002
+PREGUNTA: ¿Qué precaución hay que tener en la colocación cuando se transportan juntas mercancías pesadas y ligeras?
+A: Se ponen las dos mercancías al mismo nivel.
+B: Nunca deben colocarse las pesadas sobre las ligeras.
+C: Nunca deben viajar juntas mercancías pesadas y ligeras.
+D: La colocación dependerá de la mercancía en sí.
+SOLUCION: B
+NORMA: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+REFERENCIA DOCTRINAL: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+
+COD: 1H05003
+PREGUNTA: A la hora de la estiba, ¿qué regla general debemos aplicar?
+A: No apilar las mercancías pesadas sobre otras más ligeras.
+B: Homogeneizar la mercancía a transportar.
+C: Atar la mercancía con cuerdas.
+D: Ninguna, la estiba es responsabilidad del cargador.
+SOLUCION: A
+NORMA: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+REFERENCIA DOCTRINAL: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+
+COD: 1H05004
+PREGUNTA: ¿Cómo se denomina la acción de colocar la carga en un vehículo para su transporte?
+A: Fuerza.
+B: Estiba.
+C: Carga.
+D: Cargamento.
+SOLUCION: B
+NORMA: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+REFERENCIA DOCTRINAL: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+
+COD: 1H05005
+PREGUNTA: Debido a la irregularidad de la carga, el estibador debe ayudarse de ciertos materiales para rellenar los huecos. ¿Cuál de los siguientes materiales es inadecuado para esta tarea?
+A: Madera.
+B: Comburentes.
+C: Placas de poliuretano.
+D: Bolsas de aire.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05006
+PREGUNTA: ¿Qué función cumplen las cantoneras en la estiba?
+A: De conservación de los elementos de amarre.
+B: De protección de la mercancía.
+C: De distribución de la fuerza de amarre.
+D: Las tres respuestas anteriores son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05007
+PREGUNTA: ¿Para qué se emplean los tensores en la estiba?
+A: Para tensar los elementos de amarre.
+B: Para reparar los medios de sujeción.
+C: Como medio auxiliar de la eslinga.
+D: Las tres respuestas anteriores son correctas.
+SOLUCION: A
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05008
+PREGUNTA: Una buena estiba requiere que la carga sea colocada:
+A: de forma transversal a la caja del vehículo.
+B: de la forma que asegure una mayor rentabilidad económica.
+C: de forma que nunca se superpongan más de 5 bultos.
+D: de modo que se eviten desperfectos en la misma.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05009
+PREGUNTA: Una buena estiba requiere que la carga sea colocada:
+A: de forma longitudinal a la caja del vehículo.
+B: con espacios de, al menos, cuatro centímetros entre los bultos.
+C: con espacios de, al menos, un centímetro entre los bultos.
+D: para ser transportada con un máximo de seguridad para el personal del vehículo.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05010
+PREGUNTA: Una buena estiba requiere que la carga sea colocada:
+A: para ser transportada con un máximo de seguridad para el vehículo.
+B: de forma transversal a la caja del vehículo.
+C: de forma longitudinal a la caja del vehículo.
+D: con espacios de, al menos, un centímetro entre los bultos.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05011
+PREGUNTA: ¿Para qué sirve un tensor en la estiba de mercancía en un vehículo?
+A: Para rotar la mercancía sobre su eje.
+B: Para comprimir una carga a granel.
+C: Para subir o bajar la mercancía.
+D: Para generar tensión sobre cinchas y cables.
+SOLUCION: D
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05012
+PREGUNTA: ¿Qué utilidad principal tiene la madera en la estiba de una mercancía?
+A: Aumentar el peso de la carga.
+B: Elevar la posición de la carga.
+C: Separar los materiales pesados de los ligeros.
+D: Rellenar huecos entre materiales y fabricar apoyos o cuñas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05013
+PREGUNTA: ¿Qué es la estiba?
+A: Es la acción de colocar la carga para ser transportada de la mejor manera.
+B: Es la actividad que regula la aceleración del vehículo.
+C: Es la forma de ahorrar combustible.
+D: Es la manera de conducir.
+SOLUCION: A
+NORMA: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+REFERENCIA DOCTRINAL: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+
+COD: 1H05014
+PREGUNTA: ¿Cómo se llama el sistema de sujeción que busca aumentar el rozamiento entre la carga y la plataforma de carga?
+A: Sistema de sujeción directa.
+B: Sistema de sujeción flexible.
+C: Sistema de sujeción por resistencia.
+D: Amarre superior.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05015
+PREGUNTA: ¿Cómo se denomina el arte de colocar la carga para ser transportada de la mejor manera?
+A: Balanceo.
+B: Estiba.
+C: Cabeceo.
+D: Guiñada.
+SOLUCION: B
+NORMA: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+REFERENCIA DOCTRINAL: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+
+COD: 1H05016
+PREGUNTA: ¿Cómo se deben estibar los troncos y piezas de madera que se van a transportar transversalmente?
+A: Deben estar repartidos en secciones que no sobrepasen 2,55 metros.
+B: Deben estar repartidos en secciones que no sobrepasen 3,55 metros.
+C: Deben estar repartidos en secciones que no sobrepasen 4,55 metros.
+D: Deben estar repartidos en secciones que no sobrepasen 5,55 metros.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05017
+PREGUNTA: En el supuesto de que un mismo camión transporte dos o más mercancías diferentes, ¿qué acción es correcta?
+A: No colocar las mercancías más pesadas sobre las ligeras.
+B: Dejar los huecos existentes entre mercancías de distintos embalajes.
+C: Cargar mercancías peligrosas junto a otras que no lo sean.
+D: Ninguna de las tres acciones anteriores es correcta.
+SOLUCION: A
+NORMA: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+REFERENCIA DOCTRINAL: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+
+COD: 1H05018
+PREGUNTA: La normativa obliga a que la carga esté correctamente sujetada a fin de que:
+A: no se desplace en absoluto.
+B: no se desplace más de un tercio de su longitud.
+C: no se desplace de manera peligrosa.
+D: La normativa no contiene ninguna disposición sobre esa materia, solo existen recomendaciones.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 14
+
+COD: 1H05019
+PREGUNTA: ¿El modo de estibar la mercancía tiene influencia en la estabilidad del vehículo?
+A: Sí.
+B: No.
+C: Depende del tipo de carretera.
+D: Depende del tipo de vehículo.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 14
+
+COD: 1H05020
+PREGUNTA: ¿El modo de estibar la mercancía en un camión tiene alguna incidencia sobre la seguridad vial?
+A: No, salvo que la mercancía caiga sobre otro vehículo durante su transporte.
+B: No, salvo que la mercancía se desprenda del camión durante su transporte.
+C: En ningún caso.
+D: Sí, porque puede afectar a la estabilidad del vehículo.
+SOLUCION: D
+NORMA: RD 1428/2003, art. 14
+
+COD: 1H05021
+PREGUNTA: Indique cuál de las siguientes afirmaciones es correcta:
+A: El modo de estibar la mercancía incide en la estabilidad del vehículo.
+B: El modo de estibar la mercancía solo tiene incidencia para la protección de la propia mercancía.
+C: El modo de estibar la mercancía no incide en la protección del vehículo de posibles averías.
+D: El modo de estibar la mercancía no afecta al movimiento del vehículo.
+SOLUCION: A
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05022
+PREGUNTA: ¿Qué factor de los siguientes tiene incidencia en la estiba de la carga?
+A: La descripción de la mercancía.
+B: El embalaje utilizado.
+C: La elección de vehículo.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05023
+PREGUNTA: ¿Qué tipo de fuerzas de inercia o aceleraciones experimenta un vehículo en movimiento con repercusión sobre su carga?
+A: Longitudinales.
+B: Transversales.
+C: Verticales.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+REFERENCIA DOCTRINAL: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+
+COD: 1H05024
+PREGUNTA: Señale la afirmación correcta:
+A: Los sistemas de sujeción de la carga se deben usar siempre de modo combinado.
+B: Los sistemas de sujeción de la carga se pueden usar de modo combinado.
+C: Los sistemas de sujeción de la carga se deben usar siempre por separado.
+D: Solo el sistema de bloqueo se puede combinar con otro sistema.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05025
+PREGUNTA: ¿Cuál de los siguientes es un método de sujeción de la carga?
+A: Enganche.
+B: Bloqueo.
+C: Amarre.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05026
+PREGUNTA: Para efectuar una estiba adecuada de la mercancía hay que considerar:
+A: las características de la carga.
+B: el estado del vehículo.
+C: la pericia del conductor.
+D: Las respuestas A y B son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05027
+PREGUNTA: A efectos de organizar la carga y estiba de un vehículo, se consideran cargas indivisibles:
+A: las que tienen un mismo destinatario.
+B: las que comparten el punto de origen y de destino.
+C: las que no se pueden dividir sin utilizar herramientas especiales.
+D: las que no se pueden dividir sin coste o riesgo innecesario de daños y no pueden ser transportadas por un vehículo por completo a las masas y dimensiones autorizadas.
+SOLUCION: D
+NORMA: RD 2822/1998, art. 14
+
+COD: 1H05028
+PREGUNTA: Una correcta estiba requiere considerar los requisitos de resistencia de los puntos de amarre:
+A: delanteros.
+B: laterales.
+C: traseros.
+D: Todos los anteriores.
+SOLUCION: D
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05029
+PREGUNTA: ¿Qué fuerzas en el sentido de marcha del vehículo, causadas por aceleración o deceleración, debe poder soportar la sujeción de una carga?
+A: El peso de la carga multiplicado por 0,8.
+B: El peso de la carga multiplicado por 0,5.
+C: El peso de la carga multiplicado por 2.
+D: No hay nada regulado al respecto.
+SOLUCION: A
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05030
+PREGUNTA: ¿Qué fuerzas en sentido contrario al de marcha del vehículo, causadas por aceleración o deceleración, debe poder soportar la sujeción de una carga?
+A: El peso de la carga multiplicado por 0,8.
+B: El peso de la carga multiplicado por 0,5.
+C: El peso de la carga multiplicado por 2.
+D: No hay nada regulado al respecto.
+SOLUCION: B
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05031
+PREGUNTA: ¿Qué fuerzas en sentido lateral, causadas por aceleración o deceleración, debe poder soportar la sujeción de una carga?
+A: El peso de la carga multiplicado por 0,8.
+B: El peso de la carga multiplicado por 0,5.
+C: El peso de la carga multiplicado por 2.
+D: No hay nada regulado al respecto.
+SOLUCION: B
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05032
+PREGUNTA: Al efectuar la carga de un vehículo hay que asegurarse de que la sujeción de la misma:
+A: impide su inclinación longitudinal.
+B: impide su inclinación transversal.
+C: impide su inclinación vectorial.
+D: Las respuestas A y B son correctas.
+SOLUCION: D
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05033
+PREGUNTA: La normativa obliga a que la carga esté correctamente sujetada a fin de que:
+A: no se desplace en absoluto.
+B: no se desplace de manera peligrosa.
+C: no se desplace fuera del compartimento de carga.
+D: Las respuestas B y C son correctas.
+SOLUCION: D
+NORMA: RD 1428/2003, art. 14; RD  563/2017, art. 11
+
+COD: 1H05034
+PREGUNTA: ¿Cuál es el mejor método de sujeción de la carga sobre un vehículo de carretera?
+A: El amarre directo.
+B: El bloqueo.
+C: El enganche.
+D: El amarre superior.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05035
+PREGUNTA: ¿Qué se necesita para poder utilizar el método de enganche en la sujeción de una carga?
+A: Disponer de cadenas de enlace.
+B: Que el vehículo esté equipado con raíles.
+C: Que el vehículo esté diseñado para encajar con la carga.
+D: Colocar puntales para amarrar la carga.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05036
+PREGUNTA: El bloqueo, en cuanto método de sujeción de la carga, consiste en:
+A: encajar la carga en una estructura específicamente diseñada para ella.
+B: apoyar la carga contra una estructura para que no se mueva.
+C: amarrar la carga con suficiente tensión.
+D: Todas las respuestas son correctas.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05037
+PREGUNTA: En el caso de cargas susceptibles de inclinación:
+A: para su bloqueo local se colocarán soportes rígidos, normalmente por encima del centro de gravedad.
+B: para su bloqueo local se colocarán soportes rígidos, normalmente por debajo del centro de gravedad.
+C: para su bloqueo local se colocarán soportes rígidos, siempre en la parte más elevada de la carga.
+D: solo se puede utilizar el bloqueo global, nunca el local.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05038
+PREGUNTA: ¿En qué consiste el bloque de umbral como método de sujeción de cargas?
+A: En colocar un panel delante de la carga.
+B: En elevar la sección de la capa inferior de la carga donde finaliza la capa superior.
+C: En colocar una cuña delante de la carga.
+D: No existe este método.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05039
+PREGUNTA: ¿Qué material se utiliza en el bloque local de cargas cilíndricas?
+A: Mallas.
+B: Correas.
+C: Cuñas.
+D: Cables.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05040
+PREGUNTA: En el bloqueo global de toda la plataforma de carga:
+A: hay que rellenar los espacios vacíos.
+B: se necesita suplementar siempre con amarres.
+C: se puede superar la masa máxima autorizada hasta un 5 % si resulta necesario para conseguir la completa inmovilización de la carga.
+D: Todas las respuestas son correctas.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05041
+PREGUNTA: Si solo se aplica el bloqueo global como método de sujeción de la carga, la suma de espacios vacíos en cualquier dirección horizontal:
+A: debería ser cero.
+B: no debería superar 15 cm.
+C: no debería superar 30 cm.
+D: no debería superar 50 cm.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05042
+PREGUNTA: ¿Cuál de los siguientes es un sistema de amarre directo?
+A: Amarre diagonal.
+B: Amarre paralelo.
+C: Amarre de medio rizo.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05043
+PREGUNTA: Los sistemas de amarre directo de la carga:
+A: crean una fuerza contraria a las fuerzas de inercia.
+B: se fundamentan, básicamente, en el rozamiento con la plataforma del vehículo.
+C: se colocan siempre en sentido contrario al de avance del vehículo.
+D: Todas las respuestas anteriores son correctas.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05044
+PREGUNTA: Los sistemas de amarre de la carga que se basan en crear una fuerza contraria a las fuerzas de inercia se denominan:
+A: de amarre superior.
+B: de amarre directo.
+C: de amarre indirecto.
+D: de amarre con cierre.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05045
+PREGUNTA: Si solo se utilizan cuatro amarres para el amarre directo de una carga, ¿cómo se colocarán?
+A: En paralelo a la dirección de avance del vehículo.
+B: En paralelo al eje transversal del vehículo.
+C: En la dirección de las diagonales de la plataforma.
+D: Puede utilizarse cualquiera de las colocaciones indicadas.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05046
+PREGUNTA: ¿Cuántos amarres se usan en el amarre paralelo?
+A: Cuatro.
+B: Seis.
+C: Ocho.
+D: Diez.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05047
+PREGUNTA: ¿Qué tipo de amarres experimentan menos fuerza?
+A: Los paralelos.
+B: Los diagonales.
+C: Ambos por igual.
+D: Depende del objeto cargado.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05048
+PREGUNTA: ¿Cómo se denomina también a los amarres de medio rizo?
+A: Amarres superiores.
+B: Amarres de fricción.
+C: Amarres diagonales.
+D: Amarres en bucle.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05049
+PREGUNTA: Los amarres de medio rizo tienen como finalidad principal impedir los desplazamientos:
+A: longitudinales.
+B: transversales.
+C: verticales.
+D: diagonales.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05050
+PREGUNTA: ¿Cuántos amarres se requieren para un amarre de medio rizo?
+A: Al menos, dos.
+B: Al menos, tres.
+C: Al menos, cuatro.
+D: Al menos, seis.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05051
+PREGUNTA: La sujeción con resortes es un sistema:
+A: de bloqueo local.
+B: de bloqueo global.
+C: de amarre directo.
+D: de amarre superior.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05052
+PREGUNTA: La sujeción con resortes permite sujetar la carga:
+A: hacia delante.
+B: hacia atrás.
+C: hacia los lados.
+D: Las respuestas A y B son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05053
+PREGUNTA: Durante el transporte, la fuerza de un amarre superior:
+A: no varía.
+B: varía en caso de cargas deformables.
+C: varía en caso de cargas rígidas.
+D: varía solo en caso de que las correas sean defectuosas.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05054
+PREGUNTA: Los sistemas de amarre superior de la carga:
+A: se basan en crear una fuerza contraria a las fuerzas de inercia.
+B: buscan aumentar la fuerza de rozamiento de la carga con la plataforma del vehículo.
+C: se colocan siempre en sentido contrario al de avance del vehículo.
+D: Todas las respuestas anteriores son correctas.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05055
+PREGUNTA: En los sistemas de amarre superior de la carga, la intensidad del rozamiento depende de:
+A: la altura de la carga.
+B: la fuerza de contacto entre la carga y la plataforma.
+C: la posición más o menos adelantada de la carga.
+D: el número de ejes del vehículo.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05056
+PREGUNTA: En los sistemas de amarre superior de la carga, la intensidad del rozamiento depende de:
+A: la altura de la carga.
+B: el número de ejes del vehículo.
+C: la posición más o menos adelantada de la carga.
+D: la rugosidad de la superficie.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05057
+PREGUNTA: Los sistemas de amarre de la carga que se basan en aumentar el rozamiento entre la carga y la caja del vehículo se denominan:
+A: de amarre superior.
+B: de amarre de rozamiento.
+C: de amarre de empuje.
+D: Todas las respuestas son correctas.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05058
+PREGUNTA: ¿Qué sucede en un amarre superior si el ángulo entre los elementos de amarre y la plataforma de carga es reducido?
+A: Se perjudica la estabilidad del vehículo.
+B: Mejora la estabilidad del vehículo.
+C: Pierde efectividad.
+D: Gana efectividad.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05059
+PREGUNTA: ¿Cómo se ubican los puntos de amarre de un vehículo?
+A: En ambos laterales por pares, uno frente al otro.
+B: En ambos laterales alternado.
+C: Solo en uno de los laterales, según decisión del fabricante.
+D: Solo en la trasera de la plataforma de carga.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05060
+PREGUNTA: ¿De qué forma se suelen usar los puntales en un vehículo de carretera?
+A: A ambos lados de la plataforma.
+B: Longitudinalmente, en la parte central.
+C: Delante de la carga.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05061
+PREGUNTA: ¿De qué depende la capacidad de bloqueo de un puntal colocado en un vehículo?
+A: De la resistencia del material.
+B: De la resistencia del montaje.
+C: Del tipo de fuerza que produce la carga.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05062
+PREGUNTA: ¿En qué material se fabrican la mayoría de las correas de estiba?
+A: Poliéster.
+B: Poliamida.
+C: Polipropileno.
+D: Acero.
+SOLUCION: A
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05063
+PREGUNTA: ¿En qué material se fabrican las correas de estiba?
+A: Poliéster.
+B: Poliamida.
+C: Polipropileno.
+D: Todos los anteriores.
+SOLUCION: D
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05064
+PREGUNTA: Una característica de las correas de estiba fabricadas en poliéster es:
+A: su muy baja resistencia a la humedad.
+B: su resistencia frente a ácidos corrosivos.
+C: su resistencia frente a sustancias alcalinas.
+D: Todas las anteriores.
+SOLUCION: B
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05065
+PREGUNTA: ¿Qué datos se indican en la etiqueta de una correa de estiba?
+A: La fecha de caducidad.
+B: Los tipos de carga para los que está recomendada.
+C: La capacidad de amarre.
+D: Los modos de amarre que admite.
+SOLUCION: C
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05066
+PREGUNTA: ¿En qué momento se recomienda sustituir una correa de estiba?
+A: En cuanto se observe algún daño, salvo que esté homologada, en cuyo caso se puede seguir utilizando hasta la rotura de un 50 % de sus fibras.
+B: Solo cuando se observe algún daño grave (más del 25 % de las fibras rotas).
+C: En todos los casos, en cuanto se observe algún daño.
+D: Nunca hasta que tenga rotas un 50 % de sus fibras.
+SOLUCION: C
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05067
+PREGUNTA: Se considera que un cable de acero usado en la estiba de mercancía presenta deterioro cuando:
+A: tiene retorcimientos.
+B: tiene un desgaste del 2 % de su diámetro.
+C: tiene un desgaste del 4 % de su diámetro.
+D: presenta aplastamiento superior al 5 %.
+SOLUCION: A
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05068
+PREGUNTA: Si los cables de acero utilizados en la estiba se colocan sobre esquinas:
+A: disminuye su resistencia en función de la longitud.
+B: disminuye su resistencia en función del diámetro de curvatura.
+C: aumenta su resistencia en función de la longitud.
+D: aumenta su resistencia en función del diámetro de curvatura.
+SOLUCION: B
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05069
+PREGUNTA: ¿De qué material se fabrican generalmente los cables utilizados en la sujeción de cargas?
+A: De cobre.
+B: De acero.
+C: De hierro colado.
+D: De hierro fundido.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05070
+PREGUNTA: Las cadenas de estiba y las cadenas de elevación:
+A: son iguales.
+B: se diferencian en que las cadenas de estiba incorporan un dispositivo de tensión.
+C: se diferencian en que las cadenas de elevación incorporan un dispositivo de tensión.
+D: se diferencian en que las cadenas de estiba tienen eslabones alargados.
+SOLUCION: B
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05071
+PREGUNTA: ¿Qué se debe hacer si un eslabón de una cadena de estiba de mercancía se ha torcido?
+A: Intentar enderezarlo en ruta.
+B: Seguir usando la cadena sin actuar sobre el eslabón para no deteriorarlo más.
+C: Dejar de usar la cadena.
+D: Reforzar el eslabón.
+SOLUCION: C
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05072
+PREGUNTA: Una cadena de amarre:
+A: se puede unir con pasadores.
+B: se puede unir con tornillos.
+C: no se debe unir con pasadores ni tornillos.
+D: Las respuestas A y B son correctas.
+SOLUCION: C
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05073
+PREGUNTA: ¿Cuándo se considera que una cadena está deteriorada y no se debe utilizar en la estiba de mercancía?
+A: Cuando presenta un alargamiento de más del 3 %.
+B: Cuando su diámetro sufre un desgaste de más del 10 %.
+C: Cuando presenta fisuras superficiales.
+D: Todas las respuestas anteriores son correctas.
+SOLUCION: D
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05074
+PREGUNTA: ¿De qué material se fabrican las eslingas utilizadas en la estiba de mercancías?
+A: De cable de acero.
+B: De fibras textiles.
+C: De hierro fundido.
+D: Las respuestas A y B son correctas.
+SOLUCION: D
+NORMA: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+REFERENCIA DOCTRINAL: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+
+COD: 1H05075
+PREGUNTA: En la estiba de mercancías los ganchos se usan para enlazar:
+A: cadenas.
+B: cables.
+C: correas.
+D: Todos los anteriores.
+SOLUCION: D
+NORMA: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+REFERENCIA DOCTRINAL: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+
+COD: 1H05076
+PREGUNTA: ¿Para qué se utilizan los grilletes en la estiba de mercancías?
+A: Para compactar la mercancía con la caja del vehículo.
+B: Para sujetar las redes que cubren la mercancía.
+C: Para unir entre sí los elementos de amarre.
+D: Los grilletes solo se pueden utilizar con permiso de las Fuerzas de Seguridad.
+SOLUCION: C
+NORMA: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+REFERENCIA DOCTRINAL: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+
+COD: 1H05077
+PREGUNTA: ¿De qué material están hechos los tensores utilizados en la estiba de mercancías?
+A: De madera.
+B: De metal.
+C: De poliéster.
+D: En la estiba no se utilizan tensores sino tornos.
+SOLUCION: B
+NORMA: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+REFERENCIA DOCTRINAL: Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC
+
+COD: 1H05078
+PREGUNTA: ¿Cómo se pueden montar las barras de bloqueo en un vehículo para inmovilizar la carga?
+A: En horizontal, de un lateral al otro.
+B: En vertical, del suelo al techo.
+C: En diagonal, de una esquina a la otra.
+D: Las respuestas A y B son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05079
+PREGUNTA: ¿Qué mercancías se transportarán siempre totalmente cubiertas?
+A: Las que produzcan polvo.
+B: Las que desprendan malos olores.
+C: Las que se puedan caer.
+D: Las respuestas A y C son correctas.
+SOLUCION: D
+NORMA: RD 1428/2003, art. 14
+
+COD: 1H05080
+PREGUNTA: ¿Qué tipo de cuña conviene que tenga un ángulo mayor?
+A: Las de bloqueo.
+B: Las que se usan para carga y descarga.
+C: Ambas deben tener el mismo ángulo.
+D: El ángulo es indiferente.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05081
+PREGUNTA: Señale la afirmación correcta:
+A: Las cuñas de bloqueo deben fijarse a la plataforma.
+B: Las cuñas de carga y descarga se autobloquean con el peso de la carga.
+C: Ambos tipos de cuña de autobloquean con el peso de la carga y no es necesario fijarlas en ningún caso.
+D: Las respuestas A y B son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05082
+PREGUNTA: ¿Qué altura deben tener las cuñas de bloqueo, como mínimo?
+A: La mitad del radio de rodadura, cuando no se aplica amarre superior a la carga.
+B: La mitad del radio de rodadura, en todo caso.
+C: Un tercio del radio de rodadura, cuando no se aplica amarre superior a la carga.
+D: Un tercio del radio de rodadura, en todo caso.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05083
+PREGUNTA: Dos cuñas largas apuntaladas se denominan:
+A: cama de cuñas.
+B: base de cuñas.
+C: soporte acuñado.
+D: soporte apuntalado.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05084
+PREGUNTA: Los perfiles de borde de apoyo:
+A: permiten distribuir los efectos del amarre.
+B: permiten utilizar menos elementos de amarre.
+C: se pueden fabricar con madera.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05085
+PREGUNTA: ¿Cuál de los siguientes es un material utilizado en la estiba para aumentar el rozamiento de la carga?
+A: Esteras de goma.
+B: Placas de poliuretano.
+C: Palés.
+D: Bolsas de aire.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05086
+PREGUNTA: ¿Cómo se coloca el material utilizado en la estiba para aumentar el rozamiento de la carga?
+A: Suelto.
+B: Acoplado a la plataforma.
+C: Acoplado a la unidad de carga.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05087
+PREGUNTA: ¿Qué grosor deben tener las esteras antideslizantes de goma, utilizadas para aumentar el rozamiento de la carga?
+A: El máximo posible.
+B: El que garantice que el peso de la carga no se transfiere a través de ellas.
+C: El que garantice que el peso de la carga se transfiere totalmente a través de ellas.
+D: El grosor es indiferente.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05088
+PREGUNTA: Las láminas de papel recubiertas con material de alta fricción:
+A: se utilizan entre capas de mercancía apilada en palés.
+B: se utilizan en el transporte de paquetes.
+C: se utilizan en el transporte de fardos.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05089
+PREGUNTA: ¿Se utilizan bolsas de aire hinchables en la estiba de cargas?
+A: Sí, reciclables.
+B: Sí, desechables.
+C: No.
+D: Las respuestas A y B son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05090
+PREGUNTA: ¿En qué lugar se pueden colocar bolsas de aire hinchable como material de relleno de la carga?
+A: Entre las unidades de carga.
+B: Contra las puertas del compartimento de carga.
+C: Contra paneles divisorios no rígidos.
+D: Todas las respuestas son correctas.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05091
+PREGUNTA: ¿Cuándo es necesario utilizar materiales de relleno para la estiba correcta de la mercancía en un vehículo?
+A: Cuando los bultos son muy altos.
+B: Cuando los bultos son muy largos.
+C: En el caso de sujeción mediante bloqueo, cuando los bultos no rellenan completamente el espacio.
+D: Cuando los bultos tienen poco peso.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05092
+PREGUNTA: Los criterios de estiba de un contenedor en un vehículo de carretera son diferentes dependiendo de:
+A: la distancia del transporte.
+B: que el vehículo esté concebido y equipado específicamente para este tipo de carga o no lo esté.
+C: la mercancía que viaja en el contenedor.
+D: Las respuestas A y B son correctas.
+SOLUCION: B
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05093
+PREGUNTA: Para el transporte por carretera de un contenedor en condiciones adecuadas, ¿el vehículo debe disponer necesariamente de cierres giratorios?
+A: Sí.
+B: No.
+C: Solo para los de mayor tamaño.
+D: Solo para los de menos peso, para evitar que se puedan mover con la velocidad.
+SOLUCION: C
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05094
+PREGUNTA: ¿Cuál de los siguientes es el elemento de sujeción más apropiado para la sujeción de un contenedor en un vehículo de carretera?
+A: Las correas de poliéster.
+B: Los cierres giratorios.
+C: Los cables.
+D: Las cantoneras.
+SOLUCION: B
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05095
+PREGUNTA: ¿Qué equipo se debe utilizar para fijar un contenedor grande sobre un vehículo de carretera?
+A: Cierres giratorios.
+B: Cadenas.
+C: Cables de acero.
+D: Correas.
+SOLUCION: A
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05096
+PREGUNTA: ¿Cuántos cierres giratorios se deben utilizar, como mínimo, para fijar un contenedor grande sobre un vehículo de carretera?
+A: Dos.
+B: Cuatro.
+C: Seis.
+D: Ocho.
+SOLUCION: B
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05097
+PREGUNTA: Cuando un contenedor se fija en un vehículo de carretera con cierres giratorios:
+A: se debe completar la sujeción mediante dos cadenas de amarre.
+B: se debe completar la sujeción mediante dos cables de amarre.
+C: se debe completar la sujeción mediante cuatro correas de amarre.
+D: no se necesita ningún otro elemento de sujeción.
+SOLUCION: D
+NORMA: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+REFERENCIA DOCTRINAL: Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU
+
+COD: 1H05098
+PREGUNTA: ¿Cuál de los siguientes es un tipo de cierre giratorio para fijación de contenedores sobre vehículos de carretera?
+A: Cierre retráctil.
+B: Cierre manual.
+C: Cierre automático.
+D: Todas las respuestas anteriores son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05099
+PREGUNTA: ¿En qué tipo de transporte es especialmente recomendable que el conductor compruebe previamente la ruta?
+A: En el transporte de turismos.
+B: En el transporte de maquinaria de trabajo.
+C: En el transporte de mercancía paletizada.
+D: En el transporte de mercancía a granel.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05100
+PREGUNTA: ¿Qué sistema de inmovilización se utiliza en el transporte de maquinaria móvil de trabajo?
+A: Amarre.
+B: Bloqueo.
+C: Enganche.
+D: Las respuestas A y B son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05101
+PREGUNTA: Si se transporta maquinaria de obras públicas, ¿cómo deben viajar los elementos móviles de dichas máquinas (pala, elemento excavador, etc.)?
+A: Completamente elevados para que no ocupen espacio en la plataforma.
+B: A media altura, de modo que no ocupen sitio en la plataforma y tampoco choquen con las instalaciones de la vía.
+C: En la posición recomendada por el fabricante.
+D: Siempre desmontados de la máquina.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05102
+PREGUNTA: En el transporte de turismos su inmovilización sobre la plataforma se hará mediante:
+A: bloqueo.
+B: amarre.
+C: rozamiento.
+D: Todas las respuestas anteriores son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05103
+PREGUNTA: ¿Cómo se deben colocar los turismos para su transporte en un portavehículos?
+A: En la dirección de avance.
+B: En la dirección de descarga.
+C: De modo transversal.
+D: No hay recomendaciones al respecto.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05104
+PREGUNTA: ¿Cómo se deben colocar los turismos para su transporte en un portavehículos?
+A: Los más pesados en la plataforma superior.
+B: Los más pesados en la plataforma inferior.
+C: Alternando los más pesados y los más ligeros.
+D: No hay recomendaciones al respecto.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05105
+PREGUNTA: Cuando se transportan turismos en un portavehículos se recomienda que la caja de cambios de los mismos:
+A: se sitúe en punto muerto.
+B: se sitúe en la primera marcha.
+C: se sitúe en la posición de marcha atrás.
+D: Las respuestas B y C son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05106
+PREGUNTA: Cuántas ruedas se deben amarrar cuando se transportan turismos en un portavehículos?
+A: Siempre dos del mismo lado.
+B: Siempre dos opuestas diagonalmente.
+C: Tres, cuando se trate del último turismo cargado.
+D: Siempre tres.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05107
+PREGUNTA: Se recomienda que la madera aserrada que está embalada se transporte:
+A: colocando puntales delanteros.
+B: colocando puntales centrales.
+C: colocando puntales traseros.
+D: sin puntales y amarrada.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05108
+PREGUNTA: En un transporte de troncos colocados longitudinalmente, los troncos de longitud inferior a la distancia entre dos puntales:
+A: se colocarán en la parte exterior para facilitar su vigilancia.
+B: se colocarán en el centro de la carga.
+C: se colocarán transversalmente contra la compuerta delantera.
+D: no se deben incluir en la carga.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05109
+PREGUNTA: En un transporte de troncos colocados longitudinalmente, las piezas del centro:
+A: deben subir más que las laterales.
+B: deben subir menos que las laterales.
+C: deben igualar en altura a las laterales.
+D: pueden quedar a cualquier altura que se desee.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05110
+PREGUNTA: ¿Cuántos amarres se recomiendan, como mínimo, para la sujeción de troncos sin corteza en una plataforma con compuerta delantera resistente?
+A: Uno.
+B: Dos.
+C: Tres.
+D: Ninguno si se colocan puntales.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05111
+PREGUNTA: ¿Cómo se deben estibar los troncos y piezas de madera que se van a transportar transversalmente?
+A: Deben estar repartidos longitudinalmente en secciones con puntales o paredes rígidas.
+B: Cada sección debe sujetarse con dos amarres superiores.
+C: Deben cargarse en un vehículo con compuertas laterales rígidas o paredes de jaulas.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05112
+PREGUNTA: ¿Qué afirmación es correcta referida al transporte de troncos de madera?
+A: La carga se puede estibar transversalmente con total seguridad en una plataforma sin compuertas laterales, siempre que se amarre.
+B: La carga se puede estibar transversalmente con total seguridad en una plataforma sin compuertas laterales, siempre que se amarre por secciones que no superen los tres metros.
+C: La carga se puede estibar transversalmente con total seguridad en una plataforma sin compuertas laterales, siempre que se amarre por secciones que no superen los tres metros y se coloquen postes laterales cada cuatro metros.
+D: No es recomendable la estiba transversal de troncos de madera en una plataforma sin compuertas laterales.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05113
+PREGUNTA: ¿Cómo se recomienda colocar en el camión los troncos de madera?
+A: De modo longitudinal.
+B: De modo transversal.
+C: Depende de la longitud de la plataforma del camión.
+D: No hay recomendaciones sobre esto.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05114
+PREGUNTA: Cada uno de los troncos colocados longitudinalmente en el camión debe estar sujeto por:
+A: un puntal lateral, al menos.
+B: dos puntales laterales, al menos.
+C: tres puntales laterales, al menos.
+D: No son necesarios puntales laterales si los productos son bien amarrados a la plataforma de carga.
+SOLUCION: B
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05115
+PREGUNTA: Los bastidores para transporte de paneles y grandes objetos planos:
+A: deben estar fijados al vehículo.
+B: pueden ser móviles.
+C: pueden orientarse en dirección transversal.
+D: Las respuestas B y C son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05116
+PREGUNTA: Si se usan bastidores móviles para el transporte de paneles, ¿qué método de sujeción principal se recomienda para inmovilizar el propio bastidor?
+A: Amarre directo.
+B: Amarre superior.
+C: Bloqueo.
+D: Enganche.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05117
+PREGUNTA: Cuando se transportan grandes bobinas en un vehículo portabobinas, ¿qué material adicional hay que utilizar para evitar su rodadura hacia los lados?
+A: Esterillas antideslizantes.
+B: Puntales.
+C: Amarres.
+D: Ninguno.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05118
+PREGUNTA: ¿Cuál es mejor procedimiento de transporte de bobinas muy pesadas?
+A: Utilizar cables de amarre.
+B: Utilizar bases en cuña.
+C: Utilizar vehículos portabobinas.
+D: Utilizar cadenas de amarre.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05119
+PREGUNTA: ¿Qué elemento es el más adecuado para la estiba de bobinas?
+A: Redes.
+B: Tacos de madera.
+C: Bases en cuña.
+D: Cantoneras
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05120
+PREGUNTA: En el transporte de bloques compactos pesados con superficie de apoyo reducida se recomienda:
+A: concentrar su peso en la zona central de la superficie de carga.
+B: repartir su peso sobre toda la superficie de carga del vehículo.
+C: colocar el bloque en la parte trasera del vehículo para facilitar su carga y descarga.
+D: colocar el bloque en la parte derecha del vehículo para impedir que caiga sobre la calzada en caso de que llegue a desplazarse.
+SOLUCION: B
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05121
+PREGUNTA: Para asegurar una carga compuesta de vigas metálicas de gran longitud, se utilizan:
+A: cables.
+B: redes.
+C: lonas.
+D: Ninguno de los elementos anteriores.
+SOLUCION: A
+NORMA: La estiba de la carga en camiones, Centro Zaragoza
+REFERENCIA DOCTRINAL: La estiba de la carga en camiones, Centro Zaragoza
+
+COD: 1H05122
+PREGUNTA: El amarre cruzado superior está recomendado para inmovilizar:
+A: un grupo de palés.
+B: cada palé por separado.
+C: una carga de troncos.
+D: una bobina.
+SOLUCION: A
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05123
+PREGUNTA: El amarre cruzado superior inmoviliza los palés:
+A: en la dirección de avance.
+B: hacia atrás.
+C: en ambas direcciones transversales.
+D: no está aconsejado para inmovilizar palés.
+SOLUCION: C
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05124
+PREGUNTA: Se considera que la sujeción de la carga es correcta cuando, en cualquier situación de funcionamiento del vehículo:
+A: el cambio de posición de las cargas es mínimo.
+B: el cambio de posición de las cargas es nulo.
+C: el cambio de posición de las cargas no supera el 50 %.
+D: el cambio de posición de las cargas no supera el 50 %, salvo situaciones de emergencia.
+SOLUCION: A
+NORMA: RD 563/2017, art. 11
+
+COD: 1H05125
+PREGUNTA: Se considera que la sujeción de la carga es correcta cuando:
+A: las mercancías no pueden desplazarse fuera de la superficie de carga, salvo situaciones de emergencia.
+B: las mercancías no pueden desplazarse fuera de la superficie de carga, salvo maniobras de arranque cuesta arriba.
+C: las mercancías no pueden desplazarse fuera de la superficie de carga, en cualquier situación de funcionamiento del vehículo.
+D: Las respuestas A y B son correctas.
+SOLUCION: C
+NORMA: RD 563/2017, art. 11
+
+COD: 1H05126
+PREGUNTA: ¿Las Fuerzas de Seguridad están habilitadas para inspeccionar la sujeción de la carga de un camión?
+A: No.
+B: Sí, durante su recorrido en carretera.
+C: Sí, pero solo dirigiéndose al punto de carga.
+D: Sí, pero solo cuando haya signos manifiestos de estiba inadecuada.
+SOLUCION: B
+NORMA: RD 563/2017, art. 11
+
+COD: 1H05127
+PREGUNTA: ¿Cómo se clasifican las deficiencias detectadas en la sujeción de la carga durante una inspección en carretera?
+A: Leves y graves.
+B: Graves y muy graves.
+C: Leves, graves y muy graves.
+D: Leves, graves y peligrosas.
+SOLUCION: D
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05128
+PREGUNTA: La deficiencia detectada durante una inspección en carretera que consiste en la posibilidad de un desplazamiento significativo de una parte de la carga se considera:
+A: leve.
+B: grave.
+C: muy grave.
+D: peligrosa.
+SOLUCION: B
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05129
+PREGUNTA: La deficiencia detectada durante una inspección en carretera que consiste en riesgo de pérdida de una parte de la carga, poniendo en peligro la seguridad del tráfico, se considera:
+A: leve.
+B: grave.
+C: muy grave.
+D: peligrosa.
+SOLUCION: D
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05130
+PREGUNTA: ¿Qué grado de deficiencia se da si, durante una inspección en carretera, se observa que la carga está sujetada correctamente, pero cabría formular recomendaciones en materia de seguridad?
+A: No hay deficiencia.
+B: Deficiencia leve.
+C: Deficiencia grave.
+D: Deficiencia muy grave.
+SOLUCION: B
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05131
+PREGUNTA: ¿Qué grado de deficiencia se asignará si, durante una inspección en carretera, se observa que la sujeción de la carga presenta varias de ellas?
+A: El del grupo de deficiencias más bajo.
+B: El del grupo de deficiencias intermedio.
+C: El del grupo de deficiencias más alto.
+D: El grado de deficiencia muy grave.
+SOLUCION: C
+NORMA: RD 563/2017, Anexo III
+
+COD: 1H05132
+PREGUNTA: ¿Cómo se debe estibar los bloques de granito en el transporte?
+A: Tumbándolos sobre su lado de mayor superficie.
+B: Permitiendo una correcta circulación del aire.
+C: Agrupados sobre el eje trasero sin superar el peso máximo por eje.
+D: Agrupados sobre el eje delantero sin superar el peso máximo por eje.
+SOLUCION: A
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05133
+PREGUNTA: ¿Cómo debemos actuar en caso de que la mercancía oculte los indicadores de dirección del vehículo?
+A: No circular hasta solventar el problema.
+B: Indicar los cambios de dirección con el brazo.
+C: Acudir a la autoridad competente en materia de tráfico.
+D: Circular hasta el área de servicio más cercana, donde corregiremos el problema.
+SOLUCION: A
+NORMA: RD 1428/2003, art. 14
+
+COD: 1H05134
+PREGUNTA: ¿Cuál es un principio básico al estibar cargas combinadas en un vehículo?
+A: No cargar nunca mercancías diversas en un mismo vehículo.
+B: Tendrán que ir en envases o embalajes diferentes para diferenciarlos.
+C: Nunca se mezclarán mercancías que despidan olores con otras distintas.
+D: No cargar mercancías que despidan olores junto a otras que los absorban fácilmente.
+SOLUCION: D
+NORMA: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+REFERENCIA DOCTRINAL: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+
+COD: 1H05135
+PREGUNTA: ¿Cuáles de los siguientes elementos no deben ser tapados por la carga?
+A: Las advertencias manuales del conductor.
+B: Luces, indicadores de dirección y catadióptricos.
+C: Placas de matrículas y el signo distintivo del lugar de matriculación.
+D: Las tres respuestas anteriores son correctas.
+SOLUCION: D
+NORMA: RD 1428/2003, art. 14
+
+COD: 1H05136
+PREGUNTA: ¿Qué precaución hay que tener en el caso de transporte de turismos en un camión portavehículos?
+A: Deben tener una velocidad engranada.
+B: Deben colocarse en la dirección de avance.
+C: Deben estar inmovilizados y anclados.
+D: Todas las respuestas son correctas.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05137
+PREGUNTA: ¿Es necesario bloquear las ruedas de los turismos para su transporte en un portavehículos?
+A: Sí, por delante y por detrás.
+B: Sí, siempre por detrás.
+C: Sí, siempre por delante.
+D: Sí, por delante o por detrás.
+SOLUCION: D
+NORMA: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+REFERENCIA DOCTRINAL: Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea
+
+COD: 1H05138
+PREGUNTA: ¿Qué regla general aplicaremos a la hora de la estiba?
+A: Los bultos se apilarán según su procedencia.
+B: Los bultos pesados no se colocarán sobre los más ligeros.
+C: Los bultos pesados se estibarán lo más cerca posible de la cabina.
+D: Los bultos más frágiles se situarán agrupados junto a una de las paredes laterales.
+SOLUCION: B
+NORMA: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+REFERENCIA DOCTRINAL: Código de prácticas OMI/OIT/CEPE-Naciones Unidas sobre la arrumazón de las unidades de transporte
+
+COD: 1H05139
+PREGUNTA: ¿Qué precaución hay que tener en el caso de un transporte de productos sueltos que produzcan polvo (serrín, cenizas, etc.)?
+A: Debemos transportarlos en cisternas.
+B: Deben ir envasados con materiales plásticos.
+C: Deben ser transportados en vehículos cubiertos.
+D: Deben ser transportados en vehículos tipo capitoné.
+SOLUCION: C
+NORMA: RD 1428/2003, art. 14
+
+COD: 1H05140
+PREGUNTA: Un factor que puede afectar a la estabilidad del vehículo es:
+A: la masa neta que se puede transportar.
+B: la masa de velocidad máxima.
+C: la fuerza termotecnia lateral.
+D: la rigidez torsional de la carrocería.
+SOLUCION: D
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05141
+PREGUNTA: En un vehículo, el desgaste prematuro de los neumáticos es un fenómeno típico:
+A: de la sobrecarga en el eje delantero, no así en el trasero.
+B: de la sobrecarga en los ejes delantero y trasero.
+C: de la sobrecarga en el eje trasero, no así en el delantero.
+D: El desgaste prematuro de los neumáticos no tiene relación nunca con la sobrecarga.
+SOLUCION: B
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05142
+PREGUNTA: ¿Qué fenómeno es típico de una sobrecarga en el eje delantero de un vehículo?
+A: La dureza de la dirección.
+B: El esfuerzo excesivo para la suspensión trasera.
+C: La suavidad de la dirección.
+D: La falta de apoyo en el eje delantero.
+SOLUCION: A
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05143
+PREGUNTA: ¿Qué fenómeno es típico en una sobrecarga del eje delantero del vehículo?
+A: La falta de apoyo en el eje delantero.
+B: El esfuerzo excesivo para la suspensión trasera y la repercusión de golpes en el chasis.
+C: El desgaste prematuro de los neumáticos de ese eje.
+D: La suavidad de la dirección del vehículo.
+SOLUCION: C
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05144
+PREGUNTA: ¿Puede provocar efectos negativos la sobrecarga de alguno de los ejes de un vehículo?
+A: Sí.
+B: No.
+C: Sí, pero solamente si el eje que se sobrecarga es alguno de los delanteros.
+D: Sí, pero solamente si el eje que se sobrecarga es alguno de los traseros.
+SOLUCION: A
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05145
+PREGUNTA: A mayor altura del centro de gravedad, la estabilidad del vehículo:
+A: disminuye.
+B: aumenta.
+C: aumenta, siempre que la parte más ligera de la carga permanezca en la base de la caja.
+D: No sufre alteraciones.
+SOLUCION: A
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05146
+PREGUNTA: Para garantizar que el vehículo reaccione correctamente durante una frenada, ¿qué se tendrá en cuenta respecto a su centro de gravedad?
+A: Que el centro de gravedad esté lo más bajo posible.
+B: Que el centro de gravedad esté situado lo más a la izquierda posible del vehículo.
+C: Que el centro de gravedad esté lo más alto posible.
+D: Que el centro de gravedad esté situado lo más a la derecha posible del vehículo.
+SOLUCION: A
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05147
+PREGUNTA: ¿Qué supone un incremento de la altura del centro de gravedad del vehículo?
+A: Un incremento de la estabilidad del vehículo.
+B: Menores probabilidades de que se produzca un vuelco.
+C: Una reducción del riesgo en las curvas.
+D: Un incremento de la inestabilidad del vehículo con mayores probabilidades de que se produzca un vuelco.
+SOLUCION: D
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05148
+PREGUNTA: ¿Qué supone un incremento de la altura del centro de gravedad del vehículo?
+A: Un incremento de la estabilidad del vehículo.
+B: Menores probabilidades de que se produzca un vuelco.
+C: Incrementa el riesgo en las curvas.
+D: Disminuye el riesgo en las curvas.
+SOLUCION: C
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05149
+PREGUNTA: Un incremento de la altura del centro de gravedad del vehículo supone:
+A: una disminución del riesgo en las curvas.
+B: mayores probabilidades de que se produzca un vuelco.
+C: una disminución del riesgo ante la necesidad de tener que realizar una maniobra brusca para esquivar un peligro.
+D: una mayor velocidad de crucero.
+SOLUCION: B
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05150
+PREGUNTA: ¿Qué supone un incremento de la altura del centro de gravedad del vehículo?
+A: Un incremento de la inestabilidad del vehículo.
+B: Mayor velocidad de crucero.
+C: Mejor aceleración.
+D: Un incremento de la estabilidad del vehículo.
+SOLUCION: A
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05151
+PREGUNTA: ¿Qué supone un incremento de la altura del centro de gravedad del vehículo?
+A: Mejor aceleración.
+B: Un incremento de la estabilidad del vehículo.
+C: Disminuye el riesgo en las curvas.
+D: Incrementa el riesgo ante la necesidad de tener que realizar una maniobra brusca para esquivar un peligro.
+SOLUCION: D
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
+COD: 1H05152
+PREGUNTA: Un factor que puede afectar a la estabilidad del vehículo es:
+A: la fuerza de termotecnia lateral.
+B: la posición del centro de gravedad.
+C: la masa radial.
+D: la masa neta que se puede levantar.
+SOLUCION: B
+NORMA: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+REFERENCIA DOCTRINAL: Seguridad vial, conducción eficiente, medio ambiente y contaminación, Dirección General de Tráfico
+
