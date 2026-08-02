@@ -8,11 +8,13 @@ sealed class PracticeState {
     required this.selectedSection,
     this.correctCount = 0,
     this.incorrectCount = 0,
+    this.progressSnapshot = const QuestionProgressSnapshot.empty(),
   });
 
   final String? selectedSection;
   final int correctCount;
   final int incorrectCount;
+  final QuestionProgressSnapshot progressSnapshot;
 }
 
 final class PracticeLoading extends PracticeState {
@@ -34,13 +36,16 @@ final class PracticeLoaded extends PracticeState {
     required this.questions,
     this.currentIndex = 0,
     this.selectedOption,
+    this.isRecordingAnswer = false,
     super.correctCount,
     super.incorrectCount,
+    super.progressSnapshot,
   });
 
   final List<Question> questions;
   final int currentIndex;
   final QuestionOption? selectedOption;
+  final bool isRecordingAnswer;
 
   bool get answered => selectedOption != null;
 
@@ -54,8 +59,10 @@ final class PracticeLoaded extends PracticeState {
   PracticeLoaded copyWith({
     int? currentIndex,
     Object? selectedOption = _unset,
+    bool? isRecordingAnswer,
     int? correctCount,
     int? incorrectCount,
+    QuestionProgressSnapshot? progressSnapshot,
   }) {
     return PracticeLoaded(
       selectedSection: selectedSection,
@@ -64,8 +71,10 @@ final class PracticeLoaded extends PracticeState {
       selectedOption: identical(selectedOption, _unset)
           ? this.selectedOption
           : selectedOption as QuestionOption?,
+      isRecordingAnswer: isRecordingAnswer ?? this.isRecordingAnswer,
       correctCount: correctCount ?? this.correctCount,
       incorrectCount: incorrectCount ?? this.incorrectCount,
+      progressSnapshot: progressSnapshot ?? this.progressSnapshot,
     );
   }
 
@@ -73,6 +82,7 @@ final class PracticeLoaded extends PracticeState {
     return PracticeLoaded(
       selectedSection: selectedSection,
       questions: questions,
+      progressSnapshot: progressSnapshot,
     );
   }
 }

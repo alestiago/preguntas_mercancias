@@ -1,0 +1,23 @@
+name: pm_persistence
+description: Persistence support for the preguntas mercancias app.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  collection: ^1.19.1
+  drift: ^2.34.3
+  drift_flutter: ^0.3.1
+  flutter:
+    sdk: flutter
+  pm_questions_bank:
+    path: ../pm_questions_bank
+
+dev_dependencies:
+  build_runner: ^2.10.4
+  drift_dev: ^2.34.3
+  flutter_test:
+    sdk: flutter
+

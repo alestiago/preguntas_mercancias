@@ -1,22 +1,22 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
+
+import '../../questions/load_questions.dart';
 
 part 'practice_event.dart';
 part 'practice_state.dart';
 
-typedef LoadQuestions = Future<List<Question>> Function(String? section);
-
-Future<List<Question>> loadQuestionsFromBank(String? section) {
-  final loader = QuestionBankLoader();
-  return section == null ? loader.loadAll() : loader.loadSection(section);
-}
-
 class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   PracticeBloc({
     this.loadQuestions = loadQuestionsFromBank,
+    QuestionProgressStore? questionProgressStore,
     String? initialSection,
-  }) : super(
+  }) : questionProgressStore =
+           questionProgressStore ?? DriftQuestionProgressStore.defaults(),
+       _ownsQuestionProgressStore = questionProgressStore == null,
+       super(
          PracticeLoading(
            selectedSection: initialSection ?? QuestionBankLoader.sections.first,
          ),
@@ -29,6 +29,8 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   }
 
   final LoadQuestions loadQuestions;
+  final QuestionProgressStore questionProgressStore;
+  final bool _ownsQuestionProgressStore;
 
   Future<void> _onStarted(PracticeStarted event, Emitter<PracticeState> emit) {
     return _load(emit, state.selectedSection);
@@ -45,20 +47,46 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     return _load(emit, event.section);
   }
 
-  void _onAnswerPressed(AnswerPressed event, Emitter<PracticeState> emit) {
+  Future<void> _onAnswerPressed(
+    AnswerPressed event,
+    Emitter<PracticeState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! PracticeLoaded || currentState.answered) {
       return;
     }
 
-    final isCorrect = currentState.currentQuestion.isCorrect(event.option);
-    emit(
-      currentState.copyWith(
-        selectedOption: event.option,
-        correctCount: currentState.correctCount + (isCorrect ? 1 : 0),
-        incorrectCount: currentState.incorrectCount + (isCorrect ? 0 : 1),
-      ),
+    final question = currentState.currentQuestion;
+    final isCorrect = question.isCorrect(event.option);
+    final answeredState = currentState.copyWith(
+      selectedOption: event.option,
+      isRecordingAnswer: true,
+      correctCount: currentState.correctCount + (isCorrect ? 1 : 0),
+      incorrectCount: currentState.incorrectCount + (isCorrect ? 0 : 1),
     );
+
+    emit(answeredState);
+
+    try {
+      await questionProgressStore.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: question.code,
+          section: question.section,
+          selectedOption: event.option,
+          correctOption: question.correctOption,
+        ),
+      );
+
+      emit(
+        answeredState.copyWith(
+          progressSnapshot: await questionProgressStore.loadSnapshot(),
+          isRecordingAnswer: false,
+        ),
+      );
+    } catch (error, stackTrace) {
+      emit(answeredState.copyWith(isRecordingAnswer: false));
+      addError(error, stackTrace);
+    }
   }
 
   void _onNextQuestionPressed(
@@ -66,7 +94,9 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     Emitter<PracticeState> emit,
   ) {
     final currentState = state;
-    if (currentState is! PracticeLoaded || !currentState.answered) {
+    if (currentState is! PracticeLoaded ||
+        !currentState.answered ||
+        currentState.isRecordingAnswer) {
       return;
     }
 
@@ -98,14 +128,25 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
 
     try {
       final questions = await loadQuestions(selectedSection);
+      final progressSnapshot = await questionProgressStore.loadSnapshot();
       emit(
         PracticeLoaded(
           selectedSection: selectedSection,
           questions: List<Question>.unmodifiable(questions),
+          progressSnapshot: progressSnapshot,
         ),
       );
     } catch (error) {
       emit(PracticeLoadFailure(selectedSection: selectedSection, error: error));
     }
+  }
+
+  @override
+  Future<void> close() async {
+    if (_ownsQuestionProgressStore) {
+      await questionProgressStore.close();
+    }
+
+    return super.close();
   }
 }

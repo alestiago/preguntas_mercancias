@@ -1,0 +1,82 @@
+{
+  "@@locale": "es",
+  "appTitle": "Preguntas Mercancias",
+  "allSections": "Todas",
+  "homeProgressTitle": "Tu progreso",
+  "questionsInBank": "{count, plural, =0{0 preguntas en el banco} =1{1 pregunta en el banco} other{{count} preguntas en el banco}}",
+  "@questionsInBank": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "startPractice": "Practicar",
+  "correctQuestions": "Correctas",
+  "questionsToReview": "Por repasar",
+  "pendingQuestions": "Pendientes",
+  "homeLoadFailure": "No se pudo cargar el progreso.",
+  "practiceLoadFailure": "No se pudieron cargar las preguntas.",
+  "retry": "Reintentar",
+  "questionProgress": "Pregunta {currentQuestionNumber} de {questionCount}",
+  "@questionProgress": {
+    "placeholders": {
+      "currentQuestionNumber": {
+        "type": "int"
+      },
+      "questionCount": {
+        "type": "int"
+      }
+    }
+  },
+  "correctAnswerFeedbackTitle": "Correcta",
+  "incorrectAnswerFeedbackTitle": "Incorrecta",
+  "correctAnswer": "Respuesta correcta: {optionCode}. {answerText}",
+  "@correctAnswer": {
+    "placeholders": {
+      "optionCode": {
+        "type": "String"
+      },
+      "answerText": {
+        "type": "String"
+      }
+    }
+  },
+  "normReference": "Norma: {norma}",
+  "@normReference": {
+    "placeholders": {
+      "norma": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionScore": "Aciertos {correctCount} · Fallos {incorrectCount}",
+  "@sessionScore": {
+    "placeholders": {
+      "correctCount": {
+        "type": "int"
+      },
+      "incorrectCount": {
+        "type": "int"
+      }
+    }
+  },
+  "nextQuestion": "Siguiente",
+  "restartPractice": "Reiniciar",
+  "scorePill": "{correctCount} / {incorrectCount} · {answeredQuestionCount}",
+  "@scorePill": {
+    "placeholders": {
+      "correctCount": {
+        "type": "int"
+      },
+      "incorrectCount": {
+        "type": "int"
+      },
+      "answeredQuestionCount": {
+        "type": "int"
+      }
+    }
+  },
+  "noQuestionsAvailable": "No hay preguntas disponibles."
+}
+

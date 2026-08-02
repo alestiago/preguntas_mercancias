@@ -1,11 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/practice/bloc/practice_bloc.dart';
+import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
+
+import '../../../helpers/fake_question_progress_store.dart';
 
 void main() {
   group('PracticeBloc', () {
     test('loads questions and records an answer', () async {
-      final bloc = PracticeBloc(loadQuestions: (_) async => _questions);
+      final progressStore = FakeQuestionProgressStore();
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => _questions,
+        questionProgressStore: progressStore,
+      );
       addTearDown(bloc.close);
 
       final loadedFuture = bloc.stream.firstWhere(
@@ -20,7 +30,10 @@ void main() {
       expect(loaded.incorrectCount, 0);
 
       final answeredFuture = bloc.stream.firstWhere(
-        (state) => state is PracticeLoaded && state.answered,
+        (state) =>
+            state is PracticeLoaded &&
+            state.answered &&
+            state.progressSnapshot.answeredQuestionCount == 1,
       );
       bloc.add(const AnswerPressed(QuestionOption.b));
       final answered = await answeredFuture as PracticeLoaded;
@@ -28,10 +41,17 @@ void main() {
       expect(answered.selectedOption, QuestionOption.b);
       expect(answered.correctCount, 1);
       expect(answered.incorrectCount, 0);
+      expect(progressStore.recordedAnswers, hasLength(1));
+      expect(progressStore.recordedAnswers.single.questionCode, '1A01001');
     });
 
     test('advances after answering', () async {
-      final bloc = PracticeBloc(loadQuestions: (_) async => _questions);
+      final progressStore = FakeQuestionProgressStore();
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => _questions,
+        questionProgressStore: progressStore,
+      );
       addTearDown(bloc.close);
 
       final loadedFuture = bloc.stream.firstWhere(
@@ -41,7 +61,10 @@ void main() {
       await loadedFuture;
 
       final answeredFuture = bloc.stream.firstWhere(
-        (state) => state is PracticeLoaded && state.answered,
+        (state) =>
+            state is PracticeLoaded &&
+            state.answered &&
+            state.progressSnapshot.answeredQuestionCount == 1,
       );
       bloc.add(const AnswerPressed(QuestionOption.b));
       await answeredFuture;
@@ -59,7 +82,75 @@ void main() {
       expect(advanced.correctCount, 1);
       expect(advanced.incorrectCount, 0);
     });
+
+    test('does not advance while an answer is being recorded', () async {
+      final progressStore = SlowQuestionProgressStore();
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => _questions,
+        questionProgressStore: progressStore,
+      );
+      addTearDown(bloc.close);
+
+      final loadedFuture = bloc.stream.firstWhere(
+        (state) => state is PracticeLoaded,
+      );
+      bloc.add(const PracticeStarted());
+      await loadedFuture;
+
+      final recordingFuture = bloc.stream.firstWhere(
+        (state) => state is PracticeLoaded && state.isRecordingAnswer,
+      );
+      bloc.add(const AnswerPressed(QuestionOption.b));
+      final recording = await recordingFuture as PracticeLoaded;
+
+      expect(recording.answered, isTrue);
+      expect(recording.currentIndex, 0);
+
+      bloc.add(const NextQuestionPressed());
+      await Future<void>.delayed(Duration.zero);
+
+      expect((bloc.state as PracticeLoaded).currentIndex, 0);
+
+      progressStore.completePendingRecords();
+
+      final recordedFuture = bloc.stream.firstWhere(
+        (state) =>
+            state is PracticeLoaded &&
+            state.answered &&
+            !state.isRecordingAnswer,
+      );
+      await recordedFuture;
+
+      final advancedFuture = bloc.stream.firstWhere(
+        (state) => state is PracticeLoaded && state.currentIndex == 1,
+      );
+      bloc.add(const NextQuestionPressed());
+      final advanced = await advancedFuture as PracticeLoaded;
+
+      expect(advanced.currentQuestion.prompt, 'Segunda pregunta');
+    });
   });
+}
+
+final class SlowQuestionProgressStore extends FakeQuestionProgressStore {
+  final List<Completer<void>> _pendingRecords = [];
+
+  @override
+  Future<void> recordAnswer(QuestionAnswerRecord answer) async {
+    final completer = Completer<void>();
+    _pendingRecords.add(completer);
+    await completer.future;
+    await super.recordAnswer(answer);
+  }
+
+  void completePendingRecords() {
+    for (final completer in _pendingRecords) {
+      if (!completer.isCompleted) {
+        completer.complete();
+      }
+    }
+  }
 }
 
 final _questions = [

@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'bloc/practice_bloc.dart';
-
-const _allSectionsLabel = 'Todas';
+import '../questions/load_questions.dart';
 
 class QuestionPracticePage extends StatelessWidget {
-  const QuestionPracticePage({super.key, LoadQuestions? loadQuestions})
-    : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
+  const QuestionPracticePage({
+    super.key,
+    LoadQuestions? loadQuestions,
+    this.questionProgressStore,
+  }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
 
   final LoadQuestions loadQuestions;
+  final QuestionProgressStore? questionProgressStore;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          PracticeBloc(loadQuestions: loadQuestions)
-            ..add(const PracticeStarted()),
+      create: (_) => PracticeBloc(
+        loadQuestions: loadQuestions,
+        questionProgressStore: questionProgressStore,
+      )..add(const PracticeStarted()),
       child: const _QuestionPracticeView(),
     );
   }
@@ -30,20 +36,28 @@ class _QuestionPracticeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PracticeBloc, PracticeState>(
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Preguntas Mercancias'),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: _ScorePill(
-                  correctCount: state.correctCount,
-                  incorrectCount: state.incorrectCount,
+        final localizations = AppLocalizations.of(context);
+        final canPop = state is! PracticeLoaded || !state.isRecordingAnswer;
+
+        return PopScope(
+          canPop: canPop,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(localizations.appTitle),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: _ScorePill(
+                    correctCount: state.correctCount,
+                    incorrectCount: state.incorrectCount,
+                    answeredQuestionCount:
+                        state.progressSnapshot.answeredQuestionCount,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            body: SafeArea(child: _PracticeBody(state: state)),
           ),
-          body: SafeArea(child: _PracticeBody(state: state)),
         );
       },
     );
@@ -132,6 +146,7 @@ class _PracticeContent extends StatelessWidget {
                     _SessionFooter(
                       answered: state.answered,
                       isLastQuestion: state.isLastQuestion,
+                      isRecordingAnswer: state.isRecordingAnswer,
                       correctCount: state.correctCount,
                       incorrectCount: state.incorrectCount,
                       onNextQuestion: () => context.read<PracticeBloc>().add(
@@ -161,6 +176,7 @@ class _SectionSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -173,7 +189,7 @@ class _SectionSelector extends StatelessWidget {
         child: Row(
           children: [
             ChoiceChip(
-              label: const Text(_allSectionsLabel),
+              label: Text(localizations.allSections),
               selected: selectedSection == null,
               onSelected: (_) => onSectionSelected(null),
             ),
@@ -210,6 +226,7 @@ class _QuestionProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +242,7 @@ class _QuestionProgress extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Pregunta ${currentIndex + 1} de $questionCount',
+              localizations.questionProgress(currentIndex + 1, questionCount),
               style: textTheme.labelLarge?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
@@ -417,8 +434,11 @@ class _AnswerFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final isCorrect = question.isCorrect(selectedOption);
-    final title = isCorrect ? 'Correcta' : 'Incorrecta';
+    final title = isCorrect
+        ? localizations.correctAnswerFeedbackTitle
+        : localizations.incorrectAnswerFeedbackTitle;
     final icon = isCorrect ? Icons.check_circle : Icons.cancel;
     final borderColor = isCorrect
         ? const Color(0xFF2E7D32)
@@ -457,12 +477,15 @@ class _AnswerFeedback extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Respuesta correcta: ${question.correctOption.code}. ${question.correctAnswer.text}',
+              localizations.correctAnswer(
+                question.correctOption.code,
+                question.correctAnswer.text,
+              ),
               style: const TextStyle(fontWeight: FontWeight.w600, height: 1.25),
             ),
             const SizedBox(height: 8),
             Text(
-              'Norma: ${question.norma}',
+              localizations.normReference(question.norma),
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
           ],
@@ -476,6 +499,7 @@ class _SessionFooter extends StatelessWidget {
   const _SessionFooter({
     required this.answered,
     required this.isLastQuestion,
+    required this.isRecordingAnswer,
     required this.correctCount,
     required this.incorrectCount,
     required this.onNextQuestion,
@@ -483,6 +507,7 @@ class _SessionFooter extends StatelessWidget {
 
   final bool answered;
   final bool isLastQuestion;
+  final bool isRecordingAnswer;
   final int correctCount;
   final int incorrectCount;
   final VoidCallback onNextQuestion;
@@ -491,12 +516,13 @@ class _SessionFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
 
     return Row(
       children: [
         Expanded(
           child: Text(
-            'Aciertos $correctCount · Fallos $incorrectCount',
+            localizations.sessionScore(correctCount, incorrectCount),
             style: textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
@@ -505,9 +531,13 @@ class _SessionFooter extends StatelessWidget {
         ),
         FilledButton.icon(
           key: const ValueKey('next-question-button'),
-          onPressed: answered ? onNextQuestion : null,
+          onPressed: answered && !isRecordingAnswer ? onNextQuestion : null,
           icon: Icon(isLastQuestion ? Icons.refresh : Icons.arrow_forward),
-          label: Text(isLastQuestion ? 'Reiniciar' : 'Siguiente'),
+          label: Text(
+            isLastQuestion
+                ? localizations.restartPractice
+                : localizations.nextQuestion,
+          ),
         ),
       ],
     );
@@ -515,14 +545,20 @@ class _SessionFooter extends StatelessWidget {
 }
 
 class _ScorePill extends StatelessWidget {
-  const _ScorePill({required this.correctCount, required this.incorrectCount});
+  const _ScorePill({
+    required this.correctCount,
+    required this.incorrectCount,
+    required this.answeredQuestionCount,
+  });
 
   final int correctCount;
   final int incorrectCount;
+  final int answeredQuestionCount;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -532,7 +568,11 @@ class _ScorePill extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Text(
-          '$correctCount / $incorrectCount',
+          localizations.scorePill(
+            correctCount,
+            incorrectCount,
+            answeredQuestionCount,
+          ),
           style: TextStyle(
             color: colorScheme.onPrimaryContainer,
             fontWeight: FontWeight.w800,
@@ -562,6 +602,8 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -575,7 +617,7 @@ class _ErrorState extends StatelessWidget {
             ),
             const SizedBox(height: 14),
             Text(
-              'No se pudieron cargar las preguntas.',
+              localizations.practiceLoadFailure,
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -589,7 +631,7 @@ class _ErrorState extends StatelessWidget {
             FilledButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh),
-              label: const Text('Reintentar'),
+              label: Text(localizations.retry),
             ),
           ],
         ),
@@ -609,14 +651,16 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return Column(
       children: [
         _SectionSelector(
           selectedSection: selectedSection,
           onSectionSelected: onSectionSelected,
         ),
-        const Expanded(
-          child: Center(child: Text('No hay preguntas disponibles.')),
+        Expanded(
+          child: Center(child: Text(localizations.noQuestionsAvailable)),
         ),
       ],
     );
