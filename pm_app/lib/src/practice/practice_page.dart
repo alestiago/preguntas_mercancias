@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pm_persistence/pm_persistence.dart';
@@ -17,6 +19,8 @@ class QuestionPracticePage extends StatelessWidget {
     this.isReviewMode = false,
     this.isPendingMode = false,
     this.isSimulacroMode = false,
+    this.pendingQuestionCount,
+    this.pendingQuestionCountsBySection = const {},
   }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
 
   final LoadQuestions loadQuestions;
@@ -26,6 +30,8 @@ class QuestionPracticePage extends StatelessWidget {
   final bool isReviewMode;
   final bool isPendingMode;
   final bool isSimulacroMode;
+  final int? pendingQuestionCount;
+  final Map<String, int> pendingQuestionCountsBySection;
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +45,22 @@ class QuestionPracticePage extends StatelessWidget {
         isPendingMode: isPendingMode,
         isSimulacroMode: isSimulacroMode,
       )..add(const PracticeStarted()),
-      child: const _QuestionPracticeView(),
+      child: _QuestionPracticeView(
+        pendingQuestionCount: pendingQuestionCount,
+        pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+      ),
     );
   }
 }
 
 class _QuestionPracticeView extends StatelessWidget {
-  const _QuestionPracticeView();
+  const _QuestionPracticeView({
+    required this.pendingQuestionCount,
+    required this.pendingQuestionCountsBySection,
+  });
+
+  final int? pendingQuestionCount;
+  final Map<String, int> pendingQuestionCountsBySection;
 
   @override
   Widget build(BuildContext context) {
@@ -58,31 +73,58 @@ class _QuestionPracticeView extends StatelessWidget {
           canPop: canPop,
           child: Scaffold(
             appBar: AppBar(
-              title: Text(localizations.appTitle),
+              title: Text(_practiceTitle(localizations, state)),
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: _ScorePill(
                     correctCount: state.correctCount,
-                    incorrectCount: state.incorrectCount,
                     answeredQuestionCount:
-                        state.progressSnapshot.answeredQuestionCount,
+                        state.correctCount + state.incorrectCount,
                   ),
                 ),
               ],
             ),
-            body: SafeArea(child: _PracticeBody(state: state)),
+            body: SafeArea(
+              child: _PracticeBody(
+                state: state,
+                pendingQuestionCount: pendingQuestionCount,
+                pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+              ),
+            ),
           ),
         );
       },
     );
   }
+
+  String _practiceTitle(AppLocalizations localizations, PracticeState state) {
+    if (state.isPendingMode) {
+      return localizations.pendingQuestions;
+    }
+
+    if (state.isReviewMode) {
+      return 'Por Repasar';
+    }
+
+    if (state.isSimulacroMode) {
+      return localizations.startSimulacro;
+    }
+
+    return localizations.appTitle;
+  }
 }
 
 class _PracticeBody extends StatelessWidget {
-  const _PracticeBody({required this.state});
+  const _PracticeBody({
+    required this.state,
+    required this.pendingQuestionCount,
+    required this.pendingQuestionCountsBySection,
+  });
 
   final PracticeState state;
+  final int? pendingQuestionCount;
+  final Map<String, int> pendingQuestionCountsBySection;
 
   @override
   Widget build(BuildContext context) {
@@ -98,19 +140,31 @@ class _PracticeBody extends StatelessWidget {
           onSectionSelected: (section) =>
               context.read<PracticeBloc>().add(SectionSelected(section)),
         ),
-      PracticeLoaded loadedState => _PracticeContent(state: loadedState),
+      PracticeLoaded loadedState => _PracticeContent(
+        state: loadedState,
+        pendingQuestionCount: pendingQuestionCount,
+        pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+      ),
     };
   }
 }
 
 class _PracticeContent extends StatelessWidget {
-  const _PracticeContent({required this.state});
+  const _PracticeContent({
+    required this.state,
+    required this.pendingQuestionCount,
+    required this.pendingQuestionCountsBySection,
+  });
 
   final PracticeLoaded state;
+  final int? pendingQuestionCount;
+  final Map<String, int> pendingQuestionCountsBySection;
 
   @override
   Widget build(BuildContext context) {
     final question = state.currentQuestion;
+    final currentQuestionNumber = _currentQuestionNumber;
+    final questionCount = _questionCount;
 
     return CustomScrollView(
       slivers: [
@@ -134,9 +188,9 @@ class _PracticeContent extends StatelessWidget {
                   children: [
                     _QuestionProgress(
                       question: question,
-                      currentIndex: state.currentIndex,
-                      questionCount: state.questions.length,
-                      progress: state.progress,
+                      currentQuestionNumber: currentQuestionNumber,
+                      questionCount: questionCount,
+                      progress: _progress(currentQuestionNumber, questionCount),
                     ),
                     const SizedBox(height: 18),
                     _QuestionPanel(
@@ -182,6 +236,41 @@ class _PracticeContent extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  int get _currentQuestionNumber {
+    if (!state.isPendingMode) {
+      return state.currentIndex + 1;
+    }
+
+    final answeredQuestionCount = state.correctCount + state.incorrectCount;
+    return state.answered ? answeredQuestionCount : answeredQuestionCount + 1;
+  }
+
+  int get _questionCount {
+    if (!state.isPendingMode) {
+      return state.questions.length;
+    }
+
+    final selectedSection = state.selectedSection;
+    if (selectedSection != null) {
+      return pendingQuestionCountsBySection[selectedSection] ??
+          state.questions.length;
+    }
+
+    return pendingQuestionCount ?? state.questions.length;
+  }
+
+  double _progress(int currentQuestionNumber, int questionCount) {
+    if (!state.isPendingMode) {
+      return state.progress;
+    }
+
+    if (questionCount == 0) {
+      return 0;
+    }
+
+    return (currentQuestionNumber / questionCount).clamp(0, 1).toDouble();
   }
 }
 
@@ -233,13 +322,13 @@ class _SectionSelector extends StatelessWidget {
 class _QuestionProgress extends StatelessWidget {
   const _QuestionProgress({
     required this.question,
-    required this.currentIndex,
+    required this.currentQuestionNumber,
     required this.questionCount,
     required this.progress,
   });
 
   final Question question;
-  final int currentIndex;
+  final int currentQuestionNumber;
   final int questionCount;
   final double progress;
 
@@ -263,7 +352,10 @@ class _QuestionProgress extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              localizations.questionProgress(currentIndex + 1, questionCount),
+              localizations.questionProgress(
+                currentQuestionNumber,
+                questionCount,
+              ),
               style: textTheme.labelLarge?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
@@ -577,12 +669,20 @@ class _SessionFooter extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Text(
-            localizations.sessionScore(correctCount, incorrectCount),
-            style: textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w600,
-            ),
+          child: Wrap(
+            spacing: 12,
+            runSpacing: 4,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                localizations.sessionScore(correctCount, incorrectCount),
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              if (isSimulacroMode) const _SimulacroElapsedTimer(),
+            ],
           ),
         ),
         FilledButton.icon(
@@ -610,21 +710,77 @@ class _SessionFooter extends StatelessWidget {
   }
 }
 
+class _SimulacroElapsedTimer extends StatefulWidget {
+  const _SimulacroElapsedTimer();
+
+  @override
+  State<_SimulacroElapsedTimer> createState() => _SimulacroElapsedTimerState();
+}
+
+class _SimulacroElapsedTimerState extends State<_SimulacroElapsedTimer> {
+  Timer? _timer;
+  var _elapsed = Duration.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {
+        _elapsed += const Duration(seconds: 1);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Text(
+      key: const ValueKey('simulacro-elapsed-time'),
+      localizations.elapsedTime(_formatDuration(_elapsed)),
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurfaceVariant,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  String _formatDuration(Duration duration) {
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+
+    if (hours > 0) {
+      return '$hours:$minutes:$seconds';
+    }
+
+    return '$minutes:$seconds';
+  }
+}
+
 class _ScorePill extends StatelessWidget {
   const _ScorePill({
     required this.correctCount,
-    required this.incorrectCount,
     required this.answeredQuestionCount,
   });
 
   final int correctCount;
-  final int incorrectCount;
   final int answeredQuestionCount;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final localizations = AppLocalizations.of(context);
+    final scorePercentage = answeredQuestionCount == 0
+        ? 0
+        : ((correctCount / answeredQuestionCount) * 100).round();
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -636,8 +792,8 @@ class _ScorePill extends StatelessWidget {
         child: Text(
           localizations.scorePill(
             correctCount,
-            incorrectCount,
             answeredQuestionCount,
+            scorePercentage,
           ),
           style: TextStyle(
             color: colorScheme.onPrimaryContainer,

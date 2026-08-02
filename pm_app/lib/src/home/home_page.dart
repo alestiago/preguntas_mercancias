@@ -9,6 +9,7 @@ import '../practice/bloc/practice_bloc.dart';
 import '../practice/practice_page.dart';
 import '../questions/draw_simulacro_questions.dart';
 import '../questions/load_questions.dart';
+import '../settings/settings_page.dart';
 import 'bloc/home_bloc.dart';
 
 const _pendingPracticeBatchSize = 10;
@@ -67,6 +68,13 @@ class _QuestionHomeView extends StatelessWidget {
                   onPressed: () => _openAnswerHistory(context, loadedState),
                   icon: const Icon(Icons.history),
                 ),
+              if (state is HomeLoaded)
+                IconButton(
+                  key: const ValueKey('settings-button'),
+                  tooltip: localizations.settingsTitle,
+                  onPressed: () => _openSettings(context),
+                  icon: const Icon(Icons.settings),
+                ),
             ],
           ),
           body: SafeArea(
@@ -94,6 +102,15 @@ class _QuestionHomeView extends StatelessWidget {
     );
   }
 
+  void _openSettings(BuildContext context) {
+    Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (_) =>
+            SettingsPage(questionProgressStore: questionProgressStore),
+      ),
+    );
+  }
+
   void _openPractice(
     BuildContext context, {
     LoadQuestions? practiceLoadQuestions,
@@ -102,6 +119,8 @@ class _QuestionHomeView extends StatelessWidget {
     bool isReviewMode = false,
     bool isPendingMode = false,
     bool isSimulacroMode = false,
+    int? pendingQuestionCount,
+    Map<String, int> pendingQuestionCountsBySection = const {},
   }) {
     final homeBloc = context.read<HomeBloc>();
 
@@ -116,6 +135,8 @@ class _QuestionHomeView extends StatelessWidget {
               isReviewMode: isReviewMode,
               isPendingMode: isPendingMode,
               isSimulacroMode: isSimulacroMode,
+              pendingQuestionCount: pendingQuestionCount,
+              pendingQuestionCountsBySection: pendingQuestionCountsBySection,
             ),
           ),
         )
@@ -177,7 +198,27 @@ class _QuestionHomeView extends StatelessWidget {
       loadMoreQuestions: _pendingLoadMoreQuestionsFor(state),
       initialSection: null,
       isPendingMode: true,
+      pendingQuestionCount: state.unansweredQuestionCount,
+      pendingQuestionCountsBySection: _pendingQuestionCountsBySection(state),
     );
+  }
+
+  Map<String, int> _pendingQuestionCountsBySection(HomeLoaded state) {
+    final countsBySection = <String, int>{};
+
+    for (final question in state.questions) {
+      if (state.progressSnapshot.progressFor(question.code) != null) {
+        continue;
+      }
+
+      countsBySection.update(
+        question.section,
+        (count) => count + 1,
+        ifAbsent: () => 1,
+      );
+    }
+
+    return Map.unmodifiable(countsBySection);
   }
 
   LoadQuestions _pendingLoadQuestionsFor(HomeLoaded state) {

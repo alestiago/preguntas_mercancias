@@ -55,6 +55,7 @@ void main() {
 
     expect(find.text('Incorrecta'), findsOneWidget);
     expect(find.textContaining('Respuesta correcta:'), findsOneWidget);
+    expect(find.text('0/1 (0%)'), findsOneWidget);
 
     final nextButton = find.byKey(const ValueKey('next-question-button'));
     await tester.ensureVisible(nextButton);
@@ -90,6 +91,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Finalizar'), findsOneWidget);
+    expect(find.text('1/1 (100%)'), findsOneWidget);
 
     await tester.ensureVisible(nextButton);
     await tester.pumpAndSettle();
@@ -196,6 +198,103 @@ void main() {
     expect(find.text('Todas'), findsNothing);
   });
 
+  testWidgets('settings shows version and resets progress', (tester) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+    await progressStore.recordAnswer(
+      QuestionAnswerRecord(
+        questionCode: '1A01001',
+        section: '1A',
+        selectedOption: QuestionOption.b,
+        correctOption: QuestionOption.b,
+      ),
+    );
+    await progressStore.recordAnswer(
+      QuestionAnswerRecord(
+        questionCode: '1A01002',
+        section: '1A',
+        selectedOption: QuestionOption.b,
+        correctOption: QuestionOption.a,
+      ),
+    );
+
+    await tester.pumpWidget(
+      PreguntasMercanciasApp(
+        loadQuestions: (_) async => _questions,
+        questionProgressStore: progressStore,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('settings-button')), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('home-correct-stat')),
+        matching: find.text('1'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('home-incorrect-stat')),
+        matching: find.text('1'),
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.byKey(const ValueKey('settings-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ajustes'), findsOneWidget);
+    expect(find.text('Versión'), findsOneWidget);
+    expect(find.text('1.0.0+1'), findsOneWidget);
+    expect(find.byKey(const ValueKey('reset-progress-tile')), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('reset-progress-tile')));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+        'Se borrarán tus respuestas y estadísticas. Esta acción no se puede deshacer.',
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(
+      find.byKey(const ValueKey('confirm-reset-progress-button')),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Progreso reiniciado'), findsOneWidget);
+    expect(progressStore.recordedAnswers, isEmpty);
+
+    Navigator.of(tester.element(find.text('Ajustes'))).pop();
+    await tester.pumpAndSettle();
+
+    expect(find.text('Tu progreso'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('home-correct-stat')),
+        matching: find.text('0'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('home-incorrect-stat')),
+        matching: find.text('0'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('home-unanswered-stat')),
+        matching: find.text('2'),
+      ),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('starts review practice from the questions to review stat', (
     tester,
   ) async {
@@ -233,6 +332,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('home-incorrect-stat')));
     await tester.pumpAndSettle();
 
+    expect(find.text('Por Repasar'), findsOneWidget);
     expect(find.text('Pregunta 1B'), findsOneWidget);
     expect(find.text('Pregunta 1A'), findsNothing);
     expect(find.text('Pregunta 1 de 1'), findsOneWidget);
@@ -297,6 +397,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('home-unanswered-stat')));
     await tester.pumpAndSettle();
 
+    expect(find.text('Pendientes'), findsOneWidget);
     expect(find.text('Pregunta 1B'), findsOneWidget);
     expect(find.text('Pregunta 1A'), findsNothing);
     expect(find.text('Pregunta 1 de 1'), findsOneWidget);
@@ -361,7 +462,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Pregunta 1'), findsOneWidget);
-    expect(find.text('Pregunta 1 de 10'), findsOneWidget);
+    expect(find.text('Pregunta 1 de 15'), findsOneWidget);
     expect(loadCalls, [null]);
 
     for (var questionNumber = 1; questionNumber <= 5; questionNumber += 1) {
@@ -376,7 +477,7 @@ void main() {
     }
 
     expect(find.text('Pregunta 6'), findsOneWidget);
-    expect(find.text('Pregunta 1 de 10'), findsOneWidget);
+    expect(find.text('Pregunta 6 de 15'), findsOneWidget);
   });
 
   testWidgets('starts a thirty question simulacro from the home page', (
@@ -384,6 +485,14 @@ void main() {
   ) async {
     final progressStore = FakeQuestionProgressStore();
     addTearDown(progressStore.close);
+    await progressStore.recordAnswer(
+      QuestionAnswerRecord(
+        questionCode: _simulacroQuestions.first.code,
+        section: _simulacroQuestions.first.section,
+        selectedOption: QuestionOption.a,
+        correctOption: QuestionOption.a,
+      ),
+    );
 
     await tester.pumpWidget(
       PreguntasMercanciasApp(
@@ -401,8 +510,15 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('start-simulacro-button')));
     await tester.pumpAndSettle();
 
+    expect(find.text('Simulacro'), findsOneWidget);
     expect(find.text('Pregunta 1 de 30'), findsOneWidget);
+    expect(find.text('0/0 (0%)'), findsOneWidget);
+    expect(find.text('Tiempo 00:00'), findsOneWidget);
     expect(find.text('Todas'), findsNothing);
+
+    await tester.pump(const Duration(seconds: 61));
+
+    expect(find.text('Tiempo 01:01'), findsOneWidget);
   });
 }
 

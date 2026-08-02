@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:pm_persistence/pm_persistence.dart';
+
+import '../../l10n/app_localizations.dart';
+
+const appVersion = '1.0.0+1';
+
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key, required this.questionProgressStore});
+
+  final QuestionProgressStore questionProgressStore;
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      appBar: AppBar(title: Text(localizations.settingsTitle)),
+      body: SafeArea(
+        child: ListView(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: Text(localizations.appVersion),
+              subtitle: const Text(appVersion),
+            ),
+            const Divider(height: 1),
+            ListTile(
+              key: const ValueKey('reset-progress-tile'),
+              leading: Icon(Icons.restart_alt, color: colorScheme.error),
+              title: Text(
+                localizations.resetProgress,
+                style: TextStyle(
+                  color: colorScheme.error,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onTap: () => _confirmResetProgress(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _confirmResetProgress(BuildContext context) async {
+    final localizations = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(localizations.resetProgressConfirmationTitle),
+        content: Text(localizations.resetProgressConfirmationMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(localizations.cancel),
+          ),
+          FilledButton(
+            key: const ValueKey('confirm-reset-progress-button'),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(localizations.resetProgress),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) {
+      return;
+    }
+
+    await questionProgressStore.clear();
+
+    if (!context.mounted) {
+      return;
+    }
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(localizations.progressReset)));
+  }
+}

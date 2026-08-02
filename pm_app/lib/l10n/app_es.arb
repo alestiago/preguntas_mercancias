@@ -22,6 +22,13 @@
     }
   },
   "answerHistoryUnknownQuestion": "Pregunta no disponible",
+  "settingsTitle": "Ajustes",
+  "appVersion": "Versión",
+  "resetProgress": "Reiniciar progreso",
+  "resetProgressConfirmationTitle": "Reiniciar progreso",
+  "resetProgressConfirmationMessage": "Se borrarán tus respuestas y estadísticas. Esta acción no se puede deshacer.",
+  "cancel": "Cancelar",
+  "progressReset": "Progreso reiniciado",
   "startSimulacro": "Simulacro",
   "correctQuestions": "Correctas",
   "questionsToReview": "Por repasar",
@@ -72,19 +79,27 @@
       }
     }
   },
+  "elapsedTime": "Tiempo {elapsedTime}",
+  "@elapsedTime": {
+    "placeholders": {
+      "elapsedTime": {
+        "type": "String"
+      }
+    }
+  },
   "nextQuestion": "Siguiente",
   "restartPractice": "Reiniciar",
   "finishPractice": "Finalizar",
-  "scorePill": "{correctCount} / {incorrectCount} · {answeredQuestionCount}",
+  "scorePill": "{correctCount}/{answeredQuestionCount} ({scorePercentage}%)",
   "@scorePill": {
     "placeholders": {
       "correctCount": {
         "type": "int"
       },
-      "incorrectCount": {
+      "answeredQuestionCount": {
         "type": "int"
       },
-      "answeredQuestionCount": {
+      "scorePercentage": {
         "type": "int"
       }
     }

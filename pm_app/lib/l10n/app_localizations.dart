@@ -142,6 +142,48 @@ abstract class AppLocalizations {
   /// **'Pregunta no disponible'**
   String get answerHistoryUnknownQuestion;
 
+  /// No description provided for @settingsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Ajustes'**
+  String get settingsTitle;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In es, this message translates to:
+  /// **'Versión'**
+  String get appVersion;
+
+  /// No description provided for @resetProgress.
+  ///
+  /// In es, this message translates to:
+  /// **'Reiniciar progreso'**
+  String get resetProgress;
+
+  /// No description provided for @resetProgressConfirmationTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Reiniciar progreso'**
+  String get resetProgressConfirmationTitle;
+
+  /// No description provided for @resetProgressConfirmationMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Se borrarán tus respuestas y estadísticas. Esta acción no se puede deshacer.'**
+  String get resetProgressConfirmationMessage;
+
+  /// No description provided for @cancel.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get cancel;
+
+  /// No description provided for @progressReset.
+  ///
+  /// In es, this message translates to:
+  /// **'Progreso reiniciado'**
+  String get progressReset;
+
   /// No description provided for @startSimulacro.
   ///
   /// In es, this message translates to:
@@ -220,6 +262,12 @@ abstract class AppLocalizations {
   /// **'Aciertos {correctCount} · Fallos {incorrectCount}'**
   String sessionScore(int correctCount, int incorrectCount);
 
+  /// No description provided for @elapsedTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo {elapsedTime}'**
+  String elapsedTime(String elapsedTime);
+
   /// No description provided for @nextQuestion.
   ///
   /// In es, this message translates to:
@@ -241,11 +289,11 @@ abstract class AppLocalizations {
   /// No description provided for @scorePill.
   ///
   /// In es, this message translates to:
-  /// **'{correctCount} / {incorrectCount} · {answeredQuestionCount}'**
+  /// **'{correctCount}/{answeredQuestionCount} ({scorePercentage}%)'**
   String scorePill(
     int correctCount,
-    int incorrectCount,
     int answeredQuestionCount,
+    int scorePercentage,
   );
 
   /// No description provided for @noQuestionsAvailable.

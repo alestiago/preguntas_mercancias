@@ -45,6 +45,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get answerHistoryUnknownQuestion => 'Pregunta no disponible';
 
   @override
+  String get settingsTitle => 'Ajustes';
+
+  @override
+  String get appVersion => 'Versión';
+
+  @override
+  String get resetProgress => 'Reiniciar progreso';
+
+  @override
+  String get resetProgressConfirmationTitle => 'Reiniciar progreso';
+
+  @override
+  String get resetProgressConfirmationMessage =>
+      'Se borrarán tus respuestas y estadísticas. Esta acción no se puede deshacer.';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get progressReset => 'Progreso reiniciado';
+
+  @override
   String get startSimulacro => 'Simulacro';
 
   @override
@@ -92,6 +114,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String elapsedTime(String elapsedTime) {
+    return 'Tiempo $elapsedTime';
+  }
+
+  @override
   String get nextQuestion => 'Siguiente';
 
   @override
@@ -103,10 +130,10 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String scorePill(
     int correctCount,
-    int incorrectCount,
     int answeredQuestionCount,
+    int scorePercentage,
   ) {
-    return '$correctCount / $incorrectCount · $answeredQuestionCount';
+    return '$correctCount/$answeredQuestionCount ($scorePercentage%)';
   }
 
   @override
