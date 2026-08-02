@@ -20,6 +20,19 @@ class FakeQuestionProgressStore implements QuestionProgressStore {
   }
 
   @override
+  Future<List<QuestionAnswerRecord>> loadAnswerHistory() async {
+    final answers = List<QuestionAnswerRecord>.of(recordedAnswers);
+    answers.sort((a, b) => b.answeredAt.compareTo(a.answeredAt));
+    return List.unmodifiable(answers);
+  }
+
+  @override
+  Stream<List<QuestionAnswerRecord>> watchAnswerHistory() async* {
+    yield await loadAnswerHistory();
+    yield* _controller.stream.asyncMap((_) => loadAnswerHistory());
+  }
+
+  @override
   Future<void> recordAnswer(QuestionAnswerRecord answer) async {
     recordedAnswers.add(answer);
 
@@ -58,6 +71,7 @@ class FakeQuestionProgressStore implements QuestionProgressStore {
 
   @override
   Future<void> clear() async {
+    recordedAnswers.clear();
     _progressByQuestionCode.clear();
     _controller.add(_snapshot);
   }

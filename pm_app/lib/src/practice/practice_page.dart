@@ -11,24 +11,33 @@ class QuestionPracticePage extends StatelessWidget {
   const QuestionPracticePage({
     super.key,
     LoadQuestions? loadQuestions,
+    this.loadMoreQuestions,
     this.questionProgressStore,
     this.initialSection = '1A',
     this.isReviewMode = false,
+    this.isPendingMode = false,
+    this.isSimulacroMode = false,
   }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
 
   final LoadQuestions loadQuestions;
+  final LoadMoreQuestions? loadMoreQuestions;
   final QuestionProgressStore? questionProgressStore;
   final String? initialSection;
   final bool isReviewMode;
+  final bool isPendingMode;
+  final bool isSimulacroMode;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PracticeBloc(
         loadQuestions: loadQuestions,
+        loadMoreQuestions: loadMoreQuestions,
         questionProgressStore: questionProgressStore,
         initialSection: initialSection,
         isReviewMode: isReviewMode,
+        isPendingMode: isPendingMode,
+        isSimulacroMode: isSimulacroMode,
       )..add(const PracticeStarted()),
       child: const _QuestionPracticeView(),
     );
@@ -105,13 +114,14 @@ class _PracticeContent extends StatelessWidget {
 
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(
-          child: _SectionSelector(
-            selectedSection: state.selectedSection,
-            onSectionSelected: (section) =>
-                context.read<PracticeBloc>().add(SectionSelected(section)),
+        if (!state.isSimulacroMode)
+          SliverToBoxAdapter(
+            child: _SectionSelector(
+              selectedSection: state.selectedSection,
+              onSectionSelected: (section) =>
+                  context.read<PracticeBloc>().add(SectionSelected(section)),
+            ),
           ),
-        ),
         SliverFillRemaining(
           hasScrollBody: false,
           child: Center(
@@ -152,8 +162,10 @@ class _PracticeContent extends StatelessWidget {
                     _SessionFooter(
                       answered: state.answered,
                       isLastQuestion: state.isLastQuestion,
-                      isReviewMode: state.isReviewMode,
-                      isReviewComplete: state.isReviewComplete,
+                      isFilteredPracticeMode: state.isFilteredPracticeMode,
+                      isFilteredPracticeComplete:
+                          state.isFilteredPracticeComplete,
+                      isSimulacroMode: state.isSimulacroMode,
                       isRecordingAnswer: state.isRecordingAnswer,
                       correctCount: state.correctCount,
                       incorrectCount: state.incorrectCount,
@@ -300,12 +312,17 @@ class _QuestionPanel extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            for (final answer in question.answers) ...[
+            for (
+              var index = 0;
+              index < question.answers.length;
+              index += 1
+            ) ...[
               _AnswerOptionButton(
-                answer: answer,
+                answer: question.answers[index],
+                displayOption: QuestionOption.values[index],
                 correctOption: question.correctOption,
                 selectedOption: selectedOption,
-                onPressed: () => onAnswer(answer.option),
+                onPressed: () => onAnswer(question.answers[index].option),
               ),
               const SizedBox(height: 10),
             ],
@@ -319,12 +336,14 @@ class _QuestionPanel extends StatelessWidget {
 class _AnswerOptionButton extends StatelessWidget {
   const _AnswerOptionButton({
     required this.answer,
+    required this.displayOption,
     required this.correctOption,
     required this.selectedOption,
     required this.onPressed,
   });
 
   final QuestionAnswer answer;
+  final QuestionOption displayOption;
   final QuestionOption correctOption;
   final QuestionOption? selectedOption;
   final VoidCallback onPressed;
@@ -374,7 +393,7 @@ class _AnswerOptionButton extends StatelessWidget {
       child: Row(
         children: [
           _OptionBadge(
-            option: answer.option,
+            option: displayOption,
             selected: selected,
             correct: answered && correct,
           ),
@@ -445,6 +464,10 @@ class _AnswerFeedback extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final isCorrect = question.isCorrect(selectedOption);
+    final correctDisplayOption = _displayOptionFor(
+      question,
+      question.correctOption,
+    );
     final title = isCorrect
         ? localizations.correctAnswerFeedbackTitle
         : localizations.incorrectAnswerFeedbackTitle;
@@ -487,7 +510,7 @@ class _AnswerFeedback extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               localizations.correctAnswer(
-                question.correctOption.code,
+                correctDisplayOption.code,
                 question.correctAnswer.text,
               ),
               style: const TextStyle(fontWeight: FontWeight.w600, height: 1.25),
@@ -504,12 +527,24 @@ class _AnswerFeedback extends StatelessWidget {
   }
 }
 
+QuestionOption _displayOptionFor(Question question, QuestionOption option) {
+  final answerIndex = question.answers.indexWhere(
+    (answer) => answer.option == option,
+  );
+  if (answerIndex < 0 || answerIndex >= QuestionOption.values.length) {
+    return option;
+  }
+
+  return QuestionOption.values[answerIndex];
+}
+
 class _SessionFooter extends StatelessWidget {
   const _SessionFooter({
     required this.answered,
     required this.isLastQuestion,
-    required this.isReviewMode,
-    required this.isReviewComplete,
+    required this.isFilteredPracticeMode,
+    required this.isFilteredPracticeComplete,
+    required this.isSimulacroMode,
     required this.isRecordingAnswer,
     required this.correctCount,
     required this.incorrectCount,
@@ -519,8 +554,9 @@ class _SessionFooter extends StatelessWidget {
 
   final bool answered;
   final bool isLastQuestion;
-  final bool isReviewMode;
-  final bool isReviewComplete;
+  final bool isFilteredPracticeMode;
+  final bool isFilteredPracticeComplete;
+  final bool isSimulacroMode;
   final bool isRecordingAnswer;
   final int correctCount;
   final int incorrectCount;
@@ -533,8 +569,10 @@ class _SessionFooter extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final localizations = AppLocalizations.of(context);
 
-    final isFinishAction = isReviewComplete;
-    final isRestartAction = isLastQuestion && !isReviewMode;
+    final isFinishAction =
+        isFilteredPracticeComplete || (isSimulacroMode && isLastQuestion);
+    final isRestartAction =
+        isLastQuestion && !isFilteredPracticeMode && !isSimulacroMode;
 
     return Row(
       children: [

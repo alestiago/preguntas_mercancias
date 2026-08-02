@@ -4,9 +4,14 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../history/answer_history_page.dart';
+import '../practice/bloc/practice_bloc.dart';
 import '../practice/practice_page.dart';
+import '../questions/draw_simulacro_questions.dart';
 import '../questions/load_questions.dart';
 import 'bloc/home_bloc.dart';
+
+const _pendingPracticeBatchSize = 10;
 
 class QuestionHomePage extends StatelessWidget {
   const QuestionHomePage({
@@ -52,7 +57,18 @@ class _QuestionHomeView extends StatelessWidget {
         final localizations = AppLocalizations.of(context);
 
         return Scaffold(
-          appBar: AppBar(title: Text(localizations.appTitle)),
+          appBar: AppBar(
+            title: Text(localizations.appTitle),
+            actions: [
+              if (state case HomeLoaded loadedState)
+                IconButton(
+                  key: const ValueKey('answer-history-button'),
+                  tooltip: localizations.answerHistoryTitle,
+                  onPressed: () => _openAnswerHistory(context, loadedState),
+                  icon: const Icon(Icons.history),
+                ),
+            ],
+          ),
           body: SafeArea(
             child: switch (state) {
               HomeLoading() => const _LoadingState(),
@@ -64,9 +80,12 @@ class _QuestionHomeView extends StatelessWidget {
               ),
               HomeLoaded loadedState => _HomeContent(
                 state: loadedState,
-                onStartPractice: () => _openPractice(context),
+                onStartSimulacroPractice: () =>
+                    _openSimulacroPractice(context, loadedState),
                 onStartReviewPractice: () =>
                     _openReviewPractice(context, loadedState),
+                onStartPendingPractice: () =>
+                    _openPendingPractice(context, loadedState),
               ),
             },
           ),
@@ -78,8 +97,11 @@ class _QuestionHomeView extends StatelessWidget {
   void _openPractice(
     BuildContext context, {
     LoadQuestions? practiceLoadQuestions,
+    LoadMoreQuestions? loadMoreQuestions,
     String? initialSection = '1A',
     bool isReviewMode = false,
+    bool isPendingMode = false,
+    bool isSimulacroMode = false,
   }) {
     final homeBloc = context.read<HomeBloc>();
 
@@ -88,9 +110,12 @@ class _QuestionHomeView extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => QuestionPracticePage(
               loadQuestions: practiceLoadQuestions ?? loadQuestions,
+              loadMoreQuestions: loadMoreQuestions,
               questionProgressStore: questionProgressStore,
               initialSection: initialSection,
               isReviewMode: isReviewMode,
+              isPendingMode: isPendingMode,
+              isSimulacroMode: isSimulacroMode,
             ),
           ),
         )
@@ -99,6 +124,28 @@ class _QuestionHomeView extends StatelessWidget {
             homeBloc.add(const HomeProgressRefreshed());
           }
         });
+  }
+
+  void _openAnswerHistory(BuildContext context, HomeLoaded state) {
+    Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (_) => AnswerHistoryPage(
+          questions: state.questions,
+          questionProgressStore: questionProgressStore,
+        ),
+      ),
+    );
+  }
+
+  void _openSimulacroPractice(BuildContext context, HomeLoaded state) {
+    final simulacroQuestions = drawSimulacroQuestions(state.questions);
+
+    _openPractice(
+      context,
+      practiceLoadQuestions: (_) async => simulacroQuestions,
+      initialSection: null,
+      isSimulacroMode: true,
+    );
   }
 
   void _openReviewPractice(BuildContext context, HomeLoaded state) {
@@ -112,43 +159,80 @@ class _QuestionHomeView extends StatelessWidget {
 
   LoadQuestions _reviewLoadQuestionsFor(HomeLoaded state) {
     final reviewQuestionCodes = <String>{};
-    final reviewSections = <String>{};
 
     for (final questionCode in state.questionCodes) {
       final progress = state.progressSnapshot.progressFor(questionCode);
       if (progress != null && progress.correctAttempts == 0) {
         reviewQuestionCodes.add(questionCode);
-        reviewSections.add(progress.section);
       }
     }
 
-    final orderedReviewSections = [
-      for (final section in QuestionBankLoader.sections)
-        if (reviewSections.contains(section)) section,
-      for (final section in reviewSections)
-        if (!QuestionBankLoader.sections.contains(section)) section,
-    ];
+    return _filteredLoadQuestionsFor(state.questions, reviewQuestionCodes);
+  }
+
+  void _openPendingPractice(BuildContext context, HomeLoaded state) {
+    _openPractice(
+      context,
+      practiceLoadQuestions: _pendingLoadQuestionsFor(state),
+      loadMoreQuestions: _pendingLoadMoreQuestionsFor(state),
+      initialSection: null,
+      isPendingMode: true,
+    );
+  }
+
+  LoadQuestions _pendingLoadQuestionsFor(HomeLoaded state) {
+    return (section) async => _pendingQuestionBatch(
+      questions: state.questions,
+      progressSnapshot: state.progressSnapshot,
+      section: section,
+      loadedQuestionCodes: const <String>{},
+    );
+  }
+
+  LoadMoreQuestions _pendingLoadMoreQuestionsFor(HomeLoaded state) {
+    return (section, loadedQuestionCodes, progressSnapshot) async {
+      return _pendingQuestionBatch(
+        questions: state.questions,
+        progressSnapshot: progressSnapshot,
+        section: section,
+        loadedQuestionCodes: loadedQuestionCodes,
+      );
+    };
+  }
+
+  List<Question> _pendingQuestionBatch({
+    required List<Question> questions,
+    required QuestionProgressSnapshot progressSnapshot,
+    required String? section,
+    required Set<String> loadedQuestionCodes,
+  }) {
+    return List<Question>.unmodifiable(
+      questions
+          .where(
+            (question) =>
+                (section == null || question.section == section) &&
+                !loadedQuestionCodes.contains(question.code) &&
+                progressSnapshot.progressFor(question.code) == null,
+          )
+          .take(_pendingPracticeBatchSize),
+    );
+  }
+
+  LoadQuestions _filteredLoadQuestionsFor(
+    List<Question> questions,
+    Set<String> questionCodes,
+  ) {
+    final filteredQuestions = List<Question>.unmodifiable(
+      questions.where((question) => questionCodes.contains(question.code)),
+    );
 
     return (section) async {
-      if (reviewQuestionCodes.isEmpty) {
-        return const <Question>[];
-      }
-
-      if (section != null && !reviewSections.contains(section)) {
-        return const <Question>[];
-      }
-
-      final sections = section == null ? orderedReviewSections : [section];
-      final questions = <Question>[];
-
-      for (final section in sections) {
-        questions.addAll(await loadQuestions(section));
+      if (section == null) {
+        return filteredQuestions;
       }
 
       return List<Question>.unmodifiable(
-        questions.where(
-          (question) => reviewQuestionCodes.contains(question.code),
-        ),
+        filteredQuestions.where((question) => question.section == section),
       );
     };
   }
@@ -157,13 +241,15 @@ class _QuestionHomeView extends StatelessWidget {
 class _HomeContent extends StatelessWidget {
   const _HomeContent({
     required this.state,
-    required this.onStartPractice,
+    required this.onStartSimulacroPractice,
     required this.onStartReviewPractice,
+    required this.onStartPendingPractice,
   });
 
   final HomeLoaded state;
-  final VoidCallback onStartPractice;
+  final VoidCallback onStartSimulacroPractice;
   final VoidCallback onStartReviewPractice;
+  final VoidCallback onStartPendingPractice;
 
   @override
   Widget build(BuildContext context) {
@@ -201,15 +287,16 @@ class _HomeContent extends StatelessWidget {
             _ProgressStats(
               state: state,
               onStartReviewPractice: onStartReviewPractice,
+              onStartPendingPractice: onStartPendingPractice,
             ),
             const SizedBox(height: 32),
             Align(
               alignment: Alignment.centerLeft,
               child: FilledButton.icon(
-                key: const ValueKey('start-practice-button'),
-                onPressed: onStartPractice,
-                icon: const Icon(Icons.play_arrow),
-                label: Text(localizations.startPractice),
+                key: const ValueKey('start-simulacro-button'),
+                onPressed: onStartSimulacroPractice,
+                icon: const Icon(Icons.quiz),
+                label: Text(localizations.startSimulacro),
               ),
             ),
           ],
@@ -279,10 +366,12 @@ class _ProgressStats extends StatelessWidget {
   const _ProgressStats({
     required this.state,
     required this.onStartReviewPractice,
+    required this.onStartPendingPractice,
   });
 
   final HomeLoaded state;
   final VoidCallback onStartReviewPractice;
+  final VoidCallback onStartPendingPractice;
 
   @override
   Widget build(BuildContext context) {
@@ -318,6 +407,9 @@ class _ProgressStats extends StatelessWidget {
           label: localizations.pendingQuestions,
           count: state.unansweredQuestionCount,
           color: Theme.of(context).colorScheme.onSurfaceVariant,
+          onTap: state.unansweredQuestionCount > 0
+              ? onStartPendingPractice
+              : null,
         ),
       ],
     );

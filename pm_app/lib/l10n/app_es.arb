@@ -11,7 +11,18 @@
       }
     }
   },
-  "startPractice": "Practicar",
+  "answerHistoryTitle": "Historial",
+  "answerHistoryEmpty": "Todavía no has respondido ninguna pregunta.",
+  "answerHistorySelection": "Elegida: {answerText}",
+  "@answerHistorySelection": {
+    "placeholders": {
+      "answerText": {
+        "type": "String"
+      }
+    }
+  },
+  "answerHistoryUnknownQuestion": "Pregunta no disponible",
+  "startSimulacro": "Simulacro",
   "correctQuestions": "Correctas",
   "questionsToReview": "Por repasar",
   "pendingQuestions": "Pendientes",

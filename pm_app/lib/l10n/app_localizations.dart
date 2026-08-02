@@ -118,11 +118,35 @@ abstract class AppLocalizations {
   /// **'{count, plural, =0{0 preguntas en el banco} =1{1 pregunta en el banco} other{{count} preguntas en el banco}}'**
   String questionsInBank(int count);
 
-  /// No description provided for @startPractice.
+  /// No description provided for @answerHistoryTitle.
   ///
   /// In es, this message translates to:
-  /// **'Practicar'**
-  String get startPractice;
+  /// **'Historial'**
+  String get answerHistoryTitle;
+
+  /// No description provided for @answerHistoryEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no has respondido ninguna pregunta.'**
+  String get answerHistoryEmpty;
+
+  /// No description provided for @answerHistorySelection.
+  ///
+  /// In es, this message translates to:
+  /// **'Elegida: {answerText}'**
+  String answerHistorySelection(String answerText);
+
+  /// No description provided for @answerHistoryUnknownQuestion.
+  ///
+  /// In es, this message translates to:
+  /// **'Pregunta no disponible'**
+  String get answerHistoryUnknownQuestion;
+
+  /// No description provided for @startSimulacro.
+  ///
+  /// In es, this message translates to:
+  /// **'Simulacro'**
+  String get startSimulacro;
 
   /// No description provided for @correctQuestions.
   ///

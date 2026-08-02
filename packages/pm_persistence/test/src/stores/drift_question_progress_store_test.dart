@@ -71,5 +71,33 @@ void main() {
       expect(progress?.incorrectAttempts, 1);
       expect(progress?.lastAnsweredAt, DateTime(2026, 8, 1, 1));
     });
+
+    test('loads answer history with the most recent answer first', () async {
+      await store.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1A01001',
+          section: '1A',
+          selectedOption: QuestionOption.a,
+          correctOption: QuestionOption.b,
+          answeredAt: DateTime(2026, 8, 1, 10),
+        ),
+      );
+      await store.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1B01001',
+          section: '1B',
+          selectedOption: QuestionOption.b,
+          correctOption: QuestionOption.b,
+          answeredAt: DateTime(2026, 8, 1, 11),
+        ),
+      );
+
+      final history = await store.loadAnswerHistory();
+
+      expect(history.map((answer) => answer.questionCode), [
+        '1B01001',
+        '1A01001',
+      ]);
+    });
   });
 }

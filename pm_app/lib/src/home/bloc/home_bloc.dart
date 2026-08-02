@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pm_persistence/pm_persistence.dart';
+import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../questions/load_questions.dart';
 
@@ -72,10 +73,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final progressSnapshot = await questionProgressStore.loadSnapshot();
 
       emit(
-        HomeLoaded(
-          questionCodes: questions.map((question) => question.code).toSet(),
-          progressSnapshot: progressSnapshot,
-        ),
+        HomeLoaded(questions: questions, progressSnapshot: progressSnapshot),
       );
     } catch (error) {
       emit(HomeLoadFailure(error));

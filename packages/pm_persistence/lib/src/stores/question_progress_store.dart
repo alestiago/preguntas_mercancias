@@ -5,6 +5,10 @@ abstract interface class QuestionProgressStore {
 
   Stream<QuestionProgressSnapshot> watchSnapshot();
 
+  Future<List<QuestionAnswerRecord>> loadAnswerHistory();
+
+  Stream<List<QuestionAnswerRecord>> watchAnswerHistory();
+
   Future<void> recordAnswer(QuestionAnswerRecord answer);
 
   Future<void> clear();

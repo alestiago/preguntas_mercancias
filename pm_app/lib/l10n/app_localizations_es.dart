@@ -30,7 +30,22 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get startPractice => 'Practicar';
+  String get answerHistoryTitle => 'Historial';
+
+  @override
+  String get answerHistoryEmpty =>
+      'Todavía no has respondido ninguna pregunta.';
+
+  @override
+  String answerHistorySelection(String answerText) {
+    return 'Elegida: $answerText';
+  }
+
+  @override
+  String get answerHistoryUnknownQuestion => 'Pregunta no disponible';
+
+  @override
+  String get startSimulacro => 'Simulacro';
 
   @override
   String get correctQuestions => 'Correctas';

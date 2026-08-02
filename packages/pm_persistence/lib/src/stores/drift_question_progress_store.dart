@@ -31,6 +31,17 @@ final class DriftQuestionProgressStore implements QuestionProgressStore {
   }
 
   @override
+  Future<List<QuestionAnswerRecord>> loadAnswerHistory() async {
+    final rows = await _answerHistorySelect().get();
+    return _answerHistoryFromRows(rows);
+  }
+
+  @override
+  Stream<List<QuestionAnswerRecord>> watchAnswerHistory() {
+    return _answerHistorySelect().watch().map(_answerHistoryFromRows);
+  }
+
+  @override
   Future<void> recordAnswer(QuestionAnswerRecord answer) {
     return _database.transaction(() async {
       await _database
@@ -68,6 +79,15 @@ final class DriftQuestionProgressStore implements QuestionProgressStore {
   @override
   Future<void> close() {
     return _database.close();
+  }
+
+  SimpleSelectStatement<$QuestionAttemptRecordsTable, QuestionAttemptRecord>
+  _answerHistorySelect() {
+    return _database.select(_database.questionAttemptRecords)..orderBy([
+      (record) =>
+          OrderingTerm(expression: record.answeredAt, mode: OrderingMode.desc),
+      (record) => OrderingTerm(expression: record.id, mode: OrderingMode.desc),
+    ]);
   }
 }
 
@@ -140,5 +160,21 @@ QuestionProgressSnapshot _snapshotFromRows(
           lastAnsweredAt: row.lastAnsweredAt,
         ),
     },
+  );
+}
+
+List<QuestionAnswerRecord> _answerHistoryFromRows(
+  Iterable<QuestionAttemptRecord> rows,
+) {
+  return List<QuestionAnswerRecord>.unmodifiable(
+    rows.map(
+      (row) => QuestionAnswerRecord(
+        questionCode: row.questionCode,
+        section: row.section,
+        selectedOption: QuestionOption.fromCode(row.selectedOption),
+        correctOption: QuestionOption.fromCode(row.correctOption),
+        answeredAt: row.answeredAt,
+      ),
+    ),
   );
 }

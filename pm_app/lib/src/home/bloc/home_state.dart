@@ -17,12 +17,16 @@ final class HomeLoadFailure extends HomeState {
 
 final class HomeLoaded extends HomeState {
   HomeLoaded({
-    required Set<String> questionCodes,
+    required List<Question> questions,
     required this.progressSnapshot,
-  }) : questionCodes = Set.unmodifiable(questionCodes);
+  }) : questions = List.unmodifiable(questions);
 
-  final Set<String> questionCodes;
+  final List<Question> questions;
   final QuestionProgressSnapshot progressSnapshot;
+
+  Set<String> get questionCodes {
+    return Set.unmodifiable(questions.map((question) => question.code));
+  }
 
   int get totalQuestionCount => questionCodes.length;
 
@@ -50,7 +54,7 @@ final class HomeLoaded extends HomeState {
 
   HomeLoaded copyWith({QuestionProgressSnapshot? progressSnapshot}) {
     return HomeLoaded(
-      questionCodes: questionCodes,
+      questions: questions,
       progressSnapshot: progressSnapshot ?? this.progressSnapshot,
     );
   }

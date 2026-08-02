@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pm_persistence/pm_persistence.dart';
@@ -8,19 +10,45 @@ import '../../questions/load_questions.dart';
 part 'practice_event.dart';
 part 'practice_state.dart';
 
+typedef LoadMoreQuestions =
+    Future<List<Question>> Function(
+      String? section,
+      Set<String> loadedQuestionCodes,
+      QuestionProgressSnapshot progressSnapshot,
+    );
+
 class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   PracticeBloc({
     this.loadQuestions = loadQuestionsFromBank,
+    this.loadMoreQuestions,
+    this.pendingBatchSize = 10,
+    this.pendingLoadThreshold = 5,
     QuestionProgressStore? questionProgressStore,
+    Random? answerShuffleRandom,
     String? initialSection = '1A',
     this.isReviewMode = false,
-  }) : questionProgressStore =
+    this.isPendingMode = false,
+    this.isSimulacroMode = false,
+  }) : assert(
+         [
+               isReviewMode,
+               isPendingMode,
+               isSimulacroMode,
+             ].where((isEnabled) => isEnabled).length <=
+             1,
+       ),
+       assert(pendingBatchSize > 0),
+       assert(pendingLoadThreshold >= 0),
+       questionProgressStore =
            questionProgressStore ?? DriftQuestionProgressStore.defaults(),
+       _answerShuffleRandom = answerShuffleRandom ?? Random(),
        _ownsQuestionProgressStore = questionProgressStore == null,
        super(
          PracticeLoading(
            selectedSection: initialSection,
            isReviewMode: isReviewMode,
+           isPendingMode: isPendingMode,
+           isSimulacroMode: isSimulacroMode,
          ),
        ) {
     on<PracticeStarted>(_onStarted);
@@ -31,9 +59,16 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   }
 
   final LoadQuestions loadQuestions;
+  final LoadMoreQuestions? loadMoreQuestions;
+  final int pendingBatchSize;
+  final int pendingLoadThreshold;
   final QuestionProgressStore questionProgressStore;
   final bool isReviewMode;
+  final bool isPendingMode;
+  final bool isSimulacroMode;
+  final Random _answerShuffleRandom;
   final bool _ownsQuestionProgressStore;
+  bool _pendingQuestionSourceExhausted = false;
 
   Future<void> _onStarted(PracticeStarted event, Emitter<PracticeState> emit) {
     return _load(emit, state.selectedSection);
@@ -70,6 +105,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
 
     emit(answeredState);
 
+    final PracticeLoaded recordedState;
     try {
       await questionProgressStore.recordAnswer(
         QuestionAnswerRecord(
@@ -80,16 +116,68 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
         ),
       );
 
-      emit(
-        answeredState.copyWith(
-          progressSnapshot: await questionProgressStore.loadSnapshot(),
-          isRecordingAnswer: false,
-        ),
+      recordedState = answeredState.copyWith(
+        progressSnapshot: await questionProgressStore.loadSnapshot(),
+        isRecordingAnswer: false,
       );
+      emit(recordedState);
     } catch (error, stackTrace) {
       emit(answeredState.copyWith(isRecordingAnswer: false));
       addError(error, stackTrace);
+      return;
     }
+
+    await _loadMorePendingQuestionsIfNeeded(recordedState, emit);
+  }
+
+  Future<void> _loadMorePendingQuestionsIfNeeded(
+    PracticeLoaded currentState,
+    Emitter<PracticeState> emit,
+  ) async {
+    final loadMore = loadMoreQuestions;
+    if (!currentState.isPendingMode ||
+        loadMore == null ||
+        _pendingQuestionSourceExhausted ||
+        currentState.remainingFilteredQuestions.length > pendingLoadThreshold) {
+      return;
+    }
+
+    final loadedQuestionCodes = currentState.questions
+        .map((question) => question.code)
+        .toSet();
+    final List<Question> loadedQuestions;
+    try {
+      loadedQuestions = await loadMore(
+        currentState.selectedSection,
+        loadedQuestionCodes,
+        currentState.progressSnapshot,
+      );
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
+      return;
+    }
+    if (loadedQuestions.length < pendingBatchSize) {
+      _pendingQuestionSourceExhausted = true;
+    }
+
+    final pendingQuestions = _questionsWithShuffledAnswers(
+      loadedQuestions.where((question) {
+        return !loadedQuestionCodes.contains(question.code) &&
+            currentState.progressSnapshot.progressFor(question.code) == null;
+      }),
+    );
+    if (pendingQuestions.isEmpty) {
+      return;
+    }
+
+    emit(
+      currentState.copyWith(
+        questions: List<Question>.unmodifiable([
+          ...currentState.questions,
+          ...pendingQuestions,
+        ]),
+      ),
+    );
   }
 
   void _onNextQuestionPressed(
@@ -103,8 +191,8 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
-    if (currentState.isReviewMode) {
-      final nextState = _nextReviewState(currentState);
+    if (currentState.isFilteredPracticeMode) {
+      final nextState = _nextFilteredState(currentState);
       if (nextState != null) {
         emit(nextState);
       }
@@ -124,8 +212,8 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     );
   }
 
-  PracticeLoaded? _nextReviewState(PracticeLoaded state) {
-    final remainingQuestions = state.remainingReviewQuestions;
+  PracticeLoaded? _nextFilteredState(PracticeLoaded state) {
+    final remainingQuestions = state.remainingFilteredQuestions;
     if (remainingQuestions.isEmpty) {
       return null;
     }
@@ -144,6 +232,8 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       incorrectCount: state.incorrectCount,
       progressSnapshot: state.progressSnapshot,
       isReviewMode: state.isReviewMode,
+      isPendingMode: state.isPendingMode,
+      isSimulacroMode: state.isSimulacroMode,
     );
   }
 
@@ -158,25 +248,30 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     Emitter<PracticeState> emit,
     String? selectedSection,
   ) async {
+    _pendingQuestionSourceExhausted = false;
     emit(
       PracticeLoading(
         selectedSection: selectedSection,
         isReviewMode: isReviewMode,
+        isPendingMode: isPendingMode,
+        isSimulacroMode: isSimulacroMode,
       ),
     );
 
     try {
       final questions = await loadQuestions(selectedSection);
       final progressSnapshot = await questionProgressStore.loadSnapshot();
-      final loadedQuestions = isReviewMode
-          ? _reviewQuestionsFrom(questions, progressSnapshot)
-          : List<Question>.unmodifiable(questions);
+      final loadedQuestions = _questionsWithShuffledAnswers(
+        _questionsForCurrentMode(questions, progressSnapshot),
+      );
       emit(
         PracticeLoaded(
           selectedSection: selectedSection,
           questions: loadedQuestions,
           progressSnapshot: progressSnapshot,
           isReviewMode: isReviewMode,
+          isPendingMode: isPendingMode,
+          isSimulacroMode: isSimulacroMode,
         ),
       );
     } catch (error) {
@@ -184,21 +279,69 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
         PracticeLoadFailure(
           selectedSection: selectedSection,
           isReviewMode: isReviewMode,
+          isPendingMode: isPendingMode,
+          isSimulacroMode: isSimulacroMode,
           error: error,
         ),
       );
     }
   }
 
-  List<Question> _reviewQuestionsFrom(
+  List<Question> _questionsForCurrentMode(
     List<Question> questions,
     QuestionProgressSnapshot progressSnapshot,
   ) {
+    if (!isReviewMode && !isPendingMode) {
+      return List<Question>.unmodifiable(questions);
+    }
+
     return List<Question>.unmodifiable(
       questions.where((question) {
         final progress = progressSnapshot.progressFor(question.code);
-        return progress != null && progress.correctAttempts == 0;
+        if (isReviewMode) {
+          return progress != null && progress.correctAttempts == 0;
+        }
+
+        return progress == null;
       }),
+    );
+  }
+
+  List<Question> _questionsWithShuffledAnswers(Iterable<Question> questions) {
+    return List<Question>.unmodifiable(
+      questions.map(_questionWithShuffledAnswers),
+    );
+  }
+
+  Question _questionWithShuffledAnswers(Question question) {
+    final shuffledAnswers = List<QuestionAnswer>.of(question.answers);
+    if (shuffledAnswers.length < 2) {
+      return question;
+    }
+
+    final originalCorrectAnswerIndex = shuffledAnswers.indexWhere(
+      (answer) => answer.option == question.correctOption,
+    );
+    shuffledAnswers.shuffle(_answerShuffleRandom);
+
+    if (originalCorrectAnswerIndex >= 0 &&
+        shuffledAnswers[originalCorrectAnswerIndex].option ==
+            question.correctOption) {
+      final swapIndex =
+          (originalCorrectAnswerIndex + 1) % shuffledAnswers.length;
+      final swappedAnswer = shuffledAnswers[swapIndex];
+      shuffledAnswers[swapIndex] = shuffledAnswers[originalCorrectAnswerIndex];
+      shuffledAnswers[originalCorrectAnswerIndex] = swappedAnswer;
+    }
+
+    return Question(
+      code: question.code,
+      section: question.section,
+      prompt: question.prompt,
+      answers: shuffledAnswers,
+      correctOption: question.correctOption,
+      norma: question.norma,
+      doctrinalReference: question.doctrinalReference,
     );
   }
 
