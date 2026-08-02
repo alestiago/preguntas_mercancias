@@ -327,18 +327,9 @@ class _HomeContent extends StatelessWidget {
             const SizedBox(height: 18),
             _ProgressStats(
               state: state,
+              onStartSimulacroPractice: onStartSimulacroPractice,
               onStartReviewPractice: onStartReviewPractice,
               onStartPendingPractice: onStartPendingPractice,
-            ),
-            const SizedBox(height: 32),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: FilledButton.icon(
-                key: const ValueKey('start-simulacro-button'),
-                onPressed: onStartSimulacroPractice,
-                icon: const Icon(Icons.quiz),
-                label: Text(localizations.startSimulacro),
-              ),
             ),
           ],
         ),
@@ -406,11 +397,13 @@ class _ProgressSummaryBar extends StatelessWidget {
 class _ProgressStats extends StatelessWidget {
   const _ProgressStats({
     required this.state,
+    required this.onStartSimulacroPractice,
     required this.onStartReviewPractice,
     required this.onStartPendingPractice,
   });
 
   final HomeLoaded state;
+  final VoidCallback onStartSimulacroPractice;
   final VoidCallback onStartReviewPractice;
   final VoidCallback onStartPendingPractice;
 
@@ -451,6 +444,15 @@ class _ProgressStats extends StatelessWidget {
           onTap: state.unansweredQuestionCount > 0
               ? onStartPendingPractice
               : null,
+        ),
+        _ProgressStat(
+          key: const ValueKey('start-simulacro-button'),
+          countKey: const ValueKey('home-simulacro-count'),
+          icon: Icons.quiz,
+          label: localizations.startSimulacro,
+          count: simulacroQuestionCount,
+          color: Theme.of(context).colorScheme.primary,
+          onTap: onStartSimulacroPractice,
         ),
       ],
     );

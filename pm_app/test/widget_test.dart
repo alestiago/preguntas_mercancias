@@ -506,6 +506,13 @@ void main() {
       find.byKey(const ValueKey('start-simulacro-button')),
       findsOneWidget,
     );
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('start-simulacro-button')),
+        matching: find.text('30'),
+      ),
+      findsOneWidget,
+    );
 
     await tester.tap(find.byKey(const ValueKey('start-simulacro-button')));
     await tester.pumpAndSettle();
