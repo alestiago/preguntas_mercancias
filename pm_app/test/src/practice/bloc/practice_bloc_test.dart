@@ -130,6 +130,100 @@ void main() {
 
       expect(advanced.currentQuestion.prompt, 'Segunda pregunta');
     });
+
+    test(
+      'review mode loops remaining questions until all are correct',
+      () async {
+        final progressStore = FakeQuestionProgressStore();
+        addTearDown(progressStore.close);
+        await progressStore.recordAnswer(
+          QuestionAnswerRecord(
+            questionCode: '1A01001',
+            section: '1A',
+            selectedOption: QuestionOption.a,
+            correctOption: QuestionOption.b,
+          ),
+        );
+        await progressStore.recordAnswer(
+          QuestionAnswerRecord(
+            questionCode: '1A01002',
+            section: '1A',
+            selectedOption: QuestionOption.b,
+            correctOption: QuestionOption.a,
+          ),
+        );
+        final bloc = PracticeBloc(
+          loadQuestions: (_) async => _questions,
+          questionProgressStore: progressStore,
+          initialSection: null,
+          isReviewMode: true,
+        );
+        addTearDown(bloc.close);
+
+        final loadedFuture = bloc.stream.firstWhere(
+          (state) => state is PracticeLoaded,
+        );
+        bloc.add(const PracticeStarted());
+        final loaded = await loadedFuture as PracticeLoaded;
+
+        expect(loaded.questions, hasLength(2));
+        expect(loaded.isReviewMode, isTrue);
+
+        final firstAnsweredFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.answered &&
+              !state.isRecordingAnswer &&
+              state.incorrectCount == 1,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.a));
+        await firstAnsweredFuture;
+
+        final advancedFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.currentQuestion.prompt == 'Segunda pregunta' &&
+              !state.answered,
+        );
+        bloc.add(const NextQuestionPressed());
+        await advancedFuture;
+
+        final secondAnsweredFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.answered &&
+              !state.isRecordingAnswer &&
+              state.correctCount == 1,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.a));
+        await secondAnsweredFuture;
+
+        final loopedFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.questions.length == 1 &&
+              state.currentQuestion.prompt == 'Primera pregunta' &&
+              !state.answered,
+        );
+        bloc.add(const NextQuestionPressed());
+        final looped = await loopedFuture as PracticeLoaded;
+
+        expect(looped.progress, 1);
+
+        final completedFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.answered &&
+              !state.isRecordingAnswer &&
+              state.isReviewComplete,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.b));
+        final completed = await completedFuture as PracticeLoaded;
+
+        expect(completed.correctCount, 2);
+        expect(completed.incorrectCount, 1);
+      },
+    );
   });
 }
 

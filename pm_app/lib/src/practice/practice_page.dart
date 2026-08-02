@@ -12,10 +12,14 @@ class QuestionPracticePage extends StatelessWidget {
     super.key,
     LoadQuestions? loadQuestions,
     this.questionProgressStore,
+    this.initialSection = '1A',
+    this.isReviewMode = false,
   }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
 
   final LoadQuestions loadQuestions;
   final QuestionProgressStore? questionProgressStore;
+  final String? initialSection;
+  final bool isReviewMode;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,8 @@ class QuestionPracticePage extends StatelessWidget {
       create: (_) => PracticeBloc(
         loadQuestions: loadQuestions,
         questionProgressStore: questionProgressStore,
+        initialSection: initialSection,
+        isReviewMode: isReviewMode,
       )..add(const PracticeStarted()),
       child: const _QuestionPracticeView(),
     );
@@ -146,9 +152,12 @@ class _PracticeContent extends StatelessWidget {
                     _SessionFooter(
                       answered: state.answered,
                       isLastQuestion: state.isLastQuestion,
+                      isReviewMode: state.isReviewMode,
+                      isReviewComplete: state.isReviewComplete,
                       isRecordingAnswer: state.isRecordingAnswer,
                       correctCount: state.correctCount,
                       incorrectCount: state.incorrectCount,
+                      onFinishPractice: () => Navigator.of(context).pop(),
                       onNextQuestion: () => context.read<PracticeBloc>().add(
                         const NextQuestionPressed(),
                       ),
@@ -499,17 +508,23 @@ class _SessionFooter extends StatelessWidget {
   const _SessionFooter({
     required this.answered,
     required this.isLastQuestion,
+    required this.isReviewMode,
+    required this.isReviewComplete,
     required this.isRecordingAnswer,
     required this.correctCount,
     required this.incorrectCount,
+    required this.onFinishPractice,
     required this.onNextQuestion,
   });
 
   final bool answered;
   final bool isLastQuestion;
+  final bool isReviewMode;
+  final bool isReviewComplete;
   final bool isRecordingAnswer;
   final int correctCount;
   final int incorrectCount;
+  final VoidCallback onFinishPractice;
   final VoidCallback onNextQuestion;
 
   @override
@@ -517,6 +532,9 @@ class _SessionFooter extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final localizations = AppLocalizations.of(context);
+
+    final isFinishAction = isReviewComplete;
+    final isRestartAction = isLastQuestion && !isReviewMode;
 
     return Row(
       children: [
@@ -531,10 +549,20 @@ class _SessionFooter extends StatelessWidget {
         ),
         FilledButton.icon(
           key: const ValueKey('next-question-button'),
-          onPressed: answered && !isRecordingAnswer ? onNextQuestion : null,
-          icon: Icon(isLastQuestion ? Icons.refresh : Icons.arrow_forward),
+          onPressed: answered && !isRecordingAnswer
+              ? (isFinishAction ? onFinishPractice : onNextQuestion)
+              : null,
+          icon: Icon(
+            isFinishAction
+                ? Icons.check
+                : isRestartAction
+                ? Icons.refresh
+                : Icons.arrow_forward,
+          ),
           label: Text(
-            isLastQuestion
+            isFinishAction
+                ? localizations.finishPractice
+                : isRestartAction
                 ? localizations.restartPractice
                 : localizations.nextQuestion,
           ),

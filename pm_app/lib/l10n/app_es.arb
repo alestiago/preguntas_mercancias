@@ -63,6 +63,7 @@
   },
   "nextQuestion": "Siguiente",
   "restartPractice": "Reiniciar",
+  "finishPractice": "Finalizar",
   "scorePill": "{correctCount} / {incorrectCount} · {answeredQuestionCount}",
   "@scorePill": {
     "placeholders": {
@@ -79,4 +80,3 @@
   },
   "noQuestionsAvailable": "No hay preguntas disponibles."
 }
-

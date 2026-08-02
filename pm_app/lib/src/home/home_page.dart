@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pm_persistence/pm_persistence.dart';
+import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../practice/practice_page.dart';
@@ -64,6 +65,8 @@ class _QuestionHomeView extends StatelessWidget {
               HomeLoaded loadedState => _HomeContent(
                 state: loadedState,
                 onStartPractice: () => _openPractice(context),
+                onStartReviewPractice: () =>
+                    _openReviewPractice(context, loadedState),
               ),
             },
           ),
@@ -72,15 +75,22 @@ class _QuestionHomeView extends StatelessWidget {
     );
   }
 
-  void _openPractice(BuildContext context) {
+  void _openPractice(
+    BuildContext context, {
+    LoadQuestions? practiceLoadQuestions,
+    String? initialSection = '1A',
+    bool isReviewMode = false,
+  }) {
     final homeBloc = context.read<HomeBloc>();
 
     Navigator.of(context)
         .push<void>(
           MaterialPageRoute(
             builder: (_) => QuestionPracticePage(
-              loadQuestions: loadQuestions,
+              loadQuestions: practiceLoadQuestions ?? loadQuestions,
               questionProgressStore: questionProgressStore,
+              initialSection: initialSection,
+              isReviewMode: isReviewMode,
             ),
           ),
         )
@@ -90,13 +100,70 @@ class _QuestionHomeView extends StatelessWidget {
           }
         });
   }
+
+  void _openReviewPractice(BuildContext context, HomeLoaded state) {
+    _openPractice(
+      context,
+      practiceLoadQuestions: _reviewLoadQuestionsFor(state),
+      initialSection: null,
+      isReviewMode: true,
+    );
+  }
+
+  LoadQuestions _reviewLoadQuestionsFor(HomeLoaded state) {
+    final reviewQuestionCodes = <String>{};
+    final reviewSections = <String>{};
+
+    for (final questionCode in state.questionCodes) {
+      final progress = state.progressSnapshot.progressFor(questionCode);
+      if (progress != null && progress.correctAttempts == 0) {
+        reviewQuestionCodes.add(questionCode);
+        reviewSections.add(progress.section);
+      }
+    }
+
+    final orderedReviewSections = [
+      for (final section in QuestionBankLoader.sections)
+        if (reviewSections.contains(section)) section,
+      for (final section in reviewSections)
+        if (!QuestionBankLoader.sections.contains(section)) section,
+    ];
+
+    return (section) async {
+      if (reviewQuestionCodes.isEmpty) {
+        return const <Question>[];
+      }
+
+      if (section != null && !reviewSections.contains(section)) {
+        return const <Question>[];
+      }
+
+      final sections = section == null ? orderedReviewSections : [section];
+      final questions = <Question>[];
+
+      for (final section in sections) {
+        questions.addAll(await loadQuestions(section));
+      }
+
+      return List<Question>.unmodifiable(
+        questions.where(
+          (question) => reviewQuestionCodes.contains(question.code),
+        ),
+      );
+    };
+  }
 }
 
 class _HomeContent extends StatelessWidget {
-  const _HomeContent({required this.state, required this.onStartPractice});
+  const _HomeContent({
+    required this.state,
+    required this.onStartPractice,
+    required this.onStartReviewPractice,
+  });
 
   final HomeLoaded state;
   final VoidCallback onStartPractice;
+  final VoidCallback onStartReviewPractice;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +198,10 @@ class _HomeContent extends StatelessWidget {
               unansweredCount: state.unansweredQuestionCount,
             ),
             const SizedBox(height: 18),
-            _ProgressStats(state: state),
+            _ProgressStats(
+              state: state,
+              onStartReviewPractice: onStartReviewPractice,
+            ),
             const SizedBox(height: 32),
             Align(
               alignment: Alignment.centerLeft,
@@ -206,9 +276,13 @@ class _ProgressSummaryBar extends StatelessWidget {
 }
 
 class _ProgressStats extends StatelessWidget {
-  const _ProgressStats({required this.state});
+  const _ProgressStats({
+    required this.state,
+    required this.onStartReviewPractice,
+  });
 
   final HomeLoaded state;
+  final VoidCallback onStartReviewPractice;
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +307,9 @@ class _ProgressStats extends StatelessWidget {
           label: localizations.questionsToReview,
           count: state.incorrectQuestionCount,
           color: const Color(0xFFC62828),
+          onTap: state.incorrectQuestionCount > 0
+              ? onStartReviewPractice
+              : null,
         ),
         _ProgressStat(
           key: const ValueKey('home-unanswered-stat'),
@@ -255,6 +332,7 @@ class _ProgressStat extends StatelessWidget {
     required this.label,
     required this.count,
     required this.color,
+    this.onTap,
   });
 
   final Key countKey;
@@ -262,49 +340,65 @@ class _ProgressStat extends StatelessWidget {
   final String label;
   final int count;
   final Color color;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
+    return Semantics(
+      button: onTap != null,
+      enabled: onTap != null,
+      child: Material(
         color: colorScheme.surface,
-        border: Border.all(color: colorScheme.outlineVariant),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: SizedBox(
-        width: 170,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Row(
-            children: [
-              Icon(icon, color: color),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: textTheme.labelLarge?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                        fontWeight: FontWeight.w700,
-                      ),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: colorScheme.outlineVariant),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          child: SizedBox(
+            width: 170,
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Row(
+                children: [
+                  Icon(icon, color: color),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label,
+                          style: textTheme.labelLarge?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '$count',
+                          key: countKey,
+                          style: textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '$count',
-                      key: countKey,
-                      style: textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                  ),
+                  if (onTap != null) ...[
+                    const SizedBox(width: 6),
+                    Icon(
+                      Icons.chevron_right,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   ],
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

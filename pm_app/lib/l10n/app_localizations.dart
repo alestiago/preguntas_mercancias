@@ -208,6 +208,12 @@ abstract class AppLocalizations {
   /// **'Reiniciar'**
   String get restartPractice;
 
+  /// No description provided for @finishPractice.
+  ///
+  /// In es, this message translates to:
+  /// **'Finalizar'**
+  String get finishPractice;
+
   /// No description provided for @scorePill.
   ///
   /// In es, this message translates to:

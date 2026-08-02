@@ -83,6 +83,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get restartPractice => 'Reiniciar';
 
   @override
+  String get finishPractice => 'Finalizar';
+
+  @override
   String scorePill(
     int correctCount,
     int incorrectCount,

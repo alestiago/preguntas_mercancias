@@ -12,13 +12,15 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   PracticeBloc({
     this.loadQuestions = loadQuestionsFromBank,
     QuestionProgressStore? questionProgressStore,
-    String? initialSection,
+    String? initialSection = '1A',
+    this.isReviewMode = false,
   }) : questionProgressStore =
            questionProgressStore ?? DriftQuestionProgressStore.defaults(),
        _ownsQuestionProgressStore = questionProgressStore == null,
        super(
          PracticeLoading(
-           selectedSection: initialSection ?? QuestionBankLoader.sections.first,
+           selectedSection: initialSection,
+           isReviewMode: isReviewMode,
          ),
        ) {
     on<PracticeStarted>(_onStarted);
@@ -30,6 +32,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
 
   final LoadQuestions loadQuestions;
   final QuestionProgressStore questionProgressStore;
+  final bool isReviewMode;
   final bool _ownsQuestionProgressStore;
 
   Future<void> _onStarted(PracticeStarted event, Emitter<PracticeState> emit) {
@@ -100,6 +103,14 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
+    if (currentState.isReviewMode) {
+      final nextState = _nextReviewState(currentState);
+      if (nextState != null) {
+        emit(nextState);
+      }
+      return;
+    }
+
     if (currentState.isLastQuestion) {
       emit(currentState.restart());
       return;
@@ -110,6 +121,29 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
         currentIndex: currentState.currentIndex + 1,
         selectedOption: null,
       ),
+    );
+  }
+
+  PracticeLoaded? _nextReviewState(PracticeLoaded state) {
+    final remainingQuestions = state.remainingReviewQuestions;
+    if (remainingQuestions.isEmpty) {
+      return null;
+    }
+
+    final currentQuestionIndex = state.currentIndex;
+    final nextQuestion = remainingQuestions.firstWhere(
+      (question) => state.questions.indexOf(question) > currentQuestionIndex,
+      orElse: () => remainingQuestions.first,
+    );
+
+    return PracticeLoaded(
+      selectedSection: state.selectedSection,
+      questions: remainingQuestions,
+      currentIndex: remainingQuestions.indexOf(nextQuestion),
+      correctCount: state.correctCount,
+      incorrectCount: state.incorrectCount,
+      progressSnapshot: state.progressSnapshot,
+      isReviewMode: state.isReviewMode,
     );
   }
 
@@ -124,21 +158,48 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     Emitter<PracticeState> emit,
     String? selectedSection,
   ) async {
-    emit(PracticeLoading(selectedSection: selectedSection));
+    emit(
+      PracticeLoading(
+        selectedSection: selectedSection,
+        isReviewMode: isReviewMode,
+      ),
+    );
 
     try {
       final questions = await loadQuestions(selectedSection);
       final progressSnapshot = await questionProgressStore.loadSnapshot();
+      final loadedQuestions = isReviewMode
+          ? _reviewQuestionsFrom(questions, progressSnapshot)
+          : List<Question>.unmodifiable(questions);
       emit(
         PracticeLoaded(
           selectedSection: selectedSection,
-          questions: List<Question>.unmodifiable(questions),
+          questions: loadedQuestions,
           progressSnapshot: progressSnapshot,
+          isReviewMode: isReviewMode,
         ),
       );
     } catch (error) {
-      emit(PracticeLoadFailure(selectedSection: selectedSection, error: error));
+      emit(
+        PracticeLoadFailure(
+          selectedSection: selectedSection,
+          isReviewMode: isReviewMode,
+          error: error,
+        ),
+      );
     }
+  }
+
+  List<Question> _reviewQuestionsFrom(
+    List<Question> questions,
+    QuestionProgressSnapshot progressSnapshot,
+  ) {
+    return List<Question>.unmodifiable(
+      questions.where((question) {
+        final progress = progressSnapshot.progressFor(question.code);
+        return progress != null && progress.correctAttempts == 0;
+      }),
+    );
   }
 
   @override
