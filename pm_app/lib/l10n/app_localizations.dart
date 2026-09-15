@@ -157,7 +157,7 @@ abstract class AppLocalizations {
   /// No description provided for @shuffleAnswersTitle.
   ///
   /// In es, this message translates to:
-  /// **'Aleatorizar respuestas'**
+  /// **'Aleatorización inteligente de respuestas'**
   String get shuffleAnswersTitle;
 
   /// No description provided for @shuffleAnswersSubtitle.
@@ -268,23 +268,17 @@ abstract class AppLocalizations {
   /// **'Norma: {norma}'**
   String normReference(String norma);
 
-  /// No description provided for @sessionScore.
-  ///
-  /// In es, this message translates to:
-  /// **'Aciertos {correctCount} · Fallos {incorrectCount}'**
-  String sessionScore(int correctCount, int incorrectCount);
-
-  /// No description provided for @elapsedTime.
-  ///
-  /// In es, this message translates to:
-  /// **'Tiempo {elapsedTime}'**
-  String elapsedTime(String elapsedTime);
-
   /// No description provided for @nextQuestion.
   ///
   /// In es, this message translates to:
   /// **'Siguiente'**
   String get nextQuestion;
+
+  /// No description provided for @previousQuestion.
+  ///
+  /// In es, this message translates to:
+  /// **'Anterior'**
+  String get previousQuestion;
 
   /// No description provided for @restartPractice.
   ///

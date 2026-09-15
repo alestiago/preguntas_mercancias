@@ -51,7 +51,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appVersion => 'Versión';
 
   @override
-  String get shuffleAnswersTitle => 'Aleatorizar respuestas';
+  String get shuffleAnswersTitle => 'Aleatorización inteligente de respuestas';
 
   @override
   String get shuffleAnswersSubtitle =>
@@ -116,17 +116,10 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String sessionScore(int correctCount, int incorrectCount) {
-    return 'Aciertos $correctCount · Fallos $incorrectCount';
-  }
-
-  @override
-  String elapsedTime(String elapsedTime) {
-    return 'Tiempo $elapsedTime';
-  }
-
-  @override
   String get nextQuestion => 'Siguiente';
+
+  @override
+  String get previousQuestion => 'Anterior';
 
   @override
   String get restartPractice => 'Reiniciar';

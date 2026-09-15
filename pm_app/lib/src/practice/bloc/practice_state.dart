@@ -1,7 +1,5 @@
 part of 'practice_bloc.dart';
 
-const _unset = Object();
-
 @immutable
 sealed class PracticeState {
   const PracticeState({
@@ -49,7 +47,7 @@ final class PracticeLoaded extends PracticeState {
     required super.selectedSection,
     required this.questions,
     this.currentIndex = 0,
-    this.selectedOption,
+    this.selectedOptionsByQuestionCode = const {},
     this.isRecordingAnswer = false,
     super.isReviewMode,
     super.isPendingMode,
@@ -61,8 +59,11 @@ final class PracticeLoaded extends PracticeState {
 
   final List<Question> questions;
   final int currentIndex;
-  final QuestionOption? selectedOption;
+  final Map<String, QuestionOption> selectedOptionsByQuestionCode;
   final bool isRecordingAnswer;
+
+  QuestionOption? get selectedOption =>
+      selectedOptionsByQuestionCode[currentQuestion.code];
 
   bool get answered => selectedOption != null;
 
@@ -98,7 +99,7 @@ final class PracticeLoaded extends PracticeState {
   PracticeLoaded copyWith({
     List<Question>? questions,
     int? currentIndex,
-    Object? selectedOption = _unset,
+    Map<String, QuestionOption>? selectedOptionsByQuestionCode,
     bool? isRecordingAnswer,
     int? correctCount,
     int? incorrectCount,
@@ -108,9 +109,8 @@ final class PracticeLoaded extends PracticeState {
       selectedSection: selectedSection,
       questions: questions ?? this.questions,
       currentIndex: currentIndex ?? this.currentIndex,
-      selectedOption: identical(selectedOption, _unset)
-          ? this.selectedOption
-          : selectedOption as QuestionOption?,
+      selectedOptionsByQuestionCode:
+          selectedOptionsByQuestionCode ?? this.selectedOptionsByQuestionCode,
       isRecordingAnswer: isRecordingAnswer ?? this.isRecordingAnswer,
       isReviewMode: isReviewMode,
       isPendingMode: isPendingMode,

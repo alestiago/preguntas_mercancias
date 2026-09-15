@@ -76,7 +76,11 @@ class _QuestionPracticeView extends StatelessWidget {
           canPop: canPop,
           child: Scaffold(
             appBar: AppBar(
-              title: Text(_practiceTitle(localizations, state)),
+              title: state.isSimulacroMode
+                  ? _SimulacroModeTitle(
+                      title: _practiceTitle(localizations, state),
+                    )
+                  : Text(_practiceTitle(localizations, state)),
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
@@ -218,18 +222,20 @@ class _PracticeContent extends StatelessWidget {
                     const SizedBox(height: 20),
                     _SessionFooter(
                       answered: state.answered,
+                      currentIndex: state.currentIndex,
                       isLastQuestion: state.isLastQuestion,
                       isFilteredPracticeMode: state.isFilteredPracticeMode,
                       isFilteredPracticeComplete:
                           state.isFilteredPracticeComplete,
                       isSimulacroMode: state.isSimulacroMode,
                       isRecordingAnswer: state.isRecordingAnswer,
-                      correctCount: state.correctCount,
-                      incorrectCount: state.incorrectCount,
                       onFinishPractice: () => Navigator.of(context).pop(),
                       onNextQuestion: () => context.read<PracticeBloc>().add(
                         const NextQuestionPressed(),
                       ),
+                      onPreviousQuestion: () => context
+                          .read<PracticeBloc>()
+                          .add(const PreviousQuestionPressed()),
                     ),
                   ],
                 ),
@@ -241,14 +247,7 @@ class _PracticeContent extends StatelessWidget {
     );
   }
 
-  int get _currentQuestionNumber {
-    if (!state.isPendingMode) {
-      return state.currentIndex + 1;
-    }
-
-    final answeredQuestionCount = state.correctCount + state.incorrectCount;
-    return state.answered ? answeredQuestionCount : answeredQuestionCount + 1;
-  }
+  int get _currentQuestionNumber => state.currentIndex + 1;
 
   int get _questionCount {
     if (!state.isPendingMode) {
@@ -636,61 +635,55 @@ QuestionOption _displayOptionFor(Question question, QuestionOption option) {
 class _SessionFooter extends StatelessWidget {
   const _SessionFooter({
     required this.answered,
+    required this.currentIndex,
     required this.isLastQuestion,
     required this.isFilteredPracticeMode,
     required this.isFilteredPracticeComplete,
     required this.isSimulacroMode,
     required this.isRecordingAnswer,
-    required this.correctCount,
-    required this.incorrectCount,
     required this.onFinishPractice,
     required this.onNextQuestion,
+    required this.onPreviousQuestion,
   });
 
   final bool answered;
+  final int currentIndex;
   final bool isLastQuestion;
   final bool isFilteredPracticeMode;
   final bool isFilteredPracticeComplete;
   final bool isSimulacroMode;
   final bool isRecordingAnswer;
-  final int correctCount;
-  final int incorrectCount;
   final VoidCallback onFinishPractice;
   final VoidCallback onNextQuestion;
+  final VoidCallback onPreviousQuestion;
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
     final localizations = AppLocalizations.of(context);
 
     final isFinishAction =
         isFilteredPracticeComplete || (isSimulacroMode && isLastQuestion);
     final isRestartAction =
         isLastQuestion && !isFilteredPracticeMode && !isSimulacroMode;
+    final isTerminalAction = isFinishAction || isRestartAction;
 
     return Row(
       children: [
-        Expanded(
-          child: Wrap(
-            spacing: 12,
-            runSpacing: 4,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(
-                localizations.sessionScore(correctCount, incorrectCount),
-                style: textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              if (isSimulacroMode) const _SimulacroElapsedTimer(),
-            ],
+        Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: OutlinedButton.icon(
+            key: const ValueKey('previous-question-button'),
+            onPressed: currentIndex > 0 && !isRecordingAnswer
+                ? onPreviousQuestion
+                : null,
+            icon: const Icon(Icons.arrow_back),
+            label: Text(localizations.previousQuestion),
           ),
         ),
+        const Spacer(),
         FilledButton.icon(
           key: const ValueKey('next-question-button'),
-          onPressed: answered && !isRecordingAnswer
+          onPressed: !isRecordingAnswer && (answered || !isTerminalAction)
               ? (isFinishAction ? onFinishPractice : onNextQuestion)
               : null,
           icon: Icon(
@@ -708,6 +701,30 @@ class _SessionFooter extends StatelessWidget {
                 : localizations.nextQuestion,
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _SimulacroModeTitle extends StatelessWidget {
+  const _SimulacroModeTitle({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: .center,
+      crossAxisAlignment: .start,
+      children: [
+        Center(
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: .center,
+          ),
+        ),
+        Center(child: const _SimulacroElapsedTimer()),
       ],
     );
   }
@@ -742,16 +759,16 @@ class _SimulacroElapsedTimerState extends State<_SimulacroElapsedTimer> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
 
     return Text(
       key: const ValueKey('simulacro-elapsed-time'),
-      localizations.elapsedTime(_formatDuration(_elapsed)),
+      _formatDuration(_elapsed),
       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
         color: colorScheme.onSurfaceVariant,
         fontWeight: FontWeight.w600,
       ),
+      textAlign: .center,
     );
   }
 

@@ -56,6 +56,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     on<SectionSelected>(_onSectionSelected);
     on<AnswerPressed>(_onAnswerPressed);
     on<NextQuestionPressed>(_onNextQuestionPressed);
+    on<PreviousQuestionPressed>(_onPreviousQuestionPressed);
     on<RetryPressed>(_onRetryPressed);
   }
 
@@ -99,7 +100,10 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     final question = currentState.currentQuestion;
     final isCorrect = question.isCorrect(event.option);
     final answeredState = currentState.copyWith(
-      selectedOption: event.option,
+      selectedOptionsByQuestionCode: {
+        ...currentState.selectedOptionsByQuestionCode,
+        question.code: event.option,
+      },
       isRecordingAnswer: true,
       correctCount: currentState.correctCount + (isCorrect ? 1 : 0),
       incorrectCount: currentState.incorrectCount + (isCorrect ? 0 : 1),
@@ -187,9 +191,14 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     Emitter<PracticeState> emit,
   ) {
     final currentState = state;
-    if (currentState is! PracticeLoaded ||
-        !currentState.answered ||
-        currentState.isRecordingAnswer) {
+    if (currentState is! PracticeLoaded || currentState.isRecordingAnswer) {
+      return;
+    }
+
+    final isTerminalAction =
+        currentState.isFilteredPracticeComplete ||
+        (currentState.isLastQuestion && !currentState.isFilteredPracticeMode);
+    if (isTerminalAction && !currentState.answered) {
       return;
     }
 
@@ -206,12 +215,21 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
-    emit(
-      currentState.copyWith(
-        currentIndex: currentState.currentIndex + 1,
-        selectedOption: null,
-      ),
-    );
+    emit(currentState.copyWith(currentIndex: currentState.currentIndex + 1));
+  }
+
+  void _onPreviousQuestionPressed(
+    PreviousQuestionPressed event,
+    Emitter<PracticeState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is! PracticeLoaded ||
+        currentState.currentIndex == 0 ||
+        currentState.isRecordingAnswer) {
+      return;
+    }
+
+    emit(currentState.copyWith(currentIndex: currentState.currentIndex - 1));
   }
 
   PracticeLoaded? _nextFilteredState(PracticeLoaded state) {
@@ -226,17 +244,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       orElse: () => remainingQuestions.first,
     );
 
-    return PracticeLoaded(
-      selectedSection: state.selectedSection,
-      questions: remainingQuestions,
-      currentIndex: remainingQuestions.indexOf(nextQuestion),
-      correctCount: state.correctCount,
-      incorrectCount: state.incorrectCount,
-      progressSnapshot: state.progressSnapshot,
-      isReviewMode: state.isReviewMode,
-      isPendingMode: state.isPendingMode,
-      isSimulacroMode: state.isSimulacroMode,
-    );
+    return state.copyWith(currentIndex: state.questions.indexOf(nextQuestion));
   }
 
   Future<void> _onRetryPressed(
