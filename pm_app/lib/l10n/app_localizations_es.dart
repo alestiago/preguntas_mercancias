@@ -138,4 +138,18 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noQuestionsAvailable => 'No hay preguntas disponibles.';
+
+  @override
+  String get practiceSummaryTitle => 'Resultado del simulacro';
+
+  @override
+  String practiceSummaryElapsedTime(String duration) {
+    return 'Tiempo empleado: $duration';
+  }
+
+  @override
+  String get practiceSummaryQuestionsTitle => 'Detalle de respuestas';
+
+  @override
+  String get backToHome => 'Volver al inicio';
 }

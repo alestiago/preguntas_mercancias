@@ -88,5 +88,16 @@
       }
     }
   },
-  "noQuestionsAvailable": "No hay preguntas disponibles."
+  "noQuestionsAvailable": "No hay preguntas disponibles.",
+  "practiceSummaryTitle": "Resultado del simulacro",
+  "practiceSummaryElapsedTime": "Tiempo empleado: {duration}",
+  "@practiceSummaryElapsedTime": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "practiceSummaryQuestionsTitle": "Detalle de respuestas",
+  "backToHome": "Volver al inicio"
 }

@@ -307,6 +307,30 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No hay preguntas disponibles.'**
   String get noQuestionsAvailable;
+
+  /// No description provided for @practiceSummaryTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Resultado del simulacro'**
+  String get practiceSummaryTitle;
+
+  /// No description provided for @practiceSummaryElapsedTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo empleado: {duration}'**
+  String practiceSummaryElapsedTime(String duration);
+
+  /// No description provided for @practiceSummaryQuestionsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Detalle de respuestas'**
+  String get practiceSummaryQuestionsTitle;
+
+  /// No description provided for @backToHome.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver al inicio'**
+  String get backToHome;
 }
 
 class _AppLocalizationsDelegate

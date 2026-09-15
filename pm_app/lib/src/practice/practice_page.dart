@@ -6,6 +6,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
 import '../questions/load_questions.dart';
 
@@ -56,7 +57,7 @@ class QuestionPracticePage extends StatelessWidget {
   }
 }
 
-class _QuestionPracticeView extends StatelessWidget {
+class _QuestionPracticeView extends StatefulWidget {
   const _QuestionPracticeView({
     required this.pendingQuestionCount,
     required this.pendingQuestionCountsBySection,
@@ -64,6 +65,13 @@ class _QuestionPracticeView extends StatelessWidget {
 
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
+
+  @override
+  State<_QuestionPracticeView> createState() => _QuestionPracticeViewState();
+}
+
+class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
+  final DateTime _startedAt = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +103,11 @@ class _QuestionPracticeView extends StatelessWidget {
             body: SafeArea(
               child: _PracticeBody(
                 state: state,
-                pendingQuestionCount: pendingQuestionCount,
-                pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+                pendingQuestionCount: widget.pendingQuestionCount,
+                pendingQuestionCountsBySection:
+                    widget.pendingQuestionCountsBySection,
+                onFinishSimulacro: (loadedState) =>
+                    _finishSimulacro(context, loadedState),
               ),
             ),
           ),
@@ -120,6 +131,20 @@ class _QuestionPracticeView extends StatelessWidget {
 
     return localizations.appTitle;
   }
+
+  void _finishSimulacro(BuildContext context, PracticeLoaded state) {
+    final summary = PracticeSummary(
+      questions: state.questions,
+      selectedOptionsByQuestionCode: state.selectedOptionsByQuestionCode,
+      correctCount: state.correctCount,
+      incorrectCount: state.incorrectCount,
+      elapsedTime: DateTime.now().difference(_startedAt),
+    );
+
+    Navigator.of(context).pushReplacement<void, void>(
+      MaterialPageRoute(builder: (_) => PracticeSummaryPage(summary: summary)),
+    );
+  }
 }
 
 class _PracticeBody extends StatelessWidget {
@@ -127,11 +152,13 @@ class _PracticeBody extends StatelessWidget {
     required this.state,
     required this.pendingQuestionCount,
     required this.pendingQuestionCountsBySection,
+    required this.onFinishSimulacro,
   });
 
   final PracticeState state;
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
+  final ValueChanged<PracticeLoaded> onFinishSimulacro;
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +178,7 @@ class _PracticeBody extends StatelessWidget {
         state: loadedState,
         pendingQuestionCount: pendingQuestionCount,
         pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+        onFinishSimulacro: onFinishSimulacro,
       ),
     };
   }
@@ -161,11 +189,13 @@ class _PracticeContent extends StatelessWidget {
     required this.state,
     required this.pendingQuestionCount,
     required this.pendingQuestionCountsBySection,
+    required this.onFinishSimulacro,
   });
 
   final PracticeLoaded state;
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
+  final ValueChanged<PracticeLoaded> onFinishSimulacro;
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +259,9 @@ class _PracticeContent extends StatelessWidget {
                           state.isFilteredPracticeComplete,
                       isSimulacroMode: state.isSimulacroMode,
                       isRecordingAnswer: state.isRecordingAnswer,
-                      onFinishPractice: () => Navigator.of(context).pop(),
+                      onFinishPractice: () => state.isSimulacroMode
+                          ? onFinishSimulacro(state)
+                          : Navigator.of(context).pop(),
                       onNextQuestion: () => context.read<PracticeBloc>().add(
                         const NextQuestionPressed(),
                       ),
