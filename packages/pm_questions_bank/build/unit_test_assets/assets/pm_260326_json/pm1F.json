@@ -322,7 +322,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 178"
+    "norma": "RD 1211/1990, art. 178",
+    "shuffleable": false
   },
   {
     "code": "1F01014",
@@ -397,7 +398,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1211/1990, art. 176"
+    "norma": "RD 1211/1990, art. 176",
+    "shuffleable": false
   },
   {
     "code": "1F01017",
@@ -597,7 +599,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1211/1990, art. 121"
+    "norma": "RD 1211/1990, art. 121",
+    "shuffleable": false
   },
   {
     "code": "1F01025",
@@ -772,7 +775,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (CE) 1071/2009, art. 3"
+    "norma": "Reglamento Comunitario (CE) 1071/2009, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1F01032",
@@ -797,7 +801,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1211/1990, Anexo II,1"
+    "norma": "RD 1211/1990, Anexo II,1",
+    "shuffleable": false
   },
   {
     "code": "1F01033",
@@ -872,7 +877,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 16/1987, art. 46"
+    "norma": "Ley 16/1987, art. 46",
+    "shuffleable": false
   },
   {
     "code": "1F01036",
@@ -1097,7 +1103,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 16/1987, art. 43"
+    "norma": "Ley 16/1987, art. 43",
+    "shuffleable": false
   },
   {
     "code": "1F01045",
@@ -1822,7 +1829,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 16/1987, art. 145"
+    "norma": "Ley 16/1987, art. 145",
+    "shuffleable": false
   },
   {
     "code": "1F01074",
@@ -1972,7 +1980,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 16/1987, art. 140"
+    "norma": "Ley 16/1987, art. 140",
+    "shuffleable": false
   },
   {
     "code": "1F01080",
@@ -2272,7 +2281,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 16/1987, art. 47"
+    "norma": "Ley 16/1987, art. 47",
+    "shuffleable": false
   },
   {
     "code": "1F01092",
@@ -2297,7 +2307,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 16/1987, art. 46"
+    "norma": "Ley 16/1987, art. 46",
+    "shuffleable": false
   },
   {
     "code": "1F01093",
@@ -2322,7 +2333,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 16/1987, art. 138"
+    "norma": "Ley 16/1987, art. 138",
+    "shuffleable": false
   },
   {
     "code": "1F01094",
@@ -2522,7 +2534,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 16/1987, art. 33"
+    "norma": "Ley 16/1987, art. 33",
+    "shuffleable": false
   },
   {
     "code": "1F01102",
@@ -2622,7 +2635,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 1211/1990, art. 202"
+    "norma": "RD 1211/1990, art. 202",
+    "shuffleable": false
   },
   {
     "code": "1F01106",
@@ -2672,7 +2686,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 1211/1990, art. 121"
+    "norma": "RD 1211/1990, art. 121",
+    "shuffleable": false
   },
   {
     "code": "1F01108",
@@ -2897,7 +2912,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 202"
+    "norma": "RD 1211/1990, art. 202",
+    "shuffleable": false
   },
   {
     "code": "1F01117",
@@ -2947,7 +2963,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 121"
+    "norma": "RD 1211/1990, art. 121",
+    "shuffleable": false
   },
   {
     "code": "1F01119",
@@ -3072,7 +3089,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 1211/1990, art. 116"
+    "norma": "RD 1211/1990, art. 116",
+    "shuffleable": false
   },
   {
     "code": "1F01124",
@@ -3247,7 +3265,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 16/1987, art. 54"
+    "norma": "Ley 16/1987, art. 54",
+    "shuffleable": false
   },
   {
     "code": "1F01131",
@@ -3297,7 +3316,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 16/1987, art. 33"
+    "norma": "Ley 16/1987, art. 33",
+    "shuffleable": false
   },
   {
     "code": "1F01133",
@@ -3522,7 +3542,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 110; RD 1211/1990, art. 38; RD 1211/1990, art. 39"
+    "norma": "RD 1211/1990, art. 110; RD 1211/1990, art. 38; RD 1211/1990, art. 39",
+    "shuffleable": false
   },
   {
     "code": "1F01142",
@@ -3772,7 +3793,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Reglamento Comunitario (CE) 1071/2009, art. 3"
+    "norma": "Reglamento Comunitario (CE) 1071/2009, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1F01152",
@@ -3847,7 +3869,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 115"
+    "norma": "RD 1211/1990, art. 115",
+    "shuffleable": false
   },
   {
     "code": "1F01155",
@@ -4972,7 +4995,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 41"
+    "norma": "RD 1211/1990, art. 41",
+    "shuffleable": false
   },
   {
     "code": "1F02043",
@@ -4997,7 +5021,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 40"
+    "norma": "RD 1211/1990, art. 40",
+    "shuffleable": false
   },
   {
     "code": "1F02044",
@@ -5072,7 +5097,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 16/1987, art. 43; Ley 16/1987, art. 51"
+    "norma": "Ley 16/1987, art. 43; Ley 16/1987, art. 51",
+    "shuffleable": false
   },
   {
     "code": "1F02047",
@@ -5247,7 +5273,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 16/1987, art. 51"
+    "norma": "Ley 16/1987, art. 51",
+    "shuffleable": false
   },
   {
     "code": "1F02054",
@@ -5547,7 +5574,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1211/1990, art. 45"
+    "norma": "RD 1211/1990, art. 45",
+    "shuffleable": false
   },
   {
     "code": "1F02066",
@@ -5572,7 +5600,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 45"
+    "norma": "RD 1211/1990, art. 45",
+    "shuffleable": false
   },
   {
     "code": "1F02067",
@@ -5897,7 +5926,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 16/1987, art. 104"
+    "norma": "Ley 16/1987, art. 104",
+    "shuffleable": false
   },
   {
     "code": "1F02080",
@@ -6972,7 +7002,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "OM TRM/59/2025, art. 1"
+    "norma": "OM TRM/59/2025, art. 1",
+    "shuffleable": false
   },
   {
     "code": "1F03026",
@@ -7972,7 +8003,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "OM TRM/59/2025, art. 2"
+    "norma": "OM TRM/59/2025, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1F03068",
@@ -9073,7 +9105,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Reglamento Comunitario (CE) 1072/2009, art. 1"
+    "norma": "Reglamento Comunitario (CE) 1072/2009, art. 1",
+    "shuffleable": false
   },
   {
     "code": "1F04048",
@@ -9736,7 +9769,8 @@
     ],
     "correctOption": "D",
     "norma": "Contingente Multilateral CEMT - Guía de utilización, Forum Internacional del Transporte - IRU",
-    "doctrinalReference": "Contingente Multilateral CEMT - Guía de utilización, Forum Internacional del Transporte - IRU"
+    "doctrinalReference": "Contingente Multilateral CEMT - Guía de utilización, Forum Internacional del Transporte - IRU",
+    "shuffleable": false
   },
   {
     "code": "1F04076",
@@ -11079,7 +11113,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio TIR, art. 3"
+    "norma": "Convenio TIR, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1F05027",
@@ -11405,7 +11440,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 210"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 210",
+    "shuffleable": false
   },
   {
     "code": "1F05040",
@@ -11430,7 +11466,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio TIR, art. 16"
+    "norma": "Convenio TIR, art. 16",
+    "shuffleable": false
   },
   {
     "code": "1F05041",
@@ -11705,7 +11742,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "OM HFP/1480/2021, art. 8"
+    "norma": "OM HFP/1480/2021, art. 8",
+    "shuffleable": false
   },
   {
     "code": "1F05052",
@@ -11755,7 +11793,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 4º"
+    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 4º",
+    "shuffleable": false
   },
   {
     "code": "1F05054",
@@ -11780,7 +11819,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 4º"
+    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 4º",
+    "shuffleable": false
   },
   {
     "code": "1F05055",
@@ -11880,7 +11920,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 4º"
+    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 4º",
+    "shuffleable": false
   },
   {
     "code": "1F05059",
@@ -11905,7 +11946,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 4º"
+    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 4º",
+    "shuffleable": false
   },
   {
     "code": "1F05060",
@@ -11980,7 +12022,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Convenio TIR, art. 5; Convenio TIR, art. 19; Convenio TIR, art. 23"
+    "norma": "Convenio TIR, art. 5; Convenio TIR, art. 19; Convenio TIR, art. 23",
+    "shuffleable": false
   },
   {
     "code": "1F05063",
@@ -12030,7 +12073,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 307; Reglamento Comunitario (UE) 2015/2447, art. 309"
+    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 307; Reglamento Comunitario (UE) 2015/2447, art. 309",
+    "shuffleable": false
   },
   {
     "code": "1F05065",
@@ -12105,7 +12149,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 95"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 95",
+    "shuffleable": false
   },
   {
     "code": "1F05068",
@@ -12130,7 +12175,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 94"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 94",
+    "shuffleable": false
   },
   {
     "code": "1F05069",
@@ -12155,7 +12201,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 92; Reglamento Comunitario (UE) 2015/2446, art. 83"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 92; Reglamento Comunitario (UE) 2015/2446, art. 83",
+    "shuffleable": false
   },
   {
     "code": "1F05070",
@@ -12180,7 +12227,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 89"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 89",
+    "shuffleable": false
   },
   {
     "code": "1F05071",
@@ -12305,7 +12353,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 6"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 6",
+    "shuffleable": false
   },
   {
     "code": "1F05076",
@@ -12405,7 +12454,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 5"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 5",
+    "shuffleable": false
   },
   {
     "code": "1F05080",
@@ -12480,7 +12530,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 5"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 5",
+    "shuffleable": false
   },
   {
     "code": "1F05083",
@@ -12530,7 +12581,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 39"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 39",
+    "shuffleable": false
   },
   {
     "code": "1F05085",
@@ -12555,7 +12607,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 39"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 39",
+    "shuffleable": false
   },
   {
     "code": "1F05086",
@@ -12680,7 +12733,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 38"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 38",
+    "shuffleable": false
   },
   {
     "code": "1F05091",
@@ -12755,7 +12809,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 304"
+    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 304",
+    "shuffleable": false
   },
   {
     "code": "1F05094",
@@ -12855,7 +12910,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 303"
+    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 303",
+    "shuffleable": false
   },
   {
     "code": "1F05098",
@@ -12905,7 +12961,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 299"
+    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 299",
+    "shuffleable": false
   },
   {
     "code": "1F05100",
@@ -13005,7 +13062,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 297"
+    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 297",
+    "shuffleable": false
   },
   {
     "code": "1F05104",
@@ -13130,7 +13188,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 270"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 270",
+    "shuffleable": false
   },
   {
     "code": "1F05109",
@@ -13205,7 +13264,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 267"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 267",
+    "shuffleable": false
   },
   {
     "code": "1F05112",
@@ -13430,7 +13490,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 227; Reglamento Comunitario (UE) 2015/2446, art. 188"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 227; Reglamento Comunitario (UE) 2015/2446, art. 188",
+    "shuffleable": false
   },
   {
     "code": "1F05121",
@@ -13530,7 +13591,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 226"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 226",
+    "shuffleable": false
   },
   {
     "code": "1F05125",
@@ -13605,7 +13667,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Convenio ATA, art. 2; Convenio ATA, Anexo B2"
+    "norma": "Convenio ATA, art. 2; Convenio ATA, Anexo B2",
+    "shuffleable": false
   },
   {
     "code": "1F05128",
@@ -13630,7 +13693,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Convenio TIR, art. 2"
+    "norma": "Convenio TIR, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1F05129",
@@ -13830,7 +13894,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 188"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 188",
+    "shuffleable": false
   },
   {
     "code": "1F05137",
@@ -14180,7 +14245,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 134"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 134",
+    "shuffleable": false
   },
   {
     "code": "1F05151",
@@ -14380,7 +14446,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Reglamento Comunitario (UE) 2015/2446, art. 1"
+    "norma": "Reglamento Comunitario (UE) 2015/2446, art. 1",
+    "shuffleable": false
   },
   {
     "code": "1F05159",
@@ -14455,7 +14522,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Convenio ATA, Anexo A, 8"
+    "norma": "Convenio ATA, Anexo A, 8",
+    "shuffleable": false
   },
   {
     "code": "1F05162",
@@ -14580,7 +14648,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 1º"
+    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 1º",
+    "shuffleable": false
   },
   {
     "code": "1F05168",
@@ -14605,7 +14674,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 1º"
+    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 1º",
+    "shuffleable": false
   },
   {
     "code": "1F05169",
@@ -14655,7 +14725,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 1º"
+    "norma": "Resolución Departamento de Aduanas e Impuestos Especiales de la Agencia Estatal de Administración Tributaria 11/07/2014, Capítulo 1º",
+    "shuffleable": false
   },
   {
     "code": "1F05171",
@@ -14680,7 +14751,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 2016/1237, art. 2"
+    "norma": "Reglamento Comunitario (UE) 2016/1237, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1F05172",
@@ -14780,7 +14852,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 57"
+    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 57",
+    "shuffleable": false
   },
   {
     "code": "1F05177",
@@ -14930,7 +15003,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Convenio TIR, art. 1"
+    "norma": "Convenio TIR, art. 1",
+    "shuffleable": false
   },
   {
     "code": "1F05183",
@@ -14955,7 +15029,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio TIR, art. 29"
+    "norma": "Convenio TIR, art. 29",
+    "shuffleable": false
   },
   {
     "code": "1F05184",
@@ -15030,7 +15105,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Convenio TIR, art. 10"
+    "norma": "Convenio TIR, art. 10",
+    "shuffleable": false
   },
   {
     "code": "1F05187",
@@ -15105,7 +15181,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio TIR, Anexo 2"
+    "norma": "Convenio TIR, Anexo 2",
+    "shuffleable": false
   },
   {
     "code": "1F05190",
@@ -15130,7 +15207,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 299"
+    "norma": "Reglamento Comunitario (UE) 2015/2447, art. 299",
+    "shuffleable": false
   },
   {
     "code": "1F05191",
@@ -15455,7 +15533,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 5"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 5",
+    "shuffleable": false
   },
   {
     "code": "1F05204",
@@ -15505,7 +15584,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 5"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 5",
+    "shuffleable": false
   },
   {
     "code": "1F05206",
@@ -15530,7 +15610,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 38"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 38",
+    "shuffleable": false
   },
   {
     "code": "1F05207",
@@ -15580,7 +15661,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 39"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 39",
+    "shuffleable": false
   },
   {
     "code": "1F05209",
@@ -15605,7 +15687,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 39"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 39",
+    "shuffleable": false
   },
   {
     "code": "1F05210",
@@ -15630,7 +15713,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 95"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 95",
+    "shuffleable": false
   },
   {
     "code": "1F05211",
@@ -15680,7 +15764,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 127"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 127",
+    "shuffleable": false
   },
   {
     "code": "1F05213",
@@ -15805,7 +15890,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 271"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 271",
+    "shuffleable": false
   },
   {
     "code": "1F05218",
@@ -15830,7 +15916,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 952/2013, art. 271"
+    "norma": "Reglamento Comunitario (UE) 952/2013, art. 271",
+    "shuffleable": false
   },
   {
     "code": "1F05219",

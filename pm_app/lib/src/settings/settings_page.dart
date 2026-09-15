@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 
 import '../../l10n/app_localizations.dart';
+import 'bloc/settings_bloc.dart';
 
 const appVersion = '1.0.0+1';
 
@@ -24,6 +26,23 @@ class SettingsPage extends StatelessWidget {
               leading: const Icon(Icons.info_outline),
               title: Text(localizations.appVersion),
               subtitle: const Text(appVersion),
+            ),
+            const Divider(height: 1),
+            BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                return SwitchListTile(
+                  key: const ValueKey('shuffle-answers-switch'),
+                  secondary: const Icon(Icons.shuffle),
+                  title: Text(localizations.shuffleAnswersTitle),
+                  subtitle: Text(localizations.shuffleAnswersSubtitle),
+                  value: state.answerShuffleEnabled,
+                  onChanged: state is SettingsLoaded
+                      ? (enabled) => context.read<SettingsBloc>().add(
+                          AnswerShuffleToggled(enabled),
+                        )
+                      : null,
+                );
+              },
             ),
             const Divider(height: 1),
             ListTile(

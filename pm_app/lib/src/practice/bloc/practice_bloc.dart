@@ -29,6 +29,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     this.isReviewMode = false,
     this.isPendingMode = false,
     this.isSimulacroMode = false,
+    this.shuffleAnswers = true,
   }) : assert(
          [
                isReviewMode,
@@ -66,6 +67,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   final bool isReviewMode;
   final bool isPendingMode;
   final bool isSimulacroMode;
+  final bool shuffleAnswers;
   final Random _answerShuffleRandom;
   final bool _ownsQuestionProgressStore;
   bool _pendingQuestionSourceExhausted = false;
@@ -314,6 +316,10 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   }
 
   Question _questionWithShuffledAnswers(Question question) {
+    if (!shuffleAnswers || !question.shuffleable) {
+      return question;
+    }
+
     final shuffledAnswers = List<QuestionAnswer>.of(question.answers);
     if (shuffledAnswers.length < 2) {
       return question;
@@ -342,6 +348,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       correctOption: question.correctOption,
       norma: question.norma,
       doctrinalReference: question.doctrinalReference,
+      shuffleable: question.shuffleable,
     );
   }
 

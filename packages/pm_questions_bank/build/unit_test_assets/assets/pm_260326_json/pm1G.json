@@ -3107,7 +3107,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD 750/2010, art. 10"
+    "norma": "RD 750/2010, art. 10",
+    "shuffleable": false
   },
   {
     "code": "1G03053",
@@ -3157,7 +3158,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 750/2010, art. 9"
+    "norma": "RD 750/2010, art. 9",
+    "shuffleable": false
   },
   {
     "code": "1G03055",
@@ -6441,7 +6443,8 @@
     ],
     "correctOption": "C",
     "norma": "Mecánica completa, Editorial Tráfico Vial",
-    "doctrinalReference": "Mecánica completa, Editorial Tráfico Vial"
+    "doctrinalReference": "Mecánica completa, Editorial Tráfico Vial",
+    "shuffleable": false
   },
   {
     "code": "1G05049",
@@ -9115,7 +9118,8 @@
     ],
     "correctOption": "B",
     "norma": "El lenguaje del transporte intermodal, Ministerio de Fomento",
-    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento"
+    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento",
+    "shuffleable": false
   },
   {
     "code": "1G07027",
@@ -9321,7 +9325,8 @@
     ],
     "correctOption": "A",
     "norma": "El lenguaje del transporte intermodal, Ministerio de Fomento",
-    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento"
+    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento",
+    "shuffleable": false
   },
   {
     "code": "1G07035",
@@ -9449,7 +9454,8 @@
     ],
     "correctOption": "D",
     "norma": "El lenguaje del transporte intermodal, Ministerio de Fomento",
-    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento"
+    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento",
+    "shuffleable": false
   },
   {
     "code": "1G07040",
@@ -9552,7 +9558,8 @@
     ],
     "correctOption": "A",
     "norma": "El lenguaje del transporte intermodal, Ministerio de Fomento",
-    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento"
+    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento",
+    "shuffleable": false
   },
   {
     "code": "1G07044",
@@ -9861,7 +9868,8 @@
     ],
     "correctOption": "B",
     "norma": "El lenguaje del transporte intermodal, Ministerio de Fomento",
-    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento"
+    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento",
+    "shuffleable": false
   },
   {
     "code": "1G07056",
@@ -9911,7 +9919,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio CSC, art. 3"
+    "norma": "Convenio CSC, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1G07058",
@@ -10453,7 +10462,8 @@
     ],
     "correctOption": "B",
     "norma": "El lenguaje del transporte intermodal, Ministerio de Fomento",
-    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento"
+    "doctrinalReference": "El lenguaje del transporte intermodal, Ministerio de Fomento",
+    "shuffleable": false
   },
   {
     "code": "1G07079",
@@ -10557,7 +10567,8 @@
     ],
     "correctOption": "D",
     "norma": "Estudio para el desarrollo de autopistas ferroviarias en la Península Ibérica, Ministerio de Fomento",
-    "doctrinalReference": "Estudio para el desarrollo de autopistas ferroviarias en la Península Ibérica, Ministerio de Fomento"
+    "doctrinalReference": "Estudio para el desarrollo de autopistas ferroviarias en la Península Ibérica, Ministerio de Fomento",
+    "shuffleable": false
   },
   {
     "code": "1G07083",
@@ -10661,7 +10672,8 @@
     ],
     "correctOption": "D",
     "norma": "Estudio para el desarrollo de autopistas ferroviarias en la Península Ibérica, Ministerio de Fomento",
-    "doctrinalReference": "Estudio para el desarrollo de autopistas ferroviarias en la Península Ibérica, Ministerio de Fomento"
+    "doctrinalReference": "Estudio para el desarrollo de autopistas ferroviarias en la Península Ibérica, Ministerio de Fomento",
+    "shuffleable": false
   },
   {
     "code": "1G07087",
@@ -10791,7 +10803,8 @@
     ],
     "correctOption": "D",
     "norma": "Libro Blanco sobre el Transporte, Comisión Europea",
-    "doctrinalReference": "Libro Blanco sobre el Transporte, Comisión Europea"
+    "doctrinalReference": "Libro Blanco sobre el Transporte, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1G07092",
@@ -11718,7 +11731,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Acuerdo ADR, 8.1.5.2"
+    "norma": "Acuerdo ADR, 8.1.5.2",
+    "shuffleable": false
   },
   {
     "code": "1G08035",
@@ -12918,7 +12932,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD 97/2014, art. 43"
+    "norma": "RD 97/2014, art. 43",
+    "shuffleable": false
   },
   {
     "code": "1G08083",
@@ -13218,7 +13233,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 97/2014, art. 20"
+    "norma": "RD 97/2014, art. 20",
+    "shuffleable": false
   },
   {
     "code": "1G08095",
@@ -13393,7 +13409,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Acuerdo ADR, 2.1.1.1; Acuerdo ADR, 2.2.41"
+    "norma": "Acuerdo ADR, 2.1.1.1; Acuerdo ADR, 2.2.41",
+    "shuffleable": false
   },
   {
     "code": "1G08102",
@@ -14868,7 +14885,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1202/2005, art. 2"
+    "norma": "RD 1202/2005, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1G09027",
@@ -15043,7 +15061,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Acuerdo ATP, art. 3"
+    "norma": "Acuerdo ATP, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1G09034",
@@ -15343,7 +15362,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Acuerdo ATP, Anejo 1, Apéndice 1"
+    "norma": "Acuerdo ATP, Anejo 1, Apéndice 1",
+    "shuffleable": false
   },
   {
     "code": "1G09046",
@@ -15918,7 +15938,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (CE) 1/2005, Anexo I"
+    "norma": "Reglamento Comunitario (CE) 1/2005, Anexo I",
+    "shuffleable": false
   },
   {
     "code": "1G10023",
@@ -16393,7 +16414,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 990/2022, art. 5; RD 990/2022, art. 6"
+    "norma": "RD 990/2022, art. 5; RD 990/2022, art. 6",
+    "shuffleable": false
   },
   {
     "code": "1G10043",
@@ -16543,7 +16565,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 990/2022, art. 2"
+    "norma": "RD 990/2022, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1G10049",
@@ -16618,7 +16641,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Reglamento Comunitario (UE) 2017/625, art. 138"
+    "norma": "Reglamento Comunitario (UE) 2017/625, art. 138",
+    "shuffleable": false
   },
   {
     "code": "1G10052",
@@ -16643,7 +16667,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 2017/625, art. 138"
+    "norma": "Reglamento Comunitario (UE) 2017/625, art. 138",
+    "shuffleable": false
   },
   {
     "code": "1G10053",

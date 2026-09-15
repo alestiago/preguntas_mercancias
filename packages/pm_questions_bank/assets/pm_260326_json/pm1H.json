@@ -2517,7 +2517,8 @@
     ],
     "correctOption": "A",
     "norma": "Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023",
-    "doctrinalReference": "Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023"
+    "doctrinalReference": "Manual IX Profesor de Formación Vial, Comportamiento y primeros auxilios en caso de accidente de tráfico, Dirección General de Tráfico, 2023",
+    "shuffleable": false
   },
   {
     "code": "1H04004",
@@ -4564,7 +4565,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05027",
@@ -4714,7 +4716,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 563/2017, Anexo III"
+    "norma": "RD 563/2017, Anexo III",
+    "shuffleable": false
   },
   {
     "code": "1H05033",
@@ -4739,7 +4742,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1428/2003, art. 14; RD  563/2017, art. 11"
+    "norma": "RD 1428/2003, art. 14; RD  563/2017, art. 11",
+    "shuffleable": false
   },
   {
     "code": "1H05034",
@@ -4999,7 +5003,8 @@
     ],
     "correctOption": "A",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05044",
@@ -5233,7 +5238,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05053",
@@ -5285,7 +5291,8 @@
     ],
     "correctOption": "B",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05055",
@@ -5545,7 +5552,8 @@
     ],
     "correctOption": "B",
     "norma": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU",
-    "doctrinalReference": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU"
+    "doctrinalReference": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU",
+    "shuffleable": false
   },
   {
     "code": "1H05065",
@@ -5753,7 +5761,8 @@
     ],
     "correctOption": "C",
     "norma": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU",
-    "doctrinalReference": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU"
+    "doctrinalReference": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU",
+    "shuffleable": false
   },
   {
     "code": "1H05073",
@@ -5779,7 +5788,8 @@
     ],
     "correctOption": "D",
     "norma": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU",
-    "doctrinalReference": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU"
+    "doctrinalReference": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU",
+    "shuffleable": false
   },
   {
     "code": "1H05074",
@@ -5805,7 +5815,8 @@
     ],
     "correctOption": "D",
     "norma": "Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC",
-    "doctrinalReference": "Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC"
+    "doctrinalReference": "Manual de estiba para mercancías sólidas, Ricardo González Blanco, Ediciones UPC",
+    "shuffleable": false
   },
   {
     "code": "1H05075",
@@ -5909,7 +5920,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05079",
@@ -5934,7 +5946,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1428/2003, art. 14"
+    "norma": "RD 1428/2003, art. 14",
+    "shuffleable": false
   },
   {
     "code": "1H05080",
@@ -5986,7 +5999,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05082",
@@ -6194,7 +6208,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05090",
@@ -6272,7 +6287,8 @@
     ],
     "correctOption": "B",
     "norma": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU",
-    "doctrinalReference": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU"
+    "doctrinalReference": "Código de buenas prácticas para la estiba segura de la carga en el transporte por carretera, IRU",
+    "shuffleable": false
   },
   {
     "code": "1H05093",
@@ -6428,7 +6444,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05099",
@@ -6480,7 +6497,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05101",
@@ -6532,7 +6550,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05103",
@@ -6610,7 +6629,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05106",
@@ -6870,7 +6890,8 @@
     ],
     "correctOption": "D",
     "norma": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
-    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea"
+    "doctrinalReference": "Guía europea de mejores prácticas sobre sujeción de cargas para el transporte por carretera, Comisión Europea",
+    "shuffleable": false
   },
   {
     "code": "1H05116",
@@ -7128,7 +7149,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD 563/2017, art. 11"
+    "norma": "RD 563/2017, art. 11",
+    "shuffleable": false
   },
   {
     "code": "1H05126",

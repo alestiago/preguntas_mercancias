@@ -672,7 +672,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Código Civil, art. 1445"
+    "norma": "Código Civil, art. 1445",
+    "shuffleable": false
   },
   {
     "code": "1A01028",
@@ -2147,7 +2148,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 15/2009, art. 10"
+    "norma": "Ley 15/2009, art. 10",
+    "shuffleable": false
   },
   {
     "code": "1A02005",
@@ -2797,7 +2799,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 15/2009, art. 72; Ley 15/2009, disposición adicional segunda"
+    "norma": "Ley 15/2009, art. 72; Ley 15/2009, disposición adicional segunda",
+    "shuffleable": false
   },
   {
     "code": "1A02031",
@@ -3122,7 +3125,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "OM FOM/1882/2012, art. 1; OM FOM/1882/2012, art. 3"
+    "norma": "OM FOM/1882/2012, art. 1; OM FOM/1882/2012, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1A02044",
@@ -3547,7 +3551,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 15/2009, art. 24"
+    "norma": "Ley 15/2009, art. 24",
+    "shuffleable": false
   },
   {
     "code": "1A02061",
@@ -3647,7 +3652,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 15/2009, art. 36; Ley 15/2009, art. 37; Ley 15/2009, art. 44"
+    "norma": "Ley 15/2009, art. 36; Ley 15/2009, art. 37; Ley 15/2009, art. 44",
+    "shuffleable": false
   },
   {
     "code": "1A02065",
@@ -6547,7 +6553,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 16/1987, art. 38"
+    "norma": "Ley 16/1987, art. 38",
+    "shuffleable": false
   },
   {
     "code": "1A03005",
@@ -7622,7 +7629,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "OM FOM/3386/2010 , art. 3"
+    "norma": "OM FOM/3386/2010 , art. 3",
+    "shuffleable": false
   },
   {
     "code": "1A03050",
@@ -7922,7 +7930,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 15/2009, art. 54"
+    "norma": "Ley 15/2009, art. 54",
+    "shuffleable": false
   },
   {
     "code": "1A03062",
@@ -9672,7 +9681,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Convenio CMR, art. 33"
+    "norma": "Convenio CMR, art. 33",
+    "shuffleable": false
   },
   {
     "code": "1A04014",
@@ -9772,7 +9782,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Convenio CMR, art. 8"
+    "norma": "Convenio CMR, art. 8",
+    "shuffleable": false
   },
   {
     "code": "1A04018",
@@ -9922,7 +9933,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio CMR, art. 32"
+    "norma": "Convenio CMR, art. 32",
+    "shuffleable": false
   },
   {
     "code": "1A04024",
@@ -10247,7 +10259,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio CMR, art. 16"
+    "norma": "Convenio CMR, art. 16",
+    "shuffleable": false
   },
   {
     "code": "1A04037",
@@ -10322,7 +10335,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Convenio CMR, art. 12"
+    "norma": "Convenio CMR, art. 12",
+    "shuffleable": false
   },
   {
     "code": "1A04040",
@@ -10472,7 +10486,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio CMR, art. 12"
+    "norma": "Convenio CMR, art. 12",
+    "shuffleable": false
   },
   {
     "code": "1A04046",
@@ -10647,7 +10662,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio CMR, art. 3"
+    "norma": "Convenio CMR, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1A04053",
@@ -11272,7 +11288,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Convenio Protocolo Adicional al Convenio CMR, art. 2"
+    "norma": "Convenio Protocolo Adicional al Convenio CMR, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1A04078",

@@ -797,7 +797,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 19/1985, art. 14"
+    "norma": "Ley 19/1985, art. 14",
+    "shuffleable": false
   },
   {
     "code": "1E01033",
@@ -2622,7 +2623,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD Ley 19/2018, art. 44"
+    "norma": "RD Ley 19/2018, art. 44",
+    "shuffleable": false
   },
   {
     "code": "1E01106",
@@ -6672,7 +6674,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Primera parte"
+    "norma": "RD Plan General de Contabilidad., Primera parte",
+    "shuffleable": false
   },
   {
     "code": "1E03062",
@@ -6922,7 +6925,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Primera parte"
+    "norma": "RD Plan General de Contabilidad., Primera parte",
+    "shuffleable": false
   },
   {
     "code": "1E03072",
@@ -6947,7 +6951,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD Plan General de Contabilidad., Primera parte"
+    "norma": "RD Plan General de Contabilidad., Primera parte",
+    "shuffleable": false
   },
   {
     "code": "1E03073",
@@ -7072,7 +7077,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Plan General de Contabilidad., Primera parte"
+    "norma": "RD Plan General de Contabilidad., Primera parte",
+    "shuffleable": false
   },
   {
     "code": "1E03078",
@@ -7347,7 +7353,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Tercera parte"
+    "norma": "RD Plan General de Contabilidad., Tercera parte",
+    "shuffleable": false
   },
   {
     "code": "1E03089",
@@ -8123,7 +8130,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Quinta parte"
+    "norma": "RD Plan General de Contabilidad., Quinta parte",
+    "shuffleable": false
   },
   {
     "code": "1E04014",
@@ -8198,7 +8206,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Tercera parte"
+    "norma": "RD Plan General de Contabilidad., Tercera parte",
+    "shuffleable": false
   },
   {
     "code": "1E04017",
@@ -8548,7 +8557,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Plan General de Contabilidad., Tercera parte"
+    "norma": "RD Plan General de Contabilidad., Tercera parte",
+    "shuffleable": false
   },
   {
     "code": "1E04031",
@@ -8623,7 +8633,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Primera parte"
+    "norma": "RD Plan General de Contabilidad., Primera parte",
+    "shuffleable": false
   },
   {
     "code": "1E04034",
@@ -8648,7 +8659,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Primera parte"
+    "norma": "RD Plan General de Contabilidad., Primera parte",
+    "shuffleable": false
   },
   {
     "code": "1E04035",
@@ -8899,7 +8911,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Tercera parte"
+    "norma": "RD Plan General de Contabilidad., Tercera parte",
+    "shuffleable": false
   },
   {
     "code": "1E04045",
@@ -9229,7 +9242,8 @@
     ],
     "correctOption": "A",
     "norma": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces",
-    "doctrinalReference": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces"
+    "doctrinalReference": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces",
+    "shuffleable": false
   },
   {
     "code": "1E05006",
@@ -10035,7 +10049,8 @@
     ],
     "correctOption": "A",
     "norma": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces",
-    "doctrinalReference": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces"
+    "doctrinalReference": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces",
+    "shuffleable": false
   },
   {
     "code": "1E05037",
@@ -10061,7 +10076,8 @@
     ],
     "correctOption": "C",
     "norma": "Contabilidad y Fiscalidad, Varios autores, Macmillan Profesional",
-    "doctrinalReference": "Contabilidad y Fiscalidad, Varios autores, Macmillan Profesional"
+    "doctrinalReference": "Contabilidad y Fiscalidad, Varios autores, Macmillan Profesional",
+    "shuffleable": false
   },
   {
     "code": "1E05038",
@@ -10217,7 +10233,8 @@
     ],
     "correctOption": "C",
     "norma": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces",
-    "doctrinalReference": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces"
+    "doctrinalReference": "Economía de la Empresa, Eduardo Pérez Gorostegui, Centro de Estudios Ramón Areces",
+    "shuffleable": false
   },
   {
     "code": "1E05045",
@@ -10581,7 +10598,8 @@
     ],
     "correctOption": "D",
     "norma": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E06004",
@@ -10659,7 +10677,8 @@
     ],
     "correctOption": "D",
     "norma": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E06007",
@@ -11153,7 +11172,8 @@
     ],
     "correctOption": "A",
     "norma": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E06026",
@@ -11257,7 +11277,8 @@
     ],
     "correctOption": "A",
     "norma": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E06030",
@@ -11283,7 +11304,8 @@
     ],
     "correctOption": "D",
     "norma": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E06031",
@@ -11335,7 +11357,8 @@
     ],
     "correctOption": "B",
     "norma": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de gestión, Varios autores, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E06033",
@@ -11594,7 +11617,8 @@
     ],
     "correctOption": "A",
     "norma": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes",
-    "doctrinalReference": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes"
+    "doctrinalReference": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes",
+    "shuffleable": false
   },
   {
     "code": "1E07004",
@@ -11672,7 +11696,8 @@
     ],
     "correctOption": "C",
     "norma": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones",
-    "doctrinalReference": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones"
+    "doctrinalReference": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones",
+    "shuffleable": false
   },
   {
     "code": "1E07007",
@@ -11828,7 +11853,8 @@
     ],
     "correctOption": "C",
     "norma": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones",
-    "doctrinalReference": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones"
+    "doctrinalReference": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones",
+    "shuffleable": false
   },
   {
     "code": "1E07013",
@@ -12685,7 +12711,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 634/2015, art. 3"
+    "norma": "RD 634/2015, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1E07046",
@@ -12710,7 +12737,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 634/2015, art. 3"
+    "norma": "RD 634/2015, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1E07047",
@@ -12813,7 +12841,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/2014, art. 12"
+    "norma": "Ley 27/2014, art. 12",
+    "shuffleable": false
   },
   {
     "code": "1E07051",
@@ -12838,7 +12867,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "OM ECO/805/2003, art. 4"
+    "norma": "OM ECO/805/2003, art. 4",
+    "shuffleable": false
   },
   {
     "code": "1E07052",
@@ -13044,7 +13074,8 @@
     ],
     "correctOption": "C",
     "norma": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E07060",
@@ -13096,7 +13127,8 @@
     ],
     "correctOption": "B",
     "norma": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones",
-    "doctrinalReference": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones"
+    "doctrinalReference": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones",
+    "shuffleable": false
   },
   {
     "code": "1E07062",
@@ -13304,7 +13336,8 @@
     ],
     "correctOption": "C",
     "norma": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E07070",
@@ -13329,7 +13362,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Plan General de Contabilidad, Segunda parte"
+    "norma": "RD Plan General de Contabilidad, Segunda parte",
+    "shuffleable": false
   },
   {
     "code": "1E07071",
@@ -13354,7 +13388,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Plan General de Contabilidad, Segunda parte"
+    "norma": "RD Plan General de Contabilidad, Segunda parte",
+    "shuffleable": false
   },
   {
     "code": "1E07072",
@@ -13380,7 +13415,8 @@
     ],
     "correctOption": "B",
     "norma": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E07073",
@@ -13921,7 +13957,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 634/2015, art. 6"
+    "norma": "RD 634/2015, art. 6",
+    "shuffleable": false
   },
   {
     "code": "1E07094",
@@ -13973,7 +14010,8 @@
     ],
     "correctOption": "D",
     "norma": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E07096",
@@ -14025,7 +14063,8 @@
     ],
     "correctOption": "D",
     "norma": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones",
-    "doctrinalReference": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones"
+    "doctrinalReference": "Cálculo, análisis y gestión de costes, Varios autores, Delta Publicaciones",
+    "shuffleable": false
   },
   {
     "code": "1E07098",
@@ -14311,7 +14350,8 @@
     ],
     "correctOption": "D",
     "norma": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E07109",
@@ -14568,7 +14608,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad, Segunda parte"
+    "norma": "RD Plan General de Contabilidad, Segunda parte",
+    "shuffleable": false
   },
   {
     "code": "1E07119",
@@ -14797,7 +14838,8 @@
     ],
     "correctOption": "A",
     "norma": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
-    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide"
+    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide",
+    "shuffleable": false
   },
   {
     "code": "1E07128",
@@ -14979,7 +15021,8 @@
     ],
     "correctOption": "D",
     "norma": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes",
-    "doctrinalReference": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes"
+    "doctrinalReference": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes",
+    "shuffleable": false
   },
   {
     "code": "1E07135",
@@ -15057,7 +15100,8 @@
     ],
     "correctOption": "D",
     "norma": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes",
-    "doctrinalReference": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes"
+    "doctrinalReference": "Observatorio de Costes del Transporte de Mercancías, Ministerio de Transportes",
+    "shuffleable": false
   },
   {
     "code": "1E07138",
@@ -15109,7 +15153,8 @@
     ],
     "correctOption": "B",
     "norma": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide; Contabilidad y Fiscalidad, Varios autores, Macmillan Profesional",
-    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide; Contabilidad y Fiscalidad, Varios autores, Macmillan Profesional"
+    "doctrinalReference": "Contabilidad de costes, Carlos Mallo y María Ángela Jiménez, Ediciones Pirámide; Contabilidad y Fiscalidad, Varios autores, Macmillan Profesional",
+    "shuffleable": false
   },
   {
     "code": "1E07140",
@@ -15473,7 +15518,8 @@
     ],
     "correctOption": "A",
     "norma": "Economía de la Empresa, 2º de bachillerato, Seminario de Profesores de Economía de Aragón, Editado por Gobierno de Aragón",
-    "doctrinalReference": "Economía de la Empresa, 2º de bachillerato, Seminario de Profesores de Economía de Aragón, Editado por Gobierno de Aragón"
+    "doctrinalReference": "Economía de la Empresa, 2º de bachillerato, Seminario de Profesores de Economía de Aragón, Editado por Gobierno de Aragón",
+    "shuffleable": false
   },
   {
     "code": "1E08013",
@@ -17863,7 +17909,8 @@
     ],
     "correctOption": "A",
     "norma": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09016",
@@ -17889,7 +17936,8 @@
     ],
     "correctOption": "B",
     "norma": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09017",
@@ -17915,7 +17963,8 @@
     ],
     "correctOption": "C",
     "norma": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09018",
@@ -17993,7 +18042,8 @@
     ],
     "correctOption": "C",
     "norma": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09021",
@@ -18487,7 +18537,8 @@
     ],
     "correctOption": "C",
     "norma": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Investigación comercial, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09040",
@@ -18565,7 +18616,8 @@
     ],
     "correctOption": "C",
     "norma": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09043",
@@ -18643,7 +18695,8 @@
     ],
     "correctOption": "C",
     "norma": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09046",
@@ -18721,7 +18774,8 @@
     ],
     "correctOption": "A",
     "norma": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09049",
@@ -18747,7 +18801,8 @@
     ],
     "correctOption": "B",
     "norma": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
-    "doctrinalReference": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT"
+    "doctrinalReference": "Políticas de Marketing, Ciclo Formativo de Grado Superior de Gestión Comercial y Marketing, CIDEAD, Ministerio de Educacion y Cultura, Ed. Centro de Publicaciones SGT",
+    "shuffleable": false
   },
   {
     "code": "1E09050",
@@ -19758,7 +19813,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 50/1980, art. 15"
+    "norma": "Ley 50/1980, art. 15",
+    "shuffleable": false
   },
   {
     "code": "1E10004",
@@ -19983,7 +20039,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 50/1980, art. 1"
+    "norma": "Ley 50/1980, art. 1",
+    "shuffleable": false
   },
   {
     "code": "1E10013",
@@ -20460,7 +20517,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 1507/2008, art. 14"
+    "norma": "RD 1507/2008, art. 14",
+    "shuffleable": false
   },
   {
     "code": "1E10032",
@@ -20936,7 +20994,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 50/1980, art. 22"
+    "norma": "Ley 50/1980, art. 22",
+    "shuffleable": false
   },
   {
     "code": "1E10051",
@@ -21413,7 +21472,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 50/1980, art. 19"
+    "norma": "Ley 50/1980, art. 19",
+    "shuffleable": false
   },
   {
     "code": "1E10070",
@@ -21713,7 +21773,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 50/1980, art. 74"
+    "norma": "Ley 50/1980, art. 74",
+    "shuffleable": false
   },
   {
     "code": "1E10082",
@@ -21938,7 +21999,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 8/2004, art. 5"
+    "norma": "RD Legislativo 8/2004, art. 5",
+    "shuffleable": false
   },
   {
     "code": "1E10091",
@@ -22088,7 +22150,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 50/1980, art. 76"
+    "norma": "Ley 50/1980, art. 76",
+    "shuffleable": false
   },
   {
     "code": "1E10097",
@@ -22163,7 +22226,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 50/1980, art. 56"
+    "norma": "Ley 50/1980, art. 56",
+    "shuffleable": false
   },
   {
     "code": "1E10100",
@@ -22413,7 +22477,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 50/1980, art. 54"
+    "norma": "Ley 50/1980, art. 54",
+    "shuffleable": false
   },
   {
     "code": "1E10110",
@@ -22838,7 +22903,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 8/2004, art. 5"
+    "norma": "RD Legislativo 8/2004, art. 5",
+    "shuffleable": false
   },
   {
     "code": "1E10136",
@@ -22863,7 +22929,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 8/2004, art. 2"
+    "norma": "RD Legislativo 8/2004, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1E10137",
@@ -22988,7 +23055,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1507/2008, art. 19"
+    "norma": "RD 1507/2008, art. 19",
+    "shuffleable": false
   },
   {
     "code": "1E10142",
@@ -23013,7 +23081,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 50/1980, art. 10"
+    "norma": "Ley 50/1980, art. 10",
+    "shuffleable": false
   },
   {
     "code": "1E10143",
@@ -23038,7 +23107,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 50/1980, art. 38"
+    "norma": "Ley 50/1980, art. 38",
+    "shuffleable": false
   },
   {
     "code": "1E10144",
@@ -24894,7 +24964,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1619/2012, art. 4"
+    "norma": "RD 1619/2012, art. 4",
+    "shuffleable": false
   },
   {
     "code": "1E12021",
@@ -25471,7 +25542,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1619/2012, art. 18"
+    "norma": "RD 1619/2012, art. 18",
+    "shuffleable": false
   },
   {
     "code": "1E12044",
@@ -25496,7 +25568,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1619/2012, art. 6"
+    "norma": "RD 1619/2012, art. 6",
+    "shuffleable": false
   },
   {
     "code": "1E12045",
@@ -25521,7 +25594,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1619/2012, art. 4"
+    "norma": "RD 1619/2012, art. 4",
+    "shuffleable": false
   },
   {
     "code": "1E12046",
@@ -25647,7 +25721,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1619/2012, art. 6; RD 1619/2012, art. 7"
+    "norma": "RD 1619/2012, art. 6; RD 1619/2012, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1E12051",
@@ -25672,7 +25747,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1619/2012, art. 6"
+    "norma": "RD 1619/2012, art. 6",
+    "shuffleable": false
   },
   {
     "code": "1E12052",
@@ -25747,7 +25823,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1619/2012, art. 7"
+    "norma": "RD 1619/2012, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1E12055",
@@ -25873,7 +25950,8 @@
     ],
     "correctOption": "D",
     "norma": "INCOTERMS 2020",
-    "doctrinalReference": "INCOTERMS 2020"
+    "doctrinalReference": "INCOTERMS 2020",
+    "shuffleable": false
   },
   {
     "code": "1E12060",
@@ -25975,7 +26053,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1619/2012, art. 9"
+    "norma": "RD 1619/2012, art. 9",
+    "shuffleable": false
   },
   {
     "code": "1E12064",
@@ -26050,7 +26129,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD 1619/2012, art. 7"
+    "norma": "RD 1619/2012, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1E12067",
@@ -27104,7 +27184,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1211/1990, art. 159"
+    "norma": "RD 1211/1990, art. 159",
+    "shuffleable": false
   },
   {
     "code": "1E13032",
@@ -27429,7 +27510,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 159"
+    "norma": "RD 1211/1990, art. 159",
+    "shuffleable": false
   },
   {
     "code": "1E13045",
@@ -27979,7 +28061,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 16/1987, art. 121"
+    "norma": "Ley 16/1987, art. 121",
+    "shuffleable": false
   },
   {
     "code": "1E13067",
@@ -28154,7 +28237,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 1211/1990, art. 159"
+    "norma": "RD 1211/1990, art. 159",
+    "shuffleable": false
   },
   {
     "code": "1E13074",
@@ -28279,7 +28363,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "OM FOM/1882/2012, art. 5"
+    "norma": "OM FOM/1882/2012, art. 5",
+    "shuffleable": false
   },
   {
     "code": "1E13079",
@@ -28329,7 +28414,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1211/1990, art. 159"
+    "norma": "RD 1211/1990, art. 159",
+    "shuffleable": false
   },
   {
     "code": "1E13081",

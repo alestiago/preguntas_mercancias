@@ -797,7 +797,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 37/1992, art. 90; Ley 58/2003, art. 56"
+    "norma": "Ley 37/1992, art. 90; Ley 58/2003, art. 56",
+    "shuffleable": false
   },
   {
     "code": "1D01033",
@@ -1072,7 +1073,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 37/1992, Art. 95"
+    "norma": "Ley 37/1992, Art. 95",
+    "shuffleable": false
   },
   {
     "code": "1D01044",
@@ -1172,7 +1174,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "OM HAC/1425/2025, art. 3"
+    "norma": "OM HAC/1425/2025, art. 3",
+    "shuffleable": false
   },
   {
     "code": "1D01048",
@@ -1372,7 +1375,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 37/1992, Art. 7"
+    "norma": "Ley 37/1992, Art. 7",
+    "shuffleable": false
   },
   {
     "code": "1D01056",
@@ -1397,7 +1401,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 37/1992, art. 3; Ley 37/1992, art. 15"
+    "norma": "Ley 37/1992, art. 3; Ley 37/1992, art. 15",
+    "shuffleable": false
   },
   {
     "code": "1D01057",
@@ -1622,7 +1627,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 37/1992, Art. 5"
+    "norma": "Ley 37/1992, Art. 5",
+    "shuffleable": false
   },
   {
     "code": "1D01066",
@@ -1947,7 +1953,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 37/1992, Art. 92"
+    "norma": "Ley 37/1992, Art. 92",
+    "shuffleable": false
   },
   {
     "code": "1D01079",
@@ -1997,7 +2004,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 37/1992, Art. 93"
+    "norma": "Ley 37/1992, Art. 93",
+    "shuffleable": false
   },
   {
     "code": "1D01081",
@@ -2047,7 +2055,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 37/1992, Art. 122"
+    "norma": "Ley 37/1992, Art. 122",
+    "shuffleable": false
   },
   {
     "code": "1D01083",
@@ -2222,7 +2231,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 37/1992, Art. 13"
+    "norma": "Ley 37/1992, Art. 13",
+    "shuffleable": false
   },
   {
     "code": "1D01090",
@@ -2572,7 +2582,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 2/2004, Art. 92"
+    "norma": "RD Legislativo 2/2004, Art. 92",
+    "shuffleable": false
   },
   {
     "code": "1D02003",
@@ -2647,7 +2658,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 2/2004, Art. 95"
+    "norma": "RD Legislativo 2/2004, Art. 95",
+    "shuffleable": false
   },
   {
     "code": "1D02006",
@@ -2672,7 +2684,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 2/2004, Art. 94"
+    "norma": "RD Legislativo 2/2004, Art. 94",
+    "shuffleable": false
   },
   {
     "code": "1D02007",
@@ -2697,7 +2710,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 2/2004, Art. 93"
+    "norma": "RD Legislativo 2/2004, Art. 93",
+    "shuffleable": false
   },
   {
     "code": "1D02008",
@@ -2722,7 +2736,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 2/2004, Art. 92"
+    "norma": "RD Legislativo 2/2004, Art. 92",
+    "shuffleable": false
   },
   {
     "code": "1D02009",
@@ -2772,7 +2787,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 2/2004, Art. 95"
+    "norma": "RD Legislativo 2/2004, Art. 95",
+    "shuffleable": false
   },
   {
     "code": "1D02011",
@@ -2897,7 +2913,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 2/2004, Art. 92"
+    "norma": "RD Legislativo 2/2004, Art. 92",
+    "shuffleable": false
   },
   {
     "code": "1D02016",
@@ -3397,7 +3414,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Directiva 1999/62/CE, art. 7"
+    "norma": "Directiva 1999/62/CE, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1D03012",
@@ -3447,7 +3465,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Directiva 1999/62/CE, art. 7"
+    "norma": "Directiva 1999/62/CE, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1D03014",
@@ -3547,7 +3566,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Directiva 1999/62/CE, art. 7"
+    "norma": "Directiva 1999/62/CE, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1D03018",
@@ -3622,7 +3642,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Directiva 1999/62/CE, Art. 7 septies"
+    "norma": "Directiva 1999/62/CE, Art. 7 septies",
+    "shuffleable": false
   },
   {
     "code": "1D03021",
@@ -3822,7 +3843,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Directiva 1999/62/CE, art. 2"
+    "norma": "Directiva 1999/62/CE, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1D03029",
@@ -3847,7 +3869,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Directiva 1999/62/CE, art. 2"
+    "norma": "Directiva 1999/62/CE, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1D03030",
@@ -4222,7 +4245,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 38/1992, art. 52"
+    "norma": "Ley 38/1992, art. 52",
+    "shuffleable": false
   },
   {
     "code": "1D03045",
@@ -4397,7 +4421,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 1165/1995, art. 44"
+    "norma": "RD 1165/1995, art. 44",
+    "shuffleable": false
   },
   {
     "code": "1D03052",
@@ -4447,7 +4472,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 38/1992, art. 4"
+    "norma": "Ley 38/1992, art. 4",
+    "shuffleable": false
   },
   {
     "code": "1D03054",
@@ -4547,7 +4573,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 38/1992, Art. 50"
+    "norma": "Ley 38/1992, Art. 50",
+    "shuffleable": false
   },
   {
     "code": "1D03058",
@@ -4972,7 +4999,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "OM HAC/1425/2025, Anexo II"
+    "norma": "OM HAC/1425/2025, Anexo II",
+    "shuffleable": false
   },
   {
     "code": "1D04014",
@@ -4997,7 +5025,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "OM HAC/1425/2025, Anexo II, Instrucciones IRPF, 2"
+    "norma": "OM HAC/1425/2025, Anexo II, Instrucciones IRPF, 2",
+    "shuffleable": false
   },
   {
     "code": "1D04015",
@@ -5122,7 +5151,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 35/2006, art. 30; Ley 35/2006, art. 31"
+    "norma": "Ley 35/2006, art. 30; Ley 35/2006, art. 31",
+    "shuffleable": false
   },
   {
     "code": "1D04020",
@@ -5247,7 +5277,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "OM HAC/1425/2025, Anexo II, Instrucciones IRPF, 2"
+    "norma": "OM HAC/1425/2025, Anexo II, Instrucciones IRPF, 2",
+    "shuffleable": false
   },
   {
     "code": "1D04025",
@@ -5322,7 +5353,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 35/2006, art. 15"
+    "norma": "Ley 35/2006, art. 15",
+    "shuffleable": false
   },
   {
     "code": "1D04028",
@@ -5372,7 +5404,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 35/2006, art. 28; Ley 27/2014, art. 15"
+    "norma": "Ley 35/2006, art. 28; Ley 27/2014, art. 15",
+    "shuffleable": false
   },
   {
     "code": "1D04030",
@@ -5772,7 +5805,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 35/2006, art. 7"
+    "norma": "Ley 35/2006, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1D04046",
@@ -6072,7 +6106,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 27/2014, art. 125"
+    "norma": "Ley 27/2014, art. 125",
+    "shuffleable": false
   },
   {
     "code": "1D04058",
@@ -6347,7 +6382,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 27/2014, art. 125"
+    "norma": "Ley 27/2014, art. 125",
+    "shuffleable": false
   },
   {
     "code": "1D04069",
@@ -6547,7 +6583,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/2014, art. 15"
+    "norma": "Ley 27/2014, art. 15",
+    "shuffleable": false
   },
   {
     "code": "1D04077",
@@ -6647,7 +6684,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "OM HAC/1347/2024, Anexo II, Instrucciones IRPF, 2; OM HAC/1425/2025, Anexo II, Instrucciones IRPF, 2"
+    "norma": "OM HAC/1347/2024, Anexo II, Instrucciones IRPF, 2; OM HAC/1425/2025, Anexo II, Instrucciones IRPF, 2",
+    "shuffleable": false
   },
   {
     "code": "1D04081",
@@ -6897,7 +6935,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 35/2006, art. 8; Ley 35/2006, art. 9; Ley 35/2006, art. 10"
+    "norma": "Ley 35/2006, art. 8; Ley 35/2006, art. 9; Ley 35/2006, art. 10",
+    "shuffleable": false
   },
   {
     "code": "1D04091",
@@ -6922,7 +6961,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 35/2006, art. 14"
+    "norma": "Ley 35/2006, art. 14",
+    "shuffleable": false
   },
   {
     "code": "1D04092",
@@ -7122,7 +7162,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 35/2006, art. 17"
+    "norma": "Ley 35/2006, art. 17",
+    "shuffleable": false
   },
   {
     "code": "1D04100",
@@ -7147,7 +7188,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 35/2006, art. 19"
+    "norma": "Ley 35/2006, art. 19",
+    "shuffleable": false
   },
   {
     "code": "1D04101",
@@ -7197,7 +7239,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 35/2006, art. 25"
+    "norma": "Ley 35/2006, art. 25",
+    "shuffleable": false
   },
   {
     "code": "1D04103",
@@ -7222,7 +7265,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 35/2006, art. 27"
+    "norma": "Ley 35/2006, art. 27",
+    "shuffleable": false
   },
   {
     "code": "1D04104",
@@ -7522,7 +7566,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 35/2006, art. 7"
+    "norma": "Ley 35/2006, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1D04116",
@@ -7872,7 +7917,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 634/2015, art. 68"
+    "norma": "RD 634/2015, art. 68",
+    "shuffleable": false
   },
   {
     "code": "1D04130",
@@ -8122,7 +8168,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/2014, art. 27"
+    "norma": "Ley 27/2014, art. 27",
+    "shuffleable": false
   },
   {
     "code": "1D04140",
@@ -8147,7 +8194,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/2014, art. 29"
+    "norma": "Ley 27/2014, art. 29",
+    "shuffleable": false
   },
   {
     "code": "1D04141",
@@ -8172,7 +8220,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/2014, art. 31"
+    "norma": "Ley 27/2014, art. 31",
+    "shuffleable": false
   },
   {
     "code": "1D04142",
@@ -8272,7 +8321,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/2014, art. 40"
+    "norma": "Ley 27/2014, art. 40",
+    "shuffleable": false
   },
   {
     "code": "1D04146",

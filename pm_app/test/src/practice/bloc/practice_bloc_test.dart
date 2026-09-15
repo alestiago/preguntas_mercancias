@@ -81,6 +81,75 @@ void main() {
       );
     });
 
+    test('keeps original answer order when shuffling is disabled', () async {
+      final progressStore = FakeQuestionProgressStore();
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => [_questions.first],
+        questionProgressStore: progressStore,
+        answerShuffleRandom: Random(1),
+        shuffleAnswers: false,
+      );
+      addTearDown(bloc.close);
+
+      final loadedFuture = bloc.stream.firstWhere(
+        (state) => state is PracticeLoaded,
+      );
+      bloc.add(const PracticeStarted());
+      final loaded = await loadedFuture as PracticeLoaded;
+
+      expect(loaded.currentQuestion.answers.map((answer) => answer.option), [
+        QuestionOption.a,
+        QuestionOption.b,
+        QuestionOption.c,
+        QuestionOption.d,
+      ]);
+    });
+
+    test(
+      'keeps original answer order for a non-shuffleable question',
+      () async {
+        final progressStore = FakeQuestionProgressStore();
+        addTearDown(progressStore.close);
+        final nonShuffleableQuestion = Question(
+          code: '1A01003',
+          section: '1A',
+          prompt: 'Tercera pregunta',
+          answers: const [
+            QuestionAnswer(option: QuestionOption.a, text: 'Respuesta A'),
+            QuestionAnswer(option: QuestionOption.b, text: 'Respuesta B'),
+            QuestionAnswer(option: QuestionOption.c, text: 'Respuesta C'),
+            QuestionAnswer(
+              option: QuestionOption.d,
+              text: 'Las respuestas A y B son correctas',
+            ),
+          ],
+          correctOption: QuestionOption.d,
+          norma: 'Norma tercera',
+          shuffleable: false,
+        );
+        final bloc = PracticeBloc(
+          loadQuestions: (_) async => [nonShuffleableQuestion],
+          questionProgressStore: progressStore,
+          answerShuffleRandom: Random(1),
+        );
+        addTearDown(bloc.close);
+
+        final loadedFuture = bloc.stream.firstWhere(
+          (state) => state is PracticeLoaded,
+        );
+        bloc.add(const PracticeStarted());
+        final loaded = await loadedFuture as PracticeLoaded;
+
+        expect(loaded.currentQuestion.answers.map((answer) => answer.option), [
+          QuestionOption.a,
+          QuestionOption.b,
+          QuestionOption.c,
+          QuestionOption.d,
+        ]);
+      },
+    );
+
     test('advances after answering', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);

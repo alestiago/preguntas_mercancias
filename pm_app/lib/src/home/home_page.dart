@@ -9,6 +9,7 @@ import '../practice/bloc/practice_bloc.dart';
 import '../practice/practice_page.dart';
 import '../questions/draw_simulacro_questions.dart';
 import '../questions/load_questions.dart';
+import '../settings/bloc/settings_bloc.dart';
 import '../settings/settings_page.dart';
 import 'bloc/home_bloc.dart';
 
@@ -123,6 +124,10 @@ class _QuestionHomeView extends StatelessWidget {
     Map<String, int> pendingQuestionCountsBySection = const {},
   }) {
     final homeBloc = context.read<HomeBloc>();
+    final shuffleAnswers = context
+        .read<SettingsBloc>()
+        .state
+        .answerShuffleEnabled;
 
     Navigator.of(context)
         .push<void>(
@@ -135,6 +140,7 @@ class _QuestionHomeView extends StatelessWidget {
               isReviewMode: isReviewMode,
               isPendingMode: isPendingMode,
               isSimulacroMode: isSimulacroMode,
+              shuffleAnswers: shuffleAnswers,
               pendingQuestionCount: pendingQuestionCount,
               pendingQuestionCountsBySection: pendingQuestionCountsBySection,
             ),

@@ -2772,7 +2772,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 2/2015, art. 1"
+    "norma": "RD Legislativo 2/2015, art. 1",
+    "shuffleable": false
   },
   {
     "code": "1C03004",
@@ -4422,7 +4423,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 2/2015, art. 14"
+    "norma": "RD Legislativo 2/2015, art. 14",
+    "shuffleable": false
   },
   {
     "code": "1C03073",
@@ -4647,7 +4649,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 2/2015, art. 1"
+    "norma": "RD Legislativo 2/2015, art. 1",
+    "shuffleable": false
   },
   {
     "code": "1C03082",
@@ -5247,7 +5250,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 2/2015, art. 35"
+    "norma": "RD Legislativo 2/2015, art. 35",
+    "shuffleable": false
   },
   {
     "code": "1C03106",
@@ -6047,7 +6051,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 165/2014, art. 5"
+    "norma": "Reglamento Comunitario (UE) 165/2014, art. 5",
+    "shuffleable": false
   },
   {
     "code": "1C04017",
@@ -6772,7 +6777,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Reglamento Comunitario (UE) 165/2014, art. 35"
+    "norma": "Reglamento Comunitario (UE) 165/2014, art. 35",
+    "shuffleable": false
   },
   {
     "code": "1C04047",
@@ -7322,7 +7328,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Reglamento Comunitario (CE) 561/2006, art. 10"
+    "norma": "Reglamento Comunitario (CE) 561/2006, art. 10",
+    "shuffleable": false
   },
   {
     "code": "1C04069",
@@ -8072,7 +8079,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Reglamento Comunitario (CE) 561/2006, art. 8"
+    "norma": "Reglamento Comunitario (CE) 561/2006, art. 8",
+    "shuffleable": false
   },
   {
     "code": "1C04101",
@@ -9847,7 +9855,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 284/2021, art. 2"
+    "norma": "RD 284/2021, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1C05003",
@@ -9897,7 +9906,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD 284/2021, art. 2"
+    "norma": "RD 284/2021, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1C05005",
@@ -10197,7 +10207,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 284/2021, art. 13"
+    "norma": "RD 284/2021, art. 13",
+    "shuffleable": false
   },
   {
     "code": "1C05017",

@@ -350,7 +350,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Código de Comercio, Art. 282"
+    "norma": "Código de Comercio, Art. 282",
+    "shuffleable": false
   },
   {
     "code": "1B01016",
@@ -400,7 +401,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Código Civil, art. 348; Código Civil, art. 609; Código Civil, art. 1261; Código Civil, art. 1262"
+    "norma": "Código Civil, art. 348; Código Civil, art. 609; Código Civil, art. 1261; Código Civil, art. 1262",
+    "shuffleable": false
   },
   {
     "code": "1B01018",
@@ -425,7 +427,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 14/2013, Art. 9"
+    "norma": "Ley 14/2013, Art. 9",
+    "shuffleable": false
   },
   {
     "code": "1B01019",
@@ -475,7 +478,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 14/2013, Art. 9"
+    "norma": "Ley 14/2013, Art. 9",
+    "shuffleable": false
   },
   {
     "code": "1B01021",
@@ -1225,7 +1229,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Código de Comercio, Art. 38"
+    "norma": "Código de Comercio, Art. 38",
+    "shuffleable": false
   },
   {
     "code": "1B01051",
@@ -2353,7 +2358,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Código de Comercio, art. 34; Código de Comercio, art. 37"
+    "norma": "Código de Comercio, art. 34; Código de Comercio, art. 37",
+    "shuffleable": false
   },
   {
     "code": "1B01096",
@@ -2478,7 +2484,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Plan General de Contabilidad., Primera parte"
+    "norma": "RD Plan General de Contabilidad., Primera parte",
+    "shuffleable": false
   },
   {
     "code": "1B01101",
@@ -2528,7 +2535,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Plan General de Contabilidad., Tercera parte"
+    "norma": "RD Plan General de Contabilidad., Tercera parte",
+    "shuffleable": false
   },
   {
     "code": "1B01103",
@@ -2753,7 +2761,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "OM TIN/1071/2010, art. 2"
+    "norma": "OM TIN/1071/2010, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1B01114",
@@ -2828,7 +2837,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Código de Comercio, Art. 33"
+    "norma": "Código de Comercio, Art. 33",
+    "shuffleable": false
   },
   {
     "code": "1B01117",
@@ -2853,7 +2863,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Código de Comercio, Art. 29"
+    "norma": "Código de Comercio, Art. 29",
+    "shuffleable": false
   },
   {
     "code": "1B01118",
@@ -3028,7 +3039,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Código de Comercio, Art. 24"
+    "norma": "Código de Comercio, Art. 24",
+    "shuffleable": false
   },
   {
     "code": "1B01129",
@@ -3103,7 +3115,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD 84/1996, Art. 11"
+    "norma": "RD 84/1996, Art. 11",
+    "shuffleable": false
   },
   {
     "code": "1B01133",
@@ -3128,7 +3141,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Código de Comercio, Art. 35"
+    "norma": "Código de Comercio, Art. 35",
+    "shuffleable": false
   },
   {
     "code": "1B01134",
@@ -3178,7 +3192,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Código de Comercio, Art. 35"
+    "norma": "Código de Comercio, Art. 35",
+    "shuffleable": false
   },
   {
     "code": "1B01136",
@@ -3203,7 +3218,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Código de Comercio, Art. 35"
+    "norma": "Código de Comercio, Art. 35",
+    "shuffleable": false
   },
   {
     "code": "1B01137",
@@ -3328,7 +3344,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Código de Comercio, Art. 26"
+    "norma": "Código de Comercio, Art. 26",
+    "shuffleable": false
   },
   {
     "code": "1B01143",
@@ -3353,7 +3370,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Código de Comercio, Art. 22"
+    "norma": "Código de Comercio, Art. 22",
+    "shuffleable": false
   },
   {
     "code": "1B01144",
@@ -3378,7 +3396,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2007, Art. 147; RD Legislativo 1/2007, Art. 148"
+    "norma": "RD Legislativo 1/2007, Art. 147; RD Legislativo 1/2007, Art. 148",
+    "shuffleable": false
   },
   {
     "code": "1B01145",
@@ -3478,7 +3497,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Código de Comercio, Art. 40"
+    "norma": "Código de Comercio, Art. 40",
+    "shuffleable": false
   },
   {
     "code": "1B01149",
@@ -3503,7 +3523,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Código de Comercio, Art. 25"
+    "norma": "Código de Comercio, Art. 25",
+    "shuffleable": false
   },
   {
     "code": "1B01150",
@@ -3528,7 +3549,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Plan General de Contabilidad., Tercera parte"
+    "norma": "RD Plan General de Contabilidad., Tercera parte",
+    "shuffleable": false
   },
   {
     "code": "1B01151",
@@ -3828,7 +3850,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Código de Comercio, Art. 292"
+    "norma": "Código de Comercio, Art. 292",
+    "shuffleable": false
   },
   {
     "code": "1B01164",
@@ -3853,7 +3876,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "OM EHA/1274/2007, Art. 2"
+    "norma": "OM EHA/1274/2007, Art. 2",
+    "shuffleable": false
   },
   {
     "code": "1B01165",
@@ -3878,7 +3902,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD 1065/2007, art. 3; RD 1065/2007, art. 9"
+    "norma": "RD 1065/2007, art. 3; RD 1065/2007, art. 9",
+    "shuffleable": false
   },
   {
     "code": "1B01166",
@@ -3955,7 +3980,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD Legislativo 1/2007, Art. 147; RD Legislativo 1/2007, Art. 148"
+    "norma": "RD Legislativo 1/2007, Art. 147; RD Legislativo 1/2007, Art. 148",
+    "shuffleable": false
   },
   {
     "code": "1B01169",
@@ -4030,7 +4056,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD 1065/2007, art. 32; RD 1065/2007, art. 33"
+    "norma": "RD 1065/2007, art. 32; RD 1065/2007, art. 33",
+    "shuffleable": false
   },
   {
     "code": "1B01172",
@@ -4105,7 +4132,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 14/2013, Art. 13"
+    "norma": "Ley 14/2013, Art. 13",
+    "shuffleable": false
   },
   {
     "code": "1B01175",
@@ -4330,7 +4358,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2020, art. 6"
+    "norma": "RD Legislativo 1/2020, art. 6",
+    "shuffleable": false
   },
   {
     "code": "1B01184",
@@ -4505,7 +4534,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2020, art. 2"
+    "norma": "RD Legislativo 1/2020, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1B01191",
@@ -4680,7 +4710,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2020, art. 192"
+    "norma": "RD Legislativo 1/2020, art. 192",
+    "shuffleable": false
   },
   {
     "code": "1B01198",
@@ -4705,7 +4736,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD Legislativo 1/2020, art. 192"
+    "norma": "RD Legislativo 1/2020, art. 192",
+    "shuffleable": false
   },
   {
     "code": "1B01199",
@@ -4955,7 +4987,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2020, art. 4"
+    "norma": "RD Legislativo 1/2020, art. 4",
+    "shuffleable": false
   },
   {
     "code": "1B01209",
@@ -5130,7 +5163,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2020, art. 55"
+    "norma": "RD Legislativo 1/2020, art. 55",
+    "shuffleable": false
   },
   {
     "code": "1B01216",
@@ -5155,7 +5189,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2020, art. 13"
+    "norma": "RD Legislativo 1/2020, art. 13",
+    "shuffleable": false
   },
   {
     "code": "1B01217",
@@ -5255,7 +5290,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2020, art. 205"
+    "norma": "RD Legislativo 1/2020, art. 205",
+    "shuffleable": false
   },
   {
     "code": "1B01221",
@@ -5580,7 +5616,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 14/2013, art. 8"
+    "norma": "Ley 14/2013, art. 8",
+    "shuffleable": false
   },
   {
     "code": "1B01235",
@@ -5680,7 +5717,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 14/2013, art. 10; Ley 14/2013, art. 9"
+    "norma": "Ley 14/2013, art. 10; Ley 14/2013, art. 9",
+    "shuffleable": false
   },
   {
     "code": "1B01239",
@@ -5705,7 +5743,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 14/2013, art. 10"
+    "norma": "Ley 14/2013, art. 10",
+    "shuffleable": false
   },
   {
     "code": "1B01240",
@@ -6830,7 +6869,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2010, Art. 401"
+    "norma": "RD Legislativo 1/2010, Art. 401",
+    "shuffleable": false
   },
   {
     "code": "1B02039",
@@ -7055,7 +7095,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, art. 100; RD Legislativo 1/2010, art. 320"
+    "norma": "RD Legislativo 1/2010, art. 100; RD Legislativo 1/2010, art. 320",
+    "shuffleable": false
   },
   {
     "code": "1B02048",
@@ -7605,7 +7646,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, Art. 92"
+    "norma": "RD Legislativo 1/2010, Art. 92",
+    "shuffleable": false
   },
   {
     "code": "1B02070",
@@ -8330,7 +8372,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 27/1999, Art. 11"
+    "norma": "Ley 27/1999, Art. 11",
+    "shuffleable": false
   },
   {
     "code": "1B02102",
@@ -8505,7 +8548,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 27/1999, Art. 80"
+    "norma": "Ley 27/1999, Art. 80",
+    "shuffleable": false
   },
   {
     "code": "1B02109",
@@ -8730,7 +8774,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Ley 27/1999, Art. 7"
+    "norma": "Ley 27/1999, Art. 7",
+    "shuffleable": false
   },
   {
     "code": "1B02118",
@@ -8805,7 +8850,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD Legislativo 1/2010, Art. 19"
+    "norma": "RD Legislativo 1/2010, Art. 19",
+    "shuffleable": false
   },
   {
     "code": "1B02122",
@@ -8905,7 +8951,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/1999, art. 1; Ley 27/1999, art. 6"
+    "norma": "Ley 27/1999, art. 1; Ley 27/1999, art. 6",
+    "shuffleable": false
   },
   {
     "code": "1B02126",
@@ -8980,7 +9027,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, Art. 317"
+    "norma": "RD Legislativo 1/2010, Art. 317",
+    "shuffleable": false
   },
   {
     "code": "1B02129",
@@ -9055,7 +9103,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Código de Comercio, Art. 222"
+    "norma": "Código de Comercio, Art. 222",
+    "shuffleable": false
   },
   {
     "code": "1B02132",
@@ -9280,7 +9329,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 44/2015, Art. 5"
+    "norma": "Ley 44/2015, Art. 5",
+    "shuffleable": false
   },
   {
     "code": "1B02141",
@@ -9380,7 +9430,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 27/1999, Art. 3"
+    "norma": "Ley 27/1999, Art. 3",
+    "shuffleable": false
   },
   {
     "code": "1B02145",
@@ -9855,7 +9906,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, Art. 221"
+    "norma": "RD Legislativo 1/2010, Art. 221",
+    "shuffleable": false
   },
   {
     "code": "1B02165",
@@ -10055,7 +10107,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "Ley 27/1999, Art. 100"
+    "norma": "Ley 27/1999, Art. 100",
+    "shuffleable": false
   },
   {
     "code": "1B02174",
@@ -10130,7 +10183,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Código de Comercio, Art. 126"
+    "norma": "Código de Comercio, Art. 126",
+    "shuffleable": false
   },
   {
     "code": "1B02177",
@@ -10180,7 +10234,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Código de Comercio, Art. 138"
+    "norma": "Código de Comercio, Art. 138",
+    "shuffleable": false
   },
   {
     "code": "1B02180",
@@ -10280,7 +10335,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2010, Art. 23"
+    "norma": "RD Legislativo 1/2010, Art. 23",
+    "shuffleable": false
   },
   {
     "code": "1B02184",
@@ -10380,7 +10436,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, Art. 317"
+    "norma": "RD Legislativo 1/2010, Art. 317",
+    "shuffleable": false
   },
   {
     "code": "1B02188",
@@ -10405,7 +10462,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD Legislativo 1/2010, Art. 6"
+    "norma": "RD Legislativo 1/2010, Art. 6",
+    "shuffleable": false
   },
   {
     "code": "1B02189",
@@ -10430,7 +10488,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 44/2015, Art. 3"
+    "norma": "Ley 44/2015, Art. 3",
+    "shuffleable": false
   },
   {
     "code": "1B02190",
@@ -10480,7 +10539,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, Art. 22"
+    "norma": "RD Legislativo 1/2010, Art. 22",
+    "shuffleable": false
   },
   {
     "code": "1B02192",
@@ -10605,7 +10665,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "Código de Comercio, Art. 116"
+    "norma": "Código de Comercio, Art. 116",
+    "shuffleable": false
   },
   {
     "code": "1B02197",
@@ -10730,7 +10791,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, art. 371; RD Legislativo 1/2010, art. 374"
+    "norma": "RD Legislativo 1/2010, art. 371; RD Legislativo 1/2010, art. 374",
+    "shuffleable": false
   },
   {
     "code": "1B02202",
@@ -11155,7 +11217,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, Art. 346"
+    "norma": "RD Legislativo 1/2010, Art. 346",
+    "shuffleable": false
   },
   {
     "code": "1B02219",
@@ -11380,7 +11443,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/1999, Art. 77"
+    "norma": "Ley 27/1999, Art. 77",
+    "shuffleable": false
   },
   {
     "code": "1B02233",
@@ -11530,7 +11594,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, Art. 160"
+    "norma": "RD Legislativo 1/2010, Art. 160",
+    "shuffleable": false
   },
   {
     "code": "1B02239",
@@ -11555,7 +11620,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, Art. 93"
+    "norma": "RD Legislativo 1/2010, Art. 93",
+    "shuffleable": false
   },
   {
     "code": "1B02240",
@@ -11581,7 +11647,8 @@
     ],
     "correctOption": "A",
     "norma": "Derecho Mercantil, Rodrigo Uría, Editorial Marcial Pons",
-    "doctrinalReference": "Derecho Mercantil, Rodrigo Uría, Editorial Marcial Pons"
+    "doctrinalReference": "Derecho Mercantil, Rodrigo Uría, Editorial Marcial Pons",
+    "shuffleable": false
   },
   {
     "code": "1B02241",
@@ -11756,7 +11823,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, art. 104; RD Legislativo 1/2010, art. 116"
+    "norma": "RD Legislativo 1/2010, art. 104; RD Legislativo 1/2010, art. 116",
+    "shuffleable": false
   },
   {
     "code": "1B02251",
@@ -11781,7 +11849,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, Art. 212"
+    "norma": "RD Legislativo 1/2010, Art. 212",
+    "shuffleable": false
   },
   {
     "code": "1B02252",
@@ -11881,7 +11950,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Código de Comercio, Art. 119"
+    "norma": "Código de Comercio, Art. 119",
+    "shuffleable": false
   },
   {
     "code": "1B02256",
@@ -12281,7 +12351,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2010, art. 6"
+    "norma": "RD Legislativo 1/2010, art. 6",
+    "shuffleable": false
   },
   {
     "code": "1B02275",
@@ -12306,7 +12377,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, art. 7"
+    "norma": "RD Legislativo 1/2010, art. 7",
+    "shuffleable": false
   },
   {
     "code": "1B02276",
@@ -12331,7 +12403,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, art. 8"
+    "norma": "RD Legislativo 1/2010, art. 8",
+    "shuffleable": false
   },
   {
     "code": "1B02277",
@@ -12356,7 +12429,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2010, art. 9"
+    "norma": "RD Legislativo 1/2010, art. 9",
+    "shuffleable": false
   },
   {
     "code": "1B02278",
@@ -12431,7 +12505,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, art. 12"
+    "norma": "RD Legislativo 1/2010, art. 12",
+    "shuffleable": false
   },
   {
     "code": "1B02281",
@@ -12581,7 +12656,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, 11 bis"
+    "norma": "RD Legislativo 1/2010, 11 bis",
+    "shuffleable": false
   },
   {
     "code": "1B02287",
@@ -12606,7 +12682,8 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, art. 8"
+    "norma": "RD Legislativo 1/2010, art. 8",
+    "shuffleable": false
   },
   {
     "code": "1B02288",
@@ -12656,7 +12733,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2010, art. 12"
+    "norma": "RD Legislativo 1/2010, art. 12",
+    "shuffleable": false
   },
   {
     "code": "1B02290",
@@ -12756,7 +12834,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "RD Legislativo 1/2010, art. 14"
+    "norma": "RD Legislativo 1/2010, art. 14",
+    "shuffleable": false
   },
   {
     "code": "1B02294",
@@ -12931,7 +13010,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 12/1991, art. 2"
+    "norma": "Ley 12/1991, art. 2",
+    "shuffleable": false
   },
   {
     "code": "1B02301",
@@ -12956,7 +13036,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 12/1991, art. 12"
+    "norma": "Ley 12/1991, art. 12",
+    "shuffleable": false
   },
   {
     "code": "1B02302",
@@ -13056,7 +13137,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "Ley 27/1999, art. 10"
+    "norma": "Ley 27/1999, art. 10",
+    "shuffleable": false
   },
   {
     "code": "1B02306",
@@ -13181,7 +13263,8 @@
       }
     ],
     "correctOption": "B",
-    "norma": "Ley 27/1999, art. 17"
+    "norma": "Ley 27/1999, art. 17",
+    "shuffleable": false
   },
   {
     "code": "1B02311",
@@ -13456,7 +13539,8 @@
       }
     ],
     "correctOption": "C",
-    "norma": "RD Legislativo 1/2010, art. 83"
+    "norma": "RD Legislativo 1/2010, art. 83",
+    "shuffleable": false
   },
   {
     "code": "1B02322",
@@ -13531,7 +13615,8 @@
       }
     ],
     "correctOption": "D",
-    "norma": "RD Legislativo 1/2010, art. 92"
+    "norma": "RD Legislativo 1/2010, art. 92",
+    "shuffleable": false
   },
   {
     "code": "1B02325",
@@ -13556,6 +13641,7 @@
       }
     ],
     "correctOption": "A",
-    "norma": "RD Legislativo 1/2010, art. 93"
+    "norma": "RD Legislativo 1/2010, art. 93",
+    "shuffleable": false
   }
 ]

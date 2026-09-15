@@ -21,6 +21,20 @@ void main() {
       expect(question.isCorrect(QuestionOption.a), isFalse);
     });
 
+    test('defaults shuffleable to true when absent', () async {
+      final question = await Question.fromJson(_validQuestionJson());
+
+      expect(question.shuffleable, isTrue);
+    });
+
+    test('reads an explicit shuffleable value', () async {
+      final json = _validQuestionJson()..['shuffleable'] = false;
+
+      final question = await Question.fromJson(json);
+
+      expect(question.shuffleable, isFalse);
+    });
+
     test('rejects missing required fields', () async {
       final json = _validQuestionJson()..remove('prompt');
 

@@ -29,7 +29,26 @@ NORMA: RD 1211/1990, art. 6
               'Formulando la oportuna reclamación ante los Tribunales de Justicia.',
         ),
         norma: 'RD 1211/1990, art. 6',
+        shuffleable: isTrue,
       ),
     ]);
+  });
+
+  test('marks questions listed as non-shuffleable', () async {
+    const source = '''
+COD: 1A01001
+PREGUNTA: Pregunta de ejemplo.
+A: Incorrecta.
+B: Correcta.
+C: Todas las anteriores.
+D: Ninguna de las anteriores.
+SOLUCION: B
+NORMA: RD 1211/1990, art. 6
+''';
+
+    final parser = QuestionTxtParser(nonShuffleableCodes: {'1A01001'});
+    final questions = await parser.parse(source);
+
+    expect(questions, [isAQuestion(code: '1A01001', shuffleable: isFalse)]);
   });
 }

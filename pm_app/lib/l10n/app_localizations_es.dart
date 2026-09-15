@@ -51,6 +51,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appVersion => 'Versión';
 
   @override
+  String get shuffleAnswersTitle => 'Aleatorizar respuestas';
+
+  @override
+  String get shuffleAnswersSubtitle =>
+      'Cambia el orden de las opciones al mostrar cada pregunta. Las preguntas cuyas respuestas hacen referencia a otras opciones (por ejemplo, \"todas las anteriores\") nunca se aleatorizan.';
+
+  @override
   String get resetProgress => 'Reiniciar progreso';
 
   @override

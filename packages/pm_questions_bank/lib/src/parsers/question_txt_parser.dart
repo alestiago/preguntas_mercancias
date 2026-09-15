@@ -1,7 +1,14 @@
 import '../models/models.dart';
 
 final class QuestionTxtParser {
-  const QuestionTxtParser();
+  const QuestionTxtParser({this.nonShuffleableCodes = const {}});
+
+  /// Codes of questions whose answers must never be shuffled.
+  ///
+  /// Some answers reference other options positionally (e.g. "Todas las
+  /// anteriores" or "Las respuestas A y B son correctas"), so shuffling
+  /// them would make the question incoherent.
+  final Set<String> nonShuffleableCodes;
 
   Future<List<Question>> parse(String source) async {
     final records = _parseRecords(source);
@@ -72,6 +79,8 @@ final class QuestionTxtParser {
       'norma': record[_Field.norma.label],
       if (record.containsKey(_Field.doctrinalReference.label))
         'doctrinalReference': record[_Field.doctrinalReference.label],
+      if (code != null && nonShuffleableCodes.contains(code))
+        'shuffleable': false,
     };
 
     try {

@@ -5,6 +5,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import 'helpers/fake_question_progress_store.dart';
+import 'helpers/fake_settings_store.dart';
 
 void main() {
   testWidgets('answers a question and advances to the next one', (
@@ -201,6 +202,8 @@ void main() {
   testWidgets('settings shows version and resets progress', (tester) async {
     final progressStore = FakeQuestionProgressStore();
     addTearDown(progressStore.close);
+    final settingsStore = FakeSettingsStore();
+    addTearDown(settingsStore.close);
     await progressStore.recordAnswer(
       QuestionAnswerRecord(
         questionCode: '1A01001',
@@ -222,6 +225,7 @@ void main() {
       PreguntasMercanciasApp(
         loadQuestions: (_) async => _questions,
         questionProgressStore: progressStore,
+        settingsStore: settingsStore,
       ),
     );
     await tester.pumpAndSettle();
@@ -249,6 +253,18 @@ void main() {
     expect(find.text('Versión'), findsOneWidget);
     expect(find.text('1.0.0+1'), findsOneWidget);
     expect(find.byKey(const ValueKey('reset-progress-tile')), findsOneWidget);
+
+    final shuffleSwitchFinder = find.byKey(
+      const ValueKey('shuffle-answers-switch'),
+    );
+    expect(shuffleSwitchFinder, findsOneWidget);
+    expect(tester.widget<SwitchListTile>(shuffleSwitchFinder).value, isTrue);
+
+    await tester.tap(shuffleSwitchFinder);
+    await tester.pumpAndSettle();
+
+    expect(tester.widget<SwitchListTile>(shuffleSwitchFinder).value, isFalse);
+    expect(await settingsStore.loadAnswerShuffleEnabled(), isFalse);
 
     await tester.tap(find.byKey(const ValueKey('reset-progress-tile')));
     await tester.pumpAndSettle();

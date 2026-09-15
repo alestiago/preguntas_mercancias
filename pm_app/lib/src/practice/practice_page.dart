@@ -19,6 +19,7 @@ class QuestionPracticePage extends StatelessWidget {
     this.isReviewMode = false,
     this.isPendingMode = false,
     this.isSimulacroMode = false,
+    this.shuffleAnswers = true,
     this.pendingQuestionCount,
     this.pendingQuestionCountsBySection = const {},
   }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
@@ -30,6 +31,7 @@ class QuestionPracticePage extends StatelessWidget {
   final bool isReviewMode;
   final bool isPendingMode;
   final bool isSimulacroMode;
+  final bool shuffleAnswers;
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
 
@@ -44,6 +46,7 @@ class QuestionPracticePage extends StatelessWidget {
         isReviewMode: isReviewMode,
         isPendingMode: isPendingMode,
         isSimulacroMode: isSimulacroMode,
+        shuffleAnswers: shuffleAnswers,
       )..add(const PracticeStarted()),
       child: _QuestionPracticeView(
         pendingQuestionCount: pendingQuestionCount,

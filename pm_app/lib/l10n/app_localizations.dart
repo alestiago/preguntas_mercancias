@@ -154,6 +154,18 @@ abstract class AppLocalizations {
   /// **'Versión'**
   String get appVersion;
 
+  /// No description provided for @shuffleAnswersTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Aleatorizar respuestas'**
+  String get shuffleAnswersTitle;
+
+  /// No description provided for @shuffleAnswersSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambia el orden de las opciones al mostrar cada pregunta. Las preguntas cuyas respuestas hacen referencia a otras opciones (por ejemplo, \"todas las anteriores\") nunca se aleatorizan.'**
+  String get shuffleAnswersSubtitle;
+
   /// No description provided for @resetProgress.
   ///
   /// In es, this message translates to:

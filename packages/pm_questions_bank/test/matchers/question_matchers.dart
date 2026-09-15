@@ -11,6 +11,7 @@ Matcher isAQuestion({
   Object? correctOption = _unspecified,
   Object? norma = _unspecified,
   Object? doctrinalReference = _unspecified,
+  Object? shuffleable = _unspecified,
   Object? correctAnswer = _unspecified,
 }) {
   return isA<Question>()
@@ -28,6 +29,11 @@ Matcher isAQuestion({
         (question) => question.doctrinalReference,
         'doctrinalReference',
         _orAnything(doctrinalReference),
+      )
+      .having(
+        (question) => question.shuffleable,
+        'shuffleable',
+        _orAnything(shuffleable),
       )
       .having(
         (question) => question.correctAnswer,

@@ -77,6 +77,7 @@ final class Question {
     required QuestionOption correctOption,
     required String norma,
     String? doctrinalReference,
+    bool shuffleable = true,
   }) {
     final normalizedAnswers = List<QuestionAnswer>.unmodifiable(answers);
 
@@ -88,6 +89,7 @@ final class Question {
       correctOption: correctOption,
       norma: norma,
       doctrinalReference: doctrinalReference,
+      shuffleable: shuffleable,
     );
   }
 
@@ -99,6 +101,7 @@ final class Question {
     required this.correctOption,
     required this.norma,
     required this.doctrinalReference,
+    required this.shuffleable,
   });
 
   final String code;
@@ -108,6 +111,13 @@ final class Question {
   final QuestionOption correctOption;
   final String norma;
   final String? doctrinalReference;
+
+  /// Whether the answers can be presented in a random order.
+  ///
+  /// Some answers reference other options positionally (e.g. "Todas las
+  /// anteriores" or "Las respuestas A y B son correctas"), so shuffling
+  /// them would make the question incoherent.
+  final bool shuffleable;
 
   static final Schema jsonSchema = S.object(
     required: [
@@ -127,6 +137,7 @@ final class Question {
       'correctOption': S.string(enumValues: _optionCodes),
       'norma': S.string(pattern: _nonBlankPattern),
       'doctrinalReference': S.string(pattern: _nonBlankPattern),
+      'shuffleable': S.boolean(),
     },
   );
 
@@ -149,6 +160,7 @@ final class Question {
       'correctOption': correctOption.code,
       'norma': norma,
       if (doctrinalReference != null) 'doctrinalReference': doctrinalReference,
+      if (!shuffleable) 'shuffleable': shuffleable,
     };
   }
 
@@ -170,6 +182,7 @@ final class Question {
       correctOption: QuestionOption.fromCode(json['correctOption'] as String),
       norma: json['norma'] as String,
       doctrinalReference: json['doctrinalReference'] as String?,
+      shuffleable: json['shuffleable'] as bool? ?? true,
     );
   }
 
@@ -184,7 +197,8 @@ final class Question {
             _questionAnswerListEquality.equals(answers, other.answers) &&
             correctOption == other.correctOption &&
             norma == other.norma &&
-            doctrinalReference == other.doctrinalReference;
+            doctrinalReference == other.doctrinalReference &&
+            shuffleable == other.shuffleable;
   }
 
   @override
@@ -196,6 +210,7 @@ final class Question {
     correctOption,
     norma,
     doctrinalReference,
+    shuffleable,
   );
 }
 
