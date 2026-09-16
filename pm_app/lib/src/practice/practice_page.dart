@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pm_persistence/pm_persistence.dart';
@@ -9,7 +7,8 @@ import '../../l10n/app_localizations.dart';
 import '../questions/load_questions.dart';
 import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
-import 'widgets/exit_practice_button.dart';
+import 'widgets/practice_page_app_bar.dart';
+import 'widgets/practice_question_header.dart';
 import 'widgets/question_navigation_drawer.dart';
 
 class QuestionPracticePage extends StatelessWidget {
@@ -80,7 +79,6 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
   Widget build(BuildContext context) {
     return BlocBuilder<PracticeBloc, PracticeState>(
       builder: (context, state) {
-        final localizations = AppLocalizations.of(context);
         final canPop = state is! PracticeLoaded || !state.isRecordingAnswer;
 
         return PopScope(
@@ -102,38 +100,10 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                     },
                   )
                 : null,
-            appBar: AppBar(
-              leading: state is PracticeLoaded && state.isSimulacroMode
-                  ? ExitPracticeIconButton(
-                      showConfirmation: state.showExitConfirmation,
-                      onExitConfirmed: () => Navigator.of(context).pop(),
-                    )
-                  : null,
-              title: state.isSimulacroMode
-                  ? _SimulacroModeTitle(title: state.localize(localizations))
-                  : Text(state.localize(localizations)),
-              actions: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    right: state.isQuestionDrawerNavigationEnabled ? 4 : 16,
-                  ),
-                  child: _ScorePill(
-                    correctCount: state.correctCount,
-                    answeredQuestionCount:
-                        state.correctCount + state.incorrectCount,
-                  ),
-                ),
-                if (state.isQuestionDrawerNavigationEnabled)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: IconButton(
-                      key: const ValueKey('question-navigation-app-bar-button'),
-                      tooltip: localizations.questionNavigationOpen,
-                      onPressed: _openQuestionNavigator,
-                      icon: const Icon(Icons.menu),
-                    ),
-                  ),
-              ],
+            appBar: PracticePageAppBar(
+              state: state,
+              onExitConfirmed: () => Navigator.of(context).pop(),
+              onOpenQuestionNavigator: _openQuestionNavigator,
             ),
             body: SafeArea(
               child: _PracticeBody(
@@ -308,7 +278,7 @@ class _PracticeContentLayout extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _QuestionProgress(
+              PracticeQuestionHeader(
                 question: question,
                 currentQuestionNumber: currentQuestionNumber,
                 questionCount: questionCount,
@@ -416,106 +386,6 @@ class _SectionSelector extends StatelessWidget {
               const SizedBox(width: 8),
             ],
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _QuestionProgress extends StatelessWidget {
-  const _QuestionProgress({
-    required this.question,
-    required this.currentQuestionNumber,
-    required this.questionCount,
-    required this.progress,
-    required this.onOpenQuestionNavigator,
-  });
-
-  final Question question;
-  final int currentQuestionNumber;
-  final int questionCount;
-  final double progress;
-  final VoidCallback? onOpenQuestionNavigator;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context);
-    final progressLabel = localizations.questionProgress(
-      currentQuestionNumber,
-      questionCount,
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              question.code,
-              style: textTheme.labelLarge?.copyWith(
-                color: colorScheme.primary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const Spacer(),
-            _QuestionProgressLabel(
-              label: progressLabel,
-              onOpenQuestionNavigator: onOpenQuestionNavigator,
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        LinearProgressIndicator(value: progress),
-      ],
-    );
-  }
-}
-
-class _QuestionProgressLabel extends StatelessWidget {
-  const _QuestionProgressLabel({
-    required this.label,
-    required this.onOpenQuestionNavigator,
-  });
-
-  final String label;
-  final VoidCallback? onOpenQuestionNavigator;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context);
-    final labelStyle = textTheme.labelLarge?.copyWith(
-      color: colorScheme.onSurfaceVariant,
-      fontWeight: onOpenQuestionNavigator == null ? null : FontWeight.w700,
-    );
-
-    if (onOpenQuestionNavigator == null) {
-      return Text(label, style: labelStyle);
-    }
-
-    return Tooltip(
-      message: localizations.questionNavigationOpen,
-      child: InkWell(
-        key: const ValueKey('question-navigation-open-button'),
-        borderRadius: BorderRadius.circular(999),
-        onTap: onOpenQuestionNavigator,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(label, style: labelStyle),
-              const SizedBox(width: 6),
-              Icon(
-                Icons.view_list,
-                size: 18,
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -975,113 +845,6 @@ class _SessionFooter extends StatelessWidget {
   }
 }
 
-class _SimulacroModeTitle extends StatelessWidget {
-  const _SimulacroModeTitle({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: .center,
-      crossAxisAlignment: .start,
-      children: [
-        Center(
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: .center,
-          ),
-        ),
-        Center(child: const _SimulacroElapsedTimer()),
-      ],
-    );
-  }
-}
-
-class _SimulacroElapsedTimer extends StatefulWidget {
-  const _SimulacroElapsedTimer();
-
-  @override
-  State<_SimulacroElapsedTimer> createState() => _SimulacroElapsedTimerState();
-}
-
-class _SimulacroElapsedTimerState extends State<_SimulacroElapsedTimer> {
-  Timer? _timer;
-  var _elapsed = Duration.zero;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() {
-        _elapsed += const Duration(seconds: 1);
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Text(
-      key: const ValueKey('simulacro-elapsed-time'),
-      _elapsed.timerLabel,
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-        color: colorScheme.onSurfaceVariant,
-        fontWeight: FontWeight.w600,
-      ),
-      textAlign: .center,
-    );
-  }
-}
-
-class _ScorePill extends StatelessWidget {
-  const _ScorePill({
-    required this.correctCount,
-    required this.answeredQuestionCount,
-  });
-
-  final int correctCount;
-  final int answeredQuestionCount;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context);
-    final scorePercentage = answeredQuestionCount == 0
-        ? 0
-        : ((correctCount / answeredQuestionCount) * 100).round();
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(
-          localizations.scorePill(
-            correctCount,
-            answeredQuestionCount,
-            scorePercentage,
-          ),
-          style: TextStyle(
-            color: colorScheme.onPrimaryContainer,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _LoadingState extends StatelessWidget {
   const _LoadingState();
 
@@ -1166,24 +929,6 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-extension _PracticeStateLocalizations on PracticeState {
-  String localize(AppLocalizations localizations) {
-    if (isPendingMode) {
-      return localizations.pendingQuestions;
-    }
-
-    if (isReviewMode) {
-      return 'Por Repasar';
-    }
-
-    if (isSimulacroMode) {
-      return localizations.startSimulacro;
-    }
-
-    return localizations.appTitle;
-  }
-}
-
 extension _PracticeLoadedPresentation on PracticeLoaded {
   int get displayQuestionNumber => currentIndex + 1;
 
@@ -1225,19 +970,5 @@ extension _QuestionDisplayOptions on Question {
     }
 
     return QuestionOption.values[answerIndex];
-  }
-}
-
-extension _TimerDurationFormatting on Duration {
-  String get timerLabel {
-    final hours = inHours;
-    final minutes = inMinutes.remainder(60).toString().padLeft(2, '0');
-    final seconds = inSeconds.remainder(60).toString().padLeft(2, '0');
-
-    if (hours > 0) {
-      return '$hours:$minutes:$seconds';
-    }
-
-    return '$minutes:$seconds';
   }
 }
