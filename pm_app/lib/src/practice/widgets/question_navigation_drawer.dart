@@ -170,31 +170,50 @@ class _QuestionNavigationTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final localizations = AppLocalizations.of(context);
 
-    return ListTile(
-      key: ValueKey('question-navigation-tile-$number'),
-      selected: isCurrent,
-      selectedTileColor: colorScheme.primaryContainer.withValues(alpha: 0.45),
-      tileColor: Colors.transparent,
-      onTap: onTap,
-      leading: _QuestionStatusIcon(status: status),
-      title: Text(
-        '${localizations.questionNavigationQuestion(number)} · ${question.code}',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.bodySmall,
-      ),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(top: 2),
-        child: Text(
-          question.prompt,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.w700),
+    return Material(
+      color: isCurrent
+          ? colorScheme.primaryContainer.withValues(alpha: 0.45)
+          : Colors.transparent,
+      child: InkWell(
+        key: ValueKey('question-navigation-tile-$number'),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _QuestionStatusIcon(status: status),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${localizations.questionNavigationQuestion(number)} · ${question.code}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      question.prompt,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(
+                isCurrent ? Icons.location_on : Icons.chevron_right,
+                color: isCurrent ? colorScheme.primary : null,
+              ),
+            ],
+          ),
         ),
       ),
-      trailing: isCurrent
-          ? Icon(Icons.location_on, color: colorScheme.primary)
-          : const Icon(Icons.chevron_right),
     );
   }
 }
