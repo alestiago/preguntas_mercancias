@@ -113,6 +113,49 @@ void main() {
     );
   });
 
+  testWidgets('keeps practice footer pinned above scrollable content', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    tester.view.physicalSize = const Size(390, 520);
+    tester.view.devicePixelRatio = 1;
+
+    await tester.pumpWidget(
+      PreguntasMercanciasApp(
+        loadQuestions: (_) async => [_longQuestion],
+        questionProgressStore: progressStore,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('home-unanswered-stat')));
+    await tester.pumpAndSettle();
+
+    final footer = find.byKey(const ValueKey('practice-session-footer'));
+    final footerTopBeforeScroll = tester.getTopLeft(footer).dy;
+    final footerBottomBeforeScroll = tester.getBottomLeft(footer).dy;
+
+    final lastAnswer = find.byKey(const ValueKey('answer-D'));
+    for (var i = 0; i < 12; i += 1) {
+      final lastAnswerBottom = tester.getBottomLeft(lastAnswer).dy;
+      final footerTop = tester.getTopLeft(footer).dy;
+      if (lastAnswerBottom < footerTop) {
+        break;
+      }
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -250));
+      await tester.pumpAndSettle();
+    }
+
+    expect(tester.getTopLeft(footer).dy, footerTopBeforeScroll);
+    expect(tester.getBottomLeft(footer).dy, footerBottomBeforeScroll);
+    final lastAnswerBottom = tester.getBottomLeft(lastAnswer).dy;
+    final footerTop = tester.getTopLeft(footer).dy;
+    expect(lastAnswerBottom, lessThan(footerTop));
+  });
+
   testWidgets('shows answer history with the most recent answer first', (
     tester,
   ) async {
@@ -693,6 +736,35 @@ final _questions = [
     norma: 'Norma segunda',
   ),
 ];
+
+final _longQuestion = Question(
+  code: '1A01999',
+  section: '1A',
+  prompt: List.filled(
+    12,
+    'Pregunta larga para comprobar que el contenido puede desplazarse.',
+  ).join(' '),
+  answers: const [
+    QuestionAnswer(
+      option: QuestionOption.a,
+      text: 'Respuesta A con suficiente texto para ocupar varias lineas.',
+    ),
+    QuestionAnswer(
+      option: QuestionOption.b,
+      text: 'Respuesta B con suficiente texto para ocupar varias lineas.',
+    ),
+    QuestionAnswer(
+      option: QuestionOption.c,
+      text: 'Respuesta C con suficiente texto para ocupar varias lineas.',
+    ),
+    QuestionAnswer(
+      option: QuestionOption.d,
+      text: 'Respuesta D con suficiente texto para ocupar varias lineas.',
+    ),
+  ],
+  correctOption: QuestionOption.a,
+  norma: 'Norma larga',
+);
 
 Future<List<Question>> _loadFilteredQuestions(String? section) async {
   return section == null

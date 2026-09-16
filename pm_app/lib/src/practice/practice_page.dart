@@ -82,6 +82,10 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
     return BlocBuilder<PracticeBloc, PracticeState>(
       builder: (context, state) {
         final canPop = state is! PracticeLoaded || !state.isRecordingAnswer;
+        final footerState =
+            state is PracticeLoaded && state.questions.isNotEmpty
+            ? state
+            : null;
 
         return PopScope(
           canPop: canPop,
@@ -107,6 +111,30 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
               onExitConfirmed: () => Navigator.of(context).pop(),
               onOpenQuestionNavigator: _openQuestionNavigator,
             ),
+            bottomNavigationBar: footerState == null
+                ? null
+                : _PracticeSessionFooterBar(
+                    child: PracticeSessionFooter(
+                      answered: footerState.answered,
+                      currentIndex: footerState.currentIndex,
+                      isLastQuestion: footerState.isLastQuestion,
+                      isFilteredPracticeMode:
+                          footerState.isFilteredPracticeMode,
+                      isFilteredPracticeComplete:
+                          footerState.isFilteredPracticeComplete,
+                      isSimulacroMode: footerState.isSimulacroMode,
+                      isRecordingAnswer: footerState.isRecordingAnswer,
+                      onFinishPractice: () => footerState.isSimulacroMode
+                          ? _finishSimulacro(context, footerState)
+                          : Navigator.of(context).pop(),
+                      onNextQuestion: () => context.read<PracticeBloc>().add(
+                        const NextQuestionPressed(),
+                      ),
+                      onPreviousQuestion: () => context
+                          .read<PracticeBloc>()
+                          .add(const PreviousQuestionPressed()),
+                    ),
+                  ),
             body: SafeArea(
               child: Column(
                 children: [
@@ -121,8 +149,6 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                       pendingQuestionCount: widget.pendingQuestionCount,
                       pendingQuestionCountsBySection:
                           widget.pendingQuestionCountsBySection,
-                      onFinishSimulacro: (loadedState) =>
-                          _finishSimulacro(context, loadedState),
                       onOpenQuestionNavigator:
                           state.isQuestionDrawerNavigationEnabled
                           ? _openQuestionNavigator
@@ -162,14 +188,12 @@ class _PracticeBody extends StatelessWidget {
     required this.state,
     required this.pendingQuestionCount,
     required this.pendingQuestionCountsBySection,
-    required this.onFinishSimulacro,
     required this.onOpenQuestionNavigator,
   });
 
   final PracticeState state;
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
-  final ValueChanged<PracticeLoaded> onFinishSimulacro;
   final VoidCallback? onOpenQuestionNavigator;
 
   @override
@@ -190,7 +214,6 @@ class _PracticeBody extends StatelessWidget {
         state: loadedState,
         pendingQuestionCount: pendingQuestionCount,
         pendingQuestionCountsBySection: pendingQuestionCountsBySection,
-        onFinishSimulacro: onFinishSimulacro,
         onOpenQuestionNavigator: onOpenQuestionNavigator,
       ),
     };
@@ -202,14 +225,12 @@ class _PracticeContent extends StatelessWidget {
     required this.state,
     required this.pendingQuestionCount,
     required this.pendingQuestionCountsBySection,
-    required this.onFinishSimulacro,
     required this.onOpenQuestionNavigator,
   });
 
   final PracticeLoaded state;
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
-  final ValueChanged<PracticeLoaded> onFinishSimulacro;
   final VoidCallback? onOpenQuestionNavigator;
 
   @override
@@ -240,18 +261,47 @@ class _PracticeContent extends StatelessWidget {
             questionCount: questionCount,
             onAnswer: (option) =>
                 context.read<PracticeBloc>().add(AnswerPressed(option)),
-            onFinishPractice: () => state.isSimulacroMode
-                ? onFinishSimulacro(state)
-                : Navigator.of(context).pop(),
-            onNextQuestion: () =>
-                context.read<PracticeBloc>().add(const NextQuestionPressed()),
-            onPreviousQuestion: () => context.read<PracticeBloc>().add(
-              const PreviousQuestionPressed(),
-            ),
             onOpenQuestionNavigator: onOpenQuestionNavigator,
           ),
         ),
       ],
+    );
+  }
+}
+
+class _PracticeSessionFooterBar extends StatelessWidget {
+  const _PracticeSessionFooterBar({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return DecoratedBox(
+      key: const ValueKey('practice-session-footer'),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        border: Border(top: BorderSide(color: colorScheme.outlineVariant)),
+        boxShadow: [
+          BoxShadow(
+            color: colorScheme.shadow.withValues(alpha: 0.08),
+            blurRadius: 12,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        minimum: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+        child: Center(
+          heightFactor: 1,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 860),
+            child: child,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -263,9 +313,6 @@ class _PracticeContentLayout extends StatelessWidget {
     required this.currentQuestionNumber,
     required this.questionCount,
     required this.onAnswer,
-    required this.onFinishPractice,
-    required this.onNextQuestion,
-    required this.onPreviousQuestion,
     required this.onOpenQuestionNavigator,
   });
 
@@ -274,9 +321,6 @@ class _PracticeContentLayout extends StatelessWidget {
   final int currentQuestionNumber;
   final int questionCount;
   final ValueChanged<QuestionOption> onAnswer;
-  final VoidCallback onFinishPractice;
-  final VoidCallback onNextQuestion;
-  final VoidCallback onPreviousQuestion;
   final VoidCallback? onOpenQuestionNavigator;
 
   @override
@@ -295,7 +339,6 @@ class _PracticeContentLayout extends StatelessWidget {
                 questionCount: questionCount,
                 onOpenQuestionNavigator: onOpenQuestionNavigator,
               ),
-              const SizedBox(height: 18),
               _QuestionPanel(
                 question: question,
                 selectedOption: state.selectedOption,
@@ -306,20 +349,6 @@ class _PracticeContentLayout extends StatelessWidget {
                 answered: state.answered,
                 question: question,
                 selectedOption: state.selectedOption,
-              ),
-              const Spacer(),
-              const SizedBox(height: 20),
-              PracticeSessionFooter(
-                answered: state.answered,
-                currentIndex: state.currentIndex,
-                isLastQuestion: state.isLastQuestion,
-                isFilteredPracticeMode: state.isFilteredPracticeMode,
-                isFilteredPracticeComplete: state.isFilteredPracticeComplete,
-                isSimulacroMode: state.isSimulacroMode,
-                isRecordingAnswer: state.isRecordingAnswer,
-                onFinishPractice: onFinishPractice,
-                onNextQuestion: onNextQuestion,
-                onPreviousQuestion: onPreviousQuestion,
               ),
             ],
           ),

@@ -40,36 +40,44 @@ class PracticeSessionFooter extends StatelessWidget {
 
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8),
+        const Spacer(),
+        Flexible(
+          fit: FlexFit.loose,
           child: OutlinedButton.icon(
             key: const ValueKey('previous-question-button'),
             onPressed: currentIndex > 0 && !isRecordingAnswer
                 ? onPreviousQuestion
                 : null,
             icon: const Icon(Icons.arrow_back),
-            label: Text(localizations.previousQuestion),
+            label: Text(
+              localizations.previousQuestion,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
-        const Spacer(),
-        FilledButton.icon(
-          key: const ValueKey('next-question-button'),
-          onPressed: !isRecordingAnswer && (answered || !isTerminalAction)
-              ? (isFinishAction ? onFinishPractice : onNextQuestion)
-              : null,
-          icon: Icon(
-            isFinishAction
-                ? Icons.check
-                : isRestartAction
-                ? Icons.refresh
-                : Icons.arrow_forward,
-          ),
-          label: Text(
-            isFinishAction
-                ? localizations.finishPractice
-                : isRestartAction
-                ? localizations.restartPractice
-                : localizations.nextQuestion,
+        const SizedBox(width: 8),
+        Flexible(
+          fit: FlexFit.loose,
+          child: FilledButton.icon(
+            key: const ValueKey('next-question-button'),
+            onPressed: !isRecordingAnswer && (answered || !isTerminalAction)
+                ? (isFinishAction ? onFinishPractice : onNextQuestion)
+                : null,
+            icon: Icon(
+              isFinishAction
+                  ? Icons.check
+                  : isRestartAction
+                  ? Icons.refresh
+                  : Icons.arrow_forward,
+            ),
+            label: Text(
+              isFinishAction
+                  ? localizations.finishPractice
+                  : isRestartAction
+                  ? localizations.restartPractice
+                  : localizations.nextQuestion,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       ],
