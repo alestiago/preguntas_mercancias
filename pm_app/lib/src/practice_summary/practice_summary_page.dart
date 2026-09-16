@@ -92,7 +92,7 @@ class _SummaryHeader extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             localizations.practiceSummaryElapsedTime(
-              _formatDuration(summary.elapsedTime),
+              summary.elapsedTime.timerLabel,
             ),
             style: textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
@@ -138,14 +138,16 @@ class _SummaryQuestionTile extends StatelessWidget {
   }
 }
 
-String _formatDuration(Duration duration) {
-  final hours = duration.inHours;
-  final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-  final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+extension _SummaryDurationFormatting on Duration {
+  String get timerLabel {
+    final hours = inHours;
+    final minutes = inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = inSeconds.remainder(60).toString().padLeft(2, '0');
 
-  if (hours > 0) {
-    return '$hours:$minutes:$seconds';
+    if (hours > 0) {
+      return '$hours:$minutes:$seconds';
+    }
+
+    return '$minutes:$seconds';
   }
-
-  return '$minutes:$seconds';
 }

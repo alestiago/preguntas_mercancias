@@ -85,10 +85,8 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
           child: Scaffold(
             appBar: AppBar(
               title: state.isSimulacroMode
-                  ? _SimulacroModeTitle(
-                      title: _practiceTitle(localizations, state),
-                    )
-                  : Text(_practiceTitle(localizations, state)),
+                  ? _SimulacroModeTitle(title: state.localize(localizations))
+                  : Text(state.localize(localizations)),
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
@@ -114,22 +112,6 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
         );
       },
     );
-  }
-
-  String _practiceTitle(AppLocalizations localizations, PracticeState state) {
-    if (state.isPendingMode) {
-      return localizations.pendingQuestions;
-    }
-
-    if (state.isReviewMode) {
-      return 'Por Repasar';
-    }
-
-    if (state.isSimulacroMode) {
-      return localizations.startSimulacro;
-    }
-
-    return localizations.appTitle;
   }
 
   void _finishSimulacro(BuildContext context, PracticeLoaded state) {
@@ -200,8 +182,11 @@ class _PracticeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final question = state.currentQuestion;
-    final currentQuestionNumber = _currentQuestionNumber;
-    final questionCount = _questionCount;
+    final currentQuestionNumber = state.displayQuestionNumber;
+    final questionCount = state.displayQuestionCount(
+      pendingQuestionCount: pendingQuestionCount,
+      pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+    );
 
     return CustomScrollView(
       slivers: [
@@ -220,7 +205,7 @@ class _PracticeContent extends StatelessWidget {
             question: question,
             currentQuestionNumber: currentQuestionNumber,
             questionCount: questionCount,
-            progress: _progress(currentQuestionNumber, questionCount),
+            progress: state.displayProgress(questionCount: questionCount),
             onAnswer: (option) =>
                 context.read<PracticeBloc>().add(AnswerPressed(option)),
             onFinishPractice: () => state.isSimulacroMode
@@ -235,34 +220,6 @@ class _PracticeContent extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  int get _currentQuestionNumber => state.currentIndex + 1;
-
-  int get _questionCount {
-    if (!state.isPendingMode) {
-      return state.questions.length;
-    }
-
-    final selectedSection = state.selectedSection;
-    if (selectedSection != null) {
-      return pendingQuestionCountsBySection[selectedSection] ??
-          state.questions.length;
-    }
-
-    return pendingQuestionCount ?? state.questions.length;
-  }
-
-  double _progress(int currentQuestionNumber, int questionCount) {
-    if (!state.isPendingMode) {
-      return state.progress;
-    }
-
-    if (questionCount == 0) {
-      return 0;
-    }
-
-    return (currentQuestionNumber / questionCount).clamp(0, 1).toDouble();
   }
 }
 
@@ -710,8 +667,7 @@ class _AnswerFeedback extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final isCorrect = question.isCorrect(selectedOption);
-    final correctDisplayOption = _displayOptionFor(
-      question,
+    final correctDisplayOption = question.displayOptionFor(
       question.correctOption,
     );
     final feedbackStyle = _AnswerFeedbackStyle.forResult(isCorrect: isCorrect);
@@ -840,17 +796,6 @@ final class _AnswerFeedbackStyle {
             foregroundColor: Color(0xFFB71C1C),
           );
   }
-}
-
-QuestionOption _displayOptionFor(Question question, QuestionOption option) {
-  final answerIndex = question.answers.indexWhere(
-    (answer) => answer.option == option,
-  );
-  if (answerIndex < 0 || answerIndex >= QuestionOption.values.length) {
-    return option;
-  }
-
-  return QuestionOption.values[answerIndex];
 }
 
 class _SessionFooter extends StatelessWidget {
@@ -984,25 +929,13 @@ class _SimulacroElapsedTimerState extends State<_SimulacroElapsedTimer> {
 
     return Text(
       key: const ValueKey('simulacro-elapsed-time'),
-      _formatDuration(_elapsed),
+      _elapsed.timerLabel,
       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
         color: colorScheme.onSurfaceVariant,
         fontWeight: FontWeight.w600,
       ),
       textAlign: .center,
     );
-  }
-
-  String _formatDuration(Duration duration) {
-    final hours = duration.inHours;
-    final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-    final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-
-    if (hours > 0) {
-      return '$hours:$minutes:$seconds';
-    }
-
-    return '$minutes:$seconds';
   }
 }
 
@@ -1127,5 +1060,81 @@ class _EmptyState extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+extension _PracticeStateLocalizations on PracticeState {
+  String localize(AppLocalizations localizations) {
+    if (isPendingMode) {
+      return localizations.pendingQuestions;
+    }
+
+    if (isReviewMode) {
+      return 'Por Repasar';
+    }
+
+    if (isSimulacroMode) {
+      return localizations.startSimulacro;
+    }
+
+    return localizations.appTitle;
+  }
+}
+
+extension _PracticeLoadedPresentation on PracticeLoaded {
+  int get displayQuestionNumber => currentIndex + 1;
+
+  int displayQuestionCount({
+    required int? pendingQuestionCount,
+    required Map<String, int> pendingQuestionCountsBySection,
+  }) {
+    if (!isPendingMode) {
+      return questions.length;
+    }
+
+    final selectedSection = this.selectedSection;
+    if (selectedSection != null) {
+      return pendingQuestionCountsBySection[selectedSection] ??
+          questions.length;
+    }
+
+    return pendingQuestionCount ?? questions.length;
+  }
+
+  double displayProgress({required int questionCount}) {
+    if (!isPendingMode) {
+      return progress;
+    }
+
+    if (questionCount == 0) {
+      return 0;
+    }
+
+    return (displayQuestionNumber / questionCount).clamp(0, 1).toDouble();
+  }
+}
+
+extension _QuestionDisplayOptions on Question {
+  QuestionOption displayOptionFor(QuestionOption option) {
+    final answerIndex = answers.indexWhere((answer) => answer.option == option);
+    if (answerIndex < 0 || answerIndex >= QuestionOption.values.length) {
+      return option;
+    }
+
+    return QuestionOption.values[answerIndex];
+  }
+}
+
+extension _TimerDurationFormatting on Duration {
+  String get timerLabel {
+    final hours = inHours;
+    final minutes = inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = inSeconds.remainder(60).toString().padLeft(2, '0');
+
+    if (hours > 0) {
+      return '$hours:$minutes:$seconds';
+    }
+
+    return '$minutes:$seconds';
   }
 }

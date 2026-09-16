@@ -209,7 +209,8 @@ class _AnswerHistoryTile extends StatelessWidget {
         ? const Color(0xFF2E7D32)
         : const Color(0xFFC62828);
     final selectedAnswerText =
-        _selectedAnswerText ?? answer.selectedOption.code;
+        question?.answerTextFor(answer.selectedOption) ??
+        answer.selectedOption.code;
 
     return ListTile(
       onTap: onTap,
@@ -230,7 +231,7 @@ class _AnswerHistoryTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${answer.questionCode} · ${_formatAnsweredTime(context, answer.answeredAt)}',
+              '${answer.questionCode} · ${answer.answeredAt.historyTime(context)}',
             ),
             Text(
               localizations.answerHistorySelection(selectedAnswerText),
@@ -242,26 +243,6 @@ class _AnswerHistoryTile extends StatelessWidget {
       ),
       trailing: onTap == null ? null : const Icon(Icons.chevron_right),
     );
-  }
-
-  String? get _selectedAnswerText {
-    final question = this.question;
-    if (question == null) {
-      return null;
-    }
-
-    for (final possibleAnswer in question.answers) {
-      if (possibleAnswer.option == answer.selectedOption) {
-        return possibleAnswer.text;
-      }
-    }
-
-    return null;
-  }
-
-  String _formatAnsweredTime(BuildContext context, DateTime answeredAt) {
-    final locale = Localizations.localeOf(context).toString();
-    return intl.DateFormat('HH:mm', locale).format(answeredAt);
   }
 }
 
@@ -291,8 +272,7 @@ final class _AnswerHistorySection {
   final List<QuestionAnswerRecord> answers;
 
   String formattedDate(BuildContext context) {
-    final locale = Localizations.localeOf(context).toString();
-    return intl.DateFormat('EEE d MMM y', locale).format(date);
+    return date.historyDate(context);
   }
 }
 
@@ -348,5 +328,29 @@ class _ErrorState extends StatelessWidget {
         child: Text('$error', textAlign: TextAlign.center),
       ),
     );
+  }
+}
+
+extension _QuestionAnswerTextLookup on Question {
+  String? answerTextFor(QuestionOption option) {
+    for (final possibleAnswer in answers) {
+      if (possibleAnswer.option == option) {
+        return possibleAnswer.text;
+      }
+    }
+
+    return null;
+  }
+}
+
+extension _AnswerHistoryDateFormatting on DateTime {
+  String historyTime(BuildContext context) {
+    final locale = Localizations.localeOf(context).toString();
+    return intl.DateFormat('HH:mm', locale).format(this);
+  }
+
+  String historyDate(BuildContext context) {
+    final locale = Localizations.localeOf(context).toString();
+    return intl.DateFormat('EEE d MMM y', locale).format(this);
   }
 }

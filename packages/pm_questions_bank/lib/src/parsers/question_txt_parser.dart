@@ -51,10 +51,8 @@ final class QuestionTxtParser {
         throw FormatException('Unexpected line without a field label: $line');
       }
 
-      currentRecord[currentLabel] = _appendContinuation(
-        currentRecord[currentLabel],
-        line.trim(),
-      );
+      currentRecord[currentLabel] = currentRecord[currentLabel]
+          .appendContinuation(line.trim());
     }
 
     if (currentRecord.isNotEmpty) {
@@ -68,7 +66,7 @@ final class QuestionTxtParser {
     final code = record[_Field.code.label];
     final json = <String, Object?>{
       'code': code,
-      'section': code == null ? null : _sectionFromCode(code),
+      'section': code?.sectionCode,
       'prompt': record[_Field.prompt.label],
       'answers': [
         for (final option in QuestionOption.values)
@@ -107,15 +105,20 @@ final _fieldPattern = RegExp(
   r'^(COD|PREGUNTA|A|B|C|D|SOLUCION|NORMA|REFERENCIA DOCTRINAL):\s*(.*)$',
 );
 
-String _appendContinuation(String? currentValue, String continuation) {
-  if (currentValue == null || currentValue.isEmpty) {
-    return continuation;
-  }
+extension _QuestionFieldContinuation on String? {
+  String appendContinuation(String continuation) {
+    final currentValue = this;
+    if (currentValue == null || currentValue.isEmpty) {
+      return continuation;
+    }
 
-  return '$currentValue\n$continuation';
+    return '$currentValue\n$continuation';
+  }
 }
 
-String _sectionFromCode(String code) {
-  final match = RegExp(r'^(\d+[A-Z])').firstMatch(code.trim().toUpperCase());
-  return match?.group(1) ?? code.trim();
+extension _QuestionCodeParsing on String {
+  String get sectionCode {
+    final match = RegExp(r'^(\d+[A-Z])').firstMatch(trim().toUpperCase());
+    return match?.group(1) ?? trim();
+  }
 }
