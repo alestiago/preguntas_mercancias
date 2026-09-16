@@ -8,6 +8,7 @@ import '../questions/load_questions.dart';
 import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
 import 'widgets/practice_page_app_bar.dart';
+import 'widgets/practice_progress_divider.dart';
 import 'widgets/practice_question_header.dart';
 import 'widgets/question_navigation_drawer.dart';
 
@@ -106,16 +107,33 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
               onOpenQuestionNavigator: _openQuestionNavigator,
             ),
             body: SafeArea(
-              child: _PracticeBody(
-                state: state,
-                pendingQuestionCount: widget.pendingQuestionCount,
-                pendingQuestionCountsBySection:
-                    widget.pendingQuestionCountsBySection,
-                onFinishSimulacro: (loadedState) =>
-                    _finishSimulacro(context, loadedState),
-                onOpenQuestionNavigator: state.isQuestionDrawerNavigationEnabled
-                    ? _openQuestionNavigator
-                    : null,
+              child: Column(
+                children: [
+                  if (state is PracticeLoaded && state.questions.isNotEmpty)
+                    PracticeProgressDivider(
+                      progress: state.displayProgress(
+                        questionCount: state.displayQuestionCount(
+                          pendingQuestionCount: widget.pendingQuestionCount,
+                          pendingQuestionCountsBySection:
+                              widget.pendingQuestionCountsBySection,
+                        ),
+                      ),
+                    ),
+                  Expanded(
+                    child: _PracticeBody(
+                      state: state,
+                      pendingQuestionCount: widget.pendingQuestionCount,
+                      pendingQuestionCountsBySection:
+                          widget.pendingQuestionCountsBySection,
+                      onFinishSimulacro: (loadedState) =>
+                          _finishSimulacro(context, loadedState),
+                      onOpenQuestionNavigator:
+                          state.isQuestionDrawerNavigationEnabled
+                          ? _openQuestionNavigator
+                          : null,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -224,7 +242,6 @@ class _PracticeContent extends StatelessWidget {
             question: question,
             currentQuestionNumber: currentQuestionNumber,
             questionCount: questionCount,
-            progress: state.displayProgress(questionCount: questionCount),
             onAnswer: (option) =>
                 context.read<PracticeBloc>().add(AnswerPressed(option)),
             onFinishPractice: () => state.isSimulacroMode
@@ -249,7 +266,6 @@ class _PracticeContentLayout extends StatelessWidget {
     required this.question,
     required this.currentQuestionNumber,
     required this.questionCount,
-    required this.progress,
     required this.onAnswer,
     required this.onFinishPractice,
     required this.onNextQuestion,
@@ -261,7 +277,6 @@ class _PracticeContentLayout extends StatelessWidget {
   final Question question;
   final int currentQuestionNumber;
   final int questionCount;
-  final double progress;
   final ValueChanged<QuestionOption> onAnswer;
   final VoidCallback onFinishPractice;
   final VoidCallback onNextQuestion;
@@ -282,7 +297,6 @@ class _PracticeContentLayout extends StatelessWidget {
                 question: question,
                 currentQuestionNumber: currentQuestionNumber,
                 questionCount: questionCount,
-                progress: progress,
                 onOpenQuestionNavigator: onOpenQuestionNavigator,
               ),
               const SizedBox(height: 18),

@@ -9,14 +9,12 @@ class PracticeQuestionHeader extends StatelessWidget {
     required this.question,
     required this.currentQuestionNumber,
     required this.questionCount,
-    required this.progress,
     required this.onOpenQuestionNavigator,
   });
 
   final Question question;
   final int currentQuestionNumber;
   final int questionCount;
-  final double progress;
   final VoidCallback? onOpenQuestionNavigator;
 
   @override
@@ -29,27 +27,20 @@ class PracticeQuestionHeader extends StatelessWidget {
       questionCount,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        Row(
-          children: [
-            Text(
-              question.code,
-              style: textTheme.labelLarge?.copyWith(
-                color: colorScheme.primary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const Spacer(),
-            _QuestionProgressLabel(
-              label: progressLabel,
-              onOpenQuestionNavigator: onOpenQuestionNavigator,
-            ),
-          ],
+        Text(
+          question.code,
+          style: textTheme.labelLarge?.copyWith(
+            color: colorScheme.primary,
+            fontWeight: FontWeight.w700,
+          ),
         ),
-        const SizedBox(height: 10),
-        LinearProgressIndicator(value: progress),
+        const Spacer(),
+        _QuestionProgressLabel(
+          label: progressLabel,
+          onOpenQuestionNavigator: onOpenQuestionNavigator,
+        ),
       ],
     );
   }
