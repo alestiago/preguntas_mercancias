@@ -568,6 +568,92 @@ void main() {
     expect(find.text('Preguntas'), findsNothing);
     expect(find.text('Pregunta 2 de 30'), findsOneWidget);
   });
+
+  testWidgets('exits unanswered simulacro without confirmation', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+
+    await tester.pumpWidget(
+      PreguntasMercanciasApp(
+        loadQuestions: (_) async => _simulacroQuestions,
+        questionProgressStore: progressStore,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('start-simulacro-button')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('exit-practice-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Tu progreso'), findsOneWidget);
+    expect(find.text('¿Seguro que quieres salir del simulacro?'), findsNothing);
+  });
+
+  testWidgets('asks for confirmation before exiting answered simulacro', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+
+    await tester.pumpWidget(
+      PreguntasMercanciasApp(
+        loadQuestions: (_) async => _simulacroQuestions,
+        questionProgressStore: progressStore,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('start-simulacro-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('answer-A')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('exit-practice-button')));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('¿Seguro que quieres salir del simulacro?'),
+      findsOneWidget,
+    );
+    expect(find.text('Perderás el progreso de este intento.'), findsOneWidget);
+
+    await tester.tap(find.text('Cancelar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Simulacro'), findsOneWidget);
+    expect(find.text('Pregunta 1 de 30'), findsOneWidget);
+  });
+
+  testWidgets('confirmed exit leaves answered simulacro', (tester) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+
+    await tester.pumpWidget(
+      PreguntasMercanciasApp(
+        loadQuestions: (_) async => _simulacroQuestions,
+        questionProgressStore: progressStore,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('start-simulacro-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('answer-A')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('exit-practice-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Salir'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Tu progreso'), findsOneWidget);
+    expect(find.text('Pregunta 1 de 30'), findsNothing);
+    expect(find.byKey(const ValueKey('exit-practice-button')), findsNothing);
+  });
 }
 
 Finder _answerButtonsFinder() {

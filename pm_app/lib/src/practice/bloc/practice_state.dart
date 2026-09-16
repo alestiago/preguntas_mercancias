@@ -70,6 +70,8 @@ final class PracticeLoaded extends PracticeState {
 
   bool get answered => selectedOption != null;
 
+  bool get showExitConfirmation => selectedOptionsByQuestionCode.isNotEmpty;
+
   bool get isLastQuestion => currentIndex == questions.length - 1;
 
   bool get isFilteredPracticeMode => isReviewMode || isPendingMode;

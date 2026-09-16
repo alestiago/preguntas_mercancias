@@ -4,7 +4,7 @@ import 'package:pm_questions_bank/pm_questions_bank.dart';
 import '../../../l10n/app_localizations.dart';
 import '../bloc/practice_bloc.dart';
 
-class QuestionNavigationDrawer extends StatelessWidget {
+class QuestionNavigationDrawer extends StatefulWidget {
   const QuestionNavigationDrawer({
     super.key,
     required this.state,
@@ -13,6 +13,62 @@ class QuestionNavigationDrawer extends StatelessWidget {
 
   final PracticeLoaded state;
   final ValueChanged<int> onQuestionSelected;
+
+  @override
+  State<QuestionNavigationDrawer> createState() =>
+      _QuestionNavigationDrawerState();
+}
+
+class _QuestionNavigationDrawerState extends State<QuestionNavigationDrawer> {
+  late final ScrollController _scrollController;
+  late List<GlobalKey> _tileKeys;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _tileKeys = _tileKeysFor(widget.state.questions.length);
+    _scheduleCurrentTileScroll();
+  }
+
+  @override
+  void didUpdateWidget(QuestionNavigationDrawer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.state.questions.length != widget.state.questions.length) {
+      _tileKeys = _tileKeysFor(widget.state.questions.length);
+    }
+
+    if (oldWidget.state.currentIndex != widget.state.currentIndex ||
+        oldWidget.state.questions.length != widget.state.questions.length) {
+      _scheduleCurrentTileScroll();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  List<GlobalKey> _tileKeysFor(int count) {
+    return List<GlobalKey>.generate(count, (_) => GlobalKey());
+  }
+
+  void _scheduleCurrentTileScroll() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || widget.state.questions.isEmpty) {
+        return;
+      }
+
+      final currentTileContext =
+          _tileKeys[widget.state.currentIndex].currentContext;
+      if (currentTileContext == null) {
+        return;
+      }
+
+      Scrollable.ensureVisible(currentTileContext, alignment: 0.5);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +84,6 @@ class QuestionNavigationDrawer extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
               child: Row(
                 children: [
-                  IconButton(
-                    tooltip: localizations.cancel,
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back),
-                  ),
-                  const SizedBox(width: 4),
                   Expanded(
                     child: Text(
                       localizations.questionNavigationTitle,
@@ -42,24 +92,41 @@ class QuestionNavigationDrawer extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(width: 4),
+                  IconButton(
+                    tooltip: localizations.cancel,
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.arrow_forward),
+                  ),
                 ],
               ),
             ),
             const Divider(height: 1),
             Expanded(
-              child: ListView.separated(
-                itemCount: state.questions.length,
-                separatorBuilder: (_, _) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final question = state.questions[index];
-                  return _QuestionNavigationTile(
-                    question: question,
-                    number: index + 1,
-                    status: _statusFor(question),
-                    isCurrent: index == state.currentIndex,
-                    onTap: () => onQuestionSelected(index),
-                  );
-                },
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
+                  children: [
+                    for (
+                      var index = 0;
+                      index < widget.state.questions.length;
+                      index += 1
+                    ) ...[
+                      KeyedSubtree(
+                        key: _tileKeys[index],
+                        child: _QuestionNavigationTile(
+                          question: widget.state.questions[index],
+                          number: index + 1,
+                          status: _statusFor(widget.state.questions[index]),
+                          isCurrent: index == widget.state.currentIndex,
+                          onTap: () => widget.onQuestionSelected(index),
+                        ),
+                      ),
+                      if (index < widget.state.questions.length - 1)
+                        const Divider(height: 1),
+                    ],
+                  ],
+                ),
               ),
             ),
           ],
@@ -69,7 +136,8 @@ class QuestionNavigationDrawer extends StatelessWidget {
   }
 
   _QuestionNavigationStatus _statusFor(Question question) {
-    final selectedOption = state.selectedOptionsByQuestionCode[question.code];
+    final selectedOption =
+        widget.state.selectedOptionsByQuestionCode[question.code];
     if (selectedOption == null) {
       return _QuestionNavigationStatus.pending;
     }

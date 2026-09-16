@@ -111,6 +111,17 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get exitSimulacro => 'Salir';
+
+  @override
+  String get exitSimulacroConfirmationTitle =>
+      '¿Seguro que quieres salir del simulacro?';
+
+  @override
+  String get exitSimulacroConfirmationMessage =>
+      'Perderás el progreso de este intento.';
+
+  @override
   String get correctAnswerFeedbackTitle => 'Correcta';
 
   @override

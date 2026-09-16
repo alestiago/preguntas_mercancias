@@ -262,6 +262,24 @@ abstract class AppLocalizations {
   /// **'Pregunta {questionNumber}'**
   String questionNavigationQuestion(int questionNumber);
 
+  /// No description provided for @exitSimulacro.
+  ///
+  /// In es, this message translates to:
+  /// **'Salir'**
+  String get exitSimulacro;
+
+  /// No description provided for @exitSimulacroConfirmationTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Seguro que quieres salir del simulacro?'**
+  String get exitSimulacroConfirmationTitle;
+
+  /// No description provided for @exitSimulacroConfirmationMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Perderás el progreso de este intento.'**
+  String get exitSimulacroConfirmationMessage;
+
   /// No description provided for @correctAnswerFeedbackTitle.
   ///
   /// In es, this message translates to:

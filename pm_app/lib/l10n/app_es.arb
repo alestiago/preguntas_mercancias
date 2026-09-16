@@ -59,6 +59,9 @@
       }
     }
   },
+  "exitSimulacro": "Salir",
+  "exitSimulacroConfirmationTitle": "¿Seguro que quieres salir del simulacro?",
+  "exitSimulacroConfirmationMessage": "Perderás el progreso de este intento.",
   "correctAnswerFeedbackTitle": "Correcta",
   "incorrectAnswerFeedbackTitle": "Incorrecta",
   "correctAnswer": "Respuesta correcta: {optionCode}. {answerText}",

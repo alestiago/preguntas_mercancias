@@ -9,6 +9,7 @@ import '../../l10n/app_localizations.dart';
 import '../questions/load_questions.dart';
 import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
+import 'widgets/exit_practice_button.dart';
 import 'widgets/question_navigation_drawer.dart';
 
 class QuestionPracticePage extends StatelessWidget {
@@ -86,9 +87,9 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
           canPop: canPop,
           child: Scaffold(
             key: _scaffoldKey,
-            drawerEnableOpenDragGesture:
+            endDrawerEnableOpenDragGesture:
                 state.isQuestionDrawerNavigationEnabled,
-            drawer:
+            endDrawer:
                 state is PracticeLoaded &&
                     state.isQuestionDrawerNavigationEnabled
                 ? QuestionNavigationDrawer(
@@ -102,18 +103,36 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                   )
                 : null,
             appBar: AppBar(
+              leading: state is PracticeLoaded && state.isSimulacroMode
+                  ? ExitPracticeIconButton(
+                      showConfirmation: state.showExitConfirmation,
+                      onExitConfirmed: () => Navigator.of(context).pop(),
+                    )
+                  : null,
               title: state.isSimulacroMode
                   ? _SimulacroModeTitle(title: state.localize(localizations))
                   : Text(state.localize(localizations)),
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 16),
+                  padding: EdgeInsets.only(
+                    right: state.isQuestionDrawerNavigationEnabled ? 4 : 16,
+                  ),
                   child: _ScorePill(
                     correctCount: state.correctCount,
                     answeredQuestionCount:
                         state.correctCount + state.incorrectCount,
                   ),
                 ),
+                if (state.isQuestionDrawerNavigationEnabled)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: IconButton(
+                      key: const ValueKey('question-navigation-app-bar-button'),
+                      tooltip: localizations.questionNavigationOpen,
+                      onPressed: _openQuestionNavigator,
+                      icon: const Icon(Icons.menu),
+                    ),
+                  ),
               ],
             ),
             body: SafeArea(
@@ -150,7 +169,7 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
   }
 
   void _openQuestionNavigator() {
-    _scaffoldKey.currentState?.openDrawer();
+    _scaffoldKey.currentState?.openEndDrawer();
   }
 }
 
