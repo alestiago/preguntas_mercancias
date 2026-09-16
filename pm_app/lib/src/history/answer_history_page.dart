@@ -20,55 +20,15 @@ class AnswerHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    final questionsByCode = {
-      for (final question in questions) question.code: question,
-    };
 
     return Scaffold(
       appBar: AppBar(title: Text(localizations.answerHistoryTitle)),
       body: SafeArea(
-        child: StreamBuilder<List<QuestionAnswerRecord>>(
-          stream: questionProgressStore.watchAnswerHistory(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return _ErrorState(error: snapshot.error!);
-            }
-
-            final answers = snapshot.data;
-            if (answers == null) {
-              return const _LoadingState();
-            }
-
-            if (answers.isEmpty) {
-              return const _EmptyHistoryState();
-            }
-
-            final sections = _historySectionsFor(answers);
-
-            return CustomScrollView(
-              slivers: [
-                for (final section in sections)
-                  SliverStickyHeader(
-                    header: _AnswerHistoryDateHeader(section: section),
-                    sliver: SliverList.separated(
-                      itemCount: section.answers.length,
-                      separatorBuilder: (_, _) => const Divider(height: 1),
-                      itemBuilder: (context, index) {
-                        final answer = section.answers[index];
-                        final question = questionsByCode[answer.questionCode];
-                        return _AnswerHistoryTile(
-                          answer: answer,
-                          question: question,
-                          onTap: question == null
-                              ? null
-                              : () => _openQuestionPractice(context, question),
-                        );
-                      },
-                    ),
-                  ),
-              ],
-            );
-          },
+        child: _AnswerHistoryBody(
+          questions: questions,
+          questionProgressStore: questionProgressStore,
+          onQuestionSelected: (question) =>
+              _openQuestionPractice(context, question),
         ),
       ),
     );
@@ -84,6 +44,88 @@ class AnswerHistoryPage extends StatelessWidget {
           isSimulacroMode: true,
         ),
       ),
+    );
+  }
+}
+
+class _AnswerHistoryBody extends StatelessWidget {
+  const _AnswerHistoryBody({
+    required this.questions,
+    required this.questionProgressStore,
+    required this.onQuestionSelected,
+  });
+
+  final List<Question> questions;
+  final QuestionProgressStore questionProgressStore;
+  final ValueChanged<Question> onQuestionSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final questionsByCode = {
+      for (final question in questions) question.code: question,
+    };
+
+    return StreamBuilder<List<QuestionAnswerRecord>>(
+      stream: questionProgressStore.watchAnswerHistory(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return _ErrorState(error: snapshot.error!);
+        }
+
+        final answers = snapshot.data;
+        if (answers == null) {
+          return const _LoadingState();
+        }
+
+        if (answers.isEmpty) {
+          return const _EmptyHistoryState();
+        }
+
+        return _AnswerHistoryList(
+          sections: _historySectionsFor(answers),
+          questionsByCode: questionsByCode,
+          onQuestionSelected: onQuestionSelected,
+        );
+      },
+    );
+  }
+}
+
+class _AnswerHistoryList extends StatelessWidget {
+  const _AnswerHistoryList({
+    required this.sections,
+    required this.questionsByCode,
+    required this.onQuestionSelected,
+  });
+
+  final List<_AnswerHistorySection> sections;
+  final Map<String, Question> questionsByCode;
+  final ValueChanged<Question> onQuestionSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        for (final section in sections)
+          SliverStickyHeader(
+            header: _AnswerHistoryDateHeader(section: section),
+            sliver: SliverList.separated(
+              itemCount: section.answers.length,
+              separatorBuilder: (_, _) => const Divider(height: 1),
+              itemBuilder: (context, index) {
+                final answer = section.answers[index];
+                final question = questionsByCode[answer.questionCode];
+                return _AnswerHistoryTile(
+                  answer: answer,
+                  question: question,
+                  onTap: question == null
+                      ? null
+                      : () => onQuestionSelected(question),
+                );
+              },
+            ),
+          ),
+      ],
     );
   }
 }

@@ -215,63 +215,21 @@ class _PracticeContent extends StatelessWidget {
           ),
         SliverFillRemaining(
           hasScrollBody: false,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 860),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _QuestionProgress(
-                      question: question,
-                      currentQuestionNumber: currentQuestionNumber,
-                      questionCount: questionCount,
-                      progress: _progress(currentQuestionNumber, questionCount),
-                    ),
-                    const SizedBox(height: 18),
-                    _QuestionPanel(
-                      question: question,
-                      selectedOption: state.selectedOption,
-                      onAnswer: (option) => context.read<PracticeBloc>().add(
-                        AnswerPressed(option),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 180),
-                      child: state.answered
-                          ? _AnswerFeedback(
-                              key: ValueKey(state.selectedOption),
-                              question: question,
-                              selectedOption: state.selectedOption!,
-                            )
-                          : const SizedBox.shrink(),
-                    ),
-                    const Spacer(),
-                    const SizedBox(height: 20),
-                    _SessionFooter(
-                      answered: state.answered,
-                      currentIndex: state.currentIndex,
-                      isLastQuestion: state.isLastQuestion,
-                      isFilteredPracticeMode: state.isFilteredPracticeMode,
-                      isFilteredPracticeComplete:
-                          state.isFilteredPracticeComplete,
-                      isSimulacroMode: state.isSimulacroMode,
-                      isRecordingAnswer: state.isRecordingAnswer,
-                      onFinishPractice: () => state.isSimulacroMode
-                          ? onFinishSimulacro(state)
-                          : Navigator.of(context).pop(),
-                      onNextQuestion: () => context.read<PracticeBloc>().add(
-                        const NextQuestionPressed(),
-                      ),
-                      onPreviousQuestion: () => context
-                          .read<PracticeBloc>()
-                          .add(const PreviousQuestionPressed()),
-                    ),
-                  ],
-                ),
-              ),
+          child: _PracticeContentLayout(
+            state: state,
+            question: question,
+            currentQuestionNumber: currentQuestionNumber,
+            questionCount: questionCount,
+            progress: _progress(currentQuestionNumber, questionCount),
+            onAnswer: (option) =>
+                context.read<PracticeBloc>().add(AnswerPressed(option)),
+            onFinishPractice: () => state.isSimulacroMode
+                ? onFinishSimulacro(state)
+                : Navigator.of(context).pop(),
+            onNextQuestion: () =>
+                context.read<PracticeBloc>().add(const NextQuestionPressed()),
+            onPreviousQuestion: () => context.read<PracticeBloc>().add(
+              const PreviousQuestionPressed(),
             ),
           ),
         ),
@@ -305,6 +263,107 @@ class _PracticeContent extends StatelessWidget {
     }
 
     return (currentQuestionNumber / questionCount).clamp(0, 1).toDouble();
+  }
+}
+
+class _PracticeContentLayout extends StatelessWidget {
+  const _PracticeContentLayout({
+    required this.state,
+    required this.question,
+    required this.currentQuestionNumber,
+    required this.questionCount,
+    required this.progress,
+    required this.onAnswer,
+    required this.onFinishPractice,
+    required this.onNextQuestion,
+    required this.onPreviousQuestion,
+  });
+
+  final PracticeLoaded state;
+  final Question question;
+  final int currentQuestionNumber;
+  final int questionCount;
+  final double progress;
+  final ValueChanged<QuestionOption> onAnswer;
+  final VoidCallback onFinishPractice;
+  final VoidCallback onNextQuestion;
+  final VoidCallback onPreviousQuestion;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 860),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _QuestionProgress(
+                question: question,
+                currentQuestionNumber: currentQuestionNumber,
+                questionCount: questionCount,
+                progress: progress,
+              ),
+              const SizedBox(height: 18),
+              _QuestionPanel(
+                question: question,
+                selectedOption: state.selectedOption,
+                onAnswer: onAnswer,
+              ),
+              const SizedBox(height: 16),
+              _AnswerFeedbackSwitcher(
+                answered: state.answered,
+                question: question,
+                selectedOption: state.selectedOption,
+              ),
+              const Spacer(),
+              const SizedBox(height: 20),
+              _SessionFooter(
+                answered: state.answered,
+                currentIndex: state.currentIndex,
+                isLastQuestion: state.isLastQuestion,
+                isFilteredPracticeMode: state.isFilteredPracticeMode,
+                isFilteredPracticeComplete: state.isFilteredPracticeComplete,
+                isSimulacroMode: state.isSimulacroMode,
+                isRecordingAnswer: state.isRecordingAnswer,
+                onFinishPractice: onFinishPractice,
+                onNextQuestion: onNextQuestion,
+                onPreviousQuestion: onPreviousQuestion,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AnswerFeedbackSwitcher extends StatelessWidget {
+  const _AnswerFeedbackSwitcher({
+    required this.answered,
+    required this.question,
+    required this.selectedOption,
+  });
+
+  final bool answered;
+  final Question question;
+  final QuestionOption? selectedOption;
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedOption = this.selectedOption;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 180),
+      child: answered && selectedOption != null
+          ? _AnswerFeedback(
+              key: ValueKey(selectedOption),
+              question: question,
+              selectedOption: selectedOption,
+            )
+          : const SizedBox.shrink(),
+    );
   }
 }
 
@@ -480,62 +539,123 @@ class _AnswerOptionButton extends StatelessWidget {
     final answered = selectedOption != null;
     final selected = selectedOption == answer.option;
     final correct = correctOption == answer.option;
-    final Color borderColor;
-    final Color backgroundColor;
-    final Color foregroundColor;
-    final IconData? trailingIcon;
-
-    if (answered && correct) {
-      borderColor = const Color(0xFF2E7D32);
-      backgroundColor = const Color(0xFFE8F5E9);
-      foregroundColor = const Color(0xFF1B5E20);
-      trailingIcon = Icons.check_circle;
-    } else if (answered && selected) {
-      borderColor = const Color(0xFFC62828);
-      backgroundColor = const Color(0xFFFFEBEE);
-      foregroundColor = const Color(0xFFB71C1C);
-      trailingIcon = Icons.cancel;
-    } else {
-      borderColor = colorScheme.outlineVariant;
-      backgroundColor = colorScheme.surface;
-      foregroundColor = colorScheme.onSurface;
-      trailingIcon = null;
-    }
+    final optionStyle = _AnswerOptionStyle.forState(
+      colorScheme: colorScheme,
+      answered: answered,
+      selected: selected,
+      correct: correct,
+    );
 
     return OutlinedButton(
       key: ValueKey('answer-${answer.option.code}'),
       onPressed: answered ? null : onPressed,
       style: OutlinedButton.styleFrom(
         alignment: Alignment.centerLeft,
-        backgroundColor: backgroundColor,
-        disabledBackgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        disabledForegroundColor: foregroundColor,
+        backgroundColor: optionStyle.backgroundColor,
+        disabledBackgroundColor: optionStyle.backgroundColor,
+        foregroundColor: optionStyle.foregroundColor,
+        disabledForegroundColor: optionStyle.foregroundColor,
         minimumSize: const Size.fromHeight(56),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        side: BorderSide(color: borderColor, width: answered ? 1.4 : 1),
+        side: BorderSide(
+          color: optionStyle.borderColor,
+          width: answered ? 1.4 : 1,
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
-      child: Row(
-        children: [
-          _OptionBadge(
-            option: displayOption,
-            selected: selected,
-            correct: answered && correct,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              answer.text,
-              style: const TextStyle(fontWeight: FontWeight.w600, height: 1.25),
-            ),
-          ),
-          if (trailingIcon != null) ...[
-            const SizedBox(width: 10),
-            Icon(trailingIcon),
-          ],
-        ],
+      child: _AnswerOptionButtonContent(
+        answer: answer,
+        displayOption: displayOption,
+        selected: selected,
+        correct: answered && correct,
+        trailingIcon: optionStyle.trailingIcon,
       ),
+    );
+  }
+}
+
+class _AnswerOptionButtonContent extends StatelessWidget {
+  const _AnswerOptionButtonContent({
+    required this.answer,
+    required this.displayOption,
+    required this.selected,
+    required this.correct,
+    required this.trailingIcon,
+  });
+
+  final QuestionAnswer answer;
+  final QuestionOption displayOption;
+  final bool selected;
+  final bool correct;
+  final IconData? trailingIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _OptionBadge(
+          option: displayOption,
+          selected: selected,
+          correct: correct,
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            answer.text,
+            style: const TextStyle(fontWeight: FontWeight.w600, height: 1.25),
+          ),
+        ),
+        if (trailingIcon != null) ...[
+          const SizedBox(width: 10),
+          Icon(trailingIcon),
+        ],
+      ],
+    );
+  }
+}
+
+final class _AnswerOptionStyle {
+  const _AnswerOptionStyle({
+    required this.borderColor,
+    required this.backgroundColor,
+    required this.foregroundColor,
+    required this.trailingIcon,
+  });
+
+  final Color borderColor;
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final IconData? trailingIcon;
+
+  factory _AnswerOptionStyle.forState({
+    required ColorScheme colorScheme,
+    required bool answered,
+    required bool selected,
+    required bool correct,
+  }) {
+    if (answered && correct) {
+      return const _AnswerOptionStyle(
+        borderColor: Color(0xFF2E7D32),
+        backgroundColor: Color(0xFFE8F5E9),
+        foregroundColor: Color(0xFF1B5E20),
+        trailingIcon: Icons.check_circle,
+      );
+    }
+
+    if (answered && selected) {
+      return const _AnswerOptionStyle(
+        borderColor: Color(0xFFC62828),
+        backgroundColor: Color(0xFFFFEBEE),
+        foregroundColor: Color(0xFFB71C1C),
+        trailingIcon: Icons.cancel,
+      );
+    }
+
+    return _AnswerOptionStyle(
+      borderColor: colorScheme.outlineVariant,
+      backgroundColor: colorScheme.surface,
+      foregroundColor: colorScheme.onSurface,
+      trailingIcon: null,
     );
   }
 }
@@ -594,24 +714,12 @@ class _AnswerFeedback extends StatelessWidget {
       question,
       question.correctOption,
     );
-    final title = isCorrect
-        ? localizations.correctAnswerFeedbackTitle
-        : localizations.incorrectAnswerFeedbackTitle;
-    final icon = isCorrect ? Icons.check_circle : Icons.cancel;
-    final borderColor = isCorrect
-        ? const Color(0xFF2E7D32)
-        : const Color(0xFFC62828);
-    final backgroundColor = isCorrect
-        ? const Color(0xFFE8F5E9)
-        : const Color(0xFFFFEBEE);
-    final foregroundColor = isCorrect
-        ? const Color(0xFF1B5E20)
-        : const Color(0xFFB71C1C);
+    final feedbackStyle = _AnswerFeedbackStyle.forResult(isCorrect: isCorrect);
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: backgroundColor,
-        border: Border.all(color: borderColor),
+        color: feedbackStyle.backgroundColor,
+        border: Border.all(color: feedbackStyle.borderColor),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
@@ -619,37 +727,118 @@ class _AnswerFeedback extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Icon(icon, color: foregroundColor),
-                const SizedBox(width: 10),
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: foregroundColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
+            _AnswerFeedbackHeader(
+              title: isCorrect
+                  ? localizations.correctAnswerFeedbackTitle
+                  : localizations.incorrectAnswerFeedbackTitle,
+              icon: feedbackStyle.icon,
+              foregroundColor: feedbackStyle.foregroundColor,
             ),
             const SizedBox(height: 10),
-            Text(
-              localizations.correctAnswer(
-                correctDisplayOption.code,
-                question.correctAnswer.text,
-              ),
-              style: const TextStyle(fontWeight: FontWeight.w600, height: 1.25),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              localizations.normReference(question.norma),
-              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+            _CorrectAnswerDetails(
+              correctDisplayOption: correctDisplayOption,
+              correctAnswerText: question.correctAnswer.text,
+              norma: question.norma,
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class _AnswerFeedbackHeader extends StatelessWidget {
+  const _AnswerFeedbackHeader({
+    required this.title,
+    required this.icon,
+    required this.foregroundColor,
+  });
+
+  final String title;
+  final IconData icon;
+  final Color foregroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, color: foregroundColor),
+        const SizedBox(width: 10),
+        Text(
+          title,
+          style: TextStyle(
+            color: foregroundColor,
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CorrectAnswerDetails extends StatelessWidget {
+  const _CorrectAnswerDetails({
+    required this.correctDisplayOption,
+    required this.correctAnswerText,
+    required this.norma,
+  });
+
+  final QuestionOption correctDisplayOption;
+  final String correctAnswerText;
+  final String norma;
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          localizations.correctAnswer(
+            correctDisplayOption.code,
+            correctAnswerText,
+          ),
+          style: const TextStyle(fontWeight: FontWeight.w600, height: 1.25),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          localizations.normReference(norma),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+        ),
+      ],
+    );
+  }
+}
+
+final class _AnswerFeedbackStyle {
+  const _AnswerFeedbackStyle({
+    required this.icon,
+    required this.borderColor,
+    required this.backgroundColor,
+    required this.foregroundColor,
+  });
+
+  final IconData icon;
+  final Color borderColor;
+  final Color backgroundColor;
+  final Color foregroundColor;
+
+  factory _AnswerFeedbackStyle.forResult({required bool isCorrect}) {
+    return isCorrect
+        ? const _AnswerFeedbackStyle(
+            icon: Icons.check_circle,
+            borderColor: Color(0xFF2E7D32),
+            backgroundColor: Color(0xFFE8F5E9),
+            foregroundColor: Color(0xFF1B5E20),
+          )
+        : const _AnswerFeedbackStyle(
+            icon: Icons.cancel,
+            borderColor: Color(0xFFC62828),
+            backgroundColor: Color(0xFFFFEBEE),
+            foregroundColor: Color(0xFFB71C1C),
+          );
   }
 }
 
