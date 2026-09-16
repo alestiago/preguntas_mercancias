@@ -57,6 +57,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     on<AnswerPressed>(_onAnswerPressed);
     on<NextQuestionPressed>(_onNextQuestionPressed);
     on<PreviousQuestionPressed>(_onPreviousQuestionPressed);
+    on<QuestionNavigationPressed>(_onQuestionNavigationPressed);
     on<RetryPressed>(_onRetryPressed);
   }
 
@@ -230,6 +231,22 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     }
 
     emit(currentState.copyWith(currentIndex: currentState.currentIndex - 1));
+  }
+
+  void _onQuestionNavigationPressed(
+    QuestionNavigationPressed event,
+    Emitter<PracticeState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is! PracticeLoaded || currentState.isRecordingAnswer) {
+      return;
+    }
+
+    if (event.index < 0 || event.index >= currentState.questions.length) {
+      return;
+    }
+
+    emit(currentState.copyWith(currentIndex: event.index));
   }
 
   PracticeLoaded? _nextFilteredState(PracticeLoaded state) {

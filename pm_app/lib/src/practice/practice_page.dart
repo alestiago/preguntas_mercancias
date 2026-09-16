@@ -6,9 +6,10 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../questions/load_questions.dart';
 import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
-import '../questions/load_questions.dart';
+import 'widgets/question_navigation_drawer.dart';
 
 class QuestionPracticePage extends StatelessWidget {
   const QuestionPracticePage({
@@ -72,6 +73,7 @@ class _QuestionPracticeView extends StatefulWidget {
 
 class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
   final DateTime _startedAt = DateTime.now();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +85,22 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
         return PopScope(
           canPop: canPop,
           child: Scaffold(
+            key: _scaffoldKey,
+            drawerEnableOpenDragGesture:
+                state.isQuestionDrawerNavigationEnabled,
+            drawer:
+                state is PracticeLoaded &&
+                    state.isQuestionDrawerNavigationEnabled
+                ? QuestionNavigationDrawer(
+                    state: state,
+                    onQuestionSelected: (index) {
+                      Navigator.of(context).pop();
+                      context.read<PracticeBloc>().add(
+                        QuestionNavigationPressed(index),
+                      );
+                    },
+                  )
+                : null,
             appBar: AppBar(
               title: state.isSimulacroMode
                   ? _SimulacroModeTitle(title: state.localize(localizations))
@@ -106,6 +124,9 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                     widget.pendingQuestionCountsBySection,
                 onFinishSimulacro: (loadedState) =>
                     _finishSimulacro(context, loadedState),
+                onOpenQuestionNavigator: state.isQuestionDrawerNavigationEnabled
+                    ? _openQuestionNavigator
+                    : null,
               ),
             ),
           ),
@@ -127,6 +148,10 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
       MaterialPageRoute(builder: (_) => PracticeSummaryPage(summary: summary)),
     );
   }
+
+  void _openQuestionNavigator() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
 }
 
 class _PracticeBody extends StatelessWidget {
@@ -135,12 +160,14 @@ class _PracticeBody extends StatelessWidget {
     required this.pendingQuestionCount,
     required this.pendingQuestionCountsBySection,
     required this.onFinishSimulacro,
+    required this.onOpenQuestionNavigator,
   });
 
   final PracticeState state;
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
   final ValueChanged<PracticeLoaded> onFinishSimulacro;
+  final VoidCallback? onOpenQuestionNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +188,7 @@ class _PracticeBody extends StatelessWidget {
         pendingQuestionCount: pendingQuestionCount,
         pendingQuestionCountsBySection: pendingQuestionCountsBySection,
         onFinishSimulacro: onFinishSimulacro,
+        onOpenQuestionNavigator: onOpenQuestionNavigator,
       ),
     };
   }
@@ -172,12 +200,14 @@ class _PracticeContent extends StatelessWidget {
     required this.pendingQuestionCount,
     required this.pendingQuestionCountsBySection,
     required this.onFinishSimulacro,
+    required this.onOpenQuestionNavigator,
   });
 
   final PracticeLoaded state;
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
   final ValueChanged<PracticeLoaded> onFinishSimulacro;
+  final VoidCallback? onOpenQuestionNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -216,6 +246,7 @@ class _PracticeContent extends StatelessWidget {
             onPreviousQuestion: () => context.read<PracticeBloc>().add(
               const PreviousQuestionPressed(),
             ),
+            onOpenQuestionNavigator: onOpenQuestionNavigator,
           ),
         ),
       ],
@@ -234,6 +265,7 @@ class _PracticeContentLayout extends StatelessWidget {
     required this.onFinishPractice,
     required this.onNextQuestion,
     required this.onPreviousQuestion,
+    required this.onOpenQuestionNavigator,
   });
 
   final PracticeLoaded state;
@@ -245,6 +277,7 @@ class _PracticeContentLayout extends StatelessWidget {
   final VoidCallback onFinishPractice;
   final VoidCallback onNextQuestion;
   final VoidCallback onPreviousQuestion;
+  final VoidCallback? onOpenQuestionNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -261,6 +294,7 @@ class _PracticeContentLayout extends StatelessWidget {
                 currentQuestionNumber: currentQuestionNumber,
                 questionCount: questionCount,
                 progress: progress,
+                onOpenQuestionNavigator: onOpenQuestionNavigator,
               ),
               const SizedBox(height: 18),
               _QuestionPanel(
@@ -375,18 +409,24 @@ class _QuestionProgress extends StatelessWidget {
     required this.currentQuestionNumber,
     required this.questionCount,
     required this.progress,
+    required this.onOpenQuestionNavigator,
   });
 
   final Question question;
   final int currentQuestionNumber;
   final int questionCount;
   final double progress;
+  final VoidCallback? onOpenQuestionNavigator;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final localizations = AppLocalizations.of(context);
+    final progressLabel = localizations.questionProgress(
+      currentQuestionNumber,
+      questionCount,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -401,20 +441,64 @@ class _QuestionProgress extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Text(
-              localizations.questionProgress(
-                currentQuestionNumber,
-                questionCount,
-              ),
-              style: textTheme.labelLarge?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
+            _QuestionProgressLabel(
+              label: progressLabel,
+              onOpenQuestionNavigator: onOpenQuestionNavigator,
             ),
           ],
         ),
         const SizedBox(height: 10),
         LinearProgressIndicator(value: progress),
       ],
+    );
+  }
+}
+
+class _QuestionProgressLabel extends StatelessWidget {
+  const _QuestionProgressLabel({
+    required this.label,
+    required this.onOpenQuestionNavigator,
+  });
+
+  final String label;
+  final VoidCallback? onOpenQuestionNavigator;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
+    final labelStyle = textTheme.labelLarge?.copyWith(
+      color: colorScheme.onSurfaceVariant,
+      fontWeight: onOpenQuestionNavigator == null ? null : FontWeight.w700,
+    );
+
+    if (onOpenQuestionNavigator == null) {
+      return Text(label, style: labelStyle);
+    }
+
+    return Tooltip(
+      message: localizations.questionNavigationOpen,
+      child: InkWell(
+        key: const ValueKey('question-navigation-open-button'),
+        borderRadius: BorderRadius.circular(999),
+        onTap: onOpenQuestionNavigator,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(label, style: labelStyle),
+              const SizedBox(width: 6),
+              Icon(
+                Icons.view_list,
+                size: 18,
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

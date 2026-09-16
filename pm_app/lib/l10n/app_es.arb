@@ -49,6 +49,16 @@
       }
     }
   },
+  "questionNavigationTitle": "Preguntas",
+  "questionNavigationOpen": "Ver preguntas",
+  "questionNavigationQuestion": "Pregunta {questionNumber}",
+  "@questionNavigationQuestion": {
+    "placeholders": {
+      "questionNumber": {
+        "type": "int"
+      }
+    }
+  },
   "correctAnswerFeedbackTitle": "Correcta",
   "incorrectAnswerFeedbackTitle": "Incorrecta",
   "correctAnswer": "Respuesta correcta: {optionCode}. {answerText}",

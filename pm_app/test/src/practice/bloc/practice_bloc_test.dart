@@ -309,49 +309,52 @@ void main() {
       expect(answered.selectedOption, QuestionOption.b);
     });
 
-    test('remembers each question\'s own answer when navigating back', () async {
-      final progressStore = FakeQuestionProgressStore();
-      addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
-        questionProgressStore: progressStore,
-      );
-      addTearDown(bloc.close);
+    test(
+      'remembers each question\'s own answer when navigating back',
+      () async {
+        final progressStore = FakeQuestionProgressStore();
+        addTearDown(progressStore.close);
+        final bloc = PracticeBloc(
+          loadQuestions: (_) async => _questions,
+          questionProgressStore: progressStore,
+        );
+        addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
-        (state) => state is PracticeLoaded,
-      );
-      bloc.add(const PracticeStarted());
-      await loadedFuture;
+        final loadedFuture = bloc.stream.firstWhere(
+          (state) => state is PracticeLoaded,
+        );
+        bloc.add(const PracticeStarted());
+        await loadedFuture;
 
-      final firstAnsweredFuture = bloc.stream.firstWhere(
-        (state) =>
-            state is PracticeLoaded &&
-            state.answered &&
-            !state.isRecordingAnswer,
-      );
-      bloc.add(const AnswerPressed(QuestionOption.b));
-      await firstAnsweredFuture;
+        final firstAnsweredFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.answered &&
+              !state.isRecordingAnswer,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.b));
+        await firstAnsweredFuture;
 
-      final advancedFuture = bloc.stream.firstWhere(
-        (state) => state is PracticeLoaded && state.currentIndex == 1,
-      );
-      bloc.add(const NextQuestionPressed());
-      await advancedFuture;
+        final advancedFuture = bloc.stream.firstWhere(
+          (state) => state is PracticeLoaded && state.currentIndex == 1,
+        );
+        bloc.add(const NextQuestionPressed());
+        await advancedFuture;
 
-      expect((bloc.state as PracticeLoaded).answered, isFalse);
+        expect((bloc.state as PracticeLoaded).answered, isFalse);
 
-      final backFuture = bloc.stream.firstWhere(
-        (state) =>
-            state is PracticeLoaded &&
-            state.currentIndex == 0 &&
-            state.answered,
-      );
-      bloc.add(const PreviousQuestionPressed());
-      final back = await backFuture as PracticeLoaded;
+        final backFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.currentIndex == 0 &&
+              state.answered,
+        );
+        bloc.add(const PreviousQuestionPressed());
+        final back = await backFuture as PracticeLoaded;
 
-      expect(back.selectedOption, QuestionOption.b);
-    });
+        expect(back.selectedOption, QuestionOption.b);
+      },
+    );
 
     test('does not go back past the first question', () async {
       final progressStore = FakeQuestionProgressStore();
@@ -373,6 +376,93 @@ void main() {
 
       expect((bloc.state as PracticeLoaded).currentIndex, 0);
     });
+
+    test('jumps directly to a selected question', () async {
+      final progressStore = FakeQuestionProgressStore();
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => _questions,
+        questionProgressStore: progressStore,
+        isSimulacroMode: true,
+      );
+      addTearDown(bloc.close);
+
+      final loadedFuture = bloc.stream.firstWhere(
+        (state) => state is PracticeLoaded,
+      );
+      bloc.add(const PracticeStarted());
+      final loaded = await loadedFuture as PracticeLoaded;
+
+      expect(loaded.isQuestionDrawerNavigationEnabled, isTrue);
+
+      final jumpedFuture = bloc.stream.firstWhere(
+        (state) => state is PracticeLoaded && state.currentIndex == 1,
+      );
+      bloc.add(const QuestionNavigationPressed(1));
+      final jumped = await jumpedFuture as PracticeLoaded;
+
+      expect(jumped.currentQuestion.prompt, 'Segunda pregunta');
+    });
+
+    test('ignores question navigation with an invalid index', () async {
+      final progressStore = FakeQuestionProgressStore();
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => _questions,
+        questionProgressStore: progressStore,
+      );
+      addTearDown(bloc.close);
+
+      final loadedFuture = bloc.stream.firstWhere(
+        (state) => state is PracticeLoaded,
+      );
+      bloc.add(const PracticeStarted());
+      await loadedFuture;
+
+      bloc.add(const QuestionNavigationPressed(12));
+      await Future<void>.delayed(Duration.zero);
+
+      expect((bloc.state as PracticeLoaded).currentIndex, 0);
+    });
+
+    test(
+      'ignores question navigation while an answer is being recorded',
+      () async {
+        final progressStore = SlowQuestionProgressStore();
+        addTearDown(progressStore.close);
+        final bloc = PracticeBloc(
+          loadQuestions: (_) async => _questions,
+          questionProgressStore: progressStore,
+        );
+        addTearDown(bloc.close);
+
+        final loadedFuture = bloc.stream.firstWhere(
+          (state) => state is PracticeLoaded,
+        );
+        bloc.add(const PracticeStarted());
+        await loadedFuture;
+
+        final recordingFuture = bloc.stream.firstWhere(
+          (state) => state is PracticeLoaded && state.isRecordingAnswer,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.b));
+        await recordingFuture;
+
+        bloc.add(const QuestionNavigationPressed(1));
+        await Future<void>.delayed(Duration.zero);
+
+        expect((bloc.state as PracticeLoaded).currentIndex, 0);
+
+        final recordedFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.answered &&
+              !state.isRecordingAnswer,
+        );
+        progressStore.completePendingRecords();
+        await recordedFuture;
+      },
+    );
 
     test(
       'requires the last question to be answered before advancing further',

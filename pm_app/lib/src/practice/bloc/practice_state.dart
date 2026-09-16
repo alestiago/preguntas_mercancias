@@ -19,6 +19,9 @@ sealed class PracticeState {
   final int correctCount;
   final int incorrectCount;
   final QuestionProgressSnapshot progressSnapshot;
+
+  bool get isQuestionDrawerNavigationEnabled =>
+      this is PracticeLoaded && isSimulacroMode;
 }
 
 final class PracticeLoading extends PracticeState {

@@ -29,6 +29,12 @@ final class PreviousQuestionPressed extends PracticeEvent {
   const PreviousQuestionPressed();
 }
 
+final class QuestionNavigationPressed extends PracticeEvent {
+  const QuestionNavigationPressed(this.index);
+
+  final int index;
+}
+
 final class RetryPressed extends PracticeEvent {
   const RetryPressed();
 }

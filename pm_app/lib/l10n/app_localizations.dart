@@ -244,6 +244,24 @@ abstract class AppLocalizations {
   /// **'Pregunta {currentQuestionNumber} de {questionCount}'**
   String questionProgress(int currentQuestionNumber, int questionCount);
 
+  /// No description provided for @questionNavigationTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Preguntas'**
+  String get questionNavigationTitle;
+
+  /// No description provided for @questionNavigationOpen.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver preguntas'**
+  String get questionNavigationOpen;
+
+  /// No description provided for @questionNavigationQuestion.
+  ///
+  /// In es, this message translates to:
+  /// **'Pregunta {questionNumber}'**
+  String questionNavigationQuestion(int questionNumber);
+
   /// No description provided for @correctAnswerFeedbackTitle.
   ///
   /// In es, this message translates to:

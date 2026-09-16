@@ -32,24 +32,14 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Primera pregunta'), findsOneWidget);
-    final answerButtons = find.byType(OutlinedButton);
+    final answerButtons = _answerButtonsFinder();
     expect(answerButtons, findsNWidgets(4));
-    expect(
-      find.descendant(of: answerButtons.at(0), matching: find.text('A')),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(of: answerButtons.at(1), matching: find.text('B')),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(of: answerButtons.at(2), matching: find.text('C')),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(of: answerButtons.at(3), matching: find.text('D')),
-      findsOneWidget,
-    );
+    for (final option in ['A', 'B', 'C', 'D']) {
+      expect(
+        find.descendant(of: answerButtons, matching: find.text(option)),
+        findsOneWidget,
+      );
+    }
 
     await tester.tap(find.byKey(const ValueKey('answer-A')));
     await tester.pumpAndSettle();
@@ -536,12 +526,56 @@ void main() {
     expect(find.text('Simulacro'), findsOneWidget);
     expect(find.text('Pregunta 1 de 30'), findsOneWidget);
     expect(find.text('0/0 (0%)'), findsOneWidget);
-    expect(find.text('Tiempo 00:00'), findsOneWidget);
+    expect(find.text('00:00'), findsOneWidget);
     expect(find.text('Todas'), findsNothing);
 
     await tester.pump(const Duration(seconds: 61));
 
-    expect(find.text('Tiempo 01:01'), findsOneWidget);
+    expect(find.text('01:01'), findsOneWidget);
+  });
+
+  testWidgets('opens simulacro navigation drawer and jumps to a question', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+
+    await tester.pumpWidget(
+      PreguntasMercanciasApp(
+        loadQuestions: (_) async => _simulacroQuestions,
+        questionProgressStore: progressStore,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('start-simulacro-button')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(
+      find.byKey(const ValueKey('question-navigation-open-button')),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Preguntas'), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('question-navigation-tile-2')),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.byKey(const ValueKey('question-navigation-tile-2')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Preguntas'), findsNothing);
+    expect(find.text('Pregunta 2 de 30'), findsOneWidget);
+  });
+}
+
+Finder _answerButtonsFinder() {
+  return find.byWidgetPredicate((widget) {
+    final key = widget.key;
+    return widget is OutlinedButton &&
+        key is ValueKey<String> &&
+        key.value.startsWith('answer-');
   });
 }
 

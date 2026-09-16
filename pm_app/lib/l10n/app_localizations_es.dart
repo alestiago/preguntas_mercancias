@@ -100,6 +100,17 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get questionNavigationTitle => 'Preguntas';
+
+  @override
+  String get questionNavigationOpen => 'Ver preguntas';
+
+  @override
+  String questionNavigationQuestion(int questionNumber) {
+    return 'Pregunta $questionNumber';
+  }
+
+  @override
   String get correctAnswerFeedbackTitle => 'Correcta';
 
   @override
