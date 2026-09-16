@@ -111,13 +111,8 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                 children: [
                   if (state is PracticeLoaded && state.questions.isNotEmpty)
                     PracticeProgressDivider(
-                      progress: state.displayProgress(
-                        questionCount: state.displayQuestionCount(
-                          pendingQuestionCount: widget.pendingQuestionCount,
-                          pendingQuestionCountsBySection:
-                              widget.pendingQuestionCountsBySection,
-                        ),
-                      ),
+                      segments: state.progressSegments,
+                      currentIndex: state.currentIndex,
                     ),
                   Expanded(
                     child: _PracticeBody(
@@ -963,16 +958,17 @@ extension _PracticeLoadedPresentation on PracticeLoaded {
     return pendingQuestionCount ?? questions.length;
   }
 
-  double displayProgress({required int questionCount}) {
-    if (!isPendingMode) {
-      return progress;
-    }
-
-    if (questionCount == 0) {
-      return 0;
-    }
-
-    return (displayQuestionNumber / questionCount).clamp(0, 1).toDouble();
+  List<PracticeProgressSegmentStatus> get progressSegments {
+    return [
+      for (final question in questions)
+        switch (selectedOptionsByQuestionCode[question.code]) {
+          null => PracticeProgressSegmentStatus.pending,
+          final selectedOption =>
+            question.isCorrect(selectedOption)
+                ? PracticeProgressSegmentStatus.correct
+                : PracticeProgressSegmentStatus.incorrect,
+        },
+    ];
   }
 }
 
