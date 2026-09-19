@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:pm_persistence/pm_persistence.dart';
 
 class FakeSettingsStore implements SettingsStore {
-  FakeSettingsStore({bool answerShuffleEnabled = true})
-    : _answerShuffleEnabled = answerShuffleEnabled;
+  factory FakeSettingsStore({bool answerShuffleEnabled = true}) {
+    return FakeSettingsStore._(answerShuffleEnabled);
+  }
+
+  FakeSettingsStore._(this._answerShuffleEnabled);
 
   bool _answerShuffleEnabled;
   final StreamController<bool> _controller = StreamController<bool>.broadcast();

@@ -60,10 +60,7 @@ Future<Set<String>> _readNonShuffleableCodes(File file) async {
   }
 
   final lines = await file.readAsLines();
-  return {
-    for (final rawLine in lines)
-      if (_codeFromLine(rawLine) case final code?) code,
-  };
+  return {for (final rawLine in lines) ?_codeFromLine(rawLine)};
 }
 
 String? _codeFromLine(String rawLine) {
