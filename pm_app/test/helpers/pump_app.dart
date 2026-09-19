@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_app/app.dart';
 import 'package:pm_app/l10n/app_localizations.dart';
-import 'package:pm_app/main.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
+
+import 'fake_settings_store.dart';
 
 typedef TestQuestionLoader = Future<List<Question>> Function(String? section);
 
@@ -13,11 +15,18 @@ extension PumpApp on WidgetTester {
     required QuestionProgressStore questionProgressStore,
     SettingsStore? settingsStore,
   }) async {
+    final resolvedSettingsStore = settingsStore ?? FakeSettingsStore();
+    if (settingsStore == null) {
+      addTearDown(resolvedSettingsStore.close);
+    }
+
     await pumpWidget(
       PreguntasMercanciasApp(
+        dependencies: AppDependencies(
+          questionProgressStore: questionProgressStore,
+          settingsStore: resolvedSettingsStore,
+        ),
         loadQuestions: loadQuestions,
-        questionProgressStore: questionProgressStore,
-        settingsStore: settingsStore,
       ),
     );
     await pumpAndSettle();

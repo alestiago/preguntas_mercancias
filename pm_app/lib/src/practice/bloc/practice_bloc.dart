@@ -18,12 +18,9 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     this.loadQuestions = loadQuestionsFromBank,
     this.loadMoreQuestions,
     this.session = const PracticeSessionConfig.standard(),
-    QuestionProgressStore? questionProgressStore,
+    required this.questionProgressStore,
     Random? answerShuffleRandom,
-  }) : questionProgressStore =
-           questionProgressStore ?? DriftQuestionProgressStore.defaults(),
-       _answerShuffleRandom = answerShuffleRandom ?? Random(),
-       _ownsQuestionProgressStore = questionProgressStore == null,
+  }) : _answerShuffleRandom = answerShuffleRandom ?? Random(),
        super(
          PracticeLoading(
            selectedSection: session.initialSection,
@@ -44,7 +41,6 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   final PracticeSessionConfig session;
   final QuestionProgressStore questionProgressStore;
   final Random _answerShuffleRandom;
-  final bool _ownsQuestionProgressStore;
   bool _pendingQuestionSourceExhausted = false;
 
   Future<void> _onStarted(PracticeStarted event, Emitter<PracticeState> emit) {
@@ -340,14 +336,5 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       doctrinalReference: question.doctrinalReference,
       shuffleable: question.shuffleable,
     );
-  }
-
-  @override
-  Future<void> close() async {
-    if (_ownsQuestionProgressStore) {
-      await questionProgressStore.close();
-    }
-
-    return super.close();
   }
 }

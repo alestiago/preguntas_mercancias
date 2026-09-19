@@ -13,41 +13,29 @@ import '../settings/settings_page.dart';
 import 'bloc/home_bloc.dart';
 
 class QuestionHomePage extends StatelessWidget {
-  const QuestionHomePage({
-    super.key,
-    LoadQuestions? loadQuestions,
-    this.questionProgressStore,
-  }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
+  const QuestionHomePage({super.key, LoadQuestions? loadQuestions})
+    : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
 
   final LoadQuestions loadQuestions;
-  final QuestionProgressStore? questionProgressStore;
 
   @override
   Widget build(BuildContext context) {
-    final progressStore =
-        questionProgressStore ?? context.read<QuestionProgressStore>();
+    final progressStore = context.read<QuestionProgressStore>();
 
     return BlocProvider(
       create: (_) => HomeBloc(
         loadQuestions: loadQuestions,
         questionProgressStore: progressStore,
       )..add(const HomeStarted()),
-      child: _QuestionHomeView(
-        loadQuestions: loadQuestions,
-        questionProgressStore: progressStore,
-      ),
+      child: _QuestionHomeView(loadQuestions: loadQuestions),
     );
   }
 }
 
 class _QuestionHomeView extends StatelessWidget {
-  const _QuestionHomeView({
-    required this.loadQuestions,
-    required this.questionProgressStore,
-  });
+  const _QuestionHomeView({required this.loadQuestions});
 
   final LoadQuestions loadQuestions;
-  final QuestionProgressStore questionProgressStore;
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +89,9 @@ class _QuestionHomeView extends StatelessWidget {
   }
 
   void _openSettings(BuildContext context) {
-    Navigator.of(context).push<void>(
-      MaterialPageRoute(
-        builder: (_) =>
-            SettingsPage(questionProgressStore: questionProgressStore),
-      ),
-    );
+    Navigator.of(
+      context,
+    ).push<void>(MaterialPageRoute(builder: (_) => const SettingsPage()));
   }
 
   void _openPractice(
@@ -123,7 +108,6 @@ class _QuestionHomeView extends StatelessWidget {
             builder: (_) => QuestionPracticePage(
               loadQuestions: practiceLoadQuestions ?? loadQuestions,
               loadMoreQuestions: loadMoreQuestions,
-              questionProgressStore: questionProgressStore,
               session: session,
             ),
           ),
@@ -138,10 +122,7 @@ class _QuestionHomeView extends StatelessWidget {
   void _openAnswerHistory(BuildContext context, HomeLoaded state) {
     Navigator.of(context).push<void>(
       MaterialPageRoute(
-        builder: (_) => AnswerHistoryPage(
-          questions: state.questions,
-          questionProgressStore: questionProgressStore,
-        ),
+        builder: (_) => AnswerHistoryPage(questions: state.questions),
       ),
     );
   }

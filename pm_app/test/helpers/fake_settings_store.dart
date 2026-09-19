@@ -18,6 +18,7 @@ class FakeSettingsStore implements SettingsStore {
   bool _answerShuffleEnabled;
   final bool _emitCurrentValueOnWatch;
   final StreamController<bool> _controller = StreamController<bool>.broadcast();
+  int closeCallCount = 0;
 
   @override
   Future<bool> loadAnswerShuffleEnabled() async => _answerShuffleEnabled;
@@ -44,6 +45,7 @@ class FakeSettingsStore implements SettingsStore {
 
   @override
   Future<void> close() {
+    closeCallCount += 1;
     return _controller.close();
   }
 }

@@ -8,9 +8,7 @@ import 'bloc/settings_bloc.dart';
 const appVersion = '1.0.0+1';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key, required this.questionProgressStore});
-
-  final QuestionProgressStore questionProgressStore;
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +86,7 @@ class SettingsPage extends StatelessWidget {
       return;
     }
 
-    await questionProgressStore.clear();
+    await context.read<QuestionProgressStore>().clear();
 
     if (!context.mounted) {
       return;

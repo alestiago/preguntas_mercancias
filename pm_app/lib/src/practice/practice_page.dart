@@ -20,13 +20,11 @@ class QuestionPracticePage extends StatelessWidget {
     super.key,
     LoadQuestions? loadQuestions,
     this.loadMoreQuestions,
-    this.questionProgressStore,
     this.session = const PracticeSessionConfig.standard(),
   }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
 
   final LoadQuestions loadQuestions;
   final LoadMoreQuestions? loadMoreQuestions;
-  final QuestionProgressStore? questionProgressStore;
   final PracticeSessionConfig session;
 
   @override
@@ -35,7 +33,7 @@ class QuestionPracticePage extends StatelessWidget {
       create: (_) => PracticeBloc(
         loadQuestions: loadQuestions,
         loadMoreQuestions: loadMoreQuestions,
-        questionProgressStore: questionProgressStore,
+        questionProgressStore: context.read<QuestionProgressStore>(),
         session: session,
       )..add(const PracticeStarted()),
       child: const _QuestionPracticeView(),

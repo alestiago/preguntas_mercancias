@@ -11,14 +11,9 @@ import '../practice/practice_session_config.dart';
 import '../settings/bloc/settings_bloc.dart';
 
 class AnswerHistoryPage extends StatelessWidget {
-  const AnswerHistoryPage({
-    super.key,
-    required this.questions,
-    required this.questionProgressStore,
-  });
+  const AnswerHistoryPage({super.key, required this.questions});
 
   final List<Question> questions;
-  final QuestionProgressStore questionProgressStore;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +24,7 @@ class AnswerHistoryPage extends StatelessWidget {
       body: SafeArea(
         child: _AnswerHistoryBody(
           questions: questions,
-          questionProgressStore: questionProgressStore,
+          questionProgressStore: context.read<QuestionProgressStore>(),
           onQuestionSelected: (question) =>
               _openQuestionPractice(context, question),
         ),
@@ -47,7 +42,6 @@ class AnswerHistoryPage extends StatelessWidget {
       MaterialPageRoute(
         builder: (_) => QuestionPracticePage(
           loadQuestions: (_) async => [question],
-          questionProgressStore: questionProgressStore,
           session: PracticeSessionConfig.singleQuestion(
             shuffleAnswers: shuffleAnswers,
           ),

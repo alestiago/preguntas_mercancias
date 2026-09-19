@@ -8,6 +8,7 @@ class FakeQuestionProgressStore implements QuestionProgressStore {
       StreamController<QuestionProgressSnapshot>.broadcast();
 
   final List<QuestionAnswerRecord> recordedAnswers = [];
+  int closeCallCount = 0;
 
   @override
   Future<QuestionProgressSnapshot> loadSnapshot() async {
@@ -78,6 +79,7 @@ class FakeQuestionProgressStore implements QuestionProgressStore {
 
   @override
   Future<void> close() {
+    closeCallCount += 1;
     return _controller.close();
   }
 
