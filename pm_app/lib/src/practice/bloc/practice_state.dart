@@ -60,7 +60,15 @@ final class PracticeLoaded extends PracticeState {
   QuestionOption? get selectedOption =>
       selectedOptionsByQuestionCode[currentQuestion.code];
 
-  bool get answered => selectedOption != null;
+  SessionQuestionStatus sessionStatusFor(Question question) {
+    return practiceQuestionPolicy.sessionStatusFor(
+      question,
+      selectedOptionsByQuestionCode[question.code],
+    );
+  }
+
+  bool get answered =>
+      sessionStatusFor(currentQuestion) != SessionQuestionStatus.unanswered;
 
   bool get showExitConfirmation => selectedOptionsByQuestionCode.isNotEmpty;
 
@@ -74,15 +82,10 @@ final class PracticeLoaded extends PracticeState {
       return questions;
     }
 
-    return List<Question>.unmodifiable(
-      questions.where((question) {
-        final progress = progressSnapshot.progressFor(question.code);
-        if (mode == PracticeMode.review) {
-          return progress != null && progress.correctAttempts == 0;
-        }
-
-        return progress == null;
-      }),
+    return practiceQuestionPolicy.selectEligible(
+      questions: questions,
+      mode: mode,
+      progressSnapshot: progressSnapshot,
     );
   }
 

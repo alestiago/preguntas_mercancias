@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../questions/load_questions.dart';
 import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
+import 'practice_question_policy.dart';
 import 'practice_session_config.dart';
 import 'widgets/practice_page_app_bar.dart';
 import 'widgets/practice_progress_divider.dart';
@@ -880,12 +881,13 @@ extension _PracticeLoadedPresentation on PracticeLoaded {
   List<PracticeProgressSegmentStatus> get progressSegments {
     return [
       for (final question in questions)
-        switch (selectedOptionsByQuestionCode[question.code]) {
-          null => PracticeProgressSegmentStatus.pending,
-          final selectedOption =>
-            question.isCorrect(selectedOption)
-                ? PracticeProgressSegmentStatus.correct
-                : PracticeProgressSegmentStatus.incorrect,
+        switch (sessionStatusFor(question)) {
+          SessionQuestionStatus.unanswered =>
+            PracticeProgressSegmentStatus.pending,
+          SessionQuestionStatus.correct =>
+            PracticeProgressSegmentStatus.correct,
+          SessionQuestionStatus.incorrect =>
+            PracticeProgressSegmentStatus.incorrect,
         },
     ];
   }

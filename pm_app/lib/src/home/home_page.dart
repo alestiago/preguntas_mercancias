@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pm_persistence/pm_persistence.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../history/answer_history_page.dart';
-import '../practice/bloc/practice_bloc.dart';
 import '../practice/practice_page.dart';
 import '../practice/practice_session_config.dart';
 import '../questions/draw_simulacro_questions.dart';
@@ -171,7 +169,7 @@ class _QuestionHomeView extends StatelessWidget {
     _openPractice(
       context,
       practiceLoadQuestions: state.reviewLoadQuestions(),
-      session: PracticeSessionConfig.review(shuffleAnswers: shuffleAnswers),
+      session: state.reviewSession(shuffleAnswers: shuffleAnswers),
     );
   }
 
@@ -180,11 +178,7 @@ class _QuestionHomeView extends StatelessWidget {
         .read<SettingsBloc>()
         .state
         .answerShuffleEnabled;
-    final session = PracticeSessionConfig.pending(
-      shuffleAnswers: shuffleAnswers,
-      pendingQuestionCount: state.unansweredQuestionCount,
-      pendingQuestionCountsBySection: state.pendingQuestionCountsBySection,
-    );
+    final session = state.pendingSession(shuffleAnswers: shuffleAnswers);
 
     _openPractice(
       context,
@@ -514,93 +508,6 @@ class _ErrorState extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-extension _HomeLoadedPracticeSources on HomeLoaded {
-  LoadQuestions reviewLoadQuestions() {
-    final reviewQuestionCodes = <String>{};
-
-    for (final questionCode in questionCodes) {
-      final progress = progressSnapshot.progressFor(questionCode);
-      if (progress != null && progress.correctAttempts == 0) {
-        reviewQuestionCodes.add(questionCode);
-      }
-    }
-
-    return questions.filteredLoadQuestions(reviewQuestionCodes);
-  }
-
-  Map<String, int> get pendingQuestionCountsBySection {
-    final countsBySection = <String, int>{};
-
-    for (final question in questions) {
-      if (progressSnapshot.progressFor(question.code) != null) {
-        continue;
-      }
-
-      countsBySection.update(
-        question.section,
-        (count) => count + 1,
-        ifAbsent: () => 1,
-      );
-    }
-
-    return Map.unmodifiable(countsBySection);
-  }
-
-  LoadQuestions pendingLoadQuestions({required int batchSize}) {
-    return (section) async => questions.pendingQuestionBatch(
-      progressSnapshot: progressSnapshot,
-      section: section,
-      loadedQuestionCodes: const <String>{},
-      batchSize: batchSize,
-    );
-  }
-
-  LoadMoreQuestions pendingLoadMoreQuestions({required int batchSize}) {
-    return (section, loadedQuestionCodes, progressSnapshot) async {
-      return questions.pendingQuestionBatch(
-        progressSnapshot: progressSnapshot,
-        section: section,
-        loadedQuestionCodes: loadedQuestionCodes,
-        batchSize: batchSize,
-      );
-    };
-  }
-}
-
-extension _QuestionListPracticeFilters on List<Question> {
-  LoadQuestions filteredLoadQuestions(Set<String> questionCodes) {
-    final filteredQuestions = List<Question>.unmodifiable(
-      where((question) => questionCodes.contains(question.code)),
-    );
-
-    return (section) async {
-      if (section == null) {
-        return filteredQuestions;
-      }
-
-      return List<Question>.unmodifiable(
-        filteredQuestions.where((question) => question.section == section),
-      );
-    };
-  }
-
-  List<Question> pendingQuestionBatch({
-    required QuestionProgressSnapshot progressSnapshot,
-    required String? section,
-    required Set<String> loadedQuestionCodes,
-    required int batchSize,
-  }) {
-    return List<Question>.unmodifiable(
-      where(
-        (question) =>
-            (section == null || question.section == section) &&
-            !loadedQuestionCodes.contains(question.code) &&
-            progressSnapshot.progressFor(question.code) == null,
-      ).take(batchSize),
     );
   }
 }

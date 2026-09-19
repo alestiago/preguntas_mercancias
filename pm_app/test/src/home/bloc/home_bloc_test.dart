@@ -114,6 +114,57 @@ void main() {
       expect(refreshed.unansweredQuestionCount, 1);
     });
 
+    test('keeps dashboard counts aligned with session selections', () async {
+      await progressStore.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1A01001',
+          section: '1A',
+          selectedOption: QuestionOption.b,
+          correctOption: QuestionOption.b,
+        ),
+      );
+      await progressStore.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1A01002',
+          section: '1A',
+          selectedOption: QuestionOption.c,
+          correctOption: QuestionOption.a,
+        ),
+      );
+      await progressStore.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '9Z99999',
+          section: '9Z',
+          selectedOption: QuestionOption.a,
+          correctOption: QuestionOption.b,
+        ),
+      );
+      final bloc = HomeBloc(
+        loadQuestions: (_) async => buildHomeQuestions(),
+        questionProgressStore: progressStore,
+      );
+      addTearDown(bloc.close);
+
+      final loadedFuture = _waitForLoaded(bloc);
+      bloc.add(const HomeStarted());
+      final loaded = await loadedFuture;
+      final reviewQuestions = await loaded.reviewLoadQuestions()(null);
+      final pendingQuestions = await loaded.pendingLoadQuestions(batchSize: 10)(
+        null,
+      );
+      final pendingSession = loaded.pendingSession(shuffleAnswers: false);
+
+      expect(loaded.totalQuestionCount, 3);
+      expect(loaded.incorrectQuestionCount, reviewQuestions.length);
+      expect(loaded.unansweredQuestionCount, pendingQuestions.length);
+      expect(loaded.pendingQuestionCountsBySection, {'1A': 1});
+      expect(pendingSession.pendingQuestionCount, pendingQuestions.length);
+      expect(pendingSession.pendingQuestionCountsBySection, {'1A': 1});
+      expect(pendingSession.shuffleAnswers, isFalse);
+      expect(reviewQuestions.map((question) => question.code), ['1A01002']);
+      expect(pendingQuestions.map((question) => question.code), ['1A01003']);
+    });
+
     test('updates when progress changes without a manual refresh', () async {
       final bloc = HomeBloc(
         loadQuestions: (_) async => buildHomeQuestions(),

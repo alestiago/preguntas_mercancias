@@ -19,37 +19,69 @@ final class HomeLoaded extends HomeState {
   HomeLoaded({
     required List<Question> questions,
     required this.progressSnapshot,
-  }) : questions = List.unmodifiable(questions);
+  }) : questions = List.unmodifiable(questions),
+       questionSummary = practiceQuestionPolicy.summarize(
+         questions: questions,
+         progressSnapshot: progressSnapshot,
+       );
 
   final List<Question> questions;
   final QuestionProgressSnapshot progressSnapshot;
+  final PracticeQuestionSummary questionSummary;
 
-  Set<String> get questionCodes {
-    return Set.unmodifiable(questions.map((question) => question.code));
+  int get totalQuestionCount => questionSummary.totalCount;
+
+  int get correctQuestionCount => questionSummary.masteredCount;
+
+  int get incorrectQuestionCount => questionSummary.needsReviewCount;
+
+  int get unansweredQuestionCount => questionSummary.unansweredCount;
+
+  Map<String, int> get pendingQuestionCountsBySection =>
+      questionSummary.unansweredCountsBySection;
+
+  PracticeSessionConfig reviewSession({required bool shuffleAnswers}) {
+    return PracticeSessionConfig.review(shuffleAnswers: shuffleAnswers);
   }
 
-  int get totalQuestionCount => questionCodes.length;
-
-  int get correctQuestionCount {
-    return _knownProgress.where((progress) {
-      return progress.correctAttempts > 0;
-    }).length;
+  PracticeSessionConfig pendingSession({required bool shuffleAnswers}) {
+    return PracticeSessionConfig.pending(
+      shuffleAnswers: shuffleAnswers,
+      pendingQuestionCount: unansweredQuestionCount,
+      pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+    );
   }
 
-  int get incorrectQuestionCount {
-    return _knownProgress.where((progress) {
-      return progress.correctAttempts == 0;
-    }).length;
+  LoadQuestions reviewLoadQuestions() {
+    return (section) async => practiceQuestionPolicy.selectEligible(
+      questions: questions,
+      mode: PracticeMode.review,
+      progressSnapshot: progressSnapshot,
+      section: section,
+    );
   }
 
-  int get unansweredQuestionCount {
-    return totalQuestionCount - correctQuestionCount - incorrectQuestionCount;
+  LoadQuestions pendingLoadQuestions({required int batchSize}) {
+    return (section) async => practiceQuestionPolicy.selectEligible(
+      questions: questions,
+      mode: PracticeMode.pending,
+      progressSnapshot: progressSnapshot,
+      section: section,
+      limit: batchSize,
+    );
   }
 
-  Iterable<QuestionProgress> get _knownProgress {
-    return questionCodes
-        .map(progressSnapshot.progressFor)
-        .whereType<QuestionProgress>();
+  LoadMoreQuestions pendingLoadMoreQuestions({required int batchSize}) {
+    return (section, loadedQuestionCodes, latestProgressSnapshot) async {
+      return practiceQuestionPolicy.selectEligible(
+        questions: questions,
+        mode: PracticeMode.pending,
+        progressSnapshot: latestProgressSnapshot,
+        section: section,
+        excludedQuestionCodes: loadedQuestionCodes,
+        limit: batchSize,
+      );
+    };
   }
 
   HomeLoaded copyWith({QuestionProgressSnapshot? progressSnapshot}) {

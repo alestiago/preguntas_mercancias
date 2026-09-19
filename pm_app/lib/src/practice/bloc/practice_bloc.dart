@@ -6,17 +6,11 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../questions/load_questions.dart';
+import '../practice_question_policy.dart';
 import '../practice_session_config.dart';
 
 part 'practice_event.dart';
 part 'practice_state.dart';
-
-typedef LoadMoreQuestions =
-    Future<List<Question>> Function(
-      String? section,
-      Set<String> loadedQuestionCodes,
-      QuestionProgressSnapshot progressSnapshot,
-    );
 
 class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   PracticeBloc({
@@ -147,10 +141,12 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     }
 
     final pendingQuestions = _questionsWithShuffledAnswers(
-      loadedQuestions.where((question) {
-        return !loadedQuestionCodes.contains(question.code) &&
-            currentState.progressSnapshot.progressFor(question.code) == null;
-      }),
+      practiceQuestionPolicy.selectEligible(
+        questions: loadedQuestions,
+        mode: PracticeMode.pending,
+        progressSnapshot: currentState.progressSnapshot,
+        excludedQuestionCodes: loadedQuestionCodes,
+      ),
     );
     if (pendingQuestions.isEmpty) {
       return;
@@ -275,7 +271,11 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       final questions = await loadQuestions(selectedSection);
       final progressSnapshot = await questionProgressStore.loadSnapshot();
       final loadedQuestions = _questionsWithShuffledAnswers(
-        _questionsForCurrentMode(questions, progressSnapshot),
+        practiceQuestionPolicy.selectEligible(
+          questions: questions,
+          mode: session.mode,
+          progressSnapshot: progressSnapshot,
+        ),
       );
       emit(
         PracticeLoaded(
@@ -294,27 +294,6 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
         ),
       );
     }
-  }
-
-  List<Question> _questionsForCurrentMode(
-    List<Question> questions,
-    QuestionProgressSnapshot progressSnapshot,
-  ) {
-    if (session.mode != PracticeMode.review &&
-        session.mode != PracticeMode.pending) {
-      return List<Question>.unmodifiable(questions);
-    }
-
-    return List<Question>.unmodifiable(
-      questions.where((question) {
-        final progress = progressSnapshot.progressFor(question.code);
-        if (session.mode == PracticeMode.review) {
-          return progress != null && progress.correctAttempts == 0;
-        }
-
-        return progress == null;
-      }),
-    );
   }
 
   List<Question> _questionsWithShuffledAnswers(Iterable<Question> questions) {
