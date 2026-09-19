@@ -34,5 +34,53 @@ void main() {
 
       expect(values, [true, false]);
     });
+
+    test('does not lose a write during subscription startup', () async {
+      final valuesFuture = store.watchAnswerShuffleEnabled().take(2).toList();
+
+      await store.setAnswerShuffleEnabled(false);
+
+      expect(await valuesFuture, [true, false]);
+    });
+
+    test('late subscribers receive the current value', () async {
+      await store.setAnswerShuffleEnabled(false);
+
+      expect(await store.watchAnswerShuffleEnabled().first, isFalse);
+    });
+
+    test('does not publish an unsuccessful write', () async {
+      final failingStore = SharedPreferencesSettingsStore(
+        writeBool: (_, _, _) async => false,
+      );
+      addTearDown(failingStore.close);
+      final values = <bool>[];
+      final subscription = failingStore.watchAnswerShuffleEnabled().listen(
+        values.add,
+      );
+      addTearDown(subscription.cancel);
+      await pumpEventQueue();
+
+      await expectLater(
+        failingStore.setAnswerShuffleEnabled(false),
+        throwsStateError,
+      );
+      await pumpEventQueue();
+
+      expect(values, [true]);
+      expect(await failingStore.loadAnswerShuffleEnabled(), isTrue);
+    });
+
+    test('closes active watchers when disposed', () async {
+      final done = expectLater(
+        store.watchAnswerShuffleEnabled(),
+        emitsInOrder([true, emitsDone]),
+      );
+
+      await pumpEventQueue();
+      await store.close();
+
+      await done;
+    });
   });
 }

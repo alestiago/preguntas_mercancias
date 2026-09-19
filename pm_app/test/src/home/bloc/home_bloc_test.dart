@@ -85,6 +85,10 @@ void main() {
       bloc.add(const HomeStarted());
       await loadedFuture;
 
+      final refreshedFuture = _waitForLoaded(
+        bloc,
+        (state) => state.progressSnapshot.totalAttempts == 2,
+      );
       await progressStore.recordAnswer(
         QuestionAnswerRecord(
           questionCode: '1A01001',
@@ -102,11 +106,6 @@ void main() {
         ),
       );
 
-      final refreshedFuture = _waitForLoaded(
-        bloc,
-        (state) => state.progressSnapshot.totalAttempts == 2,
-      );
-      bloc.add(const HomeProgressRefreshed());
       final refreshed = await refreshedFuture;
 
       expect(loadCount, 1);
@@ -296,6 +295,66 @@ void main() {
         'Tercera pregunta',
       );
     });
+
+    test('initializes progress from the watch stream only', () async {
+      final watchOnlyStore = _WatchOnlyQuestionProgressStore();
+      addTearDown(watchOnlyStore.close);
+      final bloc = HomeBloc(
+        loadQuestions: (_) async => buildHomeQuestions(),
+        questionProgressStore: watchOnlyStore,
+      );
+      addTearDown(bloc.close);
+
+      final loadedFuture = _waitForLoaded(bloc);
+      bloc.add(const HomeStarted());
+      final loaded = await loadedFuture;
+
+      expect(loaded.progressSnapshot, const QuestionProgressSnapshot.empty());
+    });
+
+    test('surfaces progress observation errors', () async {
+      final bloc = HomeBloc(
+        loadQuestions: (_) async => buildHomeQuestions(),
+        questionProgressStore: progressStore,
+      );
+      addTearDown(bloc.close);
+      final loadedFuture = _waitForLoaded(bloc);
+      bloc.add(const HomeStarted());
+      await loadedFuture;
+
+      final failureFuture = bloc.stream
+          .where((state) => state is HomeLoadFailure)
+          .cast<HomeLoadFailure>()
+          .first
+          .timeout(const Duration(seconds: 2));
+      final error = StateError('Progress watch failed.');
+      progressStore.emitSnapshotError(error);
+
+      expect((await failureFuture).error, error);
+    });
+
+    test('cancels progress observation when closed', () async {
+      final bloc = HomeBloc(
+        loadQuestions: (_) async => buildHomeQuestions(),
+        questionProgressStore: progressStore,
+      );
+      final loadedFuture = _waitForLoaded(bloc);
+      bloc.add(const HomeStarted());
+      final loaded = await loadedFuture;
+
+      await bloc.close();
+      await progressStore.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1A01001',
+          section: '1A',
+          selectedOption: QuestionOption.b,
+          correctOption: QuestionOption.b,
+        ),
+      );
+      await Future<void>.delayed(Duration.zero);
+
+      expect(bloc.state, loaded);
+    });
   });
 }
 
@@ -322,5 +381,12 @@ Future<void> _waitUntil(bool Function() predicate) async {
       throw TestFailure('Timed out waiting for a test condition.');
     }
     await Future<void>.delayed(Duration.zero);
+  }
+}
+
+final class _WatchOnlyQuestionProgressStore extends FakeQuestionProgressStore {
+  @override
+  Future<QuestionProgressSnapshot> loadSnapshot() {
+    throw StateError('HomeBloc must initialize from watchSnapshot().');
   }
 }

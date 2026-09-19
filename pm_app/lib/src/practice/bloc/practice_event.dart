@@ -25,7 +25,15 @@ final class AnswerPressed extends PracticeEvent {
   final QuestionOption option;
 }
 
-final class _PendingRefillRequested extends PracticeEvent {
+sealed class PendingBatchLoadRequested extends PracticeEvent {
+  const PendingBatchLoadRequested();
+}
+
+final class PendingBatchRetried extends PendingBatchLoadRequested {
+  const PendingBatchRetried();
+}
+
+final class _PendingRefillRequested extends PendingBatchLoadRequested {
   const _PendingRefillRequested(this.sessionGeneration);
 
   final int sessionGeneration;

@@ -1,6 +1,41 @@
 part of 'practice_bloc.dart';
 
 @immutable
+sealed class PendingBatchState extends Equatable {
+  const PendingBatchState();
+}
+
+final class PendingBatchReady extends PendingBatchState {
+  const PendingBatchReady();
+
+  @override
+  List<Object?> get props => const [PendingBatchReady];
+}
+
+final class PendingBatchLoading extends PendingBatchState {
+  const PendingBatchLoading();
+
+  @override
+  List<Object?> get props => const [PendingBatchLoading];
+}
+
+final class PendingBatchFailure extends PendingBatchState {
+  const PendingBatchFailure(this.error);
+
+  final Object error;
+
+  @override
+  List<Object?> get props => [PendingBatchFailure, error];
+}
+
+final class PendingBatchExhausted extends PendingBatchState {
+  const PendingBatchExhausted();
+
+  @override
+  List<Object?> get props => const [PendingBatchExhausted];
+}
+
+@immutable
 sealed class PracticeState extends Equatable {
   const PracticeState({
     required this.selectedSection,
@@ -67,6 +102,7 @@ final class PracticeLoaded extends PracticeState {
     int currentIndex = 0,
     Map<String, QuestionOption> selectedOptionsByQuestionCode = const {},
     bool isRecordingAnswer = false,
+    PendingBatchState pendingBatchState = const PendingBatchExhausted(),
     required PracticeSessionConfig session,
     int correctAttemptCount = 0,
     int incorrectAttemptCount = 0,
@@ -84,6 +120,7 @@ final class PracticeLoaded extends PracticeState {
         selectedOptionsByQuestionCode,
       ),
       isRecordingAnswer: isRecordingAnswer,
+      pendingBatchState: pendingBatchState,
       session: session,
       correctAttemptCount: correctAttemptCount,
       incorrectAttemptCount: incorrectAttemptCount,
@@ -97,6 +134,7 @@ final class PracticeLoaded extends PracticeState {
     required this.currentIndex,
     required this.selectedOptionsByQuestionCode,
     required this.isRecordingAnswer,
+    required this.pendingBatchState,
     required super.session,
     required super.correctAttemptCount,
     required super.incorrectAttemptCount,
@@ -112,6 +150,7 @@ final class PracticeLoaded extends PracticeState {
   /// attempt totals remain available separately on [PracticeState].
   final Map<String, QuestionOption> selectedOptionsByQuestionCode;
   final bool isRecordingAnswer;
+  final PendingBatchState pendingBatchState;
 
   QuestionOption? get selectedOption =>
       selectedOptionsByQuestionCode[currentQuestion.code];
@@ -145,8 +184,18 @@ final class PracticeLoaded extends PracticeState {
     );
   }
 
-  bool get isFilteredPracticeComplete =>
-      isFilteredPracticeMode && remainingFilteredQuestions.isEmpty;
+  bool get isFilteredPracticeComplete {
+    if (!isFilteredPracticeMode || remainingFilteredQuestions.isNotEmpty) {
+      return false;
+    }
+    return mode != PracticeMode.pending ||
+        pendingBatchState is PendingBatchExhausted;
+  }
+
+  bool get isAwaitingPendingBatch =>
+      mode == PracticeMode.pending &&
+      remainingFilteredQuestions.isEmpty &&
+      pendingBatchState is! PendingBatchExhausted;
 
   double get progress =>
       questions.isEmpty ? 0 : (currentIndex + 1) / questions.length;
@@ -158,6 +207,7 @@ final class PracticeLoaded extends PracticeState {
     int? currentIndex,
     Map<String, QuestionOption>? selectedOptionsByQuestionCode,
     bool? isRecordingAnswer,
+    PendingBatchState? pendingBatchState,
     int? correctAttemptCount,
     int? incorrectAttemptCount,
     QuestionProgressSnapshot? progressSnapshot,
@@ -170,6 +220,7 @@ final class PracticeLoaded extends PracticeState {
       selectedOptionsByQuestionCode:
           selectedOptionsByQuestionCode ?? this.selectedOptionsByQuestionCode,
       isRecordingAnswer: isRecordingAnswer ?? this.isRecordingAnswer,
+      pendingBatchState: pendingBatchState ?? this.pendingBatchState,
       correctAttemptCount: correctAttemptCount ?? this.correctAttemptCount,
       incorrectAttemptCount:
           incorrectAttemptCount ?? this.incorrectAttemptCount,
@@ -183,6 +234,7 @@ final class PracticeLoaded extends PracticeState {
       session: session,
       questions: questions,
       progressSnapshot: progressSnapshot,
+      pendingBatchState: pendingBatchState,
     );
   }
 
@@ -194,5 +246,6 @@ final class PracticeLoaded extends PracticeState {
     currentIndex,
     selectedOptionsByQuestionCode,
     isRecordingAnswer,
+    pendingBatchState,
   ];
 }

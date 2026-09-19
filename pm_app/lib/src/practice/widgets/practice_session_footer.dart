@@ -12,6 +12,7 @@ class PracticeSessionFooter extends StatelessWidget {
     required this.isFilteredPracticeComplete,
     required this.mode,
     required this.isRecordingAnswer,
+    required this.isAwaitingPendingBatch,
     required this.onFinishPractice,
     required this.onNextQuestion,
     required this.onPreviousQuestion,
@@ -23,6 +24,7 @@ class PracticeSessionFooter extends StatelessWidget {
   final bool isFilteredPracticeComplete;
   final PracticeMode mode;
   final bool isRecordingAnswer;
+  final bool isAwaitingPendingBatch;
   final VoidCallback onFinishPractice;
   final VoidCallback onNextQuestion;
   final VoidCallback onPreviousQuestion;
@@ -64,7 +66,10 @@ class PracticeSessionFooter extends StatelessWidget {
           fit: FlexFit.loose,
           child: FilledButton.icon(
             key: const ValueKey('next-question-button'),
-            onPressed: !isRecordingAnswer && (answered || !isTerminalAction)
+            onPressed:
+                !isRecordingAnswer &&
+                    !isAwaitingPendingBatch &&
+                    (answered || !isTerminalAction)
                 ? (isFinishAction ? onFinishPractice : onNextQuestion)
                 : null,
             icon: Icon(

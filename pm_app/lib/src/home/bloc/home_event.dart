@@ -17,12 +17,14 @@ final class HomeRetried extends HomeReadRequested {
   const HomeRetried();
 }
 
-final class HomeProgressRefreshed extends HomeReadRequested {
-  const HomeProgressRefreshed();
-}
-
 final class _HomeProgressSnapshotChanged extends HomeEvent {
   const _HomeProgressSnapshotChanged(this.progressSnapshot);
 
   final QuestionProgressSnapshot progressSnapshot;
+}
+
+final class _HomeProgressObservationFailed extends HomeEvent {
+  const _HomeProgressObservationFailed(this.error);
+
+  final Object error;
 }

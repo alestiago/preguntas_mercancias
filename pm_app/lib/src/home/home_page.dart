@@ -100,23 +100,15 @@ class _QuestionHomeView extends StatelessWidget {
     LoadMoreQuestions? loadMoreQuestions,
     required PracticeSessionConfig session,
   }) {
-    final homeBloc = context.read<HomeBloc>();
-
-    Navigator.of(context)
-        .push<void>(
-          MaterialPageRoute(
-            builder: (_) => QuestionPracticePage(
-              loadQuestions: practiceLoadQuestions ?? loadQuestions,
-              loadMoreQuestions: loadMoreQuestions,
-              session: session,
-            ),
-          ),
-        )
-        .whenComplete(() {
-          if (!homeBloc.isClosed) {
-            homeBloc.add(const HomeProgressRefreshed());
-          }
-        });
+    Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (_) => QuestionPracticePage(
+          loadQuestions: practiceLoadQuestions ?? loadQuestions,
+          loadMoreQuestions: loadMoreQuestions,
+          session: session,
+        ),
+      ),
+    );
   }
 
   void _openAnswerHistory(BuildContext context, HomeLoaded state) {

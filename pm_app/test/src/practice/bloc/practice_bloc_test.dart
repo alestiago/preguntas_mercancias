@@ -5,6 +5,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/practice/bloc/practice_bloc.dart';
 import 'package:pm_app/src/practice/practice_session_config.dart';
+import 'package:pm_app/src/questions/pending_question_batch.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
@@ -747,7 +748,7 @@ void main() {
         loadQuestions: (_) async => questions.take(10).toList(growable: false),
         loadMoreQuestions: (_, loadedQuestionCodes, progressSnapshot) async {
           loadMoreCalls.add({...loadedQuestionCodes});
-          return questions
+          final batch = questions
               .where(
                 (question) =>
                     !loadedQuestionCodes.contains(question.code) &&
@@ -755,6 +756,7 @@ void main() {
               )
               .take(10)
               .toList(growable: false);
+          return PendingQuestionBatch(questions: batch, hasMore: false);
         },
         questionProgressStore: progressStore,
         session: PracticeSessionConfig.pending(),
@@ -815,7 +817,198 @@ void main() {
         refilled.remainingFilteredQuestions.map((question) => question.prompt),
         contains('Pregunta 15'),
       );
+      expect(refilled.pendingBatchState, isA<PendingBatchExhausted>());
     });
+
+    test('uses hasMore for an exact-size final pending batch', () async {
+      final progressStore = FakeQuestionProgressStore();
+      final questions = buildManyQuestions(11);
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => [questions.first],
+        loadMoreQuestions: (_, _, _) async =>
+            PendingQuestionBatch(questions: questions.skip(1), hasMore: false),
+        questionProgressStore: progressStore,
+        session: PracticeSessionConfig.pending(
+          pendingBatchSize: 10,
+          shuffleAnswers: false,
+        ),
+      );
+      addTearDown(bloc.close);
+
+      final exhaustedFuture = _waitForPracticeState(
+        bloc,
+        (state) =>
+            state is PracticeLoaded &&
+            state.questions.length == 11 &&
+            state.pendingBatchState is PendingBatchExhausted,
+      );
+      bloc.add(const PracticeStarted());
+      final exhausted = await exhaustedFuture as PracticeLoaded;
+
+      expect(exhausted.questions, hasLength(11));
+      expect(exhausted.pendingBatchState, isA<PendingBatchExhausted>());
+    });
+
+    test('confirms exhaustion from an empty pending batch', () async {
+      final progressStore = FakeQuestionProgressStore();
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => [],
+        loadMoreQuestions: (_, _, _) async =>
+            PendingQuestionBatch(questions: const [], hasMore: false),
+        questionProgressStore: progressStore,
+        session: PracticeSessionConfig.pending(shuffleAnswers: false),
+      );
+      addTearDown(bloc.close);
+
+      final exhaustedFuture = _waitForPracticeState(
+        bloc,
+        (state) =>
+            state is PracticeLoaded &&
+            state.questions.isEmpty &&
+            state.pendingBatchState is PendingBatchExhausted,
+      );
+      bloc.add(const PracticeStarted());
+      final exhausted = await exhaustedFuture as PracticeLoaded;
+
+      expect(exhausted.isFilteredPracticeComplete, isTrue);
+    });
+
+    test('filters duplicate questions from a pending batch', () async {
+      final progressStore = FakeQuestionProgressStore();
+      final questions = buildManyQuestions(2);
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) async => [questions.first],
+        loadMoreQuestions: (_, _, _) async =>
+            PendingQuestionBatch(questions: questions, hasMore: false),
+        questionProgressStore: progressStore,
+        session: PracticeSessionConfig.pending(shuffleAnswers: false),
+      );
+      addTearDown(bloc.close);
+
+      final exhaustedFuture = _waitForPracticeState(
+        bloc,
+        (state) =>
+            state is PracticeLoaded &&
+            state.questions.length == 2 &&
+            state.pendingBatchState is PendingBatchExhausted,
+      );
+      bloc.add(const PracticeStarted());
+      final exhausted = await exhaustedFuture as PracticeLoaded;
+
+      expect(
+        exhausted.questions.map((question) => question.code).toSet(),
+        hasLength(2),
+      );
+    });
+
+    test(
+      'retries a failed pending batch without restarting the session',
+      () async {
+        final progressStore = FakeQuestionProgressStore();
+        var loadMoreCallCount = 0;
+        addTearDown(progressStore.close);
+        final bloc = PracticeBloc(
+          loadQuestions: (_) async => [],
+          loadMoreQuestions: (_, _, _) async {
+            loadMoreCallCount += 1;
+            if (loadMoreCallCount == 1) {
+              throw StateError('Temporary batch failure.');
+            }
+            return PendingQuestionBatch(
+              questions: [buildManyQuestions(1).single],
+              hasMore: false,
+            );
+          },
+          questionProgressStore: progressStore,
+          session: PracticeSessionConfig.pending(shuffleAnswers: false),
+        );
+        addTearDown(bloc.close);
+
+        final failedFuture = _waitForPracticeState(
+          bloc,
+          (state) =>
+              state is PracticeLoaded &&
+              state.pendingBatchState is PendingBatchFailure,
+        );
+        bloc.add(const PracticeStarted());
+        final failed = await failedFuture as PracticeLoaded;
+
+        expect(failed.questions, isEmpty);
+        expect(failed.isFilteredPracticeComplete, isFalse);
+
+        final retriedFuture = _waitForPracticeState(
+          bloc,
+          (state) =>
+              state is PracticeLoaded &&
+              state.questions.length == 1 &&
+              state.pendingBatchState is PendingBatchExhausted,
+        );
+        bloc.add(const PendingBatchRetried());
+        final retried = await retriedFuture as PracticeLoaded;
+
+        expect(loadMoreCallCount, 2);
+        expect(retried.questions.single.code, '1A00001');
+      },
+    );
+
+    test(
+      'ignores a pending batch from a previously selected section',
+      () async {
+        final progressStore = FakeQuestionProgressStore();
+        final pendingBatches = <String, Completer<PendingQuestionBatch>>{};
+        addTearDown(progressStore.close);
+        final bloc = PracticeBloc(
+          loadQuestions: (section) async => [
+            buildReviewQuestions().firstWhere(
+              (question) => question.section == section,
+            ),
+          ],
+          loadMoreQuestions: (section, _, _) {
+            final completer = Completer<PendingQuestionBatch>();
+            pendingBatches[section!] = completer;
+            return completer.future;
+          },
+          questionProgressStore: progressStore,
+          session: PracticeSessionConfig.pending(
+            initialSection: '1A',
+            shuffleAnswers: false,
+          ),
+        );
+        addTearDown(bloc.close);
+
+        bloc.add(const PracticeStarted());
+        await _waitUntil(() => pendingBatches.containsKey('1A'));
+        bloc.add(const SectionSelected('1B'));
+        await _waitUntil(() => pendingBatches.containsKey('1B'));
+
+        final sectionBFuture = _waitForPracticeState(
+          bloc,
+          (state) =>
+              state is PracticeLoaded &&
+              state.selectedSection == '1B' &&
+              state.pendingBatchState is PendingBatchExhausted,
+        );
+        pendingBatches['1B']!.complete(
+          PendingQuestionBatch(questions: const [], hasMore: false),
+        );
+        await sectionBFuture;
+
+        pendingBatches['1A']!.complete(
+          PendingQuestionBatch(
+            questions: [buildManyQuestions(1).single],
+            hasMore: false,
+          ),
+        );
+        await Future<void>.delayed(Duration.zero);
+
+        final currentState = bloc.state as PracticeLoaded;
+        expect(currentState.selectedSection, '1B');
+        expect(currentState.questions.single.section, '1B');
+      },
+    );
 
     test('keeps the latest section when loads finish out of order', () async {
       final progressStore = FakeQuestionProgressStore();
@@ -905,7 +1098,7 @@ void main() {
       'preserves navigation and answers when a pending refill finishes',
       () async {
         final progressStore = FakeQuestionProgressStore();
-        final refill = Completer<List<Question>>();
+        final refill = Completer<PendingQuestionBatch>();
         final refillStarted = Completer<void>();
         addTearDown(progressStore.close);
         final bloc = PracticeBloc(
@@ -959,7 +1152,12 @@ void main() {
           bloc,
           (state) => state is PracticeLoaded && state.questions.length == 8,
         );
-        refill.complete(buildManyQuestions(8).skip(6).toList());
+        refill.complete(
+          PendingQuestionBatch(
+            questions: buildManyQuestions(8).skip(6),
+            hasMore: false,
+          ),
+        );
         final refilled = await refilledFuture as PracticeLoaded;
 
         expect(refilled.currentIndex, 1);

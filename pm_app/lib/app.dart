@@ -34,8 +34,7 @@ final class PreguntasMercanciasApp extends StatelessWidget {
       child: BlocProvider<SettingsBloc>(
         lazy: false,
         create: (context) =>
-            SettingsBloc(settingsStore: context.read<SettingsStore>())
-              ..add(const SettingsStarted()),
+            SettingsBloc(settingsStore: context.read<SettingsStore>()),
         child: MaterialApp(
           onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
           debugShowCheckedModeBanner: false,

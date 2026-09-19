@@ -8,6 +8,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../questions/load_questions.dart';
+import '../../questions/pending_question_batch.dart';
 import '../practice_question_policy.dart';
 import '../practice_session_config.dart';
 
@@ -30,9 +31,9 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
        ) {
     on<PracticeLoadRequested>(_onLoadRequested, transformer: restartable());
     on<AnswerPressed>(_onAnswerPressed, transformer: droppable());
-    on<_PendingRefillRequested>(
-      _onPendingRefillRequested,
-      transformer: droppable(),
+    on<PendingBatchLoadRequested>(
+      _onPendingBatchLoadRequested,
+      transformer: concurrent(),
     );
     on<NextQuestionPressed>(_onNextQuestionPressed);
     on<PreviousQuestionPressed>(_onPreviousQuestionPressed);
@@ -44,7 +45,6 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   final PracticeSessionConfig session;
   final QuestionProgressStore questionProgressStore;
   final Random _answerShuffleRandom;
-  bool _pendingQuestionSourceExhausted = false;
   int _sessionGeneration = 0;
 
   Future<void> _onLoadRequested(
@@ -131,23 +131,27 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     add(_PendingRefillRequested(generation));
   }
 
-  Future<void> _onPendingRefillRequested(
-    _PendingRefillRequested event,
+  Future<void> _onPendingBatchLoadRequested(
+    PendingBatchLoadRequested event,
     Emitter<PracticeState> emit,
   ) async {
-    if (!_isCurrentSession(event.sessionGeneration, emit)) {
+    final generation = switch (event) {
+      _PendingRefillRequested(:final sessionGeneration) => sessionGeneration,
+      PendingBatchRetried() => _sessionGeneration,
+    };
+    if (!_isCurrentSession(generation, emit)) {
       return;
     }
     final currentState = state;
     if (currentState is! PracticeLoaded) {
       return;
     }
+    if (event is PendingBatchRetried &&
+        currentState.pendingBatchState is! PendingBatchFailure) {
+      return;
+    }
 
-    await _loadMorePendingQuestionsIfNeeded(
-      currentState,
-      event.sessionGeneration,
-      emit,
-    );
+    await _loadMorePendingQuestionsIfNeeded(currentState, generation, emit);
   }
 
   Future<void> _loadMorePendingQuestionsIfNeeded(
@@ -158,32 +162,39 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     final loadMore = loadMoreQuestions;
     if (currentState.mode != PracticeMode.pending ||
         loadMore == null ||
-        _pendingQuestionSourceExhausted ||
+        currentState.pendingBatchState is PendingBatchExhausted ||
+        currentState.pendingBatchState is PendingBatchLoading ||
         currentState.remainingFilteredQuestions.length >
             session.pendingLoadThreshold) {
       return;
     }
 
+    emit(currentState.copyWith(pendingBatchState: const PendingBatchLoading()));
+
     final loadedQuestionCodes = currentState.questions
         .map((question) => question.code)
         .toSet();
-    final List<Question> loadedQuestions;
+    final PendingQuestionBatch batch;
     try {
-      loadedQuestions = await loadMore(
+      batch = await loadMore(
         currentState.selectedSection,
         loadedQuestionCodes,
         currentState.progressSnapshot,
       );
     } catch (error, stackTrace) {
+      if (_isCurrentSession(generation, emit)) {
+        final latestState = state;
+        if (latestState is PracticeLoaded) {
+          emit(
+            latestState.copyWith(pendingBatchState: PendingBatchFailure(error)),
+          );
+        }
+      }
       addError(error, stackTrace);
       return;
     }
     if (!_isCurrentSession(generation, emit)) {
       return;
-    }
-
-    if (loadedQuestions.length < session.pendingBatchSize) {
-      _pendingQuestionSourceExhausted = true;
     }
 
     final latestState = state;
@@ -195,13 +206,23 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
         .toSet();
     final pendingQuestions = _questionsWithShuffledAnswers(
       practiceQuestionPolicy.selectEligible(
-        questions: loadedQuestions,
+        questions: batch.questions,
         mode: PracticeMode.pending,
         progressSnapshot: latestState.progressSnapshot,
         excludedQuestionCodes: latestQuestionCodes,
       ),
     );
-    if (pendingQuestions.isEmpty) {
+    if (pendingQuestions.isEmpty && batch.hasMore) {
+      emit(
+        latestState.copyWith(
+          pendingBatchState: PendingBatchFailure(
+            StateError(
+              'The pending question source reported more results but '
+              'returned no new questions.',
+            ),
+          ),
+        ),
+      );
       return;
     }
 
@@ -211,6 +232,9 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
           ...latestState.questions,
           ...pendingQuestions,
         ]),
+        pendingBatchState: batch.hasMore
+            ? const PendingBatchReady()
+            : const PendingBatchExhausted(),
       ),
     );
   }
@@ -311,7 +335,6 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     String? selectedSection,
     int generation,
   ) async {
-    _pendingQuestionSourceExhausted = false;
     emit(PracticeLoading(selectedSection: selectedSection, session: session));
 
     try {
@@ -330,14 +353,23 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
           progressSnapshot: progressSnapshot,
         ),
       );
-      emit(
-        PracticeLoaded(
-          selectedSection: selectedSection,
-          questions: loadedQuestions,
-          progressSnapshot: progressSnapshot,
-          session: session,
-        ),
+      final loadedState = PracticeLoaded(
+        selectedSection: selectedSection,
+        questions: loadedQuestions,
+        progressSnapshot: progressSnapshot,
+        pendingBatchState:
+            session.mode == PracticeMode.pending && loadMoreQuestions != null
+            ? const PendingBatchReady()
+            : const PendingBatchExhausted(),
+        session: session,
       );
+      emit(loadedState);
+      if (loadedState.mode == PracticeMode.pending &&
+          loadedState.pendingBatchState is PendingBatchReady &&
+          loadedState.remainingFilteredQuestions.length <=
+              session.pendingLoadThreshold) {
+        add(_PendingRefillRequested(generation));
+      }
     } catch (error) {
       if (!_isCurrentSession(generation, emit)) {
         return;

@@ -99,5 +99,73 @@ void main() {
         '1A01001',
       ]);
     });
+
+    test('watchSnapshot emits the current value and later writes', () async {
+      final snapshotsFuture = store.watchSnapshot().take(2).toList();
+      await pumpEventQueue();
+
+      await store.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1A01001',
+          section: '1A',
+          selectedOption: QuestionOption.b,
+          correctOption: QuestionOption.b,
+        ),
+      );
+      final snapshots = await snapshotsFuture;
+
+      expect(snapshots.first, const QuestionProgressSnapshot.empty());
+      expect(snapshots.last.totalAttempts, 1);
+    });
+
+    test('late watchSnapshot subscribers receive the current value', () async {
+      await store.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1A01001',
+          section: '1A',
+          selectedOption: QuestionOption.b,
+          correctOption: QuestionOption.b,
+        ),
+      );
+
+      expect((await store.watchSnapshot().first).totalAttempts, 1);
+    });
+
+    test('watchSnapshot observes writes through another store', () async {
+      final observingStore = DriftQuestionProgressStore(database);
+      final snapshotsFuture = observingStore.watchSnapshot().take(2).toList();
+      await pumpEventQueue();
+
+      await store.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1A01001',
+          section: '1A',
+          selectedOption: QuestionOption.b,
+          correctOption: QuestionOption.b,
+        ),
+      );
+      final snapshots = await snapshotsFuture;
+
+      expect(snapshots.first, const QuestionProgressSnapshot.empty());
+      expect(snapshots.last.totalAttempts, 1);
+    });
+
+    test('watchAnswerHistory emits current history and later writes', () async {
+      final historyFuture = store.watchAnswerHistory().take(2).toList();
+      await pumpEventQueue();
+
+      await store.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: '1A01001',
+          section: '1A',
+          selectedOption: QuestionOption.b,
+          correctOption: QuestionOption.b,
+        ),
+      );
+      final history = await historyFuture;
+
+      expect(history.first, isEmpty);
+      expect(history.last.single.questionCode, '1A01001');
+    });
   });
 }

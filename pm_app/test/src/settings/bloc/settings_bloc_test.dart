@@ -28,13 +28,9 @@ void main() {
     blocTest<SettingsBloc, SettingsState>(
       'loads the persisted answer shuffle preference',
       setUp: () {
-        settingsStore = FakeSettingsStore(
-          answerShuffleEnabled: false,
-          emitCurrentValueOnWatch: false,
-        );
+        settingsStore = FakeSettingsStore(answerShuffleEnabled: false);
       },
       build: () => SettingsBloc(settingsStore: settingsStore!),
-      act: (bloc) => bloc.add(const SettingsStarted()),
       expect: () => [
         isA<SettingsLoaded>().having(
           (state) => state.answerShuffleEnabled,
@@ -47,12 +43,19 @@ void main() {
     blocTest<SettingsBloc, SettingsState>(
       'persists answer shuffle toggles',
       setUp: () {
-        settingsStore = FakeSettingsStore(emitCurrentValueOnWatch: false);
+        settingsStore = FakeSettingsStore();
       },
       build: () => SettingsBloc(settingsStore: settingsStore!),
-      seed: () => const SettingsLoaded(answerShuffleEnabled: true),
-      act: (bloc) => bloc.add(const AnswerShuffleToggled(false)),
+      act: (bloc) async {
+        await Future<void>.delayed(Duration.zero);
+        bloc.add(const AnswerShuffleToggled(false));
+      },
       expect: () => [
+        isA<SettingsLoaded>().having(
+          (state) => state.answerShuffleEnabled,
+          'initial answer shuffle enabled',
+          isTrue,
+        ),
         isA<SettingsLoaded>().having(
           (state) => state.answerShuffleEnabled,
           'answer shuffle enabled',
@@ -67,7 +70,7 @@ void main() {
     blocTest<SettingsBloc, SettingsState>(
       'reflects changes made outside the bloc',
       setUp: () {
-        settingsStore = FakeSettingsStore(emitCurrentValueOnWatch: false);
+        settingsStore = FakeSettingsStore();
       },
       build: () => SettingsBloc(settingsStore: settingsStore!),
       seed: () => const SettingsLoaded(answerShuffleEnabled: true),
@@ -106,6 +109,39 @@ void main() {
 
       expect(controlledStore.answerShuffleEnabled, isTrue);
     });
+
+    test('initializes from the watch stream only', () async {
+      final watchOnlyStore = _WatchOnlySettingsStore();
+      final bloc = SettingsBloc(settingsStore: watchOnlyStore);
+      addTearDown(() async {
+        await bloc.close();
+        await watchOnlyStore.close();
+      });
+
+      await _waitUntil(() => bloc.state is SettingsLoaded);
+
+      expect(bloc.state.answerShuffleEnabled, isFalse);
+    });
+
+    test('surfaces observation errors', () async {
+      final observedStore = FakeSettingsStore();
+      final bloc = SettingsBloc(settingsStore: observedStore);
+      addTearDown(() async {
+        await bloc.close();
+        await observedStore.close();
+      });
+      await _waitUntil(() => bloc.state is SettingsLoaded);
+
+      final failureFuture = bloc.stream
+          .where((state) => state is SettingsLoadFailure)
+          .cast<SettingsLoadFailure>()
+          .first
+          .timeout(const Duration(seconds: 2));
+      final error = StateError('Settings watch failed.');
+      observedStore.emitError(error);
+
+      expect((await failureFuture).error, error);
+    });
   });
 }
 
@@ -129,7 +165,10 @@ final class _ControlledSettingsStore implements SettingsStore {
   Future<bool> loadAnswerShuffleEnabled() async => answerShuffleEnabled;
 
   @override
-  Stream<bool> watchAnswerShuffleEnabled() => _controller.stream;
+  Stream<bool> watchAnswerShuffleEnabled() async* {
+    yield answerShuffleEnabled;
+    yield* _controller.stream;
+  }
 
   @override
   Future<void> setAnswerShuffleEnabled(bool enabled) async {
@@ -145,4 +184,15 @@ final class _ControlledSettingsStore implements SettingsStore {
 
   @override
   Future<void> close() => _controller.close();
+}
+
+final class _WatchOnlySettingsStore extends FakeSettingsStore {
+  _WatchOnlySettingsStore() : super(answerShuffleEnabled: false);
+
+  @override
+  Future<bool> loadAnswerShuffleEnabled() {
+    throw StateError(
+      'SettingsBloc must initialize from watchAnswerShuffleEnabled().',
+    );
+  }
 }

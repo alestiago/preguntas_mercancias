@@ -8,6 +8,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../questions/load_questions.dart';
+import '../../questions/pending_question_batch.dart';
 import '../../practice/practice_question_policy.dart';
 import '../../practice/practice_session_config.dart';
 
@@ -19,10 +20,16 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     : super(const HomeLoading()) {
     on<HomeReadRequested>(_onReadRequested, transformer: restartable());
     on<_HomeProgressSnapshotChanged>(_onProgressSnapshotChanged);
+    on<_HomeProgressObservationFailed>(_onProgressObservationFailed);
 
     _progressSubscription = questionProgressStore.watchSnapshot().listen(
       (snapshot) => add(_HomeProgressSnapshotChanged(snapshot)),
-      onError: addError,
+      onError: (Object error, StackTrace stackTrace) {
+        if (!isClosed) {
+          add(_HomeProgressObservationFailed(error));
+        }
+        addError(error, stackTrace);
+      },
     );
   }
 
@@ -30,53 +37,33 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final QuestionProgressStore questionProgressStore;
   late final StreamSubscription<QuestionProgressSnapshot> _progressSubscription;
   int _readGeneration = 0;
+  List<Question>? _questions;
+  QuestionProgressSnapshot? _progressSnapshot;
 
   Future<void> _onReadRequested(
     HomeReadRequested event,
     Emitter<HomeState> emit,
   ) async {
     final generation = ++_readGeneration;
-    if (event is! HomeProgressRefreshed) {
-      await _loadAll(emit, generation);
-      return;
-    }
-
-    final currentState = state;
-    if (currentState is! HomeLoaded) {
-      await _loadAll(emit, generation);
-      return;
-    }
-
-    try {
-      final progressSnapshot = await questionProgressStore.loadSnapshot();
-      if (!_isCurrentRead(generation, emit)) {
-        return;
-      }
-      final latestState = state;
-      if (latestState is HomeLoaded) {
-        emit(latestState.copyWith(progressSnapshot: progressSnapshot));
-      }
-    } catch (error) {
-      if (_isCurrentRead(generation, emit)) {
-        emit(HomeLoadFailure(error));
-      }
-    }
+    await _loadQuestions(emit, generation);
   }
 
   void _onProgressSnapshotChanged(
     _HomeProgressSnapshotChanged event,
     Emitter<HomeState> emit,
   ) {
-    final currentState = state;
-    if (currentState is! HomeLoaded) {
-      return;
-    }
-
-    _readGeneration += 1;
-    emit(currentState.copyWith(progressSnapshot: event.progressSnapshot));
+    _progressSnapshot = event.progressSnapshot;
+    _emitLoadedIfReady(emit);
   }
 
-  Future<void> _loadAll(Emitter<HomeState> emit, int generation) async {
+  void _onProgressObservationFailed(
+    _HomeProgressObservationFailed event,
+    Emitter<HomeState> emit,
+  ) {
+    emit(HomeLoadFailure(event.error));
+  }
+
+  Future<void> _loadQuestions(Emitter<HomeState> emit, int generation) async {
     emit(const HomeLoading());
 
     try {
@@ -84,19 +71,23 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (!_isCurrentRead(generation, emit)) {
         return;
       }
-      final progressSnapshot = await questionProgressStore.loadSnapshot();
-      if (!_isCurrentRead(generation, emit)) {
-        return;
-      }
-
-      emit(
-        HomeLoaded(questions: questions, progressSnapshot: progressSnapshot),
-      );
+      _questions = List.unmodifiable(questions);
+      _emitLoadedIfReady(emit);
     } catch (error) {
       if (_isCurrentRead(generation, emit)) {
         emit(HomeLoadFailure(error));
       }
     }
+  }
+
+  void _emitLoadedIfReady(Emitter<HomeState> emit) {
+    final questions = _questions;
+    final progressSnapshot = _progressSnapshot;
+    if (questions == null || progressSnapshot == null || emit.isDone) {
+      return;
+    }
+
+    emit(HomeLoaded(questions: questions, progressSnapshot: progressSnapshot));
   }
 
   bool _isCurrentRead(int generation, Emitter<HomeState> emit) {

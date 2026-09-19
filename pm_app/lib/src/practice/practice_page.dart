@@ -97,6 +97,8 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                           footerState.isFilteredPracticeComplete,
                       mode: footerState.mode,
                       isRecordingAnswer: footerState.isRecordingAnswer,
+                      isAwaitingPendingBatch:
+                          footerState.isAwaitingPendingBatch,
                       onFinishPractice: () =>
                           footerState.mode == PracticeMode.simulacro
                           ? _finishSimulacro(context, footerState)
@@ -171,6 +173,22 @@ class _PracticeBody extends StatelessWidget {
         error: error,
         onRetry: () => context.read<PracticeBloc>().add(const RetryPressed()),
       ),
+      PracticeLoaded(
+        questions: final questions,
+        pendingBatchState: PendingBatchLoading(),
+      )
+          when questions.isEmpty =>
+        const _LoadingState(),
+      PracticeLoaded(
+        questions: final questions,
+        pendingBatchState: PendingBatchFailure(:final error),
+      )
+          when questions.isEmpty =>
+        _ErrorState(
+          error: error,
+          onRetry: () =>
+              context.read<PracticeBloc>().add(const PendingBatchRetried()),
+        ),
       PracticeLoaded(questions: final questions) when questions.isEmpty =>
         _EmptyState(
           selectedSection: state.selectedSection,
@@ -312,8 +330,63 @@ class _PracticeContentLayout extends StatelessWidget {
                 question: question,
                 selectedOption: state.selectedOption,
               ),
+              if (state.pendingBatchState case PendingBatchLoading()) ...[
+                const SizedBox(height: 16),
+                const LinearProgressIndicator(
+                  key: ValueKey('pending-batch-loading'),
+                ),
+              ],
+              if (state.pendingBatchState case PendingBatchFailure()) ...[
+                const SizedBox(height: 16),
+                _PendingBatchFailurePanel(
+                  onRetry: () => context.read<PracticeBloc>().add(
+                    const PendingBatchRetried(),
+                  ),
+                ),
+              ],
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PendingBatchFailurePanel extends StatelessWidget {
+  const _PendingBatchFailurePanel({required this.onRetry});
+
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return DecoratedBox(
+      key: const ValueKey('pending-batch-failure'),
+      decoration: BoxDecoration(
+        color: colorScheme.errorContainer,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Icon(Icons.error_outline, color: colorScheme.onErrorContainer),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                localizations.practiceLoadFailure,
+                style: TextStyle(color: colorScheme.onErrorContainer),
+              ),
+            ),
+            const SizedBox(width: 12),
+            TextButton(
+              key: const ValueKey('pending-batch-retry-button'),
+              onPressed: onRetry,
+              child: Text(localizations.retry),
+            ),
+          ],
         ),
       ),
     );
@@ -867,6 +940,9 @@ extension _PracticeLoadedPresentation on PracticeLoaded {
       return questions.length;
     }
 
+    // Pending sessions keep the eligible total captured at launch. Loading
+    // another batch changes what is available in memory, not the denominator
+    // the user started with.
     final selectedSection = this.selectedSection;
     if (selectedSection != null) {
       return session.pendingQuestionCountsBySection[selectedSection] ??

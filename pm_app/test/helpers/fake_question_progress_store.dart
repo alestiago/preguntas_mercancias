@@ -16,8 +16,9 @@ class FakeQuestionProgressStore implements QuestionProgressStore {
   }
 
   @override
-  Stream<QuestionProgressSnapshot> watchSnapshot() {
-    return _controller.stream;
+  Stream<QuestionProgressSnapshot> watchSnapshot() async* {
+    yield _snapshot;
+    yield* _controller.stream;
   }
 
   @override
@@ -75,6 +76,10 @@ class FakeQuestionProgressStore implements QuestionProgressStore {
     recordedAnswers.clear();
     _progressByQuestionCode.clear();
     _controller.add(_snapshot);
+  }
+
+  void emitSnapshotError(Object error, [StackTrace? stackTrace]) {
+    _controller.addError(error, stackTrace);
   }
 
   @override

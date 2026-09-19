@@ -11,36 +11,28 @@ part 'settings_state.dart';
 
 final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc({required this.settingsStore}) : super(const SettingsLoading()) {
-    on<SettingsStarted>(_onStarted, transformer: restartable());
     on<AnswerShuffleToggled>(
       _onAnswerShuffleToggled,
       transformer: sequential(),
     );
     on<_AnswerShuffleEnabledChanged>(_onAnswerShuffleEnabledChanged);
+    on<_SettingsObservationFailed>(_onObservationFailed);
 
     _answerShuffleSubscription = settingsStore
         .watchAnswerShuffleEnabled()
         .listen(
           (enabled) => add(_AnswerShuffleEnabledChanged(enabled)),
-          onError: addError,
+          onError: (Object error, StackTrace stackTrace) {
+            if (!isClosed) {
+              add(_SettingsObservationFailed(error));
+            }
+            addError(error, stackTrace);
+          },
         );
   }
 
   final SettingsStore settingsStore;
   late final StreamSubscription<bool> _answerShuffleSubscription;
-
-  Future<void> _onStarted(
-    SettingsStarted event,
-    Emitter<SettingsState> emit,
-  ) async {
-    try {
-      final answerShuffleEnabled = await settingsStore
-          .loadAnswerShuffleEnabled();
-      emit(SettingsLoaded(answerShuffleEnabled: answerShuffleEnabled));
-    } catch (error) {
-      emit(SettingsLoadFailure(error));
-    }
-  }
 
   Future<void> _onAnswerShuffleToggled(
     AnswerShuffleToggled event,
@@ -62,6 +54,13 @@ final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(
       currentState.copyWith(answerShuffleEnabled: event.answerShuffleEnabled),
     );
+  }
+
+  void _onObservationFailed(
+    _SettingsObservationFailed event,
+    Emitter<SettingsState> emit,
+  ) {
+    emit(SettingsLoadFailure(event.error));
   }
 
   @override

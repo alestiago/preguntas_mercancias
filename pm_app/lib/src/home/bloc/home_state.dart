@@ -82,13 +82,18 @@ final class HomeLoaded extends HomeState {
 
   LoadMoreQuestions pendingLoadMoreQuestions({required int batchSize}) {
     return (section, loadedQuestionCodes, latestProgressSnapshot) async {
-      return practiceQuestionPolicy.selectEligible(
+      final eligibleQuestions = practiceQuestionPolicy.selectEligible(
         questions: questions,
         mode: PracticeMode.pending,
         progressSnapshot: latestProgressSnapshot,
         section: section,
         excludedQuestionCodes: loadedQuestionCodes,
-        limit: batchSize,
+      );
+      final batch = eligibleQuestions.take(batchSize).toList(growable: false);
+
+      return PendingQuestionBatch(
+        questions: batch,
+        hasMore: eligibleQuestions.length > batch.length,
       );
     };
   }
