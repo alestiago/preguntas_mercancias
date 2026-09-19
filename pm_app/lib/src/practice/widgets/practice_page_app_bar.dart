@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../bloc/practice_bloc.dart';
+import '../practice_session_config.dart';
 import 'exit_practice_button.dart';
 
 class PracticePageAppBar extends StatelessWidget
@@ -28,13 +29,13 @@ class PracticePageAppBar extends StatelessWidget
     final localizations = AppLocalizations.of(context);
 
     return AppBar(
-      leading: state is PracticeLoaded && state.isSimulacroMode
+      leading: state is PracticeLoaded && state.mode == PracticeMode.simulacro
           ? ExitPracticeIconButton(
               showConfirmation: state.showExitConfirmation,
               onExitConfirmed: onExitConfirmed,
             )
           : null,
-      title: state.isSimulacroMode
+      title: state.mode == PracticeMode.simulacro
           ? _SimulacroModeTitle(title: state.localize(localizations))
           : Text(state.localize(localizations)),
       actions: [
@@ -171,19 +172,13 @@ class _ScorePill extends StatelessWidget {
 
 extension _PracticeStateLocalizations on PracticeState {
   String localize(AppLocalizations localizations) {
-    if (isPendingMode) {
-      return localizations.pendingQuestions;
-    }
-
-    if (isReviewMode) {
-      return 'Por Repasar';
-    }
-
-    if (isSimulacroMode) {
-      return localizations.startSimulacro;
-    }
-
-    return localizations.appTitle;
+    return switch (mode) {
+      PracticeMode.pending => localizations.pendingQuestions,
+      PracticeMode.review => 'Por Repasar',
+      PracticeMode.simulacro => localizations.startSimulacro,
+      PracticeMode.standard ||
+      PracticeMode.singleQuestion => localizations.appTitle,
+    };
   }
 }
 

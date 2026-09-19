@@ -7,13 +7,12 @@ import '../../l10n/app_localizations.dart';
 import '../history/answer_history_page.dart';
 import '../practice/bloc/practice_bloc.dart';
 import '../practice/practice_page.dart';
+import '../practice/practice_session_config.dart';
 import '../questions/draw_simulacro_questions.dart';
 import '../questions/load_questions.dart';
 import '../settings/bloc/settings_bloc.dart';
 import '../settings/settings_page.dart';
 import 'bloc/home_bloc.dart';
-
-const _pendingPracticeBatchSize = 10;
 
 class QuestionHomePage extends StatelessWidget {
   const QuestionHomePage({
@@ -116,18 +115,9 @@ class _QuestionHomeView extends StatelessWidget {
     BuildContext context, {
     LoadQuestions? practiceLoadQuestions,
     LoadMoreQuestions? loadMoreQuestions,
-    String? initialSection = '1A',
-    bool isReviewMode = false,
-    bool isPendingMode = false,
-    bool isSimulacroMode = false,
-    int? pendingQuestionCount,
-    Map<String, int> pendingQuestionCountsBySection = const {},
+    required PracticeSessionConfig session,
   }) {
     final homeBloc = context.read<HomeBloc>();
-    final shuffleAnswers = context
-        .read<SettingsBloc>()
-        .state
-        .answerShuffleEnabled;
 
     Navigator.of(context)
         .push<void>(
@@ -136,13 +126,7 @@ class _QuestionHomeView extends StatelessWidget {
               loadQuestions: practiceLoadQuestions ?? loadQuestions,
               loadMoreQuestions: loadMoreQuestions,
               questionProgressStore: questionProgressStore,
-              initialSection: initialSection,
-              isReviewMode: isReviewMode,
-              isPendingMode: isPendingMode,
-              isSimulacroMode: isSimulacroMode,
-              shuffleAnswers: shuffleAnswers,
-              pendingQuestionCount: pendingQuestionCount,
-              pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+              session: session,
             ),
           ),
         )
@@ -166,33 +150,51 @@ class _QuestionHomeView extends StatelessWidget {
 
   void _openSimulacroPractice(BuildContext context, HomeLoaded state) {
     final simulacroQuestions = drawSimulacroQuestions(state.questions);
+    final shuffleAnswers = context
+        .read<SettingsBloc>()
+        .state
+        .answerShuffleEnabled;
 
     _openPractice(
       context,
       practiceLoadQuestions: (_) async => simulacroQuestions,
-      initialSection: null,
-      isSimulacroMode: true,
+      session: PracticeSessionConfig.simulacro(shuffleAnswers: shuffleAnswers),
     );
   }
 
   void _openReviewPractice(BuildContext context, HomeLoaded state) {
+    final shuffleAnswers = context
+        .read<SettingsBloc>()
+        .state
+        .answerShuffleEnabled;
+
     _openPractice(
       context,
       practiceLoadQuestions: state.reviewLoadQuestions(),
-      initialSection: null,
-      isReviewMode: true,
+      session: PracticeSessionConfig.review(shuffleAnswers: shuffleAnswers),
     );
   }
 
   void _openPendingPractice(BuildContext context, HomeLoaded state) {
-    _openPractice(
-      context,
-      practiceLoadQuestions: state.pendingLoadQuestions(),
-      loadMoreQuestions: state.pendingLoadMoreQuestions(),
-      initialSection: null,
-      isPendingMode: true,
+    final shuffleAnswers = context
+        .read<SettingsBloc>()
+        .state
+        .answerShuffleEnabled;
+    final session = PracticeSessionConfig.pending(
+      shuffleAnswers: shuffleAnswers,
       pendingQuestionCount: state.unansweredQuestionCount,
       pendingQuestionCountsBySection: state.pendingQuestionCountsBySection,
+    );
+
+    _openPractice(
+      context,
+      practiceLoadQuestions: state.pendingLoadQuestions(
+        batchSize: session.pendingBatchSize,
+      ),
+      loadMoreQuestions: state.pendingLoadMoreQuestions(
+        batchSize: session.pendingBatchSize,
+      ),
+      session: session,
     );
   }
 }
@@ -548,20 +550,22 @@ extension _HomeLoadedPracticeSources on HomeLoaded {
     return Map.unmodifiable(countsBySection);
   }
 
-  LoadQuestions pendingLoadQuestions() {
+  LoadQuestions pendingLoadQuestions({required int batchSize}) {
     return (section) async => questions.pendingQuestionBatch(
       progressSnapshot: progressSnapshot,
       section: section,
       loadedQuestionCodes: const <String>{},
+      batchSize: batchSize,
     );
   }
 
-  LoadMoreQuestions pendingLoadMoreQuestions() {
+  LoadMoreQuestions pendingLoadMoreQuestions({required int batchSize}) {
     return (section, loadedQuestionCodes, progressSnapshot) async {
       return questions.pendingQuestionBatch(
         progressSnapshot: progressSnapshot,
         section: section,
         loadedQuestionCodes: loadedQuestionCodes,
+        batchSize: batchSize,
       );
     };
   }
@@ -588,6 +592,7 @@ extension _QuestionListPracticeFilters on List<Question> {
     required QuestionProgressSnapshot progressSnapshot,
     required String? section,
     required Set<String> loadedQuestionCodes,
+    required int batchSize,
   }) {
     return List<Question>.unmodifiable(
       where(
@@ -595,7 +600,7 @@ extension _QuestionListPracticeFilters on List<Question> {
             (section == null || question.section == section) &&
             !loadedQuestionCodes.contains(question.code) &&
             progressSnapshot.progressFor(question.code) == null,
-      ).take(_pendingPracticeBatchSize),
+      ).take(batchSize),
     );
   }
 }

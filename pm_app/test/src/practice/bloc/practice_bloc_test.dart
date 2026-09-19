@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/practice/bloc/practice_bloc.dart';
+import 'package:pm_app/src/practice/practice_session_config.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
@@ -95,7 +96,7 @@ void main() {
         loadQuestions: (_) async => [buildQuestions().first],
         questionProgressStore: progressStore,
         answerShuffleRandom: Random(1),
-        shuffleAnswers: false,
+        session: const PracticeSessionConfig.standard(shuffleAnswers: false),
       );
       addTearDown(bloc.close);
 
@@ -403,7 +404,7 @@ void main() {
       final bloc = PracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
-        isSimulacroMode: true,
+        session: const PracticeSessionConfig.simulacro(),
       );
       addTearDown(bloc.close);
 
@@ -491,10 +492,12 @@ void main() {
       build: () => PracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: noOpProgressStore,
-        isSimulacroMode: true,
+        session: const PracticeSessionConfig.simulacro(),
       ),
-      seed: () =>
-          _unansweredPracticeState(currentIndex: 1, isSimulacroMode: true),
+      seed: () => _unansweredPracticeState(
+        currentIndex: 1,
+        session: const PracticeSessionConfig.simulacro(),
+      ),
       act: (bloc) => bloc.add(const NextQuestionPressed()),
       expect: () => <PracticeState>[],
       tearDown: () => noOpProgressStore.close(),
@@ -524,8 +527,7 @@ void main() {
         final bloc = PracticeBloc(
           loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
-          initialSection: null,
-          isReviewMode: true,
+          session: const PracticeSessionConfig.review(),
         );
         addTearDown(bloc.close);
 
@@ -537,7 +539,7 @@ void main() {
         final loaded = await loadedFuture as PracticeLoaded;
 
         expect(loaded.questions, hasLength(2));
-        expect(loaded.isReviewMode, isTrue);
+        expect(loaded.mode, PracticeMode.review);
 
         final firstAnsweredFuture = _waitForPracticeState(
           bloc,
@@ -616,7 +618,7 @@ void main() {
         final bloc = PracticeBloc(
           loadQuestions: (_) async => [buildQuestions().first],
           questionProgressStore: progressStore,
-          isReviewMode: true,
+          session: const PracticeSessionConfig.review(),
         );
         addTearDown(bloc.close);
 
@@ -684,8 +686,7 @@ void main() {
         final bloc = PracticeBloc(
           loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
-          initialSection: null,
-          isPendingMode: true,
+          session: const PracticeSessionConfig.pending(),
         );
         addTearDown(bloc.close);
 
@@ -697,7 +698,7 @@ void main() {
         final loaded = await loadedFuture as PracticeLoaded;
 
         expect(loaded.questions, hasLength(2));
-        expect(loaded.isPendingMode, isTrue);
+        expect(loaded.mode, PracticeMode.pending);
 
         final firstAnsweredFuture = _waitForPracticeState(
           bloc,
@@ -756,8 +757,7 @@ void main() {
               .toList(growable: false);
         },
         questionProgressStore: progressStore,
-        initialSection: null,
-        isPendingMode: true,
+        session: const PracticeSessionConfig.pending(),
       );
       addTearDown(bloc.close);
 
@@ -836,13 +836,13 @@ Future<PracticeState> _waitForPracticeState(
 
 PracticeLoaded _unansweredPracticeState({
   int currentIndex = 0,
-  bool isSimulacroMode = false,
+  PracticeSessionConfig session = const PracticeSessionConfig.standard(),
 }) {
   return PracticeLoaded(
     selectedSection: '1A',
+    session: session,
     questions: buildQuestions(),
     currentIndex: currentIndex,
-    isSimulacroMode: isSimulacroMode,
   );
 }
 

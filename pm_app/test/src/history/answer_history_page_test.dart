@@ -5,12 +5,17 @@ import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../fixtures/question_fixtures.dart';
 import '../../helpers/fake_question_progress_store.dart';
+import '../../helpers/fake_settings_store.dart';
 import '../../helpers/pump_app.dart';
 
 void main() {
-  testWidgets('shows the most recent answer first', (tester) async {
+  testWidgets('shows recent answers and opens one-question practice', (
+    tester,
+  ) async {
     final progressStore = FakeQuestionProgressStore();
+    final settingsStore = FakeSettingsStore(answerShuffleEnabled: false);
     addTearDown(progressStore.close);
+    addTearDown(settingsStore.close);
     await progressStore.recordAnswer(
       QuestionAnswerRecord(
         questionCode: '1A01001',
@@ -33,6 +38,7 @@ void main() {
     await tester.pumpApp(
       loadQuestions: (_) async => buildQuestions(),
       questionProgressStore: progressStore,
+      settingsStore: settingsStore,
     );
 
     await tester.tap(find.byKey(const ValueKey('answer-history-button')));
@@ -74,5 +80,33 @@ void main() {
     expect(find.text('Primera pregunta'), findsNothing);
     expect(find.text('Pregunta 1 de 1'), findsOneWidget);
     expect(find.text('Todas'), findsNothing);
+    expect(find.text('Simulacro'), findsNothing);
+    expect(find.byKey(const ValueKey('simulacro-elapsed-time')), findsNothing);
+    expect(
+      find.byKey(const ValueKey('question-navigation-app-bar-button')),
+      findsNothing,
+    );
+    expect(
+      tester.getTopLeft(find.byKey(const ValueKey('answer-A'))).dy,
+      lessThan(tester.getTopLeft(find.byKey(const ValueKey('answer-B'))).dy),
+    );
+    expect(
+      tester.getTopLeft(find.byKey(const ValueKey('answer-B'))).dy,
+      lessThan(tester.getTopLeft(find.byKey(const ValueKey('answer-C'))).dy),
+    );
+    expect(
+      tester.getTopLeft(find.byKey(const ValueKey('answer-C'))).dy,
+      lessThan(tester.getTopLeft(find.byKey(const ValueKey('answer-D'))).dy),
+    );
+
+    await tester.tap(find.byKey(const ValueKey('answer-A')));
+    await tester.pumpAndSettle();
+    expect(find.text('Finalizar'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('next-question-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Historial'), findsOneWidget);
+    expect(find.text('Resumen'), findsNothing);
   });
 }

@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../questions/load_questions.dart';
 import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
+import 'practice_session_config.dart';
 import 'widgets/practice_page_app_bar.dart';
 import 'widgets/practice_progress_divider.dart';
 import 'widgets/practice_question_header.dart';
@@ -19,25 +20,13 @@ class QuestionPracticePage extends StatelessWidget {
     LoadQuestions? loadQuestions,
     this.loadMoreQuestions,
     this.questionProgressStore,
-    this.initialSection = '1A',
-    this.isReviewMode = false,
-    this.isPendingMode = false,
-    this.isSimulacroMode = false,
-    this.shuffleAnswers = true,
-    this.pendingQuestionCount,
-    this.pendingQuestionCountsBySection = const {},
+    this.session = const PracticeSessionConfig.standard(),
   }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
 
   final LoadQuestions loadQuestions;
   final LoadMoreQuestions? loadMoreQuestions;
   final QuestionProgressStore? questionProgressStore;
-  final String? initialSection;
-  final bool isReviewMode;
-  final bool isPendingMode;
-  final bool isSimulacroMode;
-  final bool shuffleAnswers;
-  final int? pendingQuestionCount;
-  final Map<String, int> pendingQuestionCountsBySection;
+  final PracticeSessionConfig session;
 
   @override
   Widget build(BuildContext context) {
@@ -46,28 +35,15 @@ class QuestionPracticePage extends StatelessWidget {
         loadQuestions: loadQuestions,
         loadMoreQuestions: loadMoreQuestions,
         questionProgressStore: questionProgressStore,
-        initialSection: initialSection,
-        isReviewMode: isReviewMode,
-        isPendingMode: isPendingMode,
-        isSimulacroMode: isSimulacroMode,
-        shuffleAnswers: shuffleAnswers,
+        session: session,
       )..add(const PracticeStarted()),
-      child: _QuestionPracticeView(
-        pendingQuestionCount: pendingQuestionCount,
-        pendingQuestionCountsBySection: pendingQuestionCountsBySection,
-      ),
+      child: const _QuestionPracticeView(),
     );
   }
 }
 
 class _QuestionPracticeView extends StatefulWidget {
-  const _QuestionPracticeView({
-    required this.pendingQuestionCount,
-    required this.pendingQuestionCountsBySection,
-  });
-
-  final int? pendingQuestionCount;
-  final Map<String, int> pendingQuestionCountsBySection;
+  const _QuestionPracticeView();
 
   @override
   State<_QuestionPracticeView> createState() => _QuestionPracticeViewState();
@@ -118,13 +94,12 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                       answered: footerState.answered,
                       currentIndex: footerState.currentIndex,
                       isLastQuestion: footerState.isLastQuestion,
-                      isFilteredPracticeMode:
-                          footerState.isFilteredPracticeMode,
                       isFilteredPracticeComplete:
                           footerState.isFilteredPracticeComplete,
-                      isSimulacroMode: footerState.isSimulacroMode,
+                      mode: footerState.mode,
                       isRecordingAnswer: footerState.isRecordingAnswer,
-                      onFinishPractice: () => footerState.isSimulacroMode
+                      onFinishPractice: () =>
+                          footerState.mode == PracticeMode.simulacro
                           ? _finishSimulacro(context, footerState)
                           : Navigator.of(context).pop(),
                       onNextQuestion: () => context.read<PracticeBloc>().add(
@@ -146,9 +121,6 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                   Expanded(
                     child: _PracticeBody(
                       state: state,
-                      pendingQuestionCount: widget.pendingQuestionCount,
-                      pendingQuestionCountsBySection:
-                          widget.pendingQuestionCountsBySection,
                       onOpenQuestionNavigator:
                           state.isQuestionDrawerNavigationEnabled
                           ? _openQuestionNavigator
@@ -186,14 +158,10 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
 class _PracticeBody extends StatelessWidget {
   const _PracticeBody({
     required this.state,
-    required this.pendingQuestionCount,
-    required this.pendingQuestionCountsBySection,
     required this.onOpenQuestionNavigator,
   });
 
   final PracticeState state;
-  final int? pendingQuestionCount;
-  final Map<String, int> pendingQuestionCountsBySection;
   final VoidCallback? onOpenQuestionNavigator;
 
   @override
@@ -207,13 +175,14 @@ class _PracticeBody extends StatelessWidget {
       PracticeLoaded(questions: final questions) when questions.isEmpty =>
         _EmptyState(
           selectedSection: state.selectedSection,
+          showSectionSelector:
+              state.mode != PracticeMode.simulacro &&
+              state.mode != PracticeMode.singleQuestion,
           onSectionSelected: (section) =>
               context.read<PracticeBloc>().add(SectionSelected(section)),
         ),
       PracticeLoaded loadedState => _PracticeContent(
         state: loadedState,
-        pendingQuestionCount: pendingQuestionCount,
-        pendingQuestionCountsBySection: pendingQuestionCountsBySection,
         onOpenQuestionNavigator: onOpenQuestionNavigator,
       ),
     };
@@ -223,28 +192,22 @@ class _PracticeBody extends StatelessWidget {
 class _PracticeContent extends StatelessWidget {
   const _PracticeContent({
     required this.state,
-    required this.pendingQuestionCount,
-    required this.pendingQuestionCountsBySection,
     required this.onOpenQuestionNavigator,
   });
 
   final PracticeLoaded state;
-  final int? pendingQuestionCount;
-  final Map<String, int> pendingQuestionCountsBySection;
   final VoidCallback? onOpenQuestionNavigator;
 
   @override
   Widget build(BuildContext context) {
     final question = state.currentQuestion;
     final currentQuestionNumber = state.displayQuestionNumber;
-    final questionCount = state.displayQuestionCount(
-      pendingQuestionCount: pendingQuestionCount,
-      pendingQuestionCountsBySection: pendingQuestionCountsBySection,
-    );
+    final questionCount = state.displayQuestionCount;
 
     return CustomScrollView(
       slivers: [
-        if (!state.isSimulacroMode)
+        if (state.mode != PracticeMode.simulacro &&
+            state.mode != PracticeMode.singleQuestion)
           SliverToBoxAdapter(
             child: _SectionSelector(
               selectedSection: state.selectedSection,
@@ -870,10 +833,12 @@ class _ErrorState extends StatelessWidget {
 class _EmptyState extends StatelessWidget {
   const _EmptyState({
     required this.selectedSection,
+    required this.showSectionSelector,
     required this.onSectionSelected,
   });
 
   final String? selectedSection;
+  final bool showSectionSelector;
   final ValueChanged<String?> onSectionSelected;
 
   @override
@@ -882,10 +847,11 @@ class _EmptyState extends StatelessWidget {
 
     return Column(
       children: [
-        _SectionSelector(
-          selectedSection: selectedSection,
-          onSectionSelected: onSectionSelected,
-        ),
+        if (showSectionSelector)
+          _SectionSelector(
+            selectedSection: selectedSection,
+            onSectionSelected: onSectionSelected,
+          ),
         Expanded(
           child: Center(child: Text(localizations.noQuestionsAvailable)),
         ),
@@ -897,21 +863,18 @@ class _EmptyState extends StatelessWidget {
 extension _PracticeLoadedPresentation on PracticeLoaded {
   int get displayQuestionNumber => currentIndex + 1;
 
-  int displayQuestionCount({
-    required int? pendingQuestionCount,
-    required Map<String, int> pendingQuestionCountsBySection,
-  }) {
-    if (!isPendingMode) {
+  int get displayQuestionCount {
+    if (mode != PracticeMode.pending) {
       return questions.length;
     }
 
     final selectedSection = this.selectedSection;
     if (selectedSection != null) {
-      return pendingQuestionCountsBySection[selectedSection] ??
+      return session.pendingQuestionCountsBySection[selectedSection] ??
           questions.length;
     }
 
-    return pendingQuestionCount ?? questions.length;
+    return session.pendingQuestionCount ?? questions.length;
   }
 
   List<PracticeProgressSegmentStatus> get progressSegments {

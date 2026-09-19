@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:pm_persistence/pm_persistence.dart';
@@ -6,6 +7,8 @@ import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../practice/practice_page.dart';
+import '../practice/practice_session_config.dart';
+import '../settings/bloc/settings_bloc.dart';
 
 class AnswerHistoryPage extends StatelessWidget {
   const AnswerHistoryPage({
@@ -35,13 +38,19 @@ class AnswerHistoryPage extends StatelessWidget {
   }
 
   void _openQuestionPractice(BuildContext context, Question question) {
+    final shuffleAnswers = context
+        .read<SettingsBloc>()
+        .state
+        .answerShuffleEnabled;
+
     Navigator.of(context).push<void>(
       MaterialPageRoute(
         builder: (_) => QuestionPracticePage(
           loadQuestions: (_) async => [question],
           questionProgressStore: questionProgressStore,
-          initialSection: null,
-          isSimulacroMode: true,
+          session: PracticeSessionConfig.singleQuestion(
+            shuffleAnswers: shuffleAnswers,
+          ),
         ),
       ),
     );

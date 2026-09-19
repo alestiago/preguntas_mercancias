@@ -6,6 +6,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../questions/load_questions.dart';
+import '../practice_session_config.dart';
 
 part 'practice_event.dart';
 part 'practice_state.dart';
@@ -21,35 +22,17 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   PracticeBloc({
     this.loadQuestions = loadQuestionsFromBank,
     this.loadMoreQuestions,
-    this.pendingBatchSize = 10,
-    this.pendingLoadThreshold = 5,
+    this.session = const PracticeSessionConfig.standard(),
     QuestionProgressStore? questionProgressStore,
     Random? answerShuffleRandom,
-    String? initialSection = '1A',
-    this.isReviewMode = false,
-    this.isPendingMode = false,
-    this.isSimulacroMode = false,
-    this.shuffleAnswers = true,
-  }) : assert(
-         [
-               isReviewMode,
-               isPendingMode,
-               isSimulacroMode,
-             ].where((isEnabled) => isEnabled).length <=
-             1,
-       ),
-       assert(pendingBatchSize > 0),
-       assert(pendingLoadThreshold >= 0),
-       questionProgressStore =
+  }) : questionProgressStore =
            questionProgressStore ?? DriftQuestionProgressStore.defaults(),
        _answerShuffleRandom = answerShuffleRandom ?? Random(),
        _ownsQuestionProgressStore = questionProgressStore == null,
        super(
          PracticeLoading(
-           selectedSection: initialSection,
-           isReviewMode: isReviewMode,
-           isPendingMode: isPendingMode,
-           isSimulacroMode: isSimulacroMode,
+           selectedSection: session.initialSection,
+           session: session,
          ),
        ) {
     on<PracticeStarted>(_onStarted);
@@ -63,13 +46,8 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
 
   final LoadQuestions loadQuestions;
   final LoadMoreQuestions? loadMoreQuestions;
-  final int pendingBatchSize;
-  final int pendingLoadThreshold;
+  final PracticeSessionConfig session;
   final QuestionProgressStore questionProgressStore;
-  final bool isReviewMode;
-  final bool isPendingMode;
-  final bool isSimulacroMode;
-  final bool shuffleAnswers;
   final Random _answerShuffleRandom;
   final bool _ownsQuestionProgressStore;
   bool _pendingQuestionSourceExhausted = false;
@@ -142,10 +120,11 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     Emitter<PracticeState> emit,
   ) async {
     final loadMore = loadMoreQuestions;
-    if (!currentState.isPendingMode ||
+    if (currentState.mode != PracticeMode.pending ||
         loadMore == null ||
         _pendingQuestionSourceExhausted ||
-        currentState.remainingFilteredQuestions.length > pendingLoadThreshold) {
+        currentState.remainingFilteredQuestions.length >
+            session.pendingLoadThreshold) {
       return;
     }
 
@@ -163,7 +142,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       addError(error, stackTrace);
       return;
     }
-    if (loadedQuestions.length < pendingBatchSize) {
+    if (loadedQuestions.length < session.pendingBatchSize) {
       _pendingQuestionSourceExhausted = true;
     }
 
@@ -264,7 +243,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     final selectedOptionsByQuestionCode = {
       ...state.selectedOptionsByQuestionCode,
     };
-    if (state.isReviewMode) {
+    if (state.mode == PracticeMode.review) {
       // A review question remains eligible after an incorrect answer. Reopen
       // its selection when it becomes the active retry so the previous
       // result does not prevent another attempt. Attempt totals remain in
@@ -290,14 +269,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     String? selectedSection,
   ) async {
     _pendingQuestionSourceExhausted = false;
-    emit(
-      PracticeLoading(
-        selectedSection: selectedSection,
-        isReviewMode: isReviewMode,
-        isPendingMode: isPendingMode,
-        isSimulacroMode: isSimulacroMode,
-      ),
-    );
+    emit(PracticeLoading(selectedSection: selectedSection, session: session));
 
     try {
       final questions = await loadQuestions(selectedSection);
@@ -310,18 +282,14 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
           selectedSection: selectedSection,
           questions: loadedQuestions,
           progressSnapshot: progressSnapshot,
-          isReviewMode: isReviewMode,
-          isPendingMode: isPendingMode,
-          isSimulacroMode: isSimulacroMode,
+          session: session,
         ),
       );
     } catch (error) {
       emit(
         PracticeLoadFailure(
           selectedSection: selectedSection,
-          isReviewMode: isReviewMode,
-          isPendingMode: isPendingMode,
-          isSimulacroMode: isSimulacroMode,
+          session: session,
           error: error,
         ),
       );
@@ -332,14 +300,15 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     List<Question> questions,
     QuestionProgressSnapshot progressSnapshot,
   ) {
-    if (!isReviewMode && !isPendingMode) {
+    if (session.mode != PracticeMode.review &&
+        session.mode != PracticeMode.pending) {
       return List<Question>.unmodifiable(questions);
     }
 
     return List<Question>.unmodifiable(
       questions.where((question) {
         final progress = progressSnapshot.progressFor(question.code);
-        if (isReviewMode) {
+        if (session.mode == PracticeMode.review) {
           return progress != null && progress.correctAttempts == 0;
         }
 
@@ -355,7 +324,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   }
 
   Question _questionWithShuffledAnswers(Question question) {
-    if (!shuffleAnswers || !question.shuffleable) {
+    if (!session.shuffleAnswers || !question.shuffleable) {
       return question;
     }
 

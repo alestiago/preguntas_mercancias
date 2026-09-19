@@ -4,41 +4,35 @@ part of 'practice_bloc.dart';
 sealed class PracticeState {
   const PracticeState({
     required this.selectedSection,
-    this.isReviewMode = false,
-    this.isPendingMode = false,
-    this.isSimulacroMode = false,
+    required this.session,
     this.correctCount = 0,
     this.incorrectCount = 0,
     this.progressSnapshot = const QuestionProgressSnapshot.empty(),
   });
 
   final String? selectedSection;
-  final bool isReviewMode;
-  final bool isPendingMode;
-  final bool isSimulacroMode;
+  final PracticeSessionConfig session;
   final int correctCount;
   final int incorrectCount;
   final QuestionProgressSnapshot progressSnapshot;
 
+  PracticeMode get mode => session.mode;
+
   bool get isQuestionDrawerNavigationEnabled =>
-      this is PracticeLoaded && isSimulacroMode;
+      this is PracticeLoaded && mode == PracticeMode.simulacro;
 }
 
 final class PracticeLoading extends PracticeState {
   const PracticeLoading({
     required super.selectedSection,
-    super.isReviewMode,
-    super.isPendingMode,
-    super.isSimulacroMode,
+    required super.session,
   });
 }
 
 final class PracticeLoadFailure extends PracticeState {
   const PracticeLoadFailure({
     required super.selectedSection,
-    super.isReviewMode,
-    super.isPendingMode,
-    super.isSimulacroMode,
+    required super.session,
     required this.error,
   });
 
@@ -52,9 +46,7 @@ final class PracticeLoaded extends PracticeState {
     this.currentIndex = 0,
     this.selectedOptionsByQuestionCode = const {},
     this.isRecordingAnswer = false,
-    super.isReviewMode,
-    super.isPendingMode,
-    super.isSimulacroMode,
+    required super.session,
     super.correctCount,
     super.incorrectCount,
     super.progressSnapshot,
@@ -74,7 +66,8 @@ final class PracticeLoaded extends PracticeState {
 
   bool get isLastQuestion => currentIndex == questions.length - 1;
 
-  bool get isFilteredPracticeMode => isReviewMode || isPendingMode;
+  bool get isFilteredPracticeMode =>
+      mode == PracticeMode.review || mode == PracticeMode.pending;
 
   List<Question> get remainingFilteredQuestions {
     if (!isFilteredPracticeMode) {
@@ -84,7 +77,7 @@ final class PracticeLoaded extends PracticeState {
     return List<Question>.unmodifiable(
       questions.where((question) {
         final progress = progressSnapshot.progressFor(question.code);
-        if (isReviewMode) {
+        if (mode == PracticeMode.review) {
           return progress != null && progress.correctAttempts == 0;
         }
 
@@ -112,14 +105,12 @@ final class PracticeLoaded extends PracticeState {
   }) {
     return PracticeLoaded(
       selectedSection: selectedSection,
+      session: session,
       questions: questions ?? this.questions,
       currentIndex: currentIndex ?? this.currentIndex,
       selectedOptionsByQuestionCode:
           selectedOptionsByQuestionCode ?? this.selectedOptionsByQuestionCode,
       isRecordingAnswer: isRecordingAnswer ?? this.isRecordingAnswer,
-      isReviewMode: isReviewMode,
-      isPendingMode: isPendingMode,
-      isSimulacroMode: isSimulacroMode,
       correctCount: correctCount ?? this.correctCount,
       incorrectCount: incorrectCount ?? this.incorrectCount,
       progressSnapshot: progressSnapshot ?? this.progressSnapshot,
@@ -129,10 +120,8 @@ final class PracticeLoaded extends PracticeState {
   PracticeLoaded restart() {
     return PracticeLoaded(
       selectedSection: selectedSection,
+      session: session,
       questions: questions,
-      isReviewMode: isReviewMode,
-      isPendingMode: isPendingMode,
-      isSimulacroMode: isSimulacroMode,
       progressSnapshot: progressSnapshot,
     );
   }

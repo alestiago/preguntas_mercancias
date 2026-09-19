@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../practice_session_config.dart';
 
 class PracticeSessionFooter extends StatelessWidget {
   const PracticeSessionFooter({
@@ -8,9 +9,8 @@ class PracticeSessionFooter extends StatelessWidget {
     required this.answered,
     required this.currentIndex,
     required this.isLastQuestion,
-    required this.isFilteredPracticeMode,
     required this.isFilteredPracticeComplete,
-    required this.isSimulacroMode,
+    required this.mode,
     required this.isRecordingAnswer,
     required this.onFinishPractice,
     required this.onNextQuestion,
@@ -20,9 +20,8 @@ class PracticeSessionFooter extends StatelessWidget {
   final bool answered;
   final int currentIndex;
   final bool isLastQuestion;
-  final bool isFilteredPracticeMode;
   final bool isFilteredPracticeComplete;
-  final bool isSimulacroMode;
+  final PracticeMode mode;
   final bool isRecordingAnswer;
   final VoidCallback onFinishPractice;
   final VoidCallback onNextQuestion;
@@ -32,10 +31,15 @@ class PracticeSessionFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
 
+    final isFilteredPracticeMode =
+        mode == PracticeMode.review || mode == PracticeMode.pending;
+    final finishesAtLastQuestion =
+        mode == PracticeMode.simulacro || mode == PracticeMode.singleQuestion;
     final isFinishAction =
-        isFilteredPracticeComplete || (isSimulacroMode && isLastQuestion);
+        isFilteredPracticeComplete ||
+        (finishesAtLastQuestion && isLastQuestion);
     final isRestartAction =
-        isLastQuestion && !isFilteredPracticeMode && !isSimulacroMode;
+        isLastQuestion && !isFilteredPracticeMode && !finishesAtLastQuestion;
     final isTerminalAction = isFinishAction || isRestartAction;
 
     return Row(
