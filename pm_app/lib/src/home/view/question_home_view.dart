@@ -172,7 +172,7 @@ class _HomeContent extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: AppLayout.maxContentWidth),
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(
+          padding: const EdgeInsetsDirectional.fromSTEB(
             AppLayout.pageHorizontalInset,
             24,
             AppLayout.pageHorizontalInset,

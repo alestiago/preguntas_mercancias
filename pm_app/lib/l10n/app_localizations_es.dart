@@ -89,6 +89,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get questionsToReview => 'Por repasar';
 
   @override
+  String get reviewPracticeTitle => 'Por repasar';
+
+  @override
   String get pendingQuestions => 'Pendientes';
 
   @override
@@ -103,6 +106,15 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String questionProgress(int currentQuestionNumber, int questionCount) {
     return 'Pregunta $currentQuestionNumber de $questionCount';
+  }
+
+  @override
+  String questionProgressStatus(
+    int currentQuestionNumber,
+    int questionCount,
+    String status,
+  ) {
+    return 'Pregunta $currentQuestionNumber de $questionCount: $status';
   }
 
   @override
@@ -134,6 +146,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get incorrectAnswerFeedbackTitle => 'Incorrecta';
 
   @override
+  String answerOptionSemantics(String optionCode, String answerText) {
+    return 'Opción $optionCode: $answerText';
+  }
+
+  @override
+  String get selectedAnswerSemantics => 'Elegida';
+
+  @override
   String correctAnswer(String optionCode, String answerText) {
     return 'Respuesta correcta: $optionCode. $answerText';
   }
@@ -162,6 +182,34 @@ class AppLocalizationsEs extends AppLocalizations {
     int scorePercentage,
   ) {
     return '$correctCount/$answeredQuestionCount ($scorePercentage%)';
+  }
+
+  @override
+  String scorePillCompact(int correctCount, int answeredQuestionCount) {
+    return '$correctCount/$answeredQuestionCount';
+  }
+
+  @override
+  String scoreSemantics(
+    int correctCount,
+    int answeredQuestionCount,
+    int scorePercentage,
+  ) {
+    return 'Puntuación: $correctCount correctas de $answeredQuestionCount respondidas, $scorePercentage%.';
+  }
+
+  @override
+  String elapsedTimeSemantics(String duration) {
+    return 'Tiempo transcurrido: $duration';
+  }
+
+  @override
+  String homeProgressSemantics(
+    int correctCount,
+    int incorrectCount,
+    int unansweredCount,
+  ) {
+    return 'Progreso: $correctCount correctas, $incorrectCount por repasar y $unansweredCount pendientes.';
   }
 
   @override

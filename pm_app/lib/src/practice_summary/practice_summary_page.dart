@@ -6,6 +6,7 @@ import '../app/theme/app_theme.dart';
 import '../navigation/app_navigator.dart';
 import '../practice/format_elapsed_time.dart';
 import '../practice/practice_question_policy.dart';
+import '../practice/session_question_status_localizations.dart';
 
 enum PracticeSummaryReturnDestination { home, answerHistory }
 
@@ -30,7 +31,7 @@ class PracticeSummaryPage extends StatelessWidget {
           slivers: [
             SliverToBoxAdapter(child: _SummaryHeader(summary: summary)),
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
+              padding: const EdgeInsetsDirectional.fromSTEB(
                 AppLayout.pageHorizontalInset,
                 8,
                 AppLayout.pageHorizontalInset,
@@ -86,7 +87,7 @@ class _SummaryHeader extends StatelessWidget {
     final scorePercentage = (summary.scoreRatio * 100).round();
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const EdgeInsetsDirectional.fromSTEB(
         AppLayout.pageHorizontalInset,
         24,
         AppLayout.pageHorizontalInset,
@@ -151,14 +152,20 @@ class _SummaryQuestionTile extends StatelessWidget {
 
     return ListTile(
       key: ValueKey('summary-question-${question.code}'),
-      leading: CircleAvatar(
-        backgroundColor: color.withValues(alpha: 0.12),
-        foregroundColor: color,
-        child: Icon(switch (status) {
-          SessionQuestionStatus.unanswered => Icons.horizontal_rule,
-          SessionQuestionStatus.correct => Icons.check,
-          SessionQuestionStatus.incorrect => Icons.close,
-        }),
+      leading: Semantics(
+        container: true,
+        label: status.localizedLabel(localizations),
+        child: ExcludeSemantics(
+          child: CircleAvatar(
+            backgroundColor: color.withValues(alpha: 0.12),
+            foregroundColor: color,
+            child: Icon(switch (status) {
+              SessionQuestionStatus.unanswered => Icons.horizontal_rule,
+              SessionQuestionStatus.correct => Icons.check,
+              SessionQuestionStatus.incorrect => Icons.close,
+            }),
+          ),
+        ),
       ),
       title: Text(
         question.prompt,

@@ -5,6 +5,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../app/theme/app_theme.dart';
 import '../bloc/practice_bloc.dart';
 import '../practice_question_policy.dart';
+import '../session_question_status_localizations.dart';
 
 class QuestionNavigationDrawer extends StatefulWidget {
   const QuestionNavigationDrawer({
@@ -83,7 +84,7 @@ class _QuestionNavigationDrawerState extends State<QuestionNavigationDrawer> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 children: [
                   Expanded(
@@ -221,10 +222,16 @@ class _QuestionStatusIcon extends StatelessWidget {
       status,
     );
 
-    return CircleAvatar(
-      backgroundColor: style.color.withValues(alpha: 0.12),
-      foregroundColor: style.color,
-      child: Icon(style.icon),
+    return Semantics(
+      container: true,
+      label: status.localizedLabel(AppLocalizations.of(context)),
+      child: ExcludeSemantics(
+        child: CircleAvatar(
+          backgroundColor: style.color.withValues(alpha: 0.12),
+          foregroundColor: style.color,
+          child: Icon(style.icon),
+        ),
+      ),
     );
   }
 }

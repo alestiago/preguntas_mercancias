@@ -22,41 +22,53 @@ class PracticeSessionFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    final previousButton = OutlinedButton.icon(
+      key: const ValueKey('previous-question-button'),
+      onPressed: isPreviousActionEnabled ? onPreviousQuestion : null,
+      icon: const Icon(Icons.arrow_back),
+      label: Text(localizations.previousQuestion),
+    );
+    final primaryButton = FilledButton.icon(
+      key: const ValueKey('next-question-button'),
+      onPressed: isPrimaryActionEnabled ? onPrimaryAction : null,
+      icon: Icon(switch (primaryAction) {
+        PracticePrimaryAction.finish => Icons.check,
+        PracticePrimaryAction.restart => Icons.refresh,
+        PracticePrimaryAction.next => Icons.arrow_forward,
+      }),
+      label: Text(switch (primaryAction) {
+        PracticePrimaryAction.finish => localizations.finishPractice,
+        PracticePrimaryAction.restart => localizations.restartPractice,
+        PracticePrimaryAction.next => localizations.nextQuestion,
+      }),
+    );
 
-    return Row(
-      children: [
-        const Spacer(),
-        Flexible(
-          fit: FlexFit.loose,
-          child: OutlinedButton.icon(
-            key: const ValueKey('previous-question-button'),
-            onPressed: isPreviousActionEnabled ? onPreviousQuestion : null,
-            icon: const Icon(Icons.arrow_back),
-            label: Text(
-              localizations.previousQuestion,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Flexible(
-          fit: FlexFit.loose,
-          child: FilledButton.icon(
-            key: const ValueKey('next-question-button'),
-            onPressed: isPrimaryActionEnabled ? onPrimaryAction : null,
-            icon: Icon(switch (primaryAction) {
-              PracticePrimaryAction.finish => Icons.check,
-              PracticePrimaryAction.restart => Icons.refresh,
-              PracticePrimaryAction.next => Icons.arrow_forward,
-            }),
-            label: Text(switch (primaryAction) {
-              PracticePrimaryAction.finish => localizations.finishPractice,
-              PracticePrimaryAction.restart => localizations.restartPractice,
-              PracticePrimaryAction.next => localizations.nextQuestion,
-            }, overflow: TextOverflow.ellipsis),
-          ),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final stackActions =
+            constraints.maxWidth < 360 ||
+            MediaQuery.textScalerOf(context).scale(1) > 1.3;
+        if (stackActions) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              previousButton,
+              const SizedBox(height: 8),
+              primaryButton,
+            ],
+          );
+        }
+
+        return Row(
+          children: [
+            const Spacer(),
+            Flexible(fit: FlexFit.loose, child: previousButton),
+            const SizedBox(width: 8),
+            Flexible(fit: FlexFit.loose, child: primaryButton),
+          ],
+        );
+      },
     );
   }
 }

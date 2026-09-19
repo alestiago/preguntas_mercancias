@@ -58,40 +58,57 @@ class _ProgressSummaryBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final resultColors = AppResultColors.of(context);
+    final localizations = AppLocalizations.of(context);
 
     if (_total == 0) {
-      return DecoratedBox(
-        decoration: BoxDecoration(
-          color: colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(AppLayout.pillRadius),
+      return Semantics(
+        label: localizations.homeProgressSemantics(0, 0, 0),
+        child: ExcludeSemantics(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(AppLayout.pillRadius),
+            ),
+            child: const SizedBox(height: 18),
+          ),
         ),
-        child: const SizedBox(height: 18),
       );
     }
 
-    return ClipRRect(
-      key: const ValueKey('home-progress-bar'),
-      borderRadius: BorderRadius.circular(AppLayout.pillRadius),
-      child: SizedBox(
-        height: 18,
-        child: Row(
-          children: [
-            if (correctCount > 0)
-              Expanded(
-                flex: correctCount,
-                child: ColoredBox(color: resultColors.correct),
-              ),
-            if (incorrectCount > 0)
-              Expanded(
-                flex: incorrectCount,
-                child: ColoredBox(color: colorScheme.error),
-              ),
-            if (unansweredCount > 0)
-              Expanded(
-                flex: unansweredCount,
-                child: ColoredBox(color: colorScheme.surfaceContainerHighest),
-              ),
-          ],
+    return Semantics(
+      label: localizations.homeProgressSemantics(
+        correctCount,
+        incorrectCount,
+        unansweredCount,
+      ),
+      child: ExcludeSemantics(
+        child: ClipRRect(
+          key: const ValueKey('home-progress-bar'),
+          borderRadius: BorderRadius.circular(AppLayout.pillRadius),
+          child: SizedBox(
+            height: 18,
+            child: Row(
+              children: [
+                if (correctCount > 0)
+                  Expanded(
+                    flex: correctCount,
+                    child: ColoredBox(color: resultColors.correct),
+                  ),
+                if (incorrectCount > 0)
+                  Expanded(
+                    flex: incorrectCount,
+                    child: ColoredBox(color: colorScheme.error),
+                  ),
+                if (unansweredCount > 0)
+                  Expanded(
+                    flex: unansweredCount,
+                    child: ColoredBox(
+                      color: colorScheme.surfaceContainerHighest,
+                    ),
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );

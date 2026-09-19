@@ -42,11 +42,15 @@ class PracticePageAppBar extends StatelessWidget
               title: state.localize(localizations),
               sessionClock: sessionClock,
             )
-          : Text(state.localize(localizations)),
+          : Text(
+              state.localize(localizations),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
       actions: [
         Padding(
-          padding: EdgeInsets.only(
-            right: state.isQuestionDrawerNavigationEnabled ? 4 : 16,
+          padding: EdgeInsetsDirectional.only(
+            end: state.isQuestionDrawerNavigationEnabled ? 4 : 16,
           ),
           child: _ScorePill(
             correctAttemptCount: state.correctAttemptCount,
@@ -55,7 +59,7 @@ class PracticePageAppBar extends StatelessWidget
         ),
         if (state.isQuestionDrawerNavigationEnabled)
           Padding(
-            padding: const EdgeInsets.only(right: 8),
+            padding: const EdgeInsetsDirectional.only(end: 8),
             child: IconButton(
               key: const ValueKey('question-navigation-app-bar-button'),
               tooltip: localizations.questionNavigationOpen,
@@ -123,14 +127,22 @@ class _SimulacroElapsedTimerState extends State<_SimulacroElapsedTimer> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Text(
-      key: const ValueKey('simulacro-elapsed-time'),
-      formatElapsedTime(widget.sessionClock.elapsed),
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-        color: colorScheme.onSurfaceVariant,
-        fontWeight: FontWeight.w600,
+    final elapsedTime = formatElapsedTime(widget.sessionClock.elapsed);
+
+    return Semantics(
+      label: AppLocalizations.of(context).elapsedTimeSemantics(elapsedTime),
+      excludeSemantics: true,
+      child: Text(
+        key: const ValueKey('simulacro-elapsed-time'),
+        elapsedTime,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: colorScheme.onSurfaceVariant,
+          fontWeight: FontWeight.w600,
+        ),
+        textAlign: .center,
       ),
-      textAlign: .center,
     );
   }
 }
@@ -151,23 +163,39 @@ class _ScorePill extends StatelessWidget {
     final scorePercentage = totalAttemptCount == 0
         ? 0
         : ((correctAttemptCount / totalAttemptCount) * 100).round();
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(AppLayout.pillRadius),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(
-          localizations.scorePill(
+    final useCompactLabel =
+        MediaQuery.sizeOf(context).width < 400 ||
+        MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    final visibleLabel = useCompactLabel
+        ? localizations.scorePillCompact(correctAttemptCount, totalAttemptCount)
+        : localizations.scorePill(
             correctAttemptCount,
             totalAttemptCount,
             scorePercentage,
-          ),
-          style: TextStyle(
-            color: colorScheme.onPrimaryContainer,
-            fontWeight: AppTypography.strongWeight,
+          );
+
+    return Semantics(
+      label: localizations.scoreSemantics(
+        correctAttemptCount,
+        totalAttemptCount,
+        scorePercentage,
+      ),
+      excludeSemantics: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(AppLayout.pillRadius),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Text(
+            visibleLabel,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: colorScheme.onPrimaryContainer,
+              fontWeight: AppTypography.strongWeight,
+            ),
           ),
         ),
       ),
@@ -179,7 +207,7 @@ extension _PracticeStateLocalizations on PracticeState {
   String localize(AppLocalizations localizations) {
     return switch (mode) {
       PracticeMode.pending => localizations.pendingQuestions,
-      PracticeMode.review => 'Por Repasar',
+      PracticeMode.review => localizations.reviewPracticeTitle,
       PracticeMode.simulacro => localizations.startSimulacro,
       PracticeMode.standard ||
       PracticeMode.singleQuestion => localizations.appTitle,

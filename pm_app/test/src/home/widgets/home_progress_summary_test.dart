@@ -11,6 +11,7 @@ void main() {
   testWidgets('starts pending practice from the extracted summary', (
     tester,
   ) async {
+    final semantics = tester.ensureSemantics();
     var pendingStarted = false;
     final state = HomeLoaded(
       questions: buildQuestions(),
@@ -29,8 +30,15 @@ void main() {
     );
 
     expect(find.byKey(const ValueKey('home-progress-bar')), findsOneWidget);
+    expect(
+      find.bySemanticsLabel(
+        'Progreso: 0 correctas, 0 por repasar y 2 pendientes.',
+      ),
+      findsOneWidget,
+    );
     await tester.tap(find.byKey(const ValueKey('home-unanswered-stat')));
 
     expect(pendingStarted, isTrue);
+    semantics.dispose();
   });
 }

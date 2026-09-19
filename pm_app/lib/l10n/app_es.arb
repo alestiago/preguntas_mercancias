@@ -36,6 +36,7 @@
   "startSimulacro": "Simulacro",
   "correctQuestions": "Correctas",
   "questionsToReview": "Por repasar",
+  "reviewPracticeTitle": "Por repasar",
   "pendingQuestions": "Pendientes",
   "homeLoadFailure": "No se pudo cargar el progreso.",
   "practiceLoadFailure": "No se pudieron cargar las preguntas.",
@@ -48,6 +49,20 @@
       },
       "questionCount": {
         "type": "int"
+      }
+    }
+  },
+  "questionProgressStatus": "Pregunta {currentQuestionNumber} de {questionCount}: {status}",
+  "@questionProgressStatus": {
+    "placeholders": {
+      "currentQuestionNumber": {
+        "type": "int"
+      },
+      "questionCount": {
+        "type": "int"
+      },
+      "status": {
+        "type": "String"
       }
     }
   },
@@ -66,6 +81,18 @@
   "exitSimulacroConfirmationMessage": "Perderás el progreso de este intento.",
   "correctAnswerFeedbackTitle": "Correcta",
   "incorrectAnswerFeedbackTitle": "Incorrecta",
+  "answerOptionSemantics": "Opción {optionCode}: {answerText}",
+  "@answerOptionSemantics": {
+    "placeholders": {
+      "optionCode": {
+        "type": "String"
+      },
+      "answerText": {
+        "type": "String"
+      }
+    }
+  },
+  "selectedAnswerSemantics": "Elegida",
   "correctAnswer": "Respuesta correcta: {optionCode}. {answerText}",
   "@correctAnswer": {
     "placeholders": {
@@ -99,6 +126,53 @@
         "type": "int"
       },
       "scorePercentage": {
+        "type": "int"
+      }
+    }
+  },
+  "scorePillCompact": "{correctCount}/{answeredQuestionCount}",
+  "@scorePillCompact": {
+    "placeholders": {
+      "correctCount": {
+        "type": "int"
+      },
+      "answeredQuestionCount": {
+        "type": "int"
+      }
+    }
+  },
+  "scoreSemantics": "Puntuación: {correctCount} correctas de {answeredQuestionCount} respondidas, {scorePercentage}%.",
+  "@scoreSemantics": {
+    "placeholders": {
+      "correctCount": {
+        "type": "int"
+      },
+      "answeredQuestionCount": {
+        "type": "int"
+      },
+      "scorePercentage": {
+        "type": "int"
+      }
+    }
+  },
+  "elapsedTimeSemantics": "Tiempo transcurrido: {duration}",
+  "@elapsedTimeSemantics": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "homeProgressSemantics": "Progreso: {correctCount} correctas, {incorrectCount} por repasar y {unansweredCount} pendientes.",
+  "@homeProgressSemantics": {
+    "placeholders": {
+      "correctCount": {
+        "type": "int"
+      },
+      "incorrectCount": {
+        "type": "int"
+      },
+      "unansweredCount": {
         "type": "int"
       }
     }

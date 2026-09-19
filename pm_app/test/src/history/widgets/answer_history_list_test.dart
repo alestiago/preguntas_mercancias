@@ -12,6 +12,7 @@ void main() {
   testWidgets('renders and selects a question from the extracted list', (
     tester,
   ) async {
+    final semantics = tester.ensureSemantics();
     final question = buildQuestions().first;
     Question? selectedQuestion;
     final answer = QuestionAnswerRecord(
@@ -36,10 +37,12 @@ void main() {
       ),
     );
 
-    expect(find.text('dom 2 ago 2026'), findsOneWidget);
+    expect(find.text('dom, 2 ago 2026'), findsOneWidget);
     expect(find.text(question.prompt), findsOneWidget);
+    expect(find.bySemanticsLabel('Incorrecta'), findsOneWidget);
     await tester.tap(find.text(question.prompt));
 
     expect(selectedQuestion, same(question));
+    semantics.dispose();
   });
 }

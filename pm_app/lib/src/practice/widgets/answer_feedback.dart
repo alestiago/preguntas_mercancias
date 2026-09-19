@@ -56,37 +56,49 @@ class _AnswerFeedback extends StatelessWidget {
     final correctDisplayOption = answerPresentation.displayOptionFor(
       question.correctOption,
     );
+    final feedbackTitle = isCorrect
+        ? localizations.correctAnswerFeedbackTitle
+        : localizations.incorrectAnswerFeedbackTitle;
+    final correctAnswerDescription = localizations.correctAnswer(
+      correctDisplayOption.code,
+      question.correctAnswer.text,
+    );
+    final normDescription = localizations.normReference(question.norma);
     final feedbackStyle = _AnswerFeedbackStyle.forResult(
       colorScheme: Theme.of(context).colorScheme,
       resultColors: AppResultColors.of(context),
       isCorrect: isCorrect,
     );
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: feedbackStyle.backgroundColor,
-        border: Border.all(color: feedbackStyle.borderColor),
-        borderRadius: BorderRadius.circular(AppLayout.cardRadius),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _AnswerFeedbackHeader(
-              title: isCorrect
-                  ? localizations.correctAnswerFeedbackTitle
-                  : localizations.incorrectAnswerFeedbackTitle,
-              icon: feedbackStyle.icon,
-              foregroundColor: feedbackStyle.foregroundColor,
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: '$feedbackTitle. $correctAnswerDescription. $normDescription',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: feedbackStyle.backgroundColor,
+            border: Border.all(color: feedbackStyle.borderColor),
+            borderRadius: BorderRadius.circular(AppLayout.cardRadius),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _AnswerFeedbackHeader(
+                  title: feedbackTitle,
+                  icon: feedbackStyle.icon,
+                  foregroundColor: feedbackStyle.foregroundColor,
+                ),
+                const SizedBox(height: 10),
+                _CorrectAnswerDetails(
+                  correctAnswerDescription: correctAnswerDescription,
+                  normDescription: normDescription,
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            _CorrectAnswerDetails(
-              correctDisplayOption: correctDisplayOption,
-              correctAnswerText: question.correctAnswer.text,
-              norma: question.norma,
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -110,12 +122,14 @@ class _AnswerFeedbackHeader extends StatelessWidget {
       children: [
         Icon(icon, color: foregroundColor),
         const SizedBox(width: 10),
-        Text(
-          title,
-          style: TextStyle(
-            color: foregroundColor,
-            fontSize: 18,
-            fontWeight: AppTypography.strongWeight,
+        Expanded(
+          child: Text(
+            title,
+            style: TextStyle(
+              color: foregroundColor,
+              fontSize: 18,
+              fontWeight: AppTypography.strongWeight,
+            ),
           ),
         ),
       ],
@@ -125,32 +139,25 @@ class _AnswerFeedbackHeader extends StatelessWidget {
 
 class _CorrectAnswerDetails extends StatelessWidget {
   const _CorrectAnswerDetails({
-    required this.correctDisplayOption,
-    required this.correctAnswerText,
-    required this.norma,
+    required this.correctAnswerDescription,
+    required this.normDescription,
   });
 
-  final QuestionOption correctDisplayOption;
-  final String correctAnswerText;
-  final String norma;
+  final String correctAnswerDescription;
+  final String normDescription;
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          localizations.correctAnswer(
-            correctDisplayOption.code,
-            correctAnswerText,
-          ),
+          correctAnswerDescription,
           style: const TextStyle(fontWeight: FontWeight.w600, height: 1.25),
         ),
         const SizedBox(height: 8),
         Text(
-          localizations.normReference(norma),
+          normDescription,
           style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         ),
       ],

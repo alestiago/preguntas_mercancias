@@ -289,7 +289,7 @@ class _PracticeContentLayout extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: AppLayout.maxContentWidth),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(
+          padding: const EdgeInsetsDirectional.fromSTEB(
             AppLayout.pageHorizontalInset,
             8,
             AppLayout.pageHorizontalInset,

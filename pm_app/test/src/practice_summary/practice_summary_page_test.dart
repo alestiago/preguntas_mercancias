@@ -10,6 +10,7 @@ void main() {
   testWidgets('renders score, elapsed time, and question results', (
     tester,
   ) async {
+    final semantics = tester.ensureSemantics();
     final questions = buildQuestions();
     final summary = PracticeSummary(
       questions: questions,
@@ -42,11 +43,15 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Volver al inicio'), findsOneWidget);
+    expect(find.bySemanticsLabel('Correcta'), findsOneWidget);
+    expect(find.bySemanticsLabel('Incorrecta'), findsOneWidget);
+    semantics.dispose();
   });
 
   testWidgets('labels unanswered results and the history destination', (
     tester,
   ) async {
+    final semantics = tester.ensureSemantics();
     final question = buildQuestions().first;
     final summary = PracticeSummary(
       questions: [question],
@@ -64,7 +69,9 @@ void main() {
     );
 
     expect(find.text('${question.code} · Sin responder'), findsOneWidget);
+    expect(find.bySemanticsLabel('Sin responder'), findsOneWidget);
     expect(find.text('Volver al historial'), findsOneWidget);
     expect(find.text('Volver al inicio'), findsNothing);
+    semantics.dispose();
   });
 }

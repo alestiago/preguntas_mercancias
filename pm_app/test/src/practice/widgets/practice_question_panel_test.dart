@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_app/l10n/app_localizations.dart';
 import 'package:pm_app/src/app/theme/app_theme.dart';
 import 'package:pm_app/src/practice/question_answer_presentation.dart';
 import 'package:pm_app/src/practice/widgets/practice_question_panel.dart';
@@ -17,6 +18,8 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: PracticeQuestionPanel(
             question: question,
@@ -41,6 +44,8 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: PracticeQuestionPanel(
             question: question,
@@ -72,5 +77,40 @@ void main() {
       incorrectButton.style?.backgroundColor?.resolve(disabled),
       theme.colorScheme.errorContainer,
     );
+  });
+
+  testWidgets('announces canonical selection and result status', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    final question = buildQuestions().first;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: PracticeQuestionPanel(
+            question: question,
+            answerPresentation: QuestionAnswerPresentation.inSourceOrder(
+              question,
+            ),
+            selectedOption: QuestionOption.a,
+            onAnswer: (_) {},
+          ),
+        ),
+      ),
+    );
+
+    expect(
+      find.bySemanticsLabel('Opción A: Respuesta A. Elegida. Incorrecta'),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsLabel('Opción B: Respuesta B. Correcta'),
+      findsOneWidget,
+    );
+    semantics.dispose();
   });
 }

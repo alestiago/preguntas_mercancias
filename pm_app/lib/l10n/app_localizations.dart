@@ -226,6 +226,12 @@ abstract class AppLocalizations {
   /// **'Por repasar'**
   String get questionsToReview;
 
+  /// No description provided for @reviewPracticeTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Por repasar'**
+  String get reviewPracticeTitle;
+
   /// No description provided for @pendingQuestions.
   ///
   /// In es, this message translates to:
@@ -255,6 +261,16 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Pregunta {currentQuestionNumber} de {questionCount}'**
   String questionProgress(int currentQuestionNumber, int questionCount);
+
+  /// No description provided for @questionProgressStatus.
+  ///
+  /// In es, this message translates to:
+  /// **'Pregunta {currentQuestionNumber} de {questionCount}: {status}'**
+  String questionProgressStatus(
+    int currentQuestionNumber,
+    int questionCount,
+    String status,
+  );
 
   /// No description provided for @questionNavigationTitle.
   ///
@@ -304,6 +320,18 @@ abstract class AppLocalizations {
   /// **'Incorrecta'**
   String get incorrectAnswerFeedbackTitle;
 
+  /// No description provided for @answerOptionSemantics.
+  ///
+  /// In es, this message translates to:
+  /// **'Opción {optionCode}: {answerText}'**
+  String answerOptionSemantics(String optionCode, String answerText);
+
+  /// No description provided for @selectedAnswerSemantics.
+  ///
+  /// In es, this message translates to:
+  /// **'Elegida'**
+  String get selectedAnswerSemantics;
+
   /// No description provided for @correctAnswer.
   ///
   /// In es, this message translates to:
@@ -348,6 +376,38 @@ abstract class AppLocalizations {
     int correctCount,
     int answeredQuestionCount,
     int scorePercentage,
+  );
+
+  /// No description provided for @scorePillCompact.
+  ///
+  /// In es, this message translates to:
+  /// **'{correctCount}/{answeredQuestionCount}'**
+  String scorePillCompact(int correctCount, int answeredQuestionCount);
+
+  /// No description provided for @scoreSemantics.
+  ///
+  /// In es, this message translates to:
+  /// **'Puntuación: {correctCount} correctas de {answeredQuestionCount} respondidas, {scorePercentage}%.'**
+  String scoreSemantics(
+    int correctCount,
+    int answeredQuestionCount,
+    int scorePercentage,
+  );
+
+  /// No description provided for @elapsedTimeSemantics.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo transcurrido: {duration}'**
+  String elapsedTimeSemantics(String duration);
+
+  /// No description provided for @homeProgressSemantics.
+  ///
+  /// In es, this message translates to:
+  /// **'Progreso: {correctCount} correctas, {incorrectCount} por repasar y {unansweredCount} pendientes.'**
+  String homeProgressSemantics(
+    int correctCount,
+    int incorrectCount,
+    int unansweredCount,
   );
 
   /// No description provided for @noQuestionsAvailable.

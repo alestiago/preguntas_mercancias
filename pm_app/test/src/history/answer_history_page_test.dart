@@ -48,11 +48,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Historial'), findsOneWidget);
-    expect(find.text('dom 2 ago 2026'), findsOneWidget);
+    expect(find.text('dom, 2 ago 2026'), findsOneWidget);
     expect(
       find.descendant(
         of: find.byKey(
-          const ValueKey('answer-history-date-header-dom 2 ago 2026'),
+          const ValueKey('answer-history-date-header-dom, 2 ago 2026'),
         ),
         matching: find.text('2'),
       ),
@@ -69,7 +69,7 @@ void main() {
     );
     expect(selectedAnswerText.maxLines, 1);
     expect(selectedAnswerText.overflow, TextOverflow.ellipsis);
-    expect(find.text('dom 2 ago 2026 11:00'), findsNothing);
+    expect(find.text('dom, 2 ago 2026 11:00'), findsNothing);
 
     expect(
       tester.getTopLeft(find.text('Segunda pregunta')).dy,

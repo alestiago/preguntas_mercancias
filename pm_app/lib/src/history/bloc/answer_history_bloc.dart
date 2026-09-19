@@ -115,7 +115,8 @@ List<AnswerHistorySection> _groupHistoryByDate(
   final entriesByDate = <DateTime, List<AnswerHistoryEntry>>{};
 
   for (final answer in sortedAnswers) {
-    final answeredAt = answer.answeredAt;
+    // Persisted instants are presented and grouped in the device's local day.
+    final answeredAt = answer.answeredAt.toLocal();
     final date = DateTime(answeredAt.year, answeredAt.month, answeredAt.day);
     entriesByDate
         .putIfAbsent(date, () => [])

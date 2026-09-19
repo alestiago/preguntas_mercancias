@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../app/theme/app_theme.dart';
 import '../bloc/answer_history_bloc.dart';
+import '../history_date_time_format.dart';
 import 'answer_history_date_header.dart';
 
 class AnswerHistoryList extends StatelessWidget {
@@ -70,10 +70,18 @@ class _AnswerHistoryTile extends StatelessWidget {
 
     return ListTile(
       onTap: onTap,
-      leading: CircleAvatar(
-        backgroundColor: color.withValues(alpha: 0.12),
-        foregroundColor: color,
-        child: Icon(answer.isCorrect ? Icons.check : Icons.close),
+      leading: Semantics(
+        container: true,
+        label: answer.isCorrect
+            ? localizations.correctAnswerFeedbackTitle
+            : localizations.incorrectAnswerFeedbackTitle,
+        child: ExcludeSemantics(
+          child: CircleAvatar(
+            backgroundColor: color.withValues(alpha: 0.12),
+            foregroundColor: color,
+            child: Icon(answer.isCorrect ? Icons.check : Icons.close),
+          ),
+        ),
       ),
       title: Text(
         question?.prompt ?? localizations.answerHistoryUnknownQuestion,
@@ -82,12 +90,12 @@ class _AnswerHistoryTile extends StatelessWidget {
         style: const TextStyle(fontWeight: AppTypography.emphasizedWeight),
       ),
       subtitle: Padding(
-        padding: const EdgeInsets.only(top: 4),
+        padding: const EdgeInsetsDirectional.only(top: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${answer.questionCode} · ${_formatHistoryTime(context, answer.answeredAt)}',
+              '${answer.questionCode} · ${HistoryDateTimeFormat.time(context, answer.answeredAt)}',
             ),
             Text(
               localizations.answerHistorySelection(selectedAnswerText),
@@ -100,9 +108,4 @@ class _AnswerHistoryTile extends StatelessWidget {
       trailing: onTap == null ? null : const Icon(Icons.chevron_right),
     );
   }
-}
-
-String _formatHistoryTime(BuildContext context, DateTime date) {
-  final locale = Localizations.localeOf(context).toString();
-  return intl.DateFormat('HH:mm', locale).format(date);
 }

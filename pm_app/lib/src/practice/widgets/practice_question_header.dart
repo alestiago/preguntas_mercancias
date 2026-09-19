@@ -28,7 +28,11 @@ class PracticeQuestionHeader extends StatelessWidget {
       questionCount,
     );
 
-    return Row(
+    return Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 12,
+      runSpacing: 4,
       children: [
         Text(
           question.code,
@@ -37,7 +41,6 @@ class PracticeQuestionHeader extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const Spacer(),
         _QuestionProgressLabel(
           label: progressLabel,
           onOpenQuestionNavigator: onOpenQuestionNavigator,
@@ -70,25 +73,31 @@ class _QuestionProgressLabel extends StatelessWidget {
       return Text(label, style: labelStyle);
     }
 
-    return Tooltip(
-      message: localizations.questionNavigationOpen,
-      child: InkWell(
-        key: const ValueKey('question-navigation-open-button'),
-        borderRadius: BorderRadius.circular(AppLayout.pillRadius),
-        onTap: onOpenQuestionNavigator,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(label, style: labelStyle),
-              const SizedBox(width: 6),
-              Icon(
-                Icons.view_list,
-                size: 18,
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ],
+    return Semantics(
+      button: true,
+      label: '$label. ${localizations.questionNavigationOpen}',
+      excludeSemantics: true,
+      onTap: onOpenQuestionNavigator,
+      child: Tooltip(
+        message: localizations.questionNavigationOpen,
+        child: InkWell(
+          key: const ValueKey('question-navigation-open-button'),
+          borderRadius: BorderRadius.circular(AppLayout.pillRadius),
+          onTap: onOpenQuestionNavigator,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 6,
+              children: [
+                Text(label, style: labelStyle),
+                Icon(
+                  Icons.view_list,
+                  size: 18,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ],
+            ),
           ),
         ),
       ),

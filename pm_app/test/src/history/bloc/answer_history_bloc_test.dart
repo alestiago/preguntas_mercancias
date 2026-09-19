@@ -64,6 +64,42 @@ void main() {
     expect(store.watchAnswerHistoryCallCount, 1);
   });
 
+  test('groups UTC answer instants by their local calendar date', () async {
+    final store = _CountingQuestionProgressStore();
+    final question = buildQuestions().first;
+    final answeredAt = DateTime.utc(2026, 8, 2, 23, 30);
+    final localAnswerTime = answeredAt.toLocal();
+    await store.recordAnswer(
+      QuestionAnswerRecord(
+        questionCode: question.code,
+        section: question.section,
+        selectedOption: QuestionOption.b,
+        correctOption: question.correctOption,
+        answeredAt: answeredAt,
+      ),
+    );
+    final bloc = AnswerHistoryBloc(
+      questionProgressStore: store,
+      questions: [question],
+    );
+    addTearDown(() async {
+      await bloc.close();
+      await store.close();
+    });
+
+    await _waitUntil(() => bloc.state is AnswerHistoryLoaded);
+    final section = (bloc.state as AnswerHistoryLoaded).sections.single;
+
+    expect(
+      section.date,
+      DateTime(
+        localAnswerTime.year,
+        localAnswerTime.month,
+        localAnswerTime.day,
+      ),
+    );
+  });
+
   test('surfaces history observation failures', () async {
     final store = _CountingQuestionProgressStore();
     final bloc = AnswerHistoryBloc(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/l10n/app_localizations.dart';
+import 'package:pm_app/src/app/theme/app_theme.dart';
 import 'package:pm_app/src/practice/practice_page.dart';
 import 'package:pm_app/src/practice/practice_session_clock.dart';
 import 'package:pm_app/src/practice/practice_session_config.dart';
@@ -15,6 +16,35 @@ import '../../helpers/fake_question_progress_store.dart';
 import '../../helpers/pump_app.dart';
 
 void main() {
+  testWidgets('supports a narrow viewport with large text', (tester) async {
+    final semantics = tester.ensureSemantics();
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    tester.view.physicalSize = const Size(320, 760);
+    tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+
+    await _pumpSimulacroPage(
+      tester,
+      progressStore: progressStore,
+      sessionClock: _FakePracticeSessionClock(Duration.zero),
+      loadQuestions: (_) async => [buildLongQuestion()],
+    );
+
+    expect(find.text('0/0'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('Puntuación: 0 correctas de 0 respondidas, 0%.'),
+      findsOneWidget,
+    );
+    expect(find.text('Anterior'), findsOneWidget);
+    expect(find.text('Finalizar'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    semantics.dispose();
+  });
+
   testWidgets('starts a thirty-question simulacro', (tester) async {
     final progressStore = FakeQuestionProgressStore();
     final questions = buildSimulacroQuestions();
@@ -357,6 +387,7 @@ Future<void> _pumpSimulacroPage(
     RepositoryProvider<QuestionProgressStore>.value(
       value: progressStore,
       child: MaterialApp(
+        theme: AppTheme.light,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: QuestionPracticePage(

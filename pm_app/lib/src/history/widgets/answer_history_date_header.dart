@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 
 import '../../app/theme/app_theme.dart';
 import '../bloc/answer_history_bloc.dart';
+import '../history_date_time_format.dart';
 
 class AnswerHistoryDateHeader extends StatelessWidget {
   const AnswerHistoryDateHeader({super.key, required this.section});
@@ -13,7 +13,7 @@ class AnswerHistoryDateHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final formattedDate = _formatHistoryDate(context, section.date);
+    final formattedDate = HistoryDateTimeFormat.date(context, section.date);
 
     return DecoratedBox(
       key: ValueKey('answer-history-date-header-$formattedDate'),
@@ -63,9 +63,4 @@ class AnswerHistoryDateHeader extends StatelessWidget {
       ),
     );
   }
-}
-
-String _formatHistoryDate(BuildContext context, DateTime date) {
-  final locale = Localizations.localeOf(context).toString();
-  return intl.DateFormat('EEE d MMM y', locale).format(date);
 }

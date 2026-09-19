@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_app/l10n/app_localizations.dart';
 import 'package:pm_app/src/app/theme/app_theme.dart';
 import 'package:pm_app/src/practice/practice_question_policy.dart';
 import 'package:pm_app/src/practice/widgets/practice_progress_divider.dart';
@@ -118,6 +119,34 @@ void main() {
     ]);
     expect(decoration.color, theme.colorScheme.primary);
   });
+
+  testWidgets('announces each segment status and the current question', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+
+    await tester.pumpWidget(
+      _buildDivider(
+        currentIndex: 1,
+        segments: const [
+          SessionQuestionStatus.unanswered,
+          SessionQuestionStatus.correct,
+          SessionQuestionStatus.incorrect,
+        ],
+      ),
+    );
+
+    expect(
+      find.bySemanticsLabel('Pregunta 1 de 3: Sin responder'),
+      findsOneWidget,
+    );
+    expect(find.bySemanticsLabel('Pregunta 2 de 3: Correcta'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('Pregunta 3 de 3: Incorrecta'),
+      findsOneWidget,
+    );
+    semantics.dispose();
+  });
 }
 
 Widget _buildDivider({
@@ -126,6 +155,8 @@ Widget _buildDivider({
 }) {
   return MaterialApp(
     theme: AppTheme.light,
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
     home: Center(
       child: SizedBox(
         width: 300,

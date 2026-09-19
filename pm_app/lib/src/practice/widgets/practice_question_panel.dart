@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../app/theme/app_theme.dart';
 import '../question_answer_presentation.dart';
 
@@ -87,6 +88,7 @@ class _AnswerOptionButton extends StatelessWidget {
     final answered = selectedOption != null;
     final selected = selectedOption == answer.option;
     final correct = correctOption == answer.option;
+    final localizations = AppLocalizations.of(context);
     final optionStyle = _AnswerOptionStyle.forState(
       colorScheme: colorScheme,
       resultColors: AppResultColors.of(context),
@@ -95,31 +97,47 @@ class _AnswerOptionButton extends StatelessWidget {
       correct: correct,
     );
 
-    return OutlinedButton(
-      key: ValueKey('answer-${answer.option.code}'),
-      onPressed: answered ? null : onPressed,
-      style: OutlinedButton.styleFrom(
-        alignment: Alignment.centerLeft,
-        backgroundColor: optionStyle.backgroundColor,
-        disabledBackgroundColor: optionStyle.backgroundColor,
-        foregroundColor: optionStyle.foregroundColor,
-        disabledForegroundColor: optionStyle.foregroundColor,
-        minimumSize: const Size.fromHeight(56),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        side: BorderSide(
-          color: optionStyle.borderColor,
-          width: answered ? 1.4 : 1,
+    final semanticsParts = [
+      localizations.answerOptionSemantics(displayOption.code, answer.text),
+      if (selected) localizations.selectedAnswerSemantics,
+      if (answered && correct) localizations.correctAnswerFeedbackTitle,
+      if (answered && selected && !correct)
+        localizations.incorrectAnswerFeedbackTitle,
+    ];
+
+    return Semantics(
+      button: true,
+      enabled: !answered,
+      selected: selected,
+      label: semanticsParts.join('. '),
+      excludeSemantics: true,
+      onTap: answered ? null : onPressed,
+      child: OutlinedButton(
+        key: ValueKey('answer-${answer.option.code}'),
+        onPressed: answered ? null : onPressed,
+        style: OutlinedButton.styleFrom(
+          alignment: AlignmentDirectional.centerStart,
+          backgroundColor: optionStyle.backgroundColor,
+          disabledBackgroundColor: optionStyle.backgroundColor,
+          foregroundColor: optionStyle.foregroundColor,
+          disabledForegroundColor: optionStyle.foregroundColor,
+          minimumSize: const Size.fromHeight(56),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          side: BorderSide(
+            color: optionStyle.borderColor,
+            width: answered ? 1.4 : 1,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppLayout.cardRadius),
+          ),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppLayout.cardRadius),
+        child: _AnswerOptionButtonContent(
+          answer: answer,
+          displayOption: displayOption,
+          selected: selected,
+          correct: answered && correct,
+          trailingIcon: optionStyle.trailingIcon,
         ),
-      ),
-      child: _AnswerOptionButtonContent(
-        answer: answer,
-        displayOption: displayOption,
-        selected: selected,
-        correct: answered && correct,
-        trailingIcon: optionStyle.trailingIcon,
       ),
     );
   }

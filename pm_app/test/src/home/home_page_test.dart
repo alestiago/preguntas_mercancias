@@ -66,7 +66,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('home-incorrect-stat')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Por Repasar'), findsOneWidget);
+    expect(find.text('Por repasar'), findsOneWidget);
     expect(find.text('Pregunta 1B'), findsOneWidget);
     expect(find.text('Pregunta 1A'), findsNothing);
     expect(find.text('Pregunta 1 de 1'), findsOneWidget);
