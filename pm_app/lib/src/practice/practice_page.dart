@@ -9,6 +9,7 @@ import '../questions/load_questions.dart';
 import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
 import 'practice_question_policy.dart';
+import 'practice_session_clock.dart';
 import 'practice_session_config.dart';
 import 'widgets/exit_practice_button.dart';
 import 'widgets/practice_page_app_bar.dart';
@@ -17,41 +18,57 @@ import 'widgets/practice_question_header.dart';
 import 'widgets/practice_session_footer.dart';
 import 'widgets/question_navigation_drawer.dart';
 
-class QuestionPracticePage extends StatelessWidget {
+class QuestionPracticePage extends StatefulWidget {
   const QuestionPracticePage({
     super.key,
     LoadQuestions? loadQuestions,
     this.loadMoreQuestions,
     this.session = const PracticeSessionConfig.standard(),
+    this.sessionClock,
   }) : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
 
   final LoadQuestions loadQuestions;
   final LoadMoreQuestions? loadMoreQuestions;
   final PracticeSessionConfig session;
+  final PracticeSessionClock? sessionClock;
+
+  @override
+  State<QuestionPracticePage> createState() => _QuestionPracticePageState();
+}
+
+class _QuestionPracticePageState extends State<QuestionPracticePage> {
+  late final PracticeSessionClock _sessionClock;
+
+  @override
+  void initState() {
+    super.initState();
+    _sessionClock = widget.sessionClock ?? StopwatchPracticeSessionClock();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PracticeBloc(
-        loadQuestions: loadQuestions,
-        loadMoreQuestions: loadMoreQuestions,
+        loadQuestions: widget.loadQuestions,
+        loadMoreQuestions: widget.loadMoreQuestions,
         questionProgressStore: context.read<QuestionProgressStore>(),
-        session: session,
+        session: widget.session,
       )..add(const PracticeStarted()),
-      child: const _QuestionPracticeView(),
+      child: _QuestionPracticeView(sessionClock: _sessionClock),
     );
   }
 }
 
 class _QuestionPracticeView extends StatefulWidget {
-  const _QuestionPracticeView();
+  const _QuestionPracticeView({required this.sessionClock});
+
+  final PracticeSessionClock sessionClock;
 
   @override
   State<_QuestionPracticeView> createState() => _QuestionPracticeViewState();
 }
 
 class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
-  final DateTime _startedAt = DateTime.now();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _exitApproved = false;
 
@@ -90,6 +107,7 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                 : null,
             appBar: PracticePageAppBar(
               state: state,
+              sessionClock: widget.sessionClock,
               onExitRequested: () => _requestExit(context, state),
               onOpenQuestionNavigator: _openQuestionNavigator,
             ),
@@ -177,7 +195,7 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
       selectedOptionsByQuestionCode: state.selectedOptionsByQuestionCode,
       correctAttemptCount: state.correctAttemptCount,
       incorrectAttemptCount: state.incorrectAttemptCount,
-      elapsedTime: DateTime.now().difference(_startedAt),
+      elapsedTime: widget.sessionClock.elapsed,
     );
 
     AppNavigator.replace<void, void>(

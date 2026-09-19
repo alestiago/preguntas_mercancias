@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../bloc/practice_bloc.dart';
+import '../format_elapsed_time.dart';
+import '../practice_session_clock.dart';
 import '../practice_session_config.dart';
 import 'exit_practice_button.dart';
 
@@ -12,11 +14,13 @@ class PracticePageAppBar extends StatelessWidget
   const PracticePageAppBar({
     super.key,
     required this.state,
+    required this.sessionClock,
     required this.onExitRequested,
     required this.onOpenQuestionNavigator,
   });
 
   final PracticeState state;
+  final PracticeSessionClock sessionClock;
   final VoidCallback onExitRequested;
   final VoidCallback onOpenQuestionNavigator;
 
@@ -33,7 +37,10 @@ class PracticePageAppBar extends StatelessWidget
           ? ExitPracticeIconButton(onPressed: onExitRequested)
           : null,
       title: state.mode == PracticeMode.simulacro
-          ? _SimulacroModeTitle(title: state.localize(localizations))
+          ? _SimulacroModeTitle(
+              title: state.localize(localizations),
+              sessionClock: sessionClock,
+            )
           : Text(state.localize(localizations)),
       actions: [
         Padding(
@@ -61,9 +68,10 @@ class PracticePageAppBar extends StatelessWidget
 }
 
 class _SimulacroModeTitle extends StatelessWidget {
-  const _SimulacroModeTitle({required this.title});
+  const _SimulacroModeTitle({required this.title, required this.sessionClock});
 
   final String title;
+  final PracticeSessionClock sessionClock;
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +86,16 @@ class _SimulacroModeTitle extends StatelessWidget {
             textAlign: .center,
           ),
         ),
-        Center(child: const _SimulacroElapsedTimer()),
+        Center(child: _SimulacroElapsedTimer(sessionClock: sessionClock)),
       ],
     );
   }
 }
 
 class _SimulacroElapsedTimer extends StatefulWidget {
-  const _SimulacroElapsedTimer();
+  const _SimulacroElapsedTimer({required this.sessionClock});
+
+  final PracticeSessionClock sessionClock;
 
   @override
   State<_SimulacroElapsedTimer> createState() => _SimulacroElapsedTimerState();
@@ -93,15 +103,12 @@ class _SimulacroElapsedTimer extends StatefulWidget {
 
 class _SimulacroElapsedTimerState extends State<_SimulacroElapsedTimer> {
   Timer? _timer;
-  var _elapsed = Duration.zero;
 
   @override
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() {
-        _elapsed += const Duration(seconds: 1);
-      });
+      setState(() {});
     });
   }
 
@@ -117,7 +124,7 @@ class _SimulacroElapsedTimerState extends State<_SimulacroElapsedTimer> {
 
     return Text(
       key: const ValueKey('simulacro-elapsed-time'),
-      _elapsed.timerLabel,
+      formatElapsedTime(widget.sessionClock.elapsed),
       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
         color: colorScheme.onSurfaceVariant,
         fontWeight: FontWeight.w600,
@@ -176,19 +183,5 @@ extension _PracticeStateLocalizations on PracticeState {
       PracticeMode.standard ||
       PracticeMode.singleQuestion => localizations.appTitle,
     };
-  }
-}
-
-extension _TimerDurationFormatting on Duration {
-  String get timerLabel {
-    final hours = inHours;
-    final minutes = inMinutes.remainder(60).toString().padLeft(2, '0');
-    final seconds = inSeconds.remainder(60).toString().padLeft(2, '0');
-
-    if (hours > 0) {
-      return '$hours:$minutes:$seconds';
-    }
-
-    return '$minutes:$seconds';
   }
 }

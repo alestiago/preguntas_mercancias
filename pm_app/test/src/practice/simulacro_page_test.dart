@@ -1,7 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_app/l10n/app_localizations.dart';
+import 'package:pm_app/src/practice/practice_page.dart';
+import 'package:pm_app/src/practice/practice_session_clock.dart';
+import 'package:pm_app/src/practice/practice_session_config.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
@@ -48,10 +53,63 @@ void main() {
     expect(find.text('0/0 (0%)'), findsOneWidget);
     expect(find.text('00:00'), findsOneWidget);
     expect(find.text('Todas'), findsNothing);
+  });
 
-    await tester.pump(const Duration(seconds: 61));
+  testWidgets('uses the same elapsed time for the live timer and summary', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    final sessionClock = _FakePracticeSessionClock(const Duration(seconds: 59));
+    addTearDown(progressStore.close);
 
+    await _pumpSimulacroPage(
+      tester,
+      progressStore: progressStore,
+      sessionClock: sessionClock,
+      loadQuestions: (_) async => [buildQuestions().first],
+    );
+
+    expect(find.text('00:59'), findsOneWidget);
+
+    sessionClock.elapsed = const Duration(minutes: 1, seconds: 1);
+    await tester.pump(const Duration(seconds: 1));
     expect(find.text('01:01'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('answer-A')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('next-question-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Tiempo empleado: 01:01'), findsOneWidget);
+  });
+
+  testWidgets('retry keeps the original session clock', (tester) async {
+    final progressStore = FakeQuestionProgressStore();
+    final sessionClock = _FakePracticeSessionClock(const Duration(seconds: 5));
+    var loadCount = 0;
+    addTearDown(progressStore.close);
+
+    await _pumpSimulacroPage(
+      tester,
+      progressStore: progressStore,
+      sessionClock: sessionClock,
+      loadQuestions: (_) async {
+        loadCount += 1;
+        if (loadCount == 1) {
+          throw StateError('Initial load failed.');
+        }
+        return [buildQuestions().first];
+      },
+    );
+
+    expect(find.text('00:05'), findsOneWidget);
+
+    sessionClock.elapsed = const Duration(seconds: 12);
+    await tester.tap(find.text('Reintentar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('00:12'), findsOneWidget);
+    expect(find.text('Pregunta 1 de 1'), findsOneWidget);
   });
 
   testWidgets('opens navigation drawer and jumps to a question', (
@@ -278,4 +336,34 @@ final class _SlowQuestionProgressStore extends FakeQuestionProgressStore {
       }
     }
   }
+}
+
+final class _FakePracticeSessionClock implements PracticeSessionClock {
+  _FakePracticeSessionClock(this.elapsed);
+
+  @override
+  Duration elapsed;
+}
+
+Future<void> _pumpSimulacroPage(
+  WidgetTester tester, {
+  required QuestionProgressStore progressStore,
+  required PracticeSessionClock sessionClock,
+  required Future<List<Question>> Function(String? section) loadQuestions,
+}) async {
+  await tester.pumpWidget(
+    RepositoryProvider<QuestionProgressStore>.value(
+      value: progressStore,
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: QuestionPracticePage(
+          loadQuestions: loadQuestions,
+          session: const PracticeSessionConfig.simulacro(shuffleAnswers: false),
+          sessionClock: sessionClock,
+        ),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
 }

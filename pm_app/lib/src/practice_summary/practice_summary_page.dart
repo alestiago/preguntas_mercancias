@@ -3,6 +3,7 @@ import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../navigation/app_navigator.dart';
+import '../practice/format_elapsed_time.dart';
 
 enum PracticeSummaryReturnDestination { home, answerHistory }
 
@@ -100,7 +101,7 @@ class _SummaryHeader extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             localizations.practiceSummaryElapsedTime(
-              summary.elapsedTime.timerLabel,
+              formatElapsedTime(summary.elapsedTime),
             ),
             style: textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
@@ -174,18 +175,4 @@ extension on PracticeSummaryReturnDestination {
     PracticeSummaryReturnDestination.answerHistory =>
       localizations.backToAnswerHistory,
   };
-}
-
-extension _SummaryDurationFormatting on Duration {
-  String get timerLabel {
-    final hours = inHours;
-    final minutes = inMinutes.remainder(60).toString().padLeft(2, '0');
-    final seconds = inSeconds.remainder(60).toString().padLeft(2, '0');
-
-    if (hours > 0) {
-      return '$hours:$minutes:$seconds';
-    }
-
-    return '$minutes:$seconds';
-  }
 }
