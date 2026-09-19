@@ -25,18 +25,17 @@ final class HomeLoadFailure extends HomeState {
 }
 
 final class HomeLoaded extends HomeState {
-  HomeLoaded({
-    required List<Question> questions,
-    required this.progressSnapshot,
-  }) : questions = List.unmodifiable(questions),
-       questionSummary = practiceQuestionPolicy.summarize(
-         questions: questions,
-         progressSnapshot: progressSnapshot,
-       );
+  HomeLoaded({required this.catalog, required this.progressSnapshot})
+    : questionSummary = practiceQuestionPolicy.summarize(
+        questions: catalog.questions,
+        progressSnapshot: progressSnapshot,
+      );
 
-  final List<Question> questions;
+  final QuestionCatalog catalog;
   final QuestionProgressSnapshot progressSnapshot;
   final PracticeQuestionSummary questionSummary;
+
+  List<Question> get questions => catalog.questions;
 
   int get totalQuestionCount => questionSummary.totalCount;
 
@@ -100,11 +99,11 @@ final class HomeLoaded extends HomeState {
 
   HomeLoaded copyWith({QuestionProgressSnapshot? progressSnapshot}) {
     return HomeLoaded(
-      questions: questions,
+      catalog: catalog,
       progressSnapshot: progressSnapshot ?? this.progressSnapshot,
     );
   }
 
   @override
-  List<Object?> get props => [HomeLoaded, questions, progressSnapshot];
+  List<Object?> get props => [HomeLoaded, catalog, progressSnapshot];
 }

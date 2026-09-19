@@ -11,7 +11,7 @@ void main() {
     final store = _CountingQuestionProgressStore();
     final bloc = AnswerHistoryBloc(
       questionProgressStore: store,
-      questions: buildQuestions(),
+      catalog: QuestionCatalog(buildQuestions()),
     );
     addTearDown(() async {
       await bloc.close();
@@ -47,7 +47,7 @@ void main() {
     );
     final bloc = AnswerHistoryBloc(
       questionProgressStore: store,
-      questions: questions,
+      catalog: QuestionCatalog(questions),
     );
     addTearDown(() async {
       await bloc.close();
@@ -80,7 +80,7 @@ void main() {
     );
     final bloc = AnswerHistoryBloc(
       questionProgressStore: store,
-      questions: [question],
+      catalog: QuestionCatalog([question]),
     );
     addTearDown(() async {
       await bloc.close();
@@ -104,7 +104,7 @@ void main() {
     final store = _CountingQuestionProgressStore();
     final bloc = AnswerHistoryBloc(
       questionProgressStore: store,
-      questions: buildQuestions(),
+      catalog: QuestionCatalog(buildQuestions()),
     );
     addTearDown(() async {
       await bloc.close();
@@ -123,7 +123,7 @@ void main() {
     final store = _CountingQuestionProgressStore();
     final bloc = AnswerHistoryBloc(
       questionProgressStore: store,
-      questions: buildQuestions(),
+      catalog: QuestionCatalog(buildQuestions()),
     );
     addTearDown(() async {
       await bloc.close();
@@ -158,7 +158,7 @@ void main() {
     }
     final bloc = AnswerHistoryBloc(
       questionProgressStore: store,
-      questions: questions,
+      catalog: QuestionCatalog(questions),
       pageSize: 1,
     );
     addTearDown(() async {

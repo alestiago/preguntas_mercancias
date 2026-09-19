@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/home/bloc/home_bloc.dart';
 import 'package:pm_app/src/home/widgets/home_progress_summary.dart';
 import 'package:pm_persistence/pm_persistence.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../../fixtures/question_fixtures.dart';
 import '../../../helpers/pump_app.dart';
@@ -14,7 +15,7 @@ void main() {
     final semantics = tester.ensureSemantics();
     var pendingStarted = false;
     final state = HomeLoaded(
-      questions: buildQuestions(),
+      catalog: QuestionCatalog(buildQuestions()),
       progressSnapshot: const QuestionProgressSnapshot.empty(),
     );
 

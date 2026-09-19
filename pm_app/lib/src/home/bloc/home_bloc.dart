@@ -16,8 +16,10 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 final class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc({required this.loadQuestions, required this.questionProgressStore})
-    : super(const HomeLoading()) {
+  HomeBloc({
+    required this.loadQuestionCatalog,
+    required this.questionProgressStore,
+  }) : super(const HomeLoading()) {
     on<HomeReadRequested>(_onReadRequested, transformer: restartable());
     on<_HomeProgressSnapshotChanged>(_onProgressSnapshotChanged);
     on<_HomeProgressObservationFailed>(_onProgressObservationFailed);
@@ -33,11 +35,11 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  final LoadQuestions loadQuestions;
+  final LoadQuestionCatalog loadQuestionCatalog;
   final QuestionProgressStore questionProgressStore;
   late final StreamSubscription<QuestionProgressSnapshot> _progressSubscription;
   int _readGeneration = 0;
-  List<Question>? _questions;
+  QuestionCatalog? _catalog;
   QuestionProgressSnapshot? _progressSnapshot;
 
   Future<void> _onReadRequested(
@@ -45,7 +47,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     final generation = ++_readGeneration;
-    await _loadQuestions(emit, generation);
+    await _loadCatalog(emit, generation);
   }
 
   void _onProgressSnapshotChanged(
@@ -65,16 +67,16 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoadFailure(event.error));
   }
 
-  Future<void> _loadQuestions(Emitter<HomeState> emit, int generation) async {
-    _questions = null;
+  Future<void> _loadCatalog(Emitter<HomeState> emit, int generation) async {
+    _catalog = null;
     emit(const HomeLoading());
 
     try {
-      final questions = await loadQuestions(null);
+      final catalog = await loadQuestionCatalog();
       if (!_isCurrentRead(generation, emit)) {
         return;
       }
-      _questions = List.unmodifiable(questions);
+      _catalog = catalog;
       _emitLoadedIfReady(emit);
     } catch (error) {
       if (_isCurrentRead(generation, emit)) {
@@ -84,13 +86,13 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _emitLoadedIfReady(Emitter<HomeState> emit) {
-    final questions = _questions;
+    final catalog = _catalog;
     final progressSnapshot = _progressSnapshot;
-    if (questions == null || progressSnapshot == null || emit.isDone) {
+    if (catalog == null || progressSnapshot == null || emit.isDone) {
       return;
     }
 
-    emit(HomeLoaded(questions: questions, progressSnapshot: progressSnapshot));
+    emit(HomeLoaded(catalog: catalog, progressSnapshot: progressSnapshot));
   }
 
   bool _isCurrentRead(int generation, Emitter<HomeState> emit) {

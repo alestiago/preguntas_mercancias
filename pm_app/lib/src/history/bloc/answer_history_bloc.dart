@@ -13,9 +13,9 @@ final class AnswerHistoryBloc
     extends Bloc<AnswerHistoryEvent, AnswerHistoryState> {
   AnswerHistoryBloc({
     required QuestionProgressStore questionProgressStore,
-    required Iterable<Question> questions,
+    required QuestionCatalog catalog,
     int pageSize = 100,
-  }) : _questionsByCode = _indexQuestionsByCode(questions),
+  }) : _questionsByCode = catalog.byCode,
        _pageSize = pageSize,
        _visibleLimit = pageSize,
        assert(pageSize > 0),
@@ -152,12 +152,6 @@ final class AnswerHistoryBloc
     await _historySubscription?.cancel();
     return super.close();
   }
-}
-
-Map<String, Question> _indexQuestionsByCode(Iterable<Question> questions) {
-  return Map.unmodifiable({
-    for (final question in questions) question.code: question,
-  });
 }
 
 List<AnswerHistorySection> _groupHistoryByDate(

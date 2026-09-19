@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/app.dart';
 import 'package:pm_app/src/app/app_dependencies_owner.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../helpers/fake_question_progress_store.dart';
 import '../../helpers/fake_settings_store.dart';
@@ -33,8 +34,8 @@ void main() {
         dependencies: AppDependencies(
           questionProgressStore: progressStore,
           settingsStore: settingsStore,
+          loadQuestionCatalog: () async => QuestionCatalog(const []),
         ),
-        loadQuestions: (_) async => [],
       ),
     );
     await tester.pumpAndSettle();

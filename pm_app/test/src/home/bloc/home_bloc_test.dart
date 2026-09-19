@@ -40,7 +40,7 @@ void main() {
         );
       },
       build: () => HomeBloc(
-        loadQuestions: (_) async => buildHomeQuestions(),
+        loadQuestionCatalog: () async => QuestionCatalog(buildHomeQuestions()),
         questionProgressStore: progressStore,
       ),
       act: (bloc) => bloc.add(const HomeStarted()),
@@ -73,9 +73,9 @@ void main() {
     test('refreshes progress without reloading questions', () async {
       var loadCount = 0;
       final bloc = HomeBloc(
-        loadQuestions: (_) async {
+        loadQuestionCatalog: () async {
           loadCount += 1;
-          return buildHomeQuestions();
+          return QuestionCatalog(buildHomeQuestions());
         },
         questionProgressStore: progressStore,
       );
@@ -118,11 +118,11 @@ void main() {
     test('HomeLoaded is defensively immutable and value comparable', () {
       final questions = buildHomeQuestions();
       final state = HomeLoaded(
-        questions: questions,
+        catalog: QuestionCatalog(questions),
         progressSnapshot: const QuestionProgressSnapshot.empty(),
       );
       final equalState = HomeLoaded(
-        questions: buildHomeQuestions(),
+        catalog: QuestionCatalog(buildHomeQuestions()),
         progressSnapshot: const QuestionProgressSnapshot.empty(),
       );
 
@@ -160,7 +160,7 @@ void main() {
         ),
       );
       final bloc = HomeBloc(
-        loadQuestions: (_) async => buildHomeQuestions(),
+        loadQuestionCatalog: () async => QuestionCatalog(buildHomeQuestions()),
         questionProgressStore: progressStore,
       );
       addTearDown(bloc.close);
@@ -187,7 +187,7 @@ void main() {
 
     test('updates when progress changes without a manual refresh', () async {
       final bloc = HomeBloc(
-        loadQuestions: (_) async => buildHomeQuestions(),
+        loadQuestionCatalog: () async => QuestionCatalog(buildHomeQuestions()),
         questionProgressStore: progressStore,
       );
       addTearDown(bloc.close);
@@ -236,7 +236,7 @@ void main() {
         );
       },
       build: () => HomeBloc(
-        loadQuestions: (_) async => buildHomeQuestions(),
+        loadQuestionCatalog: () async => QuestionCatalog(buildHomeQuestions()),
         questionProgressStore: progressStore,
       ),
       act: (bloc) => bloc.add(const HomeStarted()),
@@ -262,10 +262,10 @@ void main() {
     );
 
     test('keeps the latest result when reads finish out of order', () async {
-      final pendingLoads = <Completer<List<Question>>>[];
+      final pendingLoads = <Completer<QuestionCatalog>>[];
       final bloc = HomeBloc(
-        loadQuestions: (_) {
-          final completer = Completer<List<Question>>();
+        loadQuestionCatalog: () {
+          final completer = Completer<QuestionCatalog>();
           pendingLoads.add(completer);
           return completer.future;
         },
@@ -282,10 +282,10 @@ void main() {
         bloc,
         (state) => state.questions.length == 1,
       );
-      pendingLoads[1].complete([buildHomeQuestions().last]);
+      pendingLoads[1].complete(QuestionCatalog([buildHomeQuestions().last]));
       final latestLoaded = await latestLoadedFuture;
 
-      pendingLoads[0].complete(buildHomeQuestions());
+      pendingLoads[0].complete(QuestionCatalog(buildHomeQuestions()));
       await Future<void>.delayed(Duration.zero);
 
       expect(latestLoaded.questions.single.prompt, 'Tercera pregunta');
@@ -300,7 +300,7 @@ void main() {
       final watchOnlyStore = _WatchOnlyQuestionProgressStore();
       addTearDown(watchOnlyStore.close);
       final bloc = HomeBloc(
-        loadQuestions: (_) async => buildHomeQuestions(),
+        loadQuestionCatalog: () async => QuestionCatalog(buildHomeQuestions()),
         questionProgressStore: watchOnlyStore,
       );
       addTearDown(bloc.close);
@@ -314,7 +314,7 @@ void main() {
 
     test('surfaces progress observation errors', () async {
       final bloc = HomeBloc(
-        loadQuestions: (_) async => buildHomeQuestions(),
+        loadQuestionCatalog: () async => QuestionCatalog(buildHomeQuestions()),
         questionProgressStore: progressStore,
       );
       addTearDown(bloc.close);
@@ -335,7 +335,7 @@ void main() {
 
     test('cancels progress observation when closed', () async {
       final bloc = HomeBloc(
-        loadQuestions: (_) async => buildHomeQuestions(),
+        loadQuestionCatalog: () async => QuestionCatalog(buildHomeQuestions()),
         questionProgressStore: progressStore,
       );
       final loadedFuture = _waitForLoaded(bloc);

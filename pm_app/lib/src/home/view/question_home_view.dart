@@ -17,9 +17,7 @@ import '../bloc/home_bloc.dart';
 import '../widgets/home_progress_summary.dart';
 
 class QuestionHomeView extends StatelessWidget {
-  const QuestionHomeView({super.key, required this.loadQuestions});
-
-  final LoadQuestions loadQuestions;
+  const QuestionHomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,14 +79,14 @@ class QuestionHomeView extends StatelessWidget {
 
   void _openPractice(
     BuildContext context, {
-    LoadQuestions? practiceLoadQuestions,
+    required LoadQuestions loadQuestions,
     LoadMoreQuestions? loadMoreQuestions,
     required PracticeSessionConfig session,
   }) {
     AppNavigator.push<void>(
       context,
       QuestionPracticePage(
-        loadQuestions: practiceLoadQuestions ?? loadQuestions,
+        loadQuestions: loadQuestions,
         loadMoreQuestions: loadMoreQuestions,
         session: session,
       ),
@@ -96,14 +94,11 @@ class QuestionHomeView extends StatelessWidget {
   }
 
   void _openAnswerHistory(BuildContext context, HomeLoaded state) {
-    AppNavigator.push<void>(
-      context,
-      AnswerHistoryPage(questions: state.questions),
-    );
+    AppNavigator.push<void>(context, AnswerHistoryPage(catalog: state.catalog));
   }
 
   void _openSimulacroPractice(BuildContext context, HomeLoaded state) {
-    final simulacroQuestions = drawSimulacroQuestions(state.questions);
+    final simulacroQuestions = drawSimulacroQuestions(state.catalog);
     final shuffleAnswers = context
         .read<SettingsBloc>()
         .state
@@ -111,7 +106,7 @@ class QuestionHomeView extends StatelessWidget {
 
     _openPractice(
       context,
-      practiceLoadQuestions: (_) async => simulacroQuestions,
+      loadQuestions: (_) async => simulacroQuestions,
       session: PracticeSessionConfig.simulacro(shuffleAnswers: shuffleAnswers),
     );
   }
@@ -124,7 +119,7 @@ class QuestionHomeView extends StatelessWidget {
 
     _openPractice(
       context,
-      practiceLoadQuestions: state.reviewLoadQuestions(),
+      loadQuestions: state.reviewLoadQuestions(),
       session: state.reviewSession(shuffleAnswers: shuffleAnswers),
     );
   }
@@ -138,7 +133,7 @@ class QuestionHomeView extends StatelessWidget {
 
     _openPractice(
       context,
-      practiceLoadQuestions: state.pendingLoadQuestions(
+      loadQuestions: state.pendingLoadQuestions(
         batchSize: session.pendingBatchSize,
       ),
       loadMoreQuestions: state.pendingLoadMoreQuestions(

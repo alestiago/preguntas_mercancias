@@ -11,7 +11,7 @@ void main() {
       final questions = _questionsBySection(questionCountBySection: 8);
 
       final simulacroQuestions = drawSimulacroQuestions(
-        questions,
+        QuestionCatalog(questions),
         random: Random(1),
       );
 
@@ -46,7 +46,7 @@ void main() {
       );
 
       final simulacroQuestions = drawSimulacroQuestions(
-        questions,
+        QuestionCatalog(questions),
         random: Random(1),
       );
 

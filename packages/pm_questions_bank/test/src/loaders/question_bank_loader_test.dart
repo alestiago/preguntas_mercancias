@@ -32,6 +32,21 @@ void main() {
     });
   });
 
+  test('loads the bundled bank as an indexed catalog', () async {
+    final catalog = await QuestionBankLoader().loadCatalog();
+
+    expect(catalog.questions, hasLength(4475));
+    expect(catalog.byCode, hasLength(4475));
+    expect(catalog.bySection.keys, QuestionBankLoader.sections);
+    expect(
+      catalog.bySection.values.fold<int>(
+        0,
+        (total, questions) => total + questions.length,
+      ),
+      4475,
+    );
+  });
+
   test('rejects unknown sections', () async {
     await expectLater(
       QuestionBankLoader(assetBundle: _EmptyAssetBundle()).loadSection('2A'),

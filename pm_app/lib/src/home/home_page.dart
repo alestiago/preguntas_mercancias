@@ -7,19 +7,18 @@ import 'bloc/home_bloc.dart';
 import 'view/question_home_view.dart';
 
 class QuestionHomePage extends StatelessWidget {
-  const QuestionHomePage({super.key, LoadQuestions? loadQuestions})
-    : loadQuestions = loadQuestions ?? loadQuestionsFromBank;
+  const QuestionHomePage({super.key, required this.loadQuestionCatalog});
 
-  final LoadQuestions loadQuestions;
+  final LoadQuestionCatalog loadQuestionCatalog;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => HomeBloc(
-        loadQuestions: loadQuestions,
+        loadQuestionCatalog: loadQuestionCatalog,
         questionProgressStore: context.read<QuestionProgressStore>(),
       )..add(const HomeStarted()),
-      child: QuestionHomeView(loadQuestions: loadQuestions),
+      child: const QuestionHomeView(),
     );
   }
 }

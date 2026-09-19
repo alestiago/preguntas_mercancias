@@ -26,8 +26,9 @@ extension PumpApp on WidgetTester {
         dependencies: AppDependencies(
           questionProgressStore: questionProgressStore,
           settingsStore: resolvedSettingsStore,
+          loadQuestionCatalog: () async =>
+              QuestionCatalog(await loadQuestions(null)),
         ),
-        loadQuestions: loadQuestions,
       ),
     );
     await pumpAndSettle();

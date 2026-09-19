@@ -22,6 +22,10 @@ final class QuestionBankLoader {
 
   final AssetBundle _assetBundle;
 
+  Future<QuestionCatalog> loadCatalog() async {
+    return QuestionCatalog(await loadAll());
+  }
+
   Future<List<Question>> loadAll() async {
     final questionsBySection = await Future.wait(sections.map(loadSection));
     final questions = [

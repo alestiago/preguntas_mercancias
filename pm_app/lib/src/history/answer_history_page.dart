@@ -7,16 +7,16 @@ import 'bloc/answer_history_bloc.dart';
 import 'view/answer_history_view.dart';
 
 class AnswerHistoryPage extends StatelessWidget {
-  const AnswerHistoryPage({super.key, required this.questions});
+  const AnswerHistoryPage({super.key, required this.catalog});
 
-  final List<Question> questions;
+  final QuestionCatalog catalog;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AnswerHistoryBloc(
         questionProgressStore: context.read<QuestionProgressStore>(),
-        questions: questions,
+        catalog: catalog,
       ),
       child: const AnswerHistoryView(),
     );

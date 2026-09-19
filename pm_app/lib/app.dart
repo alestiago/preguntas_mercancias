@@ -6,20 +6,14 @@ import 'l10n/app_localizations.dart';
 import 'src/app/app_dependencies.dart';
 import 'src/app/theme/app_theme.dart';
 import 'src/home/home_page.dart';
-import 'src/questions/load_questions.dart';
 import 'src/settings/bloc/settings_bloc.dart';
 
 export 'src/app/app_dependencies.dart' show AppDependencies;
 
 final class PreguntasMercanciasApp extends StatelessWidget {
-  const PreguntasMercanciasApp({
-    required this.dependencies,
-    super.key,
-    this.loadQuestions,
-  });
+  const PreguntasMercanciasApp({required this.dependencies, super.key});
 
   final AppDependencies dependencies;
-  final LoadQuestions? loadQuestions;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +36,9 @@ final class PreguntasMercanciasApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: AppTheme.light,
-          home: QuestionHomePage(loadQuestions: loadQuestions),
+          home: QuestionHomePage(
+            loadQuestionCatalog: dependencies.loadQuestionCatalog,
+          ),
         ),
       ),
     );

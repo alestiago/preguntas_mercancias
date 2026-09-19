@@ -6,12 +6,12 @@ import 'package:pm_questions_bank/pm_questions_bank.dart';
 const simulacroQuestionCount = 30;
 
 List<Question> drawSimulacroQuestions(
-  List<Question> questions, {
+  QuestionCatalog catalog, {
   Random? random,
 }) {
   final randomSource = random ?? Random();
   final questionPoolsBySection = _shuffledQuestionPoolsBySection(
-    questions,
+    catalog,
     random: randomSource,
   );
   if (questionPoolsBySection.isEmpty) {
@@ -72,21 +72,20 @@ List<Question> drawSimulacroQuestions(
 }
 
 Map<String, List<Question>> _shuffledQuestionPoolsBySection(
-  List<Question> questions, {
+  QuestionCatalog catalog, {
   Random? random,
 }) {
   final randomSource = random ?? Random();
   final questionPoolsBySection = <String, List<Question>>{};
 
   for (final section in QuestionBankLoader.sections) {
-    final questionPool = questions
-        .where((question) => question.section == section)
-        .toList();
-    if (questionPool.isEmpty) {
+    final sectionQuestions = catalog.bySection[section];
+    if (sectionQuestions == null || sectionQuestions.isEmpty) {
       continue;
     }
 
-    questionPoolsBySection[section] = questionPool..shuffle(randomSource);
+    questionPoolsBySection[section] = List<Question>.of(sectionQuestions)
+      ..shuffle(randomSource);
   }
 
   return questionPoolsBySection;
