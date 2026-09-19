@@ -5,11 +5,15 @@ sealed class PracticeEvent {
   const PracticeEvent();
 }
 
-final class PracticeStarted extends PracticeEvent {
+sealed class PracticeLoadRequested extends PracticeEvent {
+  const PracticeLoadRequested();
+}
+
+final class PracticeStarted extends PracticeLoadRequested {
   const PracticeStarted();
 }
 
-final class SectionSelected extends PracticeEvent {
+final class SectionSelected extends PracticeLoadRequested {
   const SectionSelected(this.section);
 
   final String? section;
@@ -19,6 +23,12 @@ final class AnswerPressed extends PracticeEvent {
   const AnswerPressed(this.option);
 
   final QuestionOption option;
+}
+
+final class _PendingRefillRequested extends PracticeEvent {
+  const _PendingRefillRequested(this.sessionGeneration);
+
+  final int sessionGeneration;
 }
 
 final class NextQuestionPressed extends PracticeEvent {
@@ -35,6 +45,6 @@ final class QuestionNavigationPressed extends PracticeEvent {
   final int index;
 }
 
-final class RetryPressed extends PracticeEvent {
+final class RetryPressed extends PracticeLoadRequested {
   const RetryPressed();
 }

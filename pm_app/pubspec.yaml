@@ -38,6 +38,7 @@ dependencies:
   pm_persistence:
     path: ../packages/pm_persistence
   bloc: ^9.2.1
+  bloc_concurrency: ^0.3.0
   equatable: ^3.0.0
 
   # The following adds the Cupertino Icons font to your application.

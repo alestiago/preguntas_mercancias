@@ -816,6 +816,184 @@ void main() {
         contains('Pregunta 15'),
       );
     });
+
+    test('keeps the latest section when loads finish out of order', () async {
+      final progressStore = FakeQuestionProgressStore();
+      final pendingLoads = <String, Completer<List<Question>>>{};
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (section) {
+          final completer = Completer<List<Question>>();
+          pendingLoads[section!] = completer;
+          return completer.future;
+        },
+        questionProgressStore: progressStore,
+        session: const PracticeSessionConfig.standard(initialSection: null),
+      );
+      addTearDown(bloc.close);
+
+      bloc.add(const SectionSelected('1A'));
+      await _waitUntil(() => pendingLoads.containsKey('1A'));
+      bloc.add(const SectionSelected('1B'));
+      await _waitUntil(() => pendingLoads.containsKey('1B'));
+
+      final latestLoadedFuture = _waitForPracticeState(
+        bloc,
+        (state) => state is PracticeLoaded && state.selectedSection == '1B',
+      );
+      pendingLoads['1B']!.complete([buildReviewQuestions().last]);
+      final latestLoaded = await latestLoadedFuture as PracticeLoaded;
+
+      pendingLoads['1A']!.complete([buildReviewQuestions().first]);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(latestLoaded.currentQuestion.section, '1B');
+      expect((bloc.state as PracticeLoaded).selectedSection, '1B');
+      expect((bloc.state as PracticeLoaded).currentQuestion.section, '1B');
+    });
+
+    test(
+      'does not restore an old section after its answer save finishes',
+      () async {
+        final progressStore = _SlowQuestionProgressStore();
+        addTearDown(progressStore.close);
+        final bloc = PracticeBloc(
+          loadQuestions: loadReviewQuestions,
+          questionProgressStore: progressStore,
+          session: const PracticeSessionConfig.standard(shuffleAnswers: false),
+        );
+        addTearDown(bloc.close);
+
+        final initialLoadedFuture = _waitForPracticeState(
+          bloc,
+          (state) => state is PracticeLoaded,
+        );
+        bloc.add(const PracticeStarted());
+        await initialLoadedFuture;
+
+        final recordingFuture = _waitForPracticeState(
+          bloc,
+          (state) => state is PracticeLoaded && state.isRecordingAnswer,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.b));
+        await recordingFuture;
+
+        // Duplicate input while the write is active is intentionally ignored.
+        bloc.add(const AnswerPressed(QuestionOption.a));
+
+        final nextSectionFuture = _waitForPracticeState(
+          bloc,
+          (state) => state is PracticeLoaded && state.selectedSection == '1B',
+        );
+        bloc.add(const SectionSelected('1B'));
+        await nextSectionFuture;
+
+        progressStore.completePendingRecords();
+        await _waitUntil(() => progressStore.recordedAnswers.length == 1);
+        await Future<void>.delayed(Duration.zero);
+
+        final currentState = bloc.state as PracticeLoaded;
+        expect(currentState.selectedSection, '1B');
+        expect(currentState.currentQuestion.section, '1B');
+        expect(currentState.selectedOptionsByQuestionCode, isEmpty);
+        expect(progressStore.recordedAnswers, hasLength(1));
+        expect(progressStore.recordedAnswers.single.questionCode, '1A01001');
+      },
+    );
+
+    test(
+      'preserves navigation and answers when a pending refill finishes',
+      () async {
+        final progressStore = FakeQuestionProgressStore();
+        final refill = Completer<List<Question>>();
+        final refillStarted = Completer<void>();
+        addTearDown(progressStore.close);
+        final bloc = PracticeBloc(
+          loadQuestions: (_) async => buildManyQuestions(6),
+          loadMoreQuestions: (_, _, _) {
+            refillStarted.complete();
+            return refill.future;
+          },
+          questionProgressStore: progressStore,
+          session: PracticeSessionConfig.pending(shuffleAnswers: false),
+        );
+        addTearDown(bloc.close);
+
+        final loadedFuture = _waitForPracticeState(
+          bloc,
+          (state) => state is PracticeLoaded,
+        );
+        bloc.add(const PracticeStarted());
+        await loadedFuture;
+
+        final recordedFuture = _waitForPracticeState(
+          bloc,
+          (state) =>
+              state is PracticeLoaded &&
+              state.answered &&
+              !state.isRecordingAnswer,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.a));
+        await recordedFuture;
+        await refillStarted.future;
+
+        final navigatedFuture = _waitForPracticeState(
+          bloc,
+          (state) => state is PracticeLoaded && state.currentIndex == 1,
+        );
+        bloc.add(const NextQuestionPressed());
+        await navigatedFuture;
+
+        final secondRecordedFuture = _waitForPracticeState(
+          bloc,
+          (state) =>
+              state is PracticeLoaded &&
+              state.currentIndex == 1 &&
+              state.answered &&
+              !state.isRecordingAnswer,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.a));
+        await secondRecordedFuture;
+
+        final refilledFuture = _waitForPracticeState(
+          bloc,
+          (state) => state is PracticeLoaded && state.questions.length == 8,
+        );
+        refill.complete(buildManyQuestions(8).skip(6).toList());
+        final refilled = await refilledFuture as PracticeLoaded;
+
+        expect(refilled.currentIndex, 1);
+        expect(refilled.currentQuestion.code, '1A00002');
+        expect(refilled.selectedOptionsByQuestionCode, {
+          '1A00001': QuestionOption.a,
+          '1A00002': QuestionOption.a,
+        });
+      },
+    );
+
+    test('ignores a load result that completes while closing', () async {
+      final progressStore = FakeQuestionProgressStore();
+      final loadCompleter = Completer<List<Question>>();
+      var loadStarted = false;
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        loadQuestions: (_) {
+          loadStarted = true;
+          return loadCompleter.future;
+        },
+        questionProgressStore: progressStore,
+      );
+
+      bloc.add(const PracticeStarted());
+      await _waitUntil(() => loadStarted);
+
+      final closeFuture = bloc.close();
+      loadCompleter.complete(buildQuestions());
+      await closeFuture;
+
+      expect(bloc.state, isA<PracticeLoading>());
+      expect(progressStore.recordedAnswers, isEmpty);
+    });
   });
 }
 
@@ -832,6 +1010,16 @@ Future<PracticeState> _waitForPracticeState(
           'current state: ${bloc.state.runtimeType}',
         ),
       );
+}
+
+Future<void> _waitUntil(bool Function() predicate) async {
+  final deadline = DateTime.now().add(const Duration(seconds: 2));
+  while (!predicate()) {
+    if (DateTime.now().isAfter(deadline)) {
+      throw TestFailure('Timed out waiting for a test condition.');
+    }
+    await Future<void>.delayed(Duration.zero);
+  }
 }
 
 PracticeLoaded _unansweredPracticeState({

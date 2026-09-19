@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/home/bloc/home_bloc.dart';
@@ -259,6 +261,41 @@ void main() {
             ),
       ],
     );
+
+    test('keeps the latest result when reads finish out of order', () async {
+      final pendingLoads = <Completer<List<Question>>>[];
+      final bloc = HomeBloc(
+        loadQuestions: (_) {
+          final completer = Completer<List<Question>>();
+          pendingLoads.add(completer);
+          return completer.future;
+        },
+        questionProgressStore: progressStore,
+      );
+      addTearDown(bloc.close);
+
+      bloc.add(const HomeStarted());
+      await _waitUntil(() => pendingLoads.length == 1);
+      bloc.add(const HomeRetried());
+      await _waitUntil(() => pendingLoads.length == 2);
+
+      final latestLoadedFuture = _waitForLoaded(
+        bloc,
+        (state) => state.questions.length == 1,
+      );
+      pendingLoads[1].complete([buildHomeQuestions().last]);
+      final latestLoaded = await latestLoadedFuture;
+
+      pendingLoads[0].complete(buildHomeQuestions());
+      await Future<void>.delayed(Duration.zero);
+
+      expect(latestLoaded.questions.single.prompt, 'Tercera pregunta');
+      expect((bloc.state as HomeLoaded).questions, hasLength(1));
+      expect(
+        (bloc.state as HomeLoaded).questions.single.prompt,
+        'Tercera pregunta',
+      );
+    });
   });
 }
 
@@ -276,4 +313,14 @@ Future<HomeLoaded> _waitForLoaded(
           'Timed out waiting for HomeLoaded; current state: ${bloc.state}',
         ),
       );
+}
+
+Future<void> _waitUntil(bool Function() predicate) async {
+  final deadline = DateTime.now().add(const Duration(seconds: 2));
+  while (!predicate()) {
+    if (DateTime.now().isAfter(deadline)) {
+      throw TestFailure('Timed out waiting for a test condition.');
+    }
+    await Future<void>.delayed(Duration.zero);
+  }
 }

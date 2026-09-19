@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pm_persistence/pm_persistence.dart';
@@ -27,13 +28,15 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
            session: session,
          ),
        ) {
-    on<PracticeStarted>(_onStarted);
-    on<SectionSelected>(_onSectionSelected);
-    on<AnswerPressed>(_onAnswerPressed);
+    on<PracticeLoadRequested>(_onLoadRequested, transformer: restartable());
+    on<AnswerPressed>(_onAnswerPressed, transformer: droppable());
+    on<_PendingRefillRequested>(
+      _onPendingRefillRequested,
+      transformer: droppable(),
+    );
     on<NextQuestionPressed>(_onNextQuestionPressed);
     on<PreviousQuestionPressed>(_onPreviousQuestionPressed);
     on<QuestionNavigationPressed>(_onQuestionNavigationPressed);
-    on<RetryPressed>(_onRetryPressed);
   }
 
   final LoadQuestions loadQuestions;
@@ -42,20 +45,22 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   final QuestionProgressStore questionProgressStore;
   final Random _answerShuffleRandom;
   bool _pendingQuestionSourceExhausted = false;
+  int _sessionGeneration = 0;
 
-  Future<void> _onStarted(PracticeStarted event, Emitter<PracticeState> emit) {
-    return _load(emit, state.selectedSection);
-  }
-
-  Future<void> _onSectionSelected(
-    SectionSelected event,
+  Future<void> _onLoadRequested(
+    PracticeLoadRequested event,
     Emitter<PracticeState> emit,
   ) {
-    if (state.selectedSection == event.section) {
+    final selectedSection = switch (event) {
+      SectionSelected(:final section) => section,
+      PracticeStarted() || RetryPressed() => state.selectedSection,
+    };
+    if (event is SectionSelected && state.selectedSection == selectedSection) {
       return Future.value();
     }
 
-    return _load(emit, event.section);
+    final generation = ++_sessionGeneration;
+    return _load(emit, selectedSection, generation);
   }
 
   Future<void> _onAnswerPressed(
@@ -67,6 +72,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
+    final generation = _sessionGeneration;
     final question = currentState.currentQuestion;
     final isCorrect = question.isCorrect(event.option);
     final answeredState = currentState.copyWith(
@@ -93,23 +99,60 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
           correctOption: question.correctOption,
         ),
       );
+      if (!_isCurrentSession(generation, emit)) {
+        return;
+      }
 
-      recordedState = answeredState.copyWith(
-        progressSnapshot: await questionProgressStore.loadSnapshot(),
+      final progressSnapshot = await questionProgressStore.loadSnapshot();
+      if (!_isCurrentSession(generation, emit)) {
+        return;
+      }
+
+      final latestState = state;
+      if (latestState is! PracticeLoaded) {
+        return;
+      }
+      recordedState = latestState.copyWith(
+        progressSnapshot: progressSnapshot,
         isRecordingAnswer: false,
       );
       emit(recordedState);
     } catch (error, stackTrace) {
-      emit(answeredState.copyWith(isRecordingAnswer: false));
+      if (_isCurrentSession(generation, emit)) {
+        final latestState = state;
+        if (latestState is PracticeLoaded) {
+          emit(latestState.copyWith(isRecordingAnswer: false));
+        }
+      }
       addError(error, stackTrace);
       return;
     }
 
-    await _loadMorePendingQuestionsIfNeeded(recordedState, emit);
+    add(_PendingRefillRequested(generation));
+  }
+
+  Future<void> _onPendingRefillRequested(
+    _PendingRefillRequested event,
+    Emitter<PracticeState> emit,
+  ) async {
+    if (!_isCurrentSession(event.sessionGeneration, emit)) {
+      return;
+    }
+    final currentState = state;
+    if (currentState is! PracticeLoaded) {
+      return;
+    }
+
+    await _loadMorePendingQuestionsIfNeeded(
+      currentState,
+      event.sessionGeneration,
+      emit,
+    );
   }
 
   Future<void> _loadMorePendingQuestionsIfNeeded(
     PracticeLoaded currentState,
+    int generation,
     Emitter<PracticeState> emit,
   ) async {
     final loadMore = loadMoreQuestions;
@@ -135,16 +178,27 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       addError(error, stackTrace);
       return;
     }
+    if (!_isCurrentSession(generation, emit)) {
+      return;
+    }
+
     if (loadedQuestions.length < session.pendingBatchSize) {
       _pendingQuestionSourceExhausted = true;
     }
 
+    final latestState = state;
+    if (latestState is! PracticeLoaded) {
+      return;
+    }
+    final latestQuestionCodes = latestState.questions
+        .map((question) => question.code)
+        .toSet();
     final pendingQuestions = _questionsWithShuffledAnswers(
       practiceQuestionPolicy.selectEligible(
         questions: loadedQuestions,
         mode: PracticeMode.pending,
-        progressSnapshot: currentState.progressSnapshot,
-        excludedQuestionCodes: loadedQuestionCodes,
+        progressSnapshot: latestState.progressSnapshot,
+        excludedQuestionCodes: latestQuestionCodes,
       ),
     );
     if (pendingQuestions.isEmpty) {
@@ -152,9 +206,9 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     }
 
     emit(
-      currentState.copyWith(
+      latestState.copyWith(
         questions: List<Question>.unmodifiable([
-          ...currentState.questions,
+          ...latestState.questions,
           ...pendingQuestions,
         ]),
       ),
@@ -252,23 +306,23 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     );
   }
 
-  Future<void> _onRetryPressed(
-    RetryPressed event,
-    Emitter<PracticeState> emit,
-  ) {
-    return _load(emit, state.selectedSection);
-  }
-
   Future<void> _load(
     Emitter<PracticeState> emit,
     String? selectedSection,
+    int generation,
   ) async {
     _pendingQuestionSourceExhausted = false;
     emit(PracticeLoading(selectedSection: selectedSection, session: session));
 
     try {
       final questions = await loadQuestions(selectedSection);
+      if (!_isCurrentSession(generation, emit)) {
+        return;
+      }
       final progressSnapshot = await questionProgressStore.loadSnapshot();
+      if (!_isCurrentSession(generation, emit)) {
+        return;
+      }
       final loadedQuestions = _questionsWithShuffledAnswers(
         practiceQuestionPolicy.selectEligible(
           questions: questions,
@@ -285,6 +339,9 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
         ),
       );
     } catch (error) {
+      if (!_isCurrentSession(generation, emit)) {
+        return;
+      }
       emit(
         PracticeLoadFailure(
           selectedSection: selectedSection,
@@ -293,6 +350,10 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
         ),
       );
     }
+  }
+
+  bool _isCurrentSession(int generation, Emitter<PracticeState> emit) {
+    return generation == _sessionGeneration && !emit.isDone && !isClosed;
   }
 
   List<Question> _questionsWithShuffledAnswers(Iterable<Question> questions) {
@@ -336,5 +397,11 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       doctrinalReference: question.doctrinalReference,
       shuffleable: question.shuffleable,
     );
+  }
+
+  @override
+  Future<void> close() {
+    _sessionGeneration += 1;
+    return super.close();
   }
 }

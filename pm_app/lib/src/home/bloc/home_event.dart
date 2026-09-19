@@ -5,15 +5,19 @@ sealed class HomeEvent {
   const HomeEvent();
 }
 
-final class HomeStarted extends HomeEvent {
+sealed class HomeReadRequested extends HomeEvent {
+  const HomeReadRequested();
+}
+
+final class HomeStarted extends HomeReadRequested {
   const HomeStarted();
 }
 
-final class HomeRetried extends HomeEvent {
+final class HomeRetried extends HomeReadRequested {
   const HomeRetried();
 }
 
-final class HomeProgressRefreshed extends HomeEvent {
+final class HomeProgressRefreshed extends HomeReadRequested {
   const HomeProgressRefreshed();
 }
 

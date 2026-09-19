@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pm_persistence/pm_persistence.dart';
@@ -10,8 +11,11 @@ part 'settings_state.dart';
 
 final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc({required this.settingsStore}) : super(const SettingsLoading()) {
-    on<SettingsStarted>(_onStarted);
-    on<AnswerShuffleToggled>(_onAnswerShuffleToggled);
+    on<SettingsStarted>(_onStarted, transformer: restartable());
+    on<AnswerShuffleToggled>(
+      _onAnswerShuffleToggled,
+      transformer: sequential(),
+    );
     on<_AnswerShuffleEnabledChanged>(_onAnswerShuffleEnabledChanged);
 
     _answerShuffleSubscription = settingsStore
