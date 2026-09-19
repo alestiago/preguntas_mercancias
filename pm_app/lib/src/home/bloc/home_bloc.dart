@@ -60,10 +60,13 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _HomeProgressObservationFailed event,
     Emitter<HomeState> emit,
   ) {
+    _readGeneration += 1;
+    _progressSnapshot = null;
     emit(HomeLoadFailure(event.error));
   }
 
   Future<void> _loadQuestions(Emitter<HomeState> emit, int generation) async {
+    _questions = null;
     emit(const HomeLoading());
 
     try {
