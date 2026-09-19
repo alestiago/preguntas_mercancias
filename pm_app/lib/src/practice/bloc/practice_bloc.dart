@@ -248,10 +248,8 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
-    final isTerminalAction =
-        currentState.isFilteredPracticeComplete ||
-        (currentState.isLastQuestion && !currentState.isFilteredPracticeMode);
-    if (isTerminalAction && !currentState.answered) {
+    if (!currentState.isPrimaryActionEnabled ||
+        currentState.primaryAction == PracticePrimaryAction.finish) {
       return;
     }
 
@@ -263,7 +261,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
-    if (currentState.isLastQuestion) {
+    if (currentState.primaryAction == PracticePrimaryAction.restart) {
       emit(currentState.restart());
       return;
     }

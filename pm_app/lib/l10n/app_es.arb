@@ -112,5 +112,7 @@
     }
   },
   "practiceSummaryQuestionsTitle": "Detalle de respuestas",
-  "backToHome": "Volver al inicio"
+  "practiceSummaryUnanswered": "Sin responder",
+  "backToHome": "Volver al inicio",
+  "backToAnswerHistory": "Volver al historial"
 }

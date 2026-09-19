@@ -1,48 +1,27 @@
 import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
-import '../practice_session_config.dart';
+import '../bloc/practice_bloc.dart';
 
 class PracticeSessionFooter extends StatelessWidget {
   const PracticeSessionFooter({
     super.key,
-    required this.answered,
-    required this.currentIndex,
-    required this.isLastQuestion,
-    required this.isFilteredPracticeComplete,
-    required this.mode,
-    required this.isRecordingAnswer,
-    required this.isAwaitingPendingBatch,
-    required this.onFinishPractice,
-    required this.onNextQuestion,
+    required this.primaryAction,
+    required this.isPrimaryActionEnabled,
+    required this.isPreviousActionEnabled,
+    required this.onPrimaryAction,
     required this.onPreviousQuestion,
   });
 
-  final bool answered;
-  final int currentIndex;
-  final bool isLastQuestion;
-  final bool isFilteredPracticeComplete;
-  final PracticeMode mode;
-  final bool isRecordingAnswer;
-  final bool isAwaitingPendingBatch;
-  final VoidCallback onFinishPractice;
-  final VoidCallback onNextQuestion;
+  final PracticePrimaryAction primaryAction;
+  final bool isPrimaryActionEnabled;
+  final bool isPreviousActionEnabled;
+  final VoidCallback onPrimaryAction;
   final VoidCallback onPreviousQuestion;
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-
-    final isFilteredPracticeMode =
-        mode == PracticeMode.review || mode == PracticeMode.pending;
-    final finishesAtLastQuestion =
-        mode == PracticeMode.simulacro || mode == PracticeMode.singleQuestion;
-    final isFinishAction =
-        isFilteredPracticeComplete ||
-        (finishesAtLastQuestion && isLastQuestion);
-    final isRestartAction =
-        isLastQuestion && !isFilteredPracticeMode && !finishesAtLastQuestion;
-    final isTerminalAction = isFinishAction || isRestartAction;
 
     return Row(
       children: [
@@ -51,9 +30,7 @@ class PracticeSessionFooter extends StatelessWidget {
           fit: FlexFit.loose,
           child: OutlinedButton.icon(
             key: const ValueKey('previous-question-button'),
-            onPressed: currentIndex > 0 && !isRecordingAnswer
-                ? onPreviousQuestion
-                : null,
+            onPressed: isPreviousActionEnabled ? onPreviousQuestion : null,
             icon: const Icon(Icons.arrow_back),
             label: Text(
               localizations.previousQuestion,
@@ -66,27 +43,17 @@ class PracticeSessionFooter extends StatelessWidget {
           fit: FlexFit.loose,
           child: FilledButton.icon(
             key: const ValueKey('next-question-button'),
-            onPressed:
-                !isRecordingAnswer &&
-                    !isAwaitingPendingBatch &&
-                    (answered || !isTerminalAction)
-                ? (isFinishAction ? onFinishPractice : onNextQuestion)
-                : null,
-            icon: Icon(
-              isFinishAction
-                  ? Icons.check
-                  : isRestartAction
-                  ? Icons.refresh
-                  : Icons.arrow_forward,
-            ),
-            label: Text(
-              isFinishAction
-                  ? localizations.finishPractice
-                  : isRestartAction
-                  ? localizations.restartPractice
-                  : localizations.nextQuestion,
-              overflow: TextOverflow.ellipsis,
-            ),
+            onPressed: isPrimaryActionEnabled ? onPrimaryAction : null,
+            icon: Icon(switch (primaryAction) {
+              PracticePrimaryAction.finish => Icons.check,
+              PracticePrimaryAction.restart => Icons.refresh,
+              PracticePrimaryAction.next => Icons.arrow_forward,
+            }),
+            label: Text(switch (primaryAction) {
+              PracticePrimaryAction.finish => localizations.finishPractice,
+              PracticePrimaryAction.restart => localizations.restartPractice,
+              PracticePrimaryAction.next => localizations.nextQuestion,
+            }, overflow: TextOverflow.ellipsis),
           ),
         ),
       ],

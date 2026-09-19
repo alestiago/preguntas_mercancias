@@ -3,6 +3,19 @@ import 'package:equatable/equatable.dart';
 
 enum PracticeMode { standard, review, pending, simulacro, singleQuestion }
 
+/// Describes what ends a practice session.
+enum PracticeCompletionPolicy {
+  /// Reaching the final question restarts the current practice set.
+  restartAtTerminalQuestion,
+
+  /// Answering the final question permits completion. Earlier questions may
+  /// remain unanswered and are preserved as such in the summary.
+  finishAtTerminalQuestionAllowingSkipped,
+
+  /// Completion occurs when no question remains eligible for the session.
+  finishWhenEligibleQuestionsExhausted,
+}
+
 @immutable
 final class PracticeSessionConfig extends Equatable {
   const PracticeSessionConfig.standard({
@@ -107,6 +120,14 @@ final class PracticeSessionConfig extends Equatable {
   final int pendingLoadThreshold;
   final int? pendingQuestionCount;
   final Map<String, int> pendingQuestionCountsBySection;
+
+  PracticeCompletionPolicy get completionPolicy => switch (mode) {
+    PracticeMode.standard => PracticeCompletionPolicy.restartAtTerminalQuestion,
+    PracticeMode.simulacro || PracticeMode.singleQuestion =>
+      PracticeCompletionPolicy.finishAtTerminalQuestionAllowingSkipped,
+    PracticeMode.review || PracticeMode.pending =>
+      PracticeCompletionPolicy.finishWhenEligibleQuestionsExhausted,
+  };
 
   @override
   List<Object?> get props => [

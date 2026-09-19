@@ -362,11 +362,23 @@ abstract class AppLocalizations {
   /// **'Detalle de respuestas'**
   String get practiceSummaryQuestionsTitle;
 
+  /// No description provided for @practiceSummaryUnanswered.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin responder'**
+  String get practiceSummaryUnanswered;
+
   /// No description provided for @backToHome.
   ///
   /// In es, this message translates to:
   /// **'Volver al inicio'**
   String get backToHome;
+
+  /// No description provided for @backToAnswerHistory.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver al historial'**
+  String get backToAnswerHistory;
 }
 
 class _AppLocalizationsDelegate

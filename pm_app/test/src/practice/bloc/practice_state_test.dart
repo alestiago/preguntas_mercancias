@@ -72,5 +72,54 @@ void main() {
       expect(reopened.correctAttemptCount, 1);
       expect(reopened.incorrectAttemptCount, 2);
     });
+
+    test('exposes a finish action that permits earlier skipped questions', () {
+      final questions = buildQuestions();
+      final state = PracticeLoaded(
+        selectedSection: null,
+        session: const PracticeSessionConfig.simulacro(),
+        questions: questions,
+        currentIndex: 1,
+        selectedOptionsByQuestionCode: {questions.last.code: QuestionOption.a},
+      );
+
+      expect(
+        state.completionPolicy,
+        PracticeCompletionPolicy.finishAtTerminalQuestionAllowingSkipped,
+      );
+      expect(state.primaryAction, PracticePrimaryAction.finish);
+      expect(state.isPrimaryActionEnabled, isTrue);
+    });
+
+    test('disables a terminal action until the current answer is saved', () {
+      final questions = buildQuestions();
+      final unanswered = PracticeLoaded(
+        selectedSection: null,
+        session: const PracticeSessionConfig.simulacro(),
+        questions: questions,
+        currentIndex: 1,
+      );
+      final saving = unanswered.copyWith(
+        selectedOptionsByQuestionCode: {questions.last.code: QuestionOption.a},
+        isRecordingAnswer: true,
+      );
+
+      expect(unanswered.primaryAction, PracticePrimaryAction.finish);
+      expect(unanswered.isPrimaryActionEnabled, isFalse);
+      expect(saving.isPrimaryActionEnabled, isFalse);
+      expect(saving.exitPolicy, PracticeExitPolicy.blocked);
+    });
+
+    test('uses the same confirmation policy for every simulacro exit', () {
+      final question = buildQuestions().first;
+      final state = PracticeLoaded(
+        selectedSection: null,
+        session: const PracticeSessionConfig.simulacro(),
+        questions: [question],
+        selectedOptionsByQuestionCode: {question.code: QuestionOption.b},
+      );
+
+      expect(state.exitPolicy, PracticeExitPolicy.confirm);
+    });
   });
 }

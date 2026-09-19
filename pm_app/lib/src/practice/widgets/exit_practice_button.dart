@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
 
 class ExitPracticeIconButton extends StatelessWidget {
-  const ExitPracticeIconButton({
-    super.key,
-    required this.showConfirmation,
-    required this.onExitConfirmed,
-  });
+  const ExitPracticeIconButton({super.key, required this.onPressed});
 
-  final bool showConfirmation;
-  final VoidCallback onExitConfirmed;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -19,26 +14,18 @@ class ExitPracticeIconButton extends StatelessWidget {
     return IconButton(
       key: const ValueKey('exit-practice-button'),
       tooltip: localizations.exitSimulacro,
-      onPressed: () => _handlePressed(context),
+      onPressed: onPressed,
       icon: const Icon(Icons.close),
     );
   }
+}
 
-  Future<void> _handlePressed(BuildContext context) async {
-    if (!showConfirmation) {
-      onExitConfirmed();
-      return;
-    }
-
-    final shouldExit = await showDialog<bool>(
-      context: context,
-      builder: (_) => const _ExitPracticeConfirmationDialog(),
-    );
-
-    if (shouldExit == true && context.mounted) {
-      onExitConfirmed();
-    }
-  }
+Future<bool> showExitPracticeConfirmationDialog(BuildContext context) async {
+  return await showDialog<bool>(
+        context: context,
+        builder: (_) => const _ExitPracticeConfirmationDialog(),
+      ) ??
+      false;
 }
 
 class _ExitPracticeConfirmationDialog extends StatelessWidget {

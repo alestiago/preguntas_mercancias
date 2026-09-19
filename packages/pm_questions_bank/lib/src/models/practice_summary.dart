@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'question.dart';
 
 /// A snapshot of the results of a completed practice session (e.g. a
-/// "Simulacro"), used to render a summary once every question has been
-/// answered.
+/// "Simulacro"). Questions absent from [selectedOptionsByQuestionCode] are
+/// retained as unanswered results.
 final class PracticeSummary extends Equatable {
   factory PracticeSummary({
     required Iterable<Question> questions,

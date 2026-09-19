@@ -1,5 +1,9 @@
 part of 'practice_bloc.dart';
 
+enum PracticePrimaryAction { next, finish, restart }
+
+enum PracticeExitPolicy { allow, confirm, blocked }
+
 @immutable
 sealed class PendingBatchState extends Equatable {
   const PendingBatchState();
@@ -61,6 +65,21 @@ sealed class PracticeState extends Equatable {
 
   bool get isQuestionDrawerNavigationEnabled =>
       this is PracticeLoaded && mode == PracticeMode.simulacro;
+
+  PracticeExitPolicy get exitPolicy {
+    final state = this;
+    if (state is! PracticeLoaded) {
+      return PracticeExitPolicy.allow;
+    }
+    if (state.isRecordingAnswer) {
+      return PracticeExitPolicy.blocked;
+    }
+    if (mode == PracticeMode.simulacro &&
+        state.selectedOptionsByQuestionCode.isNotEmpty) {
+      return PracticeExitPolicy.confirm;
+    }
+    return PracticeExitPolicy.allow;
+  }
 
   @override
   List<Object?> get props => [
@@ -165,9 +184,9 @@ final class PracticeLoaded extends PracticeState {
   bool get answered =>
       sessionStatusFor(currentQuestion) != SessionQuestionStatus.unanswered;
 
-  bool get showExitConfirmation => selectedOptionsByQuestionCode.isNotEmpty;
-
   bool get isLastQuestion => currentIndex == questions.length - 1;
+
+  PracticeCompletionPolicy get completionPolicy => session.completionPolicy;
 
   bool get isFilteredPracticeMode =>
       mode == PracticeMode.review || mode == PracticeMode.pending;
@@ -196,6 +215,32 @@ final class PracticeLoaded extends PracticeState {
       mode == PracticeMode.pending &&
       remainingFilteredQuestions.isEmpty &&
       pendingBatchState is! PendingBatchExhausted;
+
+  PracticePrimaryAction get primaryAction {
+    return switch (completionPolicy) {
+      PracticeCompletionPolicy.finishWhenEligibleQuestionsExhausted =>
+        isFilteredPracticeComplete
+            ? PracticePrimaryAction.finish
+            : PracticePrimaryAction.next,
+      PracticeCompletionPolicy.finishAtTerminalQuestionAllowingSkipped =>
+        isLastQuestion
+            ? PracticePrimaryAction.finish
+            : PracticePrimaryAction.next,
+      PracticeCompletionPolicy.restartAtTerminalQuestion =>
+        isLastQuestion
+            ? PracticePrimaryAction.restart
+            : PracticePrimaryAction.next,
+    };
+  }
+
+  bool get isPrimaryActionEnabled {
+    if (isRecordingAnswer || isAwaitingPendingBatch) {
+      return false;
+    }
+    return primaryAction == PracticePrimaryAction.next || answered;
+  }
+
+  bool get isPreviousActionEnabled => currentIndex > 0 && !isRecordingAnswer;
 
   double get progress =>
       questions.isEmpty ? 0 : (currentIndex + 1) / questions.length;

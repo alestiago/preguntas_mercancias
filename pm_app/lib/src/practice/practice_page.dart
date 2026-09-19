@@ -4,11 +4,13 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../navigation/app_navigator.dart';
 import '../questions/load_questions.dart';
 import '../practice_summary/practice_summary_page.dart';
 import 'bloc/practice_bloc.dart';
 import 'practice_question_policy.dart';
 import 'practice_session_config.dart';
+import 'widgets/exit_practice_button.dart';
 import 'widgets/practice_page_app_bar.dart';
 import 'widgets/practice_progress_divider.dart';
 import 'widgets/practice_question_header.dart';
@@ -51,19 +53,24 @@ class _QuestionPracticeView extends StatefulWidget {
 class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
   final DateTime _startedAt = DateTime.now();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  var _exitApproved = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PracticeBloc, PracticeState>(
       builder: (context, state) {
-        final canPop = state is! PracticeLoaded || !state.isRecordingAnswer;
         final footerState =
             state is PracticeLoaded && state.questions.isNotEmpty
             ? state
             : null;
 
         return PopScope(
-          canPop: canPop,
+          canPop: _exitApproved || state.exitPolicy == PracticeExitPolicy.allow,
+          onPopInvokedWithResult: (didPop, _) async {
+            if (!didPop) {
+              await _requestExit(context, state);
+            }
+          },
           child: Scaffold(
             key: _scaffoldKey,
             endDrawerEnableOpenDragGesture:
@@ -83,29 +90,20 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
                 : null,
             appBar: PracticePageAppBar(
               state: state,
-              onExitConfirmed: () => Navigator.of(context).pop(),
+              onExitRequested: () => _requestExit(context, state),
               onOpenQuestionNavigator: _openQuestionNavigator,
             ),
             bottomNavigationBar: footerState == null
                 ? null
                 : _PracticeSessionFooterBar(
                     child: PracticeSessionFooter(
-                      answered: footerState.answered,
-                      currentIndex: footerState.currentIndex,
-                      isLastQuestion: footerState.isLastQuestion,
-                      isFilteredPracticeComplete:
-                          footerState.isFilteredPracticeComplete,
-                      mode: footerState.mode,
-                      isRecordingAnswer: footerState.isRecordingAnswer,
-                      isAwaitingPendingBatch:
-                          footerState.isAwaitingPendingBatch,
-                      onFinishPractice: () =>
-                          footerState.mode == PracticeMode.simulacro
-                          ? _finishSimulacro(context, footerState)
-                          : Navigator.of(context).pop(),
-                      onNextQuestion: () => context.read<PracticeBloc>().add(
-                        const NextQuestionPressed(),
-                      ),
+                      primaryAction: footerState.primaryAction,
+                      isPrimaryActionEnabled:
+                          footerState.isPrimaryActionEnabled,
+                      isPreviousActionEnabled:
+                          footerState.isPreviousActionEnabled,
+                      onPrimaryAction: () =>
+                          _performPrimaryAction(context, footerState),
                       onPreviousQuestion: () => context
                           .read<PracticeBloc>()
                           .add(const PreviousQuestionPressed()),
@@ -137,6 +135,42 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
     );
   }
 
+  Future<void> _requestExit(BuildContext context, PracticeState state) async {
+    switch (state.exitPolicy) {
+      case PracticeExitPolicy.blocked:
+        return;
+      case PracticeExitPolicy.confirm:
+        final shouldExit = await showExitPracticeConfirmationDialog(context);
+        if (!shouldExit || !context.mounted) {
+          return;
+        }
+        setState(() => _exitApproved = true);
+        await WidgetsBinding.instance.endOfFrame;
+        if (context.mounted) {
+          AppNavigator.pop(context);
+        }
+        return;
+      case PracticeExitPolicy.allow:
+        AppNavigator.pop(context);
+        return;
+    }
+  }
+
+  void _performPrimaryAction(BuildContext context, PracticeLoaded state) {
+    switch (state.primaryAction) {
+      case PracticePrimaryAction.finish:
+        if (state.mode == PracticeMode.simulacro) {
+          _finishSimulacro(context, state);
+        } else {
+          AppNavigator.pop(context);
+        }
+        return;
+      case PracticePrimaryAction.next || PracticePrimaryAction.restart:
+        context.read<PracticeBloc>().add(const NextQuestionPressed());
+        return;
+    }
+  }
+
   void _finishSimulacro(BuildContext context, PracticeLoaded state) {
     final summary = PracticeSummary(
       questions: state.questions,
@@ -146,8 +180,12 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
       elapsedTime: DateTime.now().difference(_startedAt),
     );
 
-    Navigator.of(context).pushReplacement<void, void>(
-      MaterialPageRoute(builder: (_) => PracticeSummaryPage(summary: summary)),
+    AppNavigator.replace<void, void>(
+      context,
+      PracticeSummaryPage(
+        summary: summary,
+        returnDestination: PracticeSummaryReturnDestination.home,
+      ),
     );
   }
 

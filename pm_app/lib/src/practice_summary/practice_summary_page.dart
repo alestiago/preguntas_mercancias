@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../navigation/app_navigator.dart';
+
+enum PracticeSummaryReturnDestination { home, answerHistory }
 
 class PracticeSummaryPage extends StatelessWidget {
-  const PracticeSummaryPage({super.key, required this.summary});
+  const PracticeSummaryPage({
+    super.key,
+    required this.summary,
+    required this.returnDestination,
+  });
 
   final PracticeSummary summary;
+  final PracticeSummaryReturnDestination returnDestination;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +52,9 @@ class PracticeSummaryPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: FilledButton(
-                  key: const ValueKey('back-to-home-button'),
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(localizations.backToHome),
+                  key: ValueKey(returnDestination.buttonKey),
+                  onPressed: () => AppNavigator.pop(context),
+                  child: Text(returnDestination.label(localizations)),
                 ),
               ),
             ),
@@ -115,17 +123,29 @@ class _SummaryQuestionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final selectedOption = this.selectedOption;
     final isCorrect =
         selectedOption != null && question.isCorrect(selectedOption);
-    final color = isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFC62828);
+    final isUnanswered = selectedOption == null;
+    final color = isUnanswered
+        ? Theme.of(context).colorScheme.onSurfaceVariant
+        : isCorrect
+        ? const Color(0xFF2E7D32)
+        : const Color(0xFFC62828);
 
     return ListTile(
       key: ValueKey('summary-question-${question.code}'),
       leading: CircleAvatar(
         backgroundColor: color.withValues(alpha: 0.12),
         foregroundColor: color,
-        child: Icon(isCorrect ? Icons.check : Icons.close),
+        child: Icon(
+          isUnanswered
+              ? Icons.horizontal_rule
+              : isCorrect
+              ? Icons.check
+              : Icons.close,
+        ),
       ),
       title: Text(
         question.prompt,
@@ -133,9 +153,27 @@ class _SummaryQuestionTile extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(fontWeight: FontWeight.w700),
       ),
-      subtitle: Text(question.code),
+      subtitle: isUnanswered
+          ? Text(
+              '${question.code} · ${localizations.practiceSummaryUnanswered}',
+            )
+          : Text(question.code),
     );
   }
+}
+
+extension on PracticeSummaryReturnDestination {
+  String get buttonKey => switch (this) {
+    PracticeSummaryReturnDestination.home => 'back-to-home-button',
+    PracticeSummaryReturnDestination.answerHistory =>
+      'back-to-answer-history-button',
+  };
+
+  String label(AppLocalizations localizations) => switch (this) {
+    PracticeSummaryReturnDestination.home => localizations.backToHome,
+    PracticeSummaryReturnDestination.answerHistory =>
+      localizations.backToAnswerHistory,
+  };
 }
 
 extension _SummaryDurationFormatting on Duration {

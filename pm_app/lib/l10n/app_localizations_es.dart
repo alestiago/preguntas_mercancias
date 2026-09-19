@@ -173,5 +173,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get practiceSummaryQuestionsTitle => 'Detalle de respuestas';
 
   @override
+  String get practiceSummaryUnanswered => 'Sin responder';
+
+  @override
   String get backToHome => 'Volver al inicio';
+
+  @override
+  String get backToAnswerHistory => 'Volver al historial';
 }

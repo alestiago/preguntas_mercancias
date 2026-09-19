@@ -12,12 +12,12 @@ class PracticePageAppBar extends StatelessWidget
   const PracticePageAppBar({
     super.key,
     required this.state,
-    required this.onExitConfirmed,
+    required this.onExitRequested,
     required this.onOpenQuestionNavigator,
   });
 
   final PracticeState state;
-  final VoidCallback onExitConfirmed;
+  final VoidCallback onExitRequested;
   final VoidCallback onOpenQuestionNavigator;
 
   @override
@@ -30,10 +30,7 @@ class PracticePageAppBar extends StatelessWidget
 
     return AppBar(
       leading: state is PracticeLoaded && state.mode == PracticeMode.simulacro
-          ? ExitPracticeIconButton(
-              showConfirmation: state.showExitConfirmation,
-              onExitConfirmed: onExitConfirmed,
-            )
+          ? ExitPracticeIconButton(onPressed: onExitRequested)
           : null,
       title: state.mode == PracticeMode.simulacro
           ? _SimulacroModeTitle(title: state.localize(localizations))

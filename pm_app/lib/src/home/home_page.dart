@@ -4,6 +4,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../history/answer_history_page.dart';
+import '../navigation/app_navigator.dart';
 import '../practice/practice_page.dart';
 import '../practice/practice_session_config.dart';
 import '../questions/draw_simulacro_questions.dart';
@@ -89,9 +90,7 @@ class _QuestionHomeView extends StatelessWidget {
   }
 
   void _openSettings(BuildContext context) {
-    Navigator.of(
-      context,
-    ).push<void>(MaterialPageRoute(builder: (_) => const SettingsPage()));
+    AppNavigator.push<void>(context, const SettingsPage());
   }
 
   void _openPractice(
@@ -100,22 +99,20 @@ class _QuestionHomeView extends StatelessWidget {
     LoadMoreQuestions? loadMoreQuestions,
     required PracticeSessionConfig session,
   }) {
-    Navigator.of(context).push<void>(
-      MaterialPageRoute(
-        builder: (_) => QuestionPracticePage(
-          loadQuestions: practiceLoadQuestions ?? loadQuestions,
-          loadMoreQuestions: loadMoreQuestions,
-          session: session,
-        ),
+    AppNavigator.push<void>(
+      context,
+      QuestionPracticePage(
+        loadQuestions: practiceLoadQuestions ?? loadQuestions,
+        loadMoreQuestions: loadMoreQuestions,
+        session: session,
       ),
     );
   }
 
   void _openAnswerHistory(BuildContext context, HomeLoaded state) {
-    Navigator.of(context).push<void>(
-      MaterialPageRoute(
-        builder: (_) => AnswerHistoryPage(questions: state.questions),
-      ),
+    AppNavigator.push<void>(
+      context,
+      AnswerHistoryPage(questions: state.questions),
     );
   }
 

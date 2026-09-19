@@ -6,6 +6,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../navigation/app_navigator.dart';
 import '../practice/practice_page.dart';
 import '../practice/practice_session_config.dart';
 import '../settings/bloc/settings_bloc.dart';
@@ -38,13 +39,12 @@ class AnswerHistoryPage extends StatelessWidget {
         .state
         .answerShuffleEnabled;
 
-    Navigator.of(context).push<void>(
-      MaterialPageRoute(
-        builder: (_) => QuestionPracticePage(
-          loadQuestions: (_) async => [question],
-          session: PracticeSessionConfig.singleQuestion(
-            shuffleAnswers: shuffleAnswers,
-          ),
+    AppNavigator.push<void>(
+      context,
+      QuestionPracticePage(
+        loadQuestions: (_) async => [question],
+        session: PracticeSessionConfig.singleQuestion(
+          shuffleAnswers: shuffleAnswers,
         ),
       ),
     );

@@ -22,7 +22,12 @@ void main() {
       elapsedTime: const Duration(minutes: 1, seconds: 1),
     );
 
-    await tester.pumpLocalizedPage(PracticeSummaryPage(summary: summary));
+    await tester.pumpLocalizedPage(
+      PracticeSummaryPage(
+        summary: summary,
+        returnDestination: PracticeSummaryReturnDestination.home,
+      ),
+    );
 
     expect(find.text('Resultado del simulacro'), findsOneWidget);
     expect(find.text('1/2 (50%)'), findsOneWidget);
@@ -37,5 +42,29 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Volver al inicio'), findsOneWidget);
+  });
+
+  testWidgets('labels unanswered results and the history destination', (
+    tester,
+  ) async {
+    final question = buildQuestions().first;
+    final summary = PracticeSummary(
+      questions: [question],
+      selectedOptionsByQuestionCode: const {},
+      correctAttemptCount: 0,
+      incorrectAttemptCount: 0,
+      elapsedTime: Duration.zero,
+    );
+
+    await tester.pumpLocalizedPage(
+      PracticeSummaryPage(
+        summary: summary,
+        returnDestination: PracticeSummaryReturnDestination.answerHistory,
+      ),
+    );
+
+    expect(find.text('${question.code} · Sin responder'), findsOneWidget);
+    expect(find.text('Volver al historial'), findsOneWidget);
+    expect(find.text('Volver al inicio'), findsNothing);
   });
 }
