@@ -1,25 +1,30 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/practice/bloc/practice_bloc.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
+import '../../../fixtures/question_fixtures.dart';
 import '../../../helpers/fake_question_progress_store.dart';
 
 void main() {
   group('PracticeBloc', () {
+    late FakeQuestionProgressStore noOpProgressStore;
+
     test('loads questions and records an answer', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
+        loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
@@ -30,7 +35,8 @@ void main() {
       expect(loaded.correctCount, 0);
       expect(loaded.incorrectCount, 0);
 
-      final answeredFuture = bloc.stream.firstWhere(
+      final answeredFuture = _waitForPracticeState(
+        bloc,
         (state) =>
             state is PracticeLoaded &&
             state.answered &&
@@ -50,13 +56,14 @@ void main() {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => [_questions.first],
+        loadQuestions: (_) async => [buildQuestions().first],
         questionProgressStore: progressStore,
         answerShuffleRandom: Random(1),
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
@@ -85,14 +92,15 @@ void main() {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => [_questions.first],
+        loadQuestions: (_) async => [buildQuestions().first],
         questionProgressStore: progressStore,
         answerShuffleRandom: Random(1),
         shuffleAnswers: false,
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
@@ -135,7 +143,8 @@ void main() {
         );
         addTearDown(bloc.close);
 
-        final loadedFuture = bloc.stream.firstWhere(
+        final loadedFuture = _waitForPracticeState(
+          bloc,
           (state) => state is PracticeLoaded,
         );
         bloc.add(const PracticeStarted());
@@ -154,18 +163,20 @@ void main() {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
+        loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
       await loadedFuture;
 
-      final answeredFuture = bloc.stream.firstWhere(
+      final answeredFuture = _waitForPracticeState(
+        bloc,
         (state) =>
             state is PracticeLoaded &&
             state.answered &&
@@ -174,7 +185,8 @@ void main() {
       bloc.add(const AnswerPressed(QuestionOption.b));
       await answeredFuture;
 
-      final advancedFuture = bloc.stream.firstWhere(
+      final advancedFuture = _waitForPracticeState(
+        bloc,
         (state) =>
             state is PracticeLoaded &&
             state.currentIndex == 1 &&
@@ -189,21 +201,23 @@ void main() {
     });
 
     test('does not advance while an answer is being recorded', () async {
-      final progressStore = SlowQuestionProgressStore();
+      final progressStore = _SlowQuestionProgressStore();
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
+        loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
       await loadedFuture;
 
-      final recordingFuture = bloc.stream.firstWhere(
+      final recordingFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded && state.isRecordingAnswer,
       );
       bloc.add(const AnswerPressed(QuestionOption.b));
@@ -219,7 +233,8 @@ void main() {
 
       progressStore.completePendingRecords();
 
-      final recordedFuture = bloc.stream.firstWhere(
+      final recordedFuture = _waitForPracticeState(
+        bloc,
         (state) =>
             state is PracticeLoaded &&
             state.answered &&
@@ -227,7 +242,8 @@ void main() {
       );
       await recordedFuture;
 
-      final advancedFuture = bloc.stream.firstWhere(
+      final advancedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded && state.currentIndex == 1,
       );
       bloc.add(const NextQuestionPressed());
@@ -240,18 +256,20 @@ void main() {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
+        loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
       await loadedFuture;
 
-      final skippedFuture = bloc.stream.firstWhere(
+      final skippedFuture = _waitForPracticeState(
+        bloc,
         (state) =>
             state is PracticeLoaded &&
             state.currentIndex == 1 &&
@@ -270,24 +288,27 @@ void main() {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
+        loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
       await loadedFuture;
 
-      final skippedFuture = bloc.stream.firstWhere(
+      final skippedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded && state.currentIndex == 1,
       );
       bloc.add(const NextQuestionPressed());
       await skippedFuture;
 
-      final backFuture = bloc.stream.firstWhere(
+      final backFuture = _waitForPracticeState(
+        bloc,
         (state) =>
             state is PracticeLoaded &&
             state.currentIndex == 0 &&
@@ -296,7 +317,8 @@ void main() {
       bloc.add(const PreviousQuestionPressed());
       await backFuture;
 
-      final answeredFuture = bloc.stream.firstWhere(
+      final answeredFuture = _waitForPracticeState(
+        bloc,
         (state) =>
             state is PracticeLoaded &&
             state.answered &&
@@ -315,18 +337,20 @@ void main() {
         final progressStore = FakeQuestionProgressStore();
         addTearDown(progressStore.close);
         final bloc = PracticeBloc(
-          loadQuestions: (_) async => _questions,
+          loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
         );
         addTearDown(bloc.close);
 
-        final loadedFuture = bloc.stream.firstWhere(
+        final loadedFuture = _waitForPracticeState(
+          bloc,
           (state) => state is PracticeLoaded,
         );
         bloc.add(const PracticeStarted());
         await loadedFuture;
 
-        final firstAnsweredFuture = bloc.stream.firstWhere(
+        final firstAnsweredFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.answered &&
@@ -335,7 +359,8 @@ void main() {
         bloc.add(const AnswerPressed(QuestionOption.b));
         await firstAnsweredFuture;
 
-        final advancedFuture = bloc.stream.firstWhere(
+        final advancedFuture = _waitForPracticeState(
+          bloc,
           (state) => state is PracticeLoaded && state.currentIndex == 1,
         );
         bloc.add(const NextQuestionPressed());
@@ -343,7 +368,8 @@ void main() {
 
         expect((bloc.state as PracticeLoaded).answered, isFalse);
 
-        final backFuture = bloc.stream.firstWhere(
+        final backFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.currentIndex == 0 &&
@@ -356,38 +382,33 @@ void main() {
       },
     );
 
-    test('does not go back past the first question', () async {
-      final progressStore = FakeQuestionProgressStore();
-      addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
-        questionProgressStore: progressStore,
-      );
-      addTearDown(bloc.close);
-
-      final loadedFuture = bloc.stream.firstWhere(
-        (state) => state is PracticeLoaded,
-      );
-      bloc.add(const PracticeStarted());
-      await loadedFuture;
-
-      bloc.add(const PreviousQuestionPressed());
-      await Future<void>.delayed(Duration.zero);
-
-      expect((bloc.state as PracticeLoaded).currentIndex, 0);
-    });
+    blocTest<PracticeBloc, PracticeState>(
+      'does not go back past the first question',
+      setUp: () {
+        noOpProgressStore = FakeQuestionProgressStore();
+      },
+      build: () => PracticeBloc(
+        loadQuestions: (_) async => buildQuestions(),
+        questionProgressStore: noOpProgressStore,
+      ),
+      seed: _unansweredPracticeState,
+      act: (bloc) => bloc.add(const PreviousQuestionPressed()),
+      expect: () => <PracticeState>[],
+      tearDown: () => noOpProgressStore.close(),
+    );
 
     test('jumps directly to a selected question', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
+        loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
         isSimulacroMode: true,
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
@@ -395,7 +416,8 @@ void main() {
 
       expect(loaded.isQuestionDrawerNavigationEnabled, isTrue);
 
-      final jumpedFuture = bloc.stream.firstWhere(
+      final jumpedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded && state.currentIndex == 1,
       );
       bloc.add(const QuestionNavigationPressed(1));
@@ -404,45 +426,41 @@ void main() {
       expect(jumped.currentQuestion.prompt, 'Segunda pregunta');
     });
 
-    test('ignores question navigation with an invalid index', () async {
-      final progressStore = FakeQuestionProgressStore();
-      addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
-        loadQuestions: (_) async => _questions,
-        questionProgressStore: progressStore,
-      );
-      addTearDown(bloc.close);
-
-      final loadedFuture = bloc.stream.firstWhere(
-        (state) => state is PracticeLoaded,
-      );
-      bloc.add(const PracticeStarted());
-      await loadedFuture;
-
-      bloc.add(const QuestionNavigationPressed(12));
-      await Future<void>.delayed(Duration.zero);
-
-      expect((bloc.state as PracticeLoaded).currentIndex, 0);
-    });
+    blocTest<PracticeBloc, PracticeState>(
+      'ignores question navigation with an invalid index',
+      setUp: () {
+        noOpProgressStore = FakeQuestionProgressStore();
+      },
+      build: () => PracticeBloc(
+        loadQuestions: (_) async => buildQuestions(),
+        questionProgressStore: noOpProgressStore,
+      ),
+      seed: _unansweredPracticeState,
+      act: (bloc) => bloc.add(const QuestionNavigationPressed(12)),
+      expect: () => <PracticeState>[],
+      tearDown: () => noOpProgressStore.close(),
+    );
 
     test(
       'ignores question navigation while an answer is being recorded',
       () async {
-        final progressStore = SlowQuestionProgressStore();
+        final progressStore = _SlowQuestionProgressStore();
         addTearDown(progressStore.close);
         final bloc = PracticeBloc(
-          loadQuestions: (_) async => _questions,
+          loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
         );
         addTearDown(bloc.close);
 
-        final loadedFuture = bloc.stream.firstWhere(
+        final loadedFuture = _waitForPracticeState(
+          bloc,
           (state) => state is PracticeLoaded,
         );
         bloc.add(const PracticeStarted());
         await loadedFuture;
 
-        final recordingFuture = bloc.stream.firstWhere(
+        final recordingFuture = _waitForPracticeState(
+          bloc,
           (state) => state is PracticeLoaded && state.isRecordingAnswer,
         );
         bloc.add(const AnswerPressed(QuestionOption.b));
@@ -453,7 +471,8 @@ void main() {
 
         expect((bloc.state as PracticeLoaded).currentIndex, 0);
 
-        final recordedFuture = bloc.stream.firstWhere(
+        final recordedFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.answered &&
@@ -464,40 +483,21 @@ void main() {
       },
     );
 
-    test(
+    blocTest<PracticeBloc, PracticeState>(
       'requires the last question to be answered before advancing further',
-      () async {
-        final progressStore = FakeQuestionProgressStore();
-        addTearDown(progressStore.close);
-        final bloc = PracticeBloc(
-          loadQuestions: (_) async => _questions,
-          questionProgressStore: progressStore,
-          isSimulacroMode: true,
-        );
-        addTearDown(bloc.close);
-
-        final loadedFuture = bloc.stream.firstWhere(
-          (state) => state is PracticeLoaded,
-        );
-        bloc.add(const PracticeStarted());
-        await loadedFuture;
-
-        final lastFuture = bloc.stream.firstWhere(
-          (state) => state is PracticeLoaded && state.currentIndex == 1,
-        );
-        bloc.add(const NextQuestionPressed());
-        final last = await lastFuture as PracticeLoaded;
-
-        expect(last.isLastQuestion, isTrue);
-        expect(last.answered, isFalse);
-
-        bloc.add(const NextQuestionPressed());
-        await Future<void>.delayed(Duration.zero);
-
-        final unchanged = bloc.state as PracticeLoaded;
-        expect(unchanged.currentIndex, 1);
-        expect(unchanged.answered, isFalse);
+      setUp: () {
+        noOpProgressStore = FakeQuestionProgressStore();
       },
+      build: () => PracticeBloc(
+        loadQuestions: (_) async => buildQuestions(),
+        questionProgressStore: noOpProgressStore,
+        isSimulacroMode: true,
+      ),
+      seed: () =>
+          _unansweredPracticeState(currentIndex: 1, isSimulacroMode: true),
+      act: (bloc) => bloc.add(const NextQuestionPressed()),
+      expect: () => <PracticeState>[],
+      tearDown: () => noOpProgressStore.close(),
     );
 
     test(
@@ -522,14 +522,15 @@ void main() {
           ),
         );
         final bloc = PracticeBloc(
-          loadQuestions: (_) async => _questions,
+          loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
           initialSection: null,
           isReviewMode: true,
         );
         addTearDown(bloc.close);
 
-        final loadedFuture = bloc.stream.firstWhere(
+        final loadedFuture = _waitForPracticeState(
+          bloc,
           (state) => state is PracticeLoaded,
         );
         bloc.add(const PracticeStarted());
@@ -538,7 +539,8 @@ void main() {
         expect(loaded.questions, hasLength(2));
         expect(loaded.isReviewMode, isTrue);
 
-        final firstAnsweredFuture = bloc.stream.firstWhere(
+        final firstAnsweredFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.answered &&
@@ -548,7 +550,8 @@ void main() {
         bloc.add(const AnswerPressed(QuestionOption.a));
         await firstAnsweredFuture;
 
-        final advancedFuture = bloc.stream.firstWhere(
+        final advancedFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.currentQuestion.prompt == 'Segunda pregunta' &&
@@ -557,7 +560,8 @@ void main() {
         bloc.add(const NextQuestionPressed());
         await advancedFuture;
 
-        final secondAnsweredFuture = bloc.stream.firstWhere(
+        final secondAnsweredFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.answered &&
@@ -567,7 +571,8 @@ void main() {
         bloc.add(const AnswerPressed(QuestionOption.a));
         await secondAnsweredFuture;
 
-        final loopedFuture = bloc.stream.firstWhere(
+        final loopedFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.remainingFilteredQuestions.length == 1 &&
@@ -579,7 +584,8 @@ void main() {
 
         expect(looped.questions, hasLength(2));
 
-        final completedFuture = bloc.stream.firstWhere(
+        final completedFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.answered &&
@@ -608,20 +614,22 @@ void main() {
           ),
         );
         final bloc = PracticeBloc(
-          loadQuestions: (_) async => [_questions.first],
+          loadQuestions: (_) async => [buildQuestions().first],
           questionProgressStore: progressStore,
           isReviewMode: true,
         );
         addTearDown(bloc.close);
 
-        final loadedFuture = bloc.stream.firstWhere(
+        final loadedFuture = _waitForPracticeState(
+          bloc,
           (state) => state is PracticeLoaded,
         );
         bloc.add(const PracticeStarted());
         await loadedFuture;
 
         for (var attempt = 1; attempt <= 2; attempt += 1) {
-          final answeredFuture = bloc.stream.firstWhere(
+          final answeredFuture = _waitForPracticeState(
+            bloc,
             (state) =>
                 state is PracticeLoaded &&
                 state.incorrectCount == attempt &&
@@ -631,7 +639,8 @@ void main() {
           bloc.add(const AnswerPressed(QuestionOption.a));
           await answeredFuture;
 
-          final reopenedFuture = bloc.stream.firstWhere(
+          final reopenedFuture = _waitForPracticeState(
+            bloc,
             (state) =>
                 state is PracticeLoaded &&
                 state.incorrectCount == attempt &&
@@ -641,7 +650,8 @@ void main() {
           await reopenedFuture;
         }
 
-        final completedFuture = bloc.stream.firstWhere(
+        final completedFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.correctCount == 1 &&
@@ -672,14 +682,15 @@ void main() {
         final progressStore = FakeQuestionProgressStore();
         addTearDown(progressStore.close);
         final bloc = PracticeBloc(
-          loadQuestions: (_) async => _questions,
+          loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
           initialSection: null,
           isPendingMode: true,
         );
         addTearDown(bloc.close);
 
-        final loadedFuture = bloc.stream.firstWhere(
+        final loadedFuture = _waitForPracticeState(
+          bloc,
           (state) => state is PracticeLoaded,
         );
         bloc.add(const PracticeStarted());
@@ -688,7 +699,8 @@ void main() {
         expect(loaded.questions, hasLength(2));
         expect(loaded.isPendingMode, isTrue);
 
-        final firstAnsweredFuture = bloc.stream.firstWhere(
+        final firstAnsweredFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.answered &&
@@ -698,7 +710,8 @@ void main() {
         bloc.add(const AnswerPressed(QuestionOption.a));
         await firstAnsweredFuture;
 
-        final advancedFuture = bloc.stream.firstWhere(
+        final advancedFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.remainingFilteredQuestions.length == 1 &&
@@ -708,7 +721,8 @@ void main() {
         bloc.add(const NextQuestionPressed());
         await advancedFuture;
 
-        final completedFuture = bloc.stream.firstWhere(
+        final completedFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.answered &&
@@ -725,7 +739,7 @@ void main() {
 
     test('pending mode loads more questions when five remain', () async {
       final progressStore = FakeQuestionProgressStore();
-      final questions = _manyQuestions(15);
+      final questions = buildManyQuestions(15);
       final loadMoreCalls = <Set<String>>[];
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
@@ -747,7 +761,8 @@ void main() {
       );
       addTearDown(bloc.close);
 
-      final loadedFuture = bloc.stream.firstWhere(
+      final loadedFuture = _waitForPracticeState(
+        bloc,
         (state) => state is PracticeLoaded,
       );
       bloc.add(const PracticeStarted());
@@ -756,7 +771,8 @@ void main() {
       expect(loaded.questions, hasLength(10));
 
       for (var answeredCount = 1; answeredCount < 5; answeredCount += 1) {
-        final answeredFuture = bloc.stream.firstWhere(
+        final answeredFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               state.answered &&
@@ -766,7 +782,8 @@ void main() {
         bloc.add(const AnswerPressed(QuestionOption.a));
         await answeredFuture;
 
-        final advancedFuture = bloc.stream.firstWhere(
+        final advancedFuture = _waitForPracticeState(
+          bloc,
           (state) =>
               state is PracticeLoaded &&
               !state.answered &&
@@ -778,7 +795,8 @@ void main() {
 
       expect(loadMoreCalls, isEmpty);
 
-      final refilledFuture = bloc.stream.firstWhere(
+      final refilledFuture = _waitForPracticeState(
+        bloc,
         (state) =>
             state is PracticeLoaded &&
             state.questions.length == 15 &&
@@ -801,7 +819,34 @@ void main() {
   });
 }
 
-final class SlowQuestionProgressStore extends FakeQuestionProgressStore {
+Future<PracticeState> _waitForPracticeState(
+  PracticeBloc bloc,
+  bool Function(PracticeState state) predicate,
+) {
+  return bloc.stream
+      .firstWhere(predicate)
+      .timeout(
+        const Duration(seconds: 2),
+        onTimeout: () => throw TestFailure(
+          'Timed out waiting for a PracticeBloc transition; '
+          'current state: ${bloc.state.runtimeType}',
+        ),
+      );
+}
+
+PracticeLoaded _unansweredPracticeState({
+  int currentIndex = 0,
+  bool isSimulacroMode = false,
+}) {
+  return PracticeLoaded(
+    selectedSection: '1A',
+    questions: buildQuestions(),
+    currentIndex: currentIndex,
+    isSimulacroMode: isSimulacroMode,
+  );
+}
+
+final class _SlowQuestionProgressStore extends FakeQuestionProgressStore {
   final List<Completer<void>> _pendingRecords = [];
 
   @override
@@ -819,52 +864,4 @@ final class SlowQuestionProgressStore extends FakeQuestionProgressStore {
       }
     }
   }
-}
-
-final _questions = [
-  Question(
-    code: '1A01001',
-    section: '1A',
-    prompt: 'Primera pregunta',
-    answers: const [
-      QuestionAnswer(option: QuestionOption.a, text: 'Respuesta A'),
-      QuestionAnswer(option: QuestionOption.b, text: 'Respuesta B'),
-      QuestionAnswer(option: QuestionOption.c, text: 'Respuesta C'),
-      QuestionAnswer(option: QuestionOption.d, text: 'Respuesta D'),
-    ],
-    correctOption: QuestionOption.b,
-    norma: 'Norma primera',
-  ),
-  Question(
-    code: '1A01002',
-    section: '1A',
-    prompt: 'Segunda pregunta',
-    answers: const [
-      QuestionAnswer(option: QuestionOption.a, text: 'Respuesta A'),
-      QuestionAnswer(option: QuestionOption.b, text: 'Respuesta B'),
-      QuestionAnswer(option: QuestionOption.c, text: 'Respuesta C'),
-      QuestionAnswer(option: QuestionOption.d, text: 'Respuesta D'),
-    ],
-    correctOption: QuestionOption.a,
-    norma: 'Norma segunda',
-  ),
-];
-
-List<Question> _manyQuestions(int count) {
-  return List<Question>.generate(count, (index) {
-    final questionNumber = index + 1;
-    return Question(
-      code: '1A${questionNumber.toString().padLeft(5, '0')}',
-      section: '1A',
-      prompt: 'Pregunta $questionNumber',
-      answers: const [
-        QuestionAnswer(option: QuestionOption.a, text: 'Respuesta A'),
-        QuestionAnswer(option: QuestionOption.b, text: 'Respuesta B'),
-        QuestionAnswer(option: QuestionOption.c, text: 'Respuesta C'),
-        QuestionAnswer(option: QuestionOption.d, text: 'Respuesta D'),
-      ],
-      correctOption: QuestionOption.a,
-      norma: 'Norma',
-    );
-  });
 }

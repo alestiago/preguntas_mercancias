@@ -21,8 +21,13 @@ done
 echo "==> Checking Dart formatting"
 tracked_dart_files=()
 while IFS= read -r file; do
-  tracked_dart_files+=("$repository_root/$file")
-done < <(git -C "$repository_root" ls-files '*.dart')
+  if [[ -f "$repository_root/$file" ]]; then
+    tracked_dart_files+=("$repository_root/$file")
+  fi
+done < <(
+  git -C "$repository_root" ls-files \
+    --cached --others --exclude-standard -- '*.dart'
+)
 dart format --output=none --set-exit-if-changed "${tracked_dart_files[@]}"
 
 echo "==> Regenerating checked-in files"
@@ -66,6 +71,6 @@ for package in "${packages[@]}"; do
   echo "==> Testing $package"
   (
     cd "$repository_root/$package"
-    flutter test --no-pub
+    flutter test --no-pub --test-randomize-ordering-seed=random
   )
 done
