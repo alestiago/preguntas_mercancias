@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
@@ -9,8 +10,38 @@ enum LifetimeQuestionStatus { unanswered, needsReview, mastered }
 
 enum SessionQuestionStatus { unanswered, correct, incorrect }
 
-final class PracticeQuestionSummary {
-  const PracticeQuestionSummary({
+final class PracticeQuestionSummary extends Equatable {
+  factory PracticeQuestionSummary({
+    required int totalCount,
+    required int masteredCount,
+    required int needsReviewCount,
+    required int unansweredCount,
+    required Map<String, int> unansweredCountsBySection,
+  }) {
+    if (totalCount < 0 ||
+        masteredCount < 0 ||
+        needsReviewCount < 0 ||
+        unansweredCount < 0 ||
+        unansweredCountsBySection.values.any((count) => count < 0) ||
+        totalCount != masteredCount + needsReviewCount + unansweredCount ||
+        unansweredCount !=
+            unansweredCountsBySection.values.fold(
+              0,
+              (sum, count) => sum + count,
+            )) {
+      throw ArgumentError('Question summary counts are inconsistent.');
+    }
+
+    return PracticeQuestionSummary._(
+      totalCount: totalCount,
+      masteredCount: masteredCount,
+      needsReviewCount: needsReviewCount,
+      unansweredCount: unansweredCount,
+      unansweredCountsBySection: Map.unmodifiable(unansweredCountsBySection),
+    );
+  }
+
+  const PracticeQuestionSummary._({
     required this.totalCount,
     required this.masteredCount,
     required this.needsReviewCount,
@@ -23,6 +54,16 @@ final class PracticeQuestionSummary {
   final int needsReviewCount;
   final int unansweredCount;
   final Map<String, int> unansweredCountsBySection;
+
+  @override
+  List<Object?> get props => [
+    PracticeQuestionSummary,
+    totalCount,
+    masteredCount,
+    needsReviewCount,
+    unansweredCount,
+    unansweredCountsBySection,
+  ];
 }
 
 final class PracticeQuestionPolicy {
@@ -156,7 +197,7 @@ final class PracticeQuestionPolicy {
       masteredCount: masteredCount,
       needsReviewCount: needsReviewCount,
       unansweredCount: unansweredCount,
-      unansweredCountsBySection: Map.unmodifiable(unansweredCountsBySection),
+      unansweredCountsBySection: unansweredCountsBySection,
     );
   }
 }

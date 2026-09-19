@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
-final class QuestionProgress {
+final class QuestionProgress extends Equatable {
   const QuestionProgress({
     required this.questionCode,
     required this.section,
@@ -26,24 +27,8 @@ final class QuestionProgress {
   final DateTime lastAnsweredAt;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is QuestionProgress &&
-            runtimeType == other.runtimeType &&
-            questionCode == other.questionCode &&
-            section == other.section &&
-            lastSelectedOption == other.lastSelectedOption &&
-            correctOption == other.correctOption &&
-            lastAnswerWasCorrect == other.lastAnswerWasCorrect &&
-            attempts == other.attempts &&
-            correctAttempts == other.correctAttempts &&
-            incorrectAttempts == other.incorrectAttempts &&
-            firstAnsweredAt == other.firstAnsweredAt &&
-            lastAnsweredAt == other.lastAnsweredAt;
-  }
-
-  @override
-  int get hashCode => Object.hash(
+  List<Object?> get props => [
+    QuestionProgress,
     questionCode,
     section,
     lastSelectedOption,
@@ -54,5 +39,5 @@ final class QuestionProgress {
     incorrectAttempts,
     firstAnsweredAt,
     lastAnsweredAt,
-  );
+  ];
 }

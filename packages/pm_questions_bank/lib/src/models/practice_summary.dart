@@ -1,31 +1,95 @@
-import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 
 import 'question.dart';
-
-const _questionListEquality = ListEquality<Question>();
-const _selectedOptionsMapEquality = MapEquality<String, QuestionOption>();
 
 /// A snapshot of the results of a completed practice session (e.g. a
 /// "Simulacro"), used to render a summary once every question has been
 /// answered.
-final class PracticeSummary {
-  const PracticeSummary({
+final class PracticeSummary extends Equatable {
+  factory PracticeSummary({
+    required Iterable<Question> questions,
+    required Map<String, QuestionOption> selectedOptionsByQuestionCode,
+    required int correctAttemptCount,
+    required int incorrectAttemptCount,
+    required Duration elapsedTime,
+  }) {
+    if (correctAttemptCount < 0) {
+      throw ArgumentError.value(
+        correctAttemptCount,
+        'correctAttemptCount',
+        'Must not be negative.',
+      );
+    }
+    if (incorrectAttemptCount < 0) {
+      throw ArgumentError.value(
+        incorrectAttemptCount,
+        'incorrectAttemptCount',
+        'Must not be negative.',
+      );
+    }
+
+    final summary = PracticeSummary._(
+      questions: List.unmodifiable(questions),
+      selectedOptionsByQuestionCode: Map.unmodifiable(
+        selectedOptionsByQuestionCode,
+      ),
+      correctAttemptCount: correctAttemptCount,
+      incorrectAttemptCount: incorrectAttemptCount,
+      elapsedTime: elapsedTime,
+    );
+    if (correctAttemptCount < summary.correctQuestionCount) {
+      throw ArgumentError.value(
+        correctAttemptCount,
+        'correctAttemptCount',
+        'Cannot be lower than the number of correctly answered questions.',
+      );
+    }
+    if (incorrectAttemptCount < summary.incorrectQuestionCount) {
+      throw ArgumentError.value(
+        incorrectAttemptCount,
+        'incorrectAttemptCount',
+        'Cannot be lower than the number of incorrectly answered questions.',
+      );
+    }
+
+    return summary;
+  }
+
+  const PracticeSummary._({
     required this.questions,
     required this.selectedOptionsByQuestionCode,
-    required this.correctCount,
-    required this.incorrectCount,
+    required this.correctAttemptCount,
+    required this.incorrectAttemptCount,
     required this.elapsedTime,
   });
 
   final List<Question> questions;
   final Map<String, QuestionOption> selectedOptionsByQuestionCode;
-  final int correctCount;
-  final int incorrectCount;
+
+  /// All correct attempts made during the session, including retries.
+  final int correctAttemptCount;
+
+  /// All incorrect attempts made during the session, including retries.
+  final int incorrectAttemptCount;
   final Duration elapsedTime;
 
-  int get totalCount => questions.length;
+  int get totalQuestionCount => questions.length;
 
-  double get scoreRatio => totalCount == 0 ? 0 : correctCount / totalCount;
+  int get answeredQuestionCount {
+    return questions.where((question) {
+      return selectedOptionsByQuestionCode.containsKey(question.code);
+    }).length;
+  }
+
+  int get correctQuestionCount => questions.where(isCorrect).length;
+
+  int get incorrectQuestionCount =>
+      answeredQuestionCount - correctQuestionCount;
+
+  int get unansweredQuestionCount => totalQuestionCount - answeredQuestionCount;
+
+  double get scoreRatio =>
+      totalQuestionCount == 0 ? 0 : correctQuestionCount / totalQuestionCount;
 
   QuestionOption? selectedOptionFor(Question question) =>
       selectedOptionsByQuestionCode[question.code];
@@ -36,26 +100,12 @@ final class PracticeSummary {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is PracticeSummary &&
-            runtimeType == other.runtimeType &&
-            _questionListEquality.equals(questions, other.questions) &&
-            _selectedOptionsMapEquality.equals(
-              selectedOptionsByQuestionCode,
-              other.selectedOptionsByQuestionCode,
-            ) &&
-            correctCount == other.correctCount &&
-            incorrectCount == other.incorrectCount &&
-            elapsedTime == other.elapsedTime;
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    _questionListEquality.hash(questions),
-    _selectedOptionsMapEquality.hash(selectedOptionsByQuestionCode),
-    correctCount,
-    incorrectCount,
+  List<Object?> get props => [
+    PracticeSummary,
+    questions,
+    selectedOptionsByQuestionCode,
+    correctAttemptCount,
+    incorrectAttemptCount,
     elapsedTime,
-  );
+  ];
 }

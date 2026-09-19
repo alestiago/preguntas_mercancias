@@ -1,18 +1,27 @@
 part of 'home_bloc.dart';
 
 @immutable
-sealed class HomeState {
+sealed class HomeState extends Equatable {
   const HomeState();
+
+  @override
+  List<Object?> get props => const [];
 }
 
 final class HomeLoading extends HomeState {
   const HomeLoading();
+
+  @override
+  List<Object?> get props => const [HomeLoading];
 }
 
 final class HomeLoadFailure extends HomeState {
   const HomeLoadFailure(this.error);
 
   final Object error;
+
+  @override
+  List<Object?> get props => [HomeLoadFailure, error];
 }
 
 final class HomeLoaded extends HomeState {
@@ -90,4 +99,7 @@ final class HomeLoaded extends HomeState {
       progressSnapshot: progressSnapshot ?? this.progressSnapshot,
     );
   }
+
+  @override
+  List<Object?> get props => [HomeLoaded, questions, progressSnapshot];
 }

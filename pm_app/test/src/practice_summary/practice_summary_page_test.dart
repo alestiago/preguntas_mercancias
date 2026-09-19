@@ -17,8 +17,8 @@ void main() {
         questions.first.code: QuestionOption.b,
         questions.last.code: QuestionOption.b,
       },
-      correctCount: 1,
-      incorrectCount: 1,
+      correctAttemptCount: 1,
+      incorrectAttemptCount: 1,
       elapsedTime: const Duration(minutes: 1, seconds: 1),
     );
 

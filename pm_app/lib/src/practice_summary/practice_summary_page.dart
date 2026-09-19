@@ -81,8 +81,8 @@ class _SummaryHeader extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             localizations.scorePill(
-              summary.correctCount,
-              summary.totalCount,
+              summary.correctQuestionCount,
+              summary.totalQuestionCount,
               scorePercentage,
             ),
             style: textTheme.headlineSmall?.copyWith(

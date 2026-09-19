@@ -1,9 +1,8 @@
-import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
 
 const _nonBlankPattern = r'\S';
 const _optionCodes = ['A', 'B', 'C', 'D'];
-const _questionAnswerListEquality = ListEquality<QuestionAnswer>();
 
 enum QuestionOption {
   a,
@@ -24,7 +23,7 @@ enum QuestionOption {
   String get code => name.toUpperCase();
 }
 
-final class QuestionAnswer {
+final class QuestionAnswer extends Equatable {
   const QuestionAnswer({required this.option, required this.text});
 
   final QuestionOption option;
@@ -56,19 +55,10 @@ final class QuestionAnswer {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is QuestionAnswer &&
-            runtimeType == other.runtimeType &&
-            option == other.option &&
-            text == other.text;
-  }
-
-  @override
-  int get hashCode => Object.hash(option, text);
+  List<Object?> get props => [QuestionAnswer, option, text];
 }
 
-final class Question {
+final class Question extends Equatable {
   factory Question({
     required String code,
     required String section,
@@ -187,31 +177,17 @@ final class Question {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is Question &&
-            runtimeType == other.runtimeType &&
-            code == other.code &&
-            section == other.section &&
-            prompt == other.prompt &&
-            _questionAnswerListEquality.equals(answers, other.answers) &&
-            correctOption == other.correctOption &&
-            norma == other.norma &&
-            doctrinalReference == other.doctrinalReference &&
-            shuffleable == other.shuffleable;
-  }
-
-  @override
-  int get hashCode => Object.hash(
+  List<Object?> get props => [
+    Question,
     code,
     section,
     prompt,
-    Object.hashAll(answers),
+    answers,
     correctOption,
     norma,
     doctrinalReference,
     shuffleable,
-  );
+  ];
 }
 
 final Schema _answersSchema = S.combined(

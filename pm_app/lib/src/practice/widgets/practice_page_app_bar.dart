@@ -44,8 +44,8 @@ class PracticePageAppBar extends StatelessWidget
             right: state.isQuestionDrawerNavigationEnabled ? 4 : 16,
           ),
           child: _ScorePill(
-            correctCount: state.correctCount,
-            answeredQuestionCount: state.correctCount + state.incorrectCount,
+            correctAttemptCount: state.correctAttemptCount,
+            totalAttemptCount: state.totalAttemptCount,
           ),
         ),
         if (state.isQuestionDrawerNavigationEnabled)
@@ -132,20 +132,20 @@ class _SimulacroElapsedTimerState extends State<_SimulacroElapsedTimer> {
 
 class _ScorePill extends StatelessWidget {
   const _ScorePill({
-    required this.correctCount,
-    required this.answeredQuestionCount,
+    required this.correctAttemptCount,
+    required this.totalAttemptCount,
   });
 
-  final int correctCount;
-  final int answeredQuestionCount;
+  final int correctAttemptCount;
+  final int totalAttemptCount;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final localizations = AppLocalizations.of(context);
-    final scorePercentage = answeredQuestionCount == 0
+    final scorePercentage = totalAttemptCount == 0
         ? 0
-        : ((correctCount / answeredQuestionCount) * 100).round();
+        : ((correctAttemptCount / totalAttemptCount) * 100).round();
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -156,8 +156,8 @@ class _ScorePill extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Text(
           localizations.scorePill(
-            correctCount,
-            answeredQuestionCount,
+            correctAttemptCount,
+            totalAttemptCount,
             scorePercentage,
           ),
           style: TextStyle(

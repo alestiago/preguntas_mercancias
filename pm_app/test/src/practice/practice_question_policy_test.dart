@@ -139,6 +139,34 @@ void main() {
         SessionQuestionStatus.incorrect,
       );
     });
+
+    test('summary data is immutable and value comparable', () {
+      final sectionCounts = {'1A': 2};
+      final summary = PracticeQuestionSummary(
+        totalCount: 2,
+        masteredCount: 0,
+        needsReviewCount: 0,
+        unansweredCount: 2,
+        unansweredCountsBySection: sectionCounts,
+      );
+      final equalSummary = PracticeQuestionSummary(
+        totalCount: 2,
+        masteredCount: 0,
+        needsReviewCount: 0,
+        unansweredCount: 2,
+        unansweredCountsBySection: const {'1A': 2},
+      );
+
+      sectionCounts['1A'] = 99;
+
+      expect(summary.unansweredCountsBySection, {'1A': 2});
+      expect(
+        () => summary.unansweredCountsBySection.clear(),
+        throwsUnsupportedError,
+      );
+      expect(summary, equalSummary);
+      expect(summary.hashCode, equalSummary.hashCode);
+    });
   });
 }
 

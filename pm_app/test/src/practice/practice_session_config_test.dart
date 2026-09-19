@@ -20,7 +20,7 @@ void main() {
     });
 
     test('defines pending launch data and defaults', () {
-      const session = PracticeSessionConfig.pending(
+      final session = PracticeSessionConfig.pending(
         pendingQuestionCount: 12,
         pendingQuestionCountsBySection: {'1A': 7, '1B': 5},
       );
@@ -32,6 +32,28 @@ void main() {
       expect(session.pendingLoadThreshold, 5);
       expect(session.pendingQuestionCount, 12);
       expect(session.pendingQuestionCountsBySection, {'1A': 7, '1B': 5});
+    });
+
+    test('defensively copies pending counts and supports value equality', () {
+      final counts = {'1A': 2};
+      final session = PracticeSessionConfig.pending(
+        pendingQuestionCount: 2,
+        pendingQuestionCountsBySection: counts,
+      );
+      final equalSession = PracticeSessionConfig.pending(
+        pendingQuestionCount: 2,
+        pendingQuestionCountsBySection: const {'1A': 2},
+      );
+
+      counts['1A'] = 99;
+
+      expect(session.pendingQuestionCountsBySection, {'1A': 2});
+      expect(
+        () => session.pendingQuestionCountsBySection['1B'] = 1,
+        throwsUnsupportedError,
+      );
+      expect(session, equalSession);
+      expect(session.hashCode, equalSession.hashCode);
     });
 
     test('defines simulacro launch defaults', () {

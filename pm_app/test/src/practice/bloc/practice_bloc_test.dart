@@ -33,8 +33,8 @@ void main() {
 
       expect(loaded.questions, hasLength(2));
       expect(loaded.currentQuestion.prompt, 'Primera pregunta');
-      expect(loaded.correctCount, 0);
-      expect(loaded.incorrectCount, 0);
+      expect(loaded.correctAttemptCount, 0);
+      expect(loaded.incorrectAttemptCount, 0);
 
       final answeredFuture = _waitForPracticeState(
         bloc,
@@ -47,8 +47,8 @@ void main() {
       final answered = await answeredFuture as PracticeLoaded;
 
       expect(answered.selectedOption, QuestionOption.b);
-      expect(answered.correctCount, 1);
-      expect(answered.incorrectCount, 0);
+      expect(answered.correctAttemptCount, 1);
+      expect(answered.incorrectAttemptCount, 0);
       expect(progressStore.recordedAnswers, hasLength(1));
       expect(progressStore.recordedAnswers.single.questionCode, '1A01001');
     });
@@ -197,8 +197,8 @@ void main() {
       final advanced = await advancedFuture as PracticeLoaded;
 
       expect(advanced.currentQuestion.prompt, 'Segunda pregunta');
-      expect(advanced.correctCount, 1);
-      expect(advanced.incorrectCount, 0);
+      expect(advanced.correctAttemptCount, 1);
+      expect(advanced.incorrectAttemptCount, 0);
     });
 
     test('does not advance while an answer is being recorded', () async {
@@ -280,8 +280,8 @@ void main() {
       final skipped = await skippedFuture as PracticeLoaded;
 
       expect(skipped.currentQuestion.prompt, 'Segunda pregunta');
-      expect(skipped.correctCount, 0);
-      expect(skipped.incorrectCount, 0);
+      expect(skipped.correctAttemptCount, 0);
+      expect(skipped.incorrectAttemptCount, 0);
       expect(progressStore.recordedAnswers, isEmpty);
     });
 
@@ -547,7 +547,7 @@ void main() {
               state is PracticeLoaded &&
               state.answered &&
               !state.isRecordingAnswer &&
-              state.incorrectCount == 1,
+              state.incorrectAttemptCount == 1,
         );
         bloc.add(const AnswerPressed(QuestionOption.a));
         await firstAnsweredFuture;
@@ -568,7 +568,7 @@ void main() {
               state is PracticeLoaded &&
               state.answered &&
               !state.isRecordingAnswer &&
-              state.correctCount == 1,
+              state.correctAttemptCount == 1,
         );
         bloc.add(const AnswerPressed(QuestionOption.a));
         await secondAnsweredFuture;
@@ -597,8 +597,8 @@ void main() {
         bloc.add(const AnswerPressed(QuestionOption.b));
         final completed = await completedFuture as PracticeLoaded;
 
-        expect(completed.correctCount, 2);
-        expect(completed.incorrectCount, 1);
+        expect(completed.correctAttemptCount, 2);
+        expect(completed.incorrectAttemptCount, 1);
       },
     );
 
@@ -634,7 +634,7 @@ void main() {
             bloc,
             (state) =>
                 state is PracticeLoaded &&
-                state.incorrectCount == attempt &&
+                state.incorrectAttemptCount == attempt &&
                 state.answered &&
                 !state.isRecordingAnswer,
           );
@@ -645,7 +645,7 @@ void main() {
             bloc,
             (state) =>
                 state is PracticeLoaded &&
-                state.incorrectCount == attempt &&
+                state.incorrectAttemptCount == attempt &&
                 !state.answered,
           );
           bloc.add(const NextQuestionPressed());
@@ -656,8 +656,8 @@ void main() {
           bloc,
           (state) =>
               state is PracticeLoaded &&
-              state.correctCount == 1 &&
-              state.incorrectCount == 2 &&
+              state.correctAttemptCount == 1 &&
+              state.incorrectAttemptCount == 2 &&
               state.answered &&
               !state.isRecordingAnswer &&
               state.isFilteredPracticeComplete,
@@ -686,7 +686,7 @@ void main() {
         final bloc = PracticeBloc(
           loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
-          session: const PracticeSessionConfig.pending(),
+          session: PracticeSessionConfig.pending(),
         );
         addTearDown(bloc.close);
 
@@ -706,7 +706,7 @@ void main() {
               state is PracticeLoaded &&
               state.answered &&
               !state.isRecordingAnswer &&
-              state.incorrectCount == 1,
+              state.incorrectAttemptCount == 1,
         );
         bloc.add(const AnswerPressed(QuestionOption.a));
         await firstAnsweredFuture;
@@ -733,8 +733,8 @@ void main() {
         bloc.add(const AnswerPressed(QuestionOption.a));
         final completed = await completedFuture as PracticeLoaded;
 
-        expect(completed.correctCount, 1);
-        expect(completed.incorrectCount, 1);
+        expect(completed.correctAttemptCount, 1);
+        expect(completed.incorrectAttemptCount, 1);
       },
     );
 
@@ -757,7 +757,7 @@ void main() {
               .toList(growable: false);
         },
         questionProgressStore: progressStore,
-        session: const PracticeSessionConfig.pending(),
+        session: PracticeSessionConfig.pending(),
       );
       addTearDown(bloc.close);
 

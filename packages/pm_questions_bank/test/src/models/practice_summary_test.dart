@@ -16,12 +16,12 @@ void main() {
       final summary = PracticeSummary(
         questions: [questionA, questionB],
         selectedOptionsByQuestionCode: const {},
-        correctCount: 0,
-        incorrectCount: 0,
+        correctAttemptCount: 0,
+        incorrectAttemptCount: 0,
         elapsedTime: Duration.zero,
       );
 
-      expect(summary.totalCount, 2);
+      expect(summary.totalQuestionCount, 2);
     });
 
     test('isCorrect reflects the selected option', () {
@@ -31,8 +31,8 @@ void main() {
           questionA.code: QuestionOption.b,
           questionB.code: QuestionOption.b,
         },
-        correctCount: 1,
-        incorrectCount: 1,
+        correctAttemptCount: 1,
+        incorrectAttemptCount: 1,
         elapsedTime: const Duration(minutes: 5),
       );
 
@@ -44,8 +44,8 @@ void main() {
       final summary = PracticeSummary(
         questions: [questionA],
         selectedOptionsByQuestionCode: const {},
-        correctCount: 0,
-        incorrectCount: 0,
+        correctAttemptCount: 0,
+        incorrectAttemptCount: 0,
         elapsedTime: Duration.zero,
       );
 
@@ -55,21 +55,30 @@ void main() {
     test('scoreRatio divides correct answers by the total', () {
       final summary = PracticeSummary(
         questions: [questionA, questionB],
-        selectedOptionsByQuestionCode: const {},
-        correctCount: 1,
-        incorrectCount: 1,
+        selectedOptionsByQuestionCode: {
+          questionA.code: QuestionOption.b,
+          questionB.code: QuestionOption.b,
+        },
+        correctAttemptCount: 3,
+        incorrectAttemptCount: 4,
         elapsedTime: Duration.zero,
       );
 
       expect(summary.scoreRatio, 0.5);
+      expect(summary.answeredQuestionCount, 2);
+      expect(summary.correctQuestionCount, 1);
+      expect(summary.incorrectQuestionCount, 1);
+      expect(summary.unansweredQuestionCount, 0);
+      expect(summary.correctAttemptCount, 3);
+      expect(summary.incorrectAttemptCount, 4);
     });
 
     test('scoreRatio is zero when there are no questions', () {
-      const summary = PracticeSummary(
-        questions: [],
-        selectedOptionsByQuestionCode: {},
-        correctCount: 0,
-        incorrectCount: 0,
+      final summary = PracticeSummary(
+        questions: const [],
+        selectedOptionsByQuestionCode: const {},
+        correctAttemptCount: 0,
+        incorrectAttemptCount: 0,
         elapsedTime: Duration.zero,
       );
 
@@ -80,20 +89,58 @@ void main() {
       final summaryA = PracticeSummary(
         questions: [questionA],
         selectedOptionsByQuestionCode: {questionA.code: QuestionOption.b},
-        correctCount: 1,
-        incorrectCount: 0,
+        correctAttemptCount: 1,
+        incorrectAttemptCount: 0,
         elapsedTime: const Duration(minutes: 1),
       );
       final summaryB = PracticeSummary(
         questions: [questionA],
         selectedOptionsByQuestionCode: {questionA.code: QuestionOption.b},
-        correctCount: 1,
-        incorrectCount: 0,
+        correctAttemptCount: 1,
+        incorrectAttemptCount: 0,
         elapsedTime: const Duration(minutes: 1),
       );
 
       expect(summaryA, summaryB);
       expect(summaryA.hashCode, summaryB.hashCode);
+    });
+
+    test('defensively copies questions and selected options', () {
+      final questions = [questionA];
+      final selectedOptions = {questionA.code: QuestionOption.b};
+      final summary = PracticeSummary(
+        questions: questions,
+        selectedOptionsByQuestionCode: selectedOptions,
+        correctAttemptCount: 1,
+        incorrectAttemptCount: 0,
+        elapsedTime: Duration.zero,
+      );
+
+      questions.clear();
+      selectedOptions.clear();
+
+      expect(summary.questions, [questionA]);
+      expect(summary.selectedOptionsByQuestionCode, {
+        questionA.code: QuestionOption.b,
+      });
+      expect(() => summary.questions.clear(), throwsUnsupportedError);
+      expect(
+        () => summary.selectedOptionsByQuestionCode.clear(),
+        throwsUnsupportedError,
+      );
+    });
+
+    test('rejects attempt totals below the selected results', () {
+      expect(
+        () => PracticeSummary(
+          questions: [questionA],
+          selectedOptionsByQuestionCode: {questionA.code: QuestionOption.b},
+          correctAttemptCount: 0,
+          incorrectAttemptCount: 0,
+          elapsedTime: Duration.zero,
+        ),
+        throwsArgumentError,
+      );
     });
   });
 }

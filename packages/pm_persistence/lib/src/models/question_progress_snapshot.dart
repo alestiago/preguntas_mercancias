@@ -1,10 +1,8 @@
-import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 
 import 'question_progress.dart';
 
-const _progressMapEquality = MapEquality<String, QuestionProgress>();
-
-final class QuestionProgressSnapshot {
+final class QuestionProgressSnapshot extends Equatable {
   const QuestionProgressSnapshot.empty() : byQuestionCode = const {};
 
   QuestionProgressSnapshot({
@@ -41,13 +39,5 @@ final class QuestionProgressSnapshot {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is QuestionProgressSnapshot &&
-            runtimeType == other.runtimeType &&
-            _progressMapEquality.equals(byQuestionCode, other.byQuestionCode);
-  }
-
-  @override
-  int get hashCode => _progressMapEquality.hash(byQuestionCode);
+  List<Object?> get props => [QuestionProgressSnapshot, byQuestionCode];
 }

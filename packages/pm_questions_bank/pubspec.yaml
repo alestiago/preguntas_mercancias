@@ -7,7 +7,7 @@ environment:
   sdk: ^3.12.2
 
 dependencies:
-  collection: ^1.19.1
+  equatable: ^3.0.0
   flutter:
     sdk: flutter
   json_schema_builder: ^0.1.6

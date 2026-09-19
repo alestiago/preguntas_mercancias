@@ -5,6 +5,18 @@ import 'package:pm_app/src/settings/bloc/settings_bloc.dart';
 import '../../../helpers/fake_settings_store.dart';
 
 void main() {
+  test('SettingsState uses value equality', () {
+    expect(
+      const SettingsLoaded(answerShuffleEnabled: true),
+      const SettingsLoaded(answerShuffleEnabled: true),
+    );
+    expect(
+      const SettingsLoaded(answerShuffleEnabled: false),
+      isNot(const SettingsLoaded(answerShuffleEnabled: true)),
+    );
+    expect(const SettingsLoading(), const SettingsLoading());
+  });
+
   group('SettingsBloc', () {
     late FakeSettingsStore settingsStore;
 

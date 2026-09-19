@@ -1,25 +1,40 @@
 part of 'practice_bloc.dart';
 
 @immutable
-sealed class PracticeState {
+sealed class PracticeState extends Equatable {
   const PracticeState({
     required this.selectedSection,
     required this.session,
-    this.correctCount = 0,
-    this.incorrectCount = 0,
+    this.correctAttemptCount = 0,
+    this.incorrectAttemptCount = 0,
     this.progressSnapshot = const QuestionProgressSnapshot.empty(),
   });
 
   final String? selectedSection;
   final PracticeSessionConfig session;
-  final int correctCount;
-  final int incorrectCount;
+
+  /// Correct attempts made in this session, including review retries.
+  final int correctAttemptCount;
+
+  /// Incorrect attempts made in this session, including review retries.
+  final int incorrectAttemptCount;
   final QuestionProgressSnapshot progressSnapshot;
+
+  int get totalAttemptCount => correctAttemptCount + incorrectAttemptCount;
 
   PracticeMode get mode => session.mode;
 
   bool get isQuestionDrawerNavigationEnabled =>
       this is PracticeLoaded && mode == PracticeMode.simulacro;
+
+  @override
+  List<Object?> get props => [
+    selectedSection,
+    session,
+    correctAttemptCount,
+    incorrectAttemptCount,
+    progressSnapshot,
+  ];
 }
 
 final class PracticeLoading extends PracticeState {
@@ -27,6 +42,9 @@ final class PracticeLoading extends PracticeState {
     required super.selectedSection,
     required super.session,
   });
+
+  @override
+  List<Object?> get props => [PracticeLoading, ...super.props];
 }
 
 final class PracticeLoadFailure extends PracticeState {
@@ -37,23 +55,61 @@ final class PracticeLoadFailure extends PracticeState {
   });
 
   final Object error;
+
+  @override
+  List<Object?> get props => [PracticeLoadFailure, ...super.props, error];
 }
 
 final class PracticeLoaded extends PracticeState {
-  const PracticeLoaded({
+  factory PracticeLoaded({
+    required String? selectedSection,
+    required Iterable<Question> questions,
+    int currentIndex = 0,
+    Map<String, QuestionOption> selectedOptionsByQuestionCode = const {},
+    bool isRecordingAnswer = false,
+    required PracticeSessionConfig session,
+    int correctAttemptCount = 0,
+    int incorrectAttemptCount = 0,
+    QuestionProgressSnapshot progressSnapshot =
+        const QuestionProgressSnapshot.empty(),
+  }) {
+    assert(correctAttemptCount >= 0);
+    assert(incorrectAttemptCount >= 0);
+
+    return PracticeLoaded._(
+      selectedSection: selectedSection,
+      questions: List.unmodifiable(questions),
+      currentIndex: currentIndex,
+      selectedOptionsByQuestionCode: Map.unmodifiable(
+        selectedOptionsByQuestionCode,
+      ),
+      isRecordingAnswer: isRecordingAnswer,
+      session: session,
+      correctAttemptCount: correctAttemptCount,
+      incorrectAttemptCount: incorrectAttemptCount,
+      progressSnapshot: progressSnapshot,
+    );
+  }
+
+  const PracticeLoaded._({
     required super.selectedSection,
     required this.questions,
-    this.currentIndex = 0,
-    this.selectedOptionsByQuestionCode = const {},
-    this.isRecordingAnswer = false,
+    required this.currentIndex,
+    required this.selectedOptionsByQuestionCode,
+    required this.isRecordingAnswer,
     required super.session,
-    super.correctCount,
-    super.incorrectCount,
-    super.progressSnapshot,
+    required super.correctAttemptCount,
+    required super.incorrectAttemptCount,
+    required super.progressSnapshot,
   });
 
   final List<Question> questions;
   final int currentIndex;
+
+  /// The latest retained answer result for each question in this session.
+  ///
+  /// Review navigation may temporarily remove an entry to reopen a retry;
+  /// attempt totals remain available separately on [PracticeState].
   final Map<String, QuestionOption> selectedOptionsByQuestionCode;
   final bool isRecordingAnswer;
 
@@ -102,8 +158,8 @@ final class PracticeLoaded extends PracticeState {
     int? currentIndex,
     Map<String, QuestionOption>? selectedOptionsByQuestionCode,
     bool? isRecordingAnswer,
-    int? correctCount,
-    int? incorrectCount,
+    int? correctAttemptCount,
+    int? incorrectAttemptCount,
     QuestionProgressSnapshot? progressSnapshot,
   }) {
     return PracticeLoaded(
@@ -114,8 +170,9 @@ final class PracticeLoaded extends PracticeState {
       selectedOptionsByQuestionCode:
           selectedOptionsByQuestionCode ?? this.selectedOptionsByQuestionCode,
       isRecordingAnswer: isRecordingAnswer ?? this.isRecordingAnswer,
-      correctCount: correctCount ?? this.correctCount,
-      incorrectCount: incorrectCount ?? this.incorrectCount,
+      correctAttemptCount: correctAttemptCount ?? this.correctAttemptCount,
+      incorrectAttemptCount:
+          incorrectAttemptCount ?? this.incorrectAttemptCount,
       progressSnapshot: progressSnapshot ?? this.progressSnapshot,
     );
   }
@@ -128,4 +185,14 @@ final class PracticeLoaded extends PracticeState {
       progressSnapshot: progressSnapshot,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    PracticeLoaded,
+    ...super.props,
+    questions,
+    currentIndex,
+    selectedOptionsByQuestionCode,
+    isRecordingAnswer,
+  ];
 }

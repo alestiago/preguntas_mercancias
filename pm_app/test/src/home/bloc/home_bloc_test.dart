@@ -114,6 +114,25 @@ void main() {
       expect(refreshed.unansweredQuestionCount, 1);
     });
 
+    test('HomeLoaded is defensively immutable and value comparable', () {
+      final questions = buildHomeQuestions();
+      final state = HomeLoaded(
+        questions: questions,
+        progressSnapshot: const QuestionProgressSnapshot.empty(),
+      );
+      final equalState = HomeLoaded(
+        questions: buildHomeQuestions(),
+        progressSnapshot: const QuestionProgressSnapshot.empty(),
+      );
+
+      questions.clear();
+
+      expect(state.questions, hasLength(3));
+      expect(() => state.questions.clear(), throwsUnsupportedError);
+      expect(state, equalState);
+      expect(state.hashCode, equalState.hashCode);
+    });
+
     test('keeps dashboard counts aligned with session selections', () async {
       await progressStore.recordAnswer(
         QuestionAnswerRecord(

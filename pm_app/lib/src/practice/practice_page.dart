@@ -141,8 +141,8 @@ class _QuestionPracticeViewState extends State<_QuestionPracticeView> {
     final summary = PracticeSummary(
       questions: state.questions,
       selectedOptionsByQuestionCode: state.selectedOptionsByQuestionCode,
-      correctCount: state.correctCount,
-      incorrectCount: state.incorrectCount,
+      correctAttemptCount: state.correctAttemptCount,
+      incorrectAttemptCount: state.incorrectAttemptCount,
       elapsedTime: DateTime.now().difference(_startedAt),
     );
 

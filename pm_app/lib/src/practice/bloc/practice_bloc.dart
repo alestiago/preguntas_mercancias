@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
@@ -78,8 +79,10 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
         question.code: event.option,
       },
       isRecordingAnswer: true,
-      correctCount: currentState.correctCount + (isCorrect ? 1 : 0),
-      incorrectCount: currentState.incorrectCount + (isCorrect ? 0 : 1),
+      correctAttemptCount:
+          currentState.correctAttemptCount + (isCorrect ? 1 : 0),
+      incorrectAttemptCount:
+          currentState.incorrectAttemptCount + (isCorrect ? 0 : 1),
     );
 
     emit(answeredState);
@@ -243,7 +246,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       // A review question remains eligible after an incorrect answer. Reopen
       // its selection when it becomes the active retry so the previous
       // result does not prevent another attempt. Attempt totals remain in
-      // correctCount and incorrectCount.
+      // correctAttemptCount and incorrectAttemptCount.
       selectedOptionsByQuestionCode.remove(nextQuestion.code);
     }
 

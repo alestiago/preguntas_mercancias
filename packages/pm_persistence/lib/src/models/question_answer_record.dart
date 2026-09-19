@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
-final class QuestionAnswerRecord {
+final class QuestionAnswerRecord extends Equatable {
   QuestionAnswerRecord({
     required this.questionCode,
     required this.section,
@@ -18,23 +19,12 @@ final class QuestionAnswerRecord {
   bool get isCorrect => selectedOption == correctOption;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is QuestionAnswerRecord &&
-            runtimeType == other.runtimeType &&
-            questionCode == other.questionCode &&
-            section == other.section &&
-            selectedOption == other.selectedOption &&
-            correctOption == other.correctOption &&
-            answeredAt == other.answeredAt;
-  }
-
-  @override
-  int get hashCode => Object.hash(
+  List<Object?> get props => [
+    QuestionAnswerRecord,
     questionCode,
     section,
     selectedOption,
     correctOption,
     answeredAt,
-  );
+  ];
 }

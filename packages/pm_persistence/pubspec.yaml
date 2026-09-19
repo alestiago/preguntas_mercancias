@@ -7,7 +7,7 @@ environment:
   sdk: ^3.12.2
 
 dependencies:
-  collection: ^1.19.1
+  equatable: ^3.0.0
   drift: ^2.34.3
   drift_flutter: ^0.3.1
   flutter:
