@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:pm_questions_bank/src/parsers/question_txt_parser.dart';
+import 'package:pm_questions/question_ingestion.dart';
 
 const _sourceDirectoryPath = 'assets/pm_260326';
 const _outputDirectoryPath = 'assets/pm_260326_json';
@@ -38,7 +38,7 @@ Future<void> main() async {
     final questions = await parser.parse(await sourceFile.readAsString());
     const encoder = JsonEncoder.withIndent('  ');
     await outputFile.writeAsString(
-      '${encoder.convert(questions.map((question) => question.toJson()).toList())}\n',
+      '${encoder.convert(questions.map(QuestionJsonCodec.encode).toList())}\n',
     );
     unmatchedCodes.removeAll(questions.map((question) => question.code));
 

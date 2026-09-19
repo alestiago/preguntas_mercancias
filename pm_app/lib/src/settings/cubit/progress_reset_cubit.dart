@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 
 final class ProgressResetCubit extends Cubit<ProgressResetState> {
@@ -10,6 +10,8 @@ final class ProgressResetCubit extends Cubit<ProgressResetState> {
   final QuestionProgressStore questionProgressStore;
 
   Future<void> reset() async {
+    // A repeated confirmation while the first clear is pending must not issue
+    // another destructive write.
     if (state is ProgressResetInProgress) {
       return;
     }

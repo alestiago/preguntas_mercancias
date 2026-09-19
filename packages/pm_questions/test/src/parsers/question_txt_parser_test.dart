@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/question_ingestion.dart';
+import 'package:test/test.dart';
 
 import '../../matchers/matchers.dart';
 

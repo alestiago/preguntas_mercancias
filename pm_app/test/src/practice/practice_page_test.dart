@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../fixtures/question_fixtures.dart';
 import '../../helpers/fake_question_progress_store.dart';

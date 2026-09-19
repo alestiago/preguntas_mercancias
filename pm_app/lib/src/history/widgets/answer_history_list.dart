@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:pm_persistence/pm_persistence.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../app/theme/app_theme.dart';

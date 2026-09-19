@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../app/widgets/app_loading_indicator.dart';

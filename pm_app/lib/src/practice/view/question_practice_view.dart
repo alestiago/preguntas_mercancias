@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../app/theme/app_theme.dart';
@@ -12,6 +12,7 @@ import '../bloc/practice_bloc.dart';
 import '../practice_question_policy.dart';
 import '../practice_session_clock.dart';
 import '../practice_session_config.dart';
+import '../practice_summary.dart';
 import '../widgets/answer_feedback.dart';
 import '../widgets/exit_practice_button.dart';
 import '../widgets/practice_page_app_bar.dart';

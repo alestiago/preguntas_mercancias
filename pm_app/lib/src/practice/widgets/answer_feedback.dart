@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../app/theme/app_theme.dart';

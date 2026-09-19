@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/history/bloc/answer_history_bloc.dart';
 import 'package:pm_app/src/history/widgets/answer_history_list.dart';
 import 'package:pm_persistence/pm_persistence.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../../fixtures/question_fixtures.dart';
 import '../../../helpers/pump_app.dart';

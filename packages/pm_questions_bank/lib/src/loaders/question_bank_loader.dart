@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-
-import '../models/models.dart';
+import 'package:pm_questions/question_ingestion.dart';
 
 final class QuestionBankLoader {
   QuestionBankLoader({AssetBundle? assetBundle})
@@ -56,7 +55,7 @@ final class QuestionBankLoader {
         throw FormatException('Expected a question object in $assetPath.');
       }
 
-      questions.add(await Question.fromJson(rawQuestion));
+      questions.add(await QuestionJsonCodec.decode(rawQuestion));
     }
 
     return List.unmodifiable(questions);

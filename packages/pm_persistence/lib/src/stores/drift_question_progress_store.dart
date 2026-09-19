@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../database/pm_persistence_database.dart';
 import '../models/models.dart';

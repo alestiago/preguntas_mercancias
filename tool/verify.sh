@@ -4,13 +4,24 @@ set -euo pipefail
 
 repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly repository_root
-readonly packages=(
+readonly dart_packages=(
+  "packages/pm_questions"
+)
+readonly flutter_packages=(
   "pm_app"
   "packages/pm_questions_bank"
   "packages/pm_persistence"
 )
 
-for package in "${packages[@]}"; do
+for package in "${dart_packages[@]}"; do
+  echo "==> Resolving locked dependencies for $package"
+  (
+    cd "$repository_root/$package"
+    dart pub get --enforce-lockfile
+  )
+done
+
+for package in "${flutter_packages[@]}"; do
   echo "==> Resolving locked dependencies for $package"
   (
     cd "$repository_root/$package"
@@ -61,7 +72,21 @@ if [[ -n "$generated_status" ]]; then
   exit 1
 fi
 
-for package in "${packages[@]}"; do
+for package in "${dart_packages[@]}"; do
+  echo "==> Analyzing $package"
+  (
+    cd "$repository_root/$package"
+    dart analyze
+  )
+
+  echo "==> Testing $package"
+  (
+    cd "$repository_root/$package"
+    dart test --test-randomize-ordering-seed=random
+  )
+done
+
+for package in "${flutter_packages[@]}"; do
   echo "==> Analyzing $package"
   (
     cd "$repository_root/$package"

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_app/src/practice/practice_summary.dart';
 import 'package:pm_app/src/practice_summary/practice_summary_page.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../fixtures/question_fixtures.dart';
 import '../../helpers/pump_app.dart';

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/questions/draw_simulacro_questions.dart';
+import 'package:pm_questions/pm_questions.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 void main() {

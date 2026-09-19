@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
 enum PracticeMode { standard, review, pending, simulacro, singleQuestion }

@@ -1,8 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_questions/pm_questions.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
-
-import '../../matchers/matchers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -11,15 +10,10 @@ void main() {
     final questions = await QuestionBankLoader().loadSection('1A');
 
     expect(questions, isNotEmpty);
-    expect(
-      questions.first,
-      isAQuestion(
-        code: '1A01001',
-        section: '1A',
-        answers: hasLength(4),
-        correctOption: QuestionOption.b,
-      ),
-    );
+    expect(questions.first.code, '1A01001');
+    expect(questions.first.section, '1A');
+    expect(questions.first.answers, hasLength(4));
+    expect(questions.first.correctOption, QuestionOption.b);
   });
 
   test('loads every bundled question file', () async {

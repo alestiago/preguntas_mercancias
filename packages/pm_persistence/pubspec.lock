@@ -544,10 +544,10 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pm_questions_bank:
+  pm_questions:
     dependency: "direct main"
     description:
-      path: "../pm_questions_bank"
+      path: "../pm_questions"
       relative: true
     source: path
     version: "0.1.0"

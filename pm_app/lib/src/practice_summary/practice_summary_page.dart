@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../app/theme/app_theme.dart';
 import '../navigation/app_navigator.dart';
 import '../practice/format_elapsed_time.dart';
 import '../practice/practice_question_policy.dart';
+import '../practice/practice_summary.dart';
 import '../practice/session_question_status_localizations.dart';
 
 enum PracticeSummaryReturnDestination { home, answerHistory }

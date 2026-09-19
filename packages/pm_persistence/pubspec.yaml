@@ -12,8 +12,8 @@ dependencies:
   drift_flutter: ^0.3.1
   flutter:
     sdk: flutter
-  pm_questions_bank:
-    path: ../pm_questions_bank
+  pm_questions:
+    path: ../pm_questions
   shared_preferences: ^2.5.5
 
 dev_dependencies:

@@ -406,7 +406,7 @@ packages:
     source: hosted
     version: "0.13.0"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       sha256: "307249ce4ff29d58a18e97f6345f539382eb9c9c29ecda628900f31de0443dd9"
@@ -545,6 +545,13 @@ packages:
     dependency: "direct main"
     description:
       path: "../packages/pm_persistence"
+      relative: true
+    source: path
+    version: "0.1.0"
+  pm_questions:
+    dependency: "direct main"
+    description:
+      path: "../packages/pm_questions"
       relative: true
     source: path
     version: "0.1.0"

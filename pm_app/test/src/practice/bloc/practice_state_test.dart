@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/practice/bloc/practice_bloc.dart';
 import 'package:pm_app/src/practice/practice_session_config.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../../fixtures/question_fixtures.dart';
 

@@ -1,4 +1,5 @@
-import '../models/models.dart';
+import '../models/question.dart';
+import '../serialization/question_json_codec.dart';
 
 final class QuestionTxtParser {
   const QuestionTxtParser({this.nonShuffleableCodes = const {}});
@@ -82,7 +83,7 @@ final class QuestionTxtParser {
     };
 
     try {
-      return await Question.fromJson(json);
+      return await QuestionJsonCodec.decode(json);
     } on FormatException catch (error) {
       throw FormatException('Invalid question record for "$code": $error');
     }

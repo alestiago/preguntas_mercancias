@@ -4,7 +4,7 @@ import 'package:pm_app/l10n/app_localizations.dart';
 import 'package:pm_app/src/app/theme/app_theme.dart';
 import 'package:pm_app/src/practice/question_answer_presentation.dart';
 import 'package:pm_app/src/practice/widgets/answer_feedback.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import '../../../fixtures/question_fixtures.dart';
 

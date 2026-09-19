@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:pm_questions/pm_questions.dart';
 
-import 'question.dart';
-
-/// A snapshot of the results of a completed practice session (e.g. a
-/// "Simulacro"). Questions absent from [selectedOptionsByQuestionCode] are
-/// retained as unanswered results.
+/// A snapshot of the results of a completed practice session.
+///
+/// Questions absent from [selectedOptionsByQuestionCode] are retained as
+/// unanswered results.
 final class PracticeSummary extends Equatable {
   factory PracticeSummary({
     required Iterable<Question> questions,

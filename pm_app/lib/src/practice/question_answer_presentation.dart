@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 /// Immutable display order for a question's canonically identified answers.
 ///
@@ -54,8 +54,8 @@ final class QuestionAnswerPresentation extends Equatable {
 
   /// Returns the positional label for a canonical option identity.
   ///
-  /// A presentation that omits [option], or contains more display positions
-  /// than [QuestionOption] supports, is invalid and fails explicitly.
+  /// Invalid presentation data fails explicitly instead of silently changing
+  /// canonical identity.
   QuestionOption displayOptionFor(QuestionOption option) {
     final index = _displayIndexByOption[option];
     if (index == null || index >= QuestionOption.values.length) {

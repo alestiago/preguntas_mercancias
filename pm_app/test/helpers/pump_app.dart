@@ -4,7 +4,7 @@ import 'package:pm_app/app.dart';
 import 'package:pm_app/l10n/app_localizations.dart';
 import 'package:pm_app/src/app/theme/app_theme.dart';
 import 'package:pm_persistence/pm_persistence.dart';
-import 'package:pm_questions_bank/pm_questions_bank.dart';
+import 'package:pm_questions/pm_questions.dart';
 
 import 'fake_settings_store.dart';
 
