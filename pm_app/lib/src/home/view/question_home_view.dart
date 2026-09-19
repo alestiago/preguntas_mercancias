@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/theme/app_theme.dart';
+import '../../app/widgets/app_loading_indicator.dart';
+import '../../app/widgets/app_message_panel.dart';
 import '../../history/answer_history_page.dart';
 import '../../navigation/app_navigator.dart';
 import '../../practice/practice_page.dart';
@@ -46,10 +49,13 @@ class QuestionHomeView extends StatelessWidget {
           ),
           body: SafeArea(
             child: switch (state) {
-              HomeLoading() => const _LoadingState(),
-              HomeLoadFailure(:final error) => _ErrorState(
-                error: error,
-                onRetry: () {
+              HomeLoading() => const AppLoadingIndicator(),
+              HomeLoadFailure() => AppMessagePanel(
+                icon: Icons.error_outline,
+                iconColor: Theme.of(context).colorScheme.error,
+                message: localizations.homeLoadFailure,
+                actionLabel: localizations.retry,
+                onAction: () {
                   context.read<HomeBloc>().add(const HomeRetried());
                 },
               ),
@@ -164,14 +170,19 @@ class _HomeContent extends StatelessWidget {
 
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 860),
+        constraints: const BoxConstraints(maxWidth: AppLayout.maxContentWidth),
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 24, 20, 28),
+          padding: const EdgeInsets.fromLTRB(
+            AppLayout.pageHorizontalInset,
+            24,
+            AppLayout.pageHorizontalInset,
+            28,
+          ),
           children: [
             Text(
               localizations.homeProgressTitle,
               style: textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: AppTypography.strongWeight,
               ),
             ),
             const SizedBox(height: 8),
@@ -188,63 +199,6 @@ class _HomeContent extends StatelessWidget {
               onStartSimulacroPractice: onStartSimulacroPractice,
               onStartReviewPractice: onStartReviewPractice,
               onStartPendingPractice: onStartPendingPractice,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _LoadingState extends StatelessWidget {
-  const _LoadingState();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: SizedBox.square(dimension: 36, child: CircularProgressIndicator()),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.error, required this.onRetry});
-
-  final Object error;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.error_outline,
-              size: 42,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            const SizedBox(height: 14),
-            Text(
-              localizations.homeLoadFailure,
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '$error',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: 18),
-            FilledButton.icon(
-              onPressed: onRetry,
-              icon: const Icon(Icons.refresh),
-              label: Text(localizations.retry),
             ),
           ],
         ),

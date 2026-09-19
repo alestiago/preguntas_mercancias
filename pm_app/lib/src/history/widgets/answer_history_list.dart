@@ -5,6 +5,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/theme/app_theme.dart';
 import '../bloc/answer_history_bloc.dart';
 import 'answer_history_date_header.dart';
 
@@ -61,8 +62,8 @@ class _AnswerHistoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final color = answer.isCorrect
-        ? const Color(0xFF2E7D32)
-        : const Color(0xFFC62828);
+        ? AppResultColors.of(context).correct
+        : Theme.of(context).colorScheme.error;
     final selectedAnswerText =
         question?.answerForOrNull(answer.selectedOption)?.text ??
         answer.selectedOption.code;
@@ -78,7 +79,7 @@ class _AnswerHistoryTile extends StatelessWidget {
         question?.prompt ?? localizations.answerHistoryUnknownQuestion,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontWeight: FontWeight.w700),
+        style: const TextStyle(fontWeight: AppTypography.emphasizedWeight),
       ),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 4),

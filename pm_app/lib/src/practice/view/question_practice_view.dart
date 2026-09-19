@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/theme/app_theme.dart';
+import '../../app/widgets/app_loading_indicator.dart';
+import '../../app/widgets/app_message_panel.dart';
 import '../../navigation/app_navigator.dart';
 import '../../practice_summary/practice_summary_page.dart';
 import '../bloc/practice_bloc.dart';
@@ -184,25 +187,31 @@ class _PracticeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (state) {
-      PracticeLoading() => const _LoadingState(),
-      PracticeLoadFailure(:final error) => _ErrorState(
-        error: error,
-        onRetry: () => context.read<PracticeBloc>().add(const RetryPressed()),
+      PracticeLoading() => const AppLoadingIndicator(),
+      PracticeLoadFailure() => AppMessagePanel(
+        icon: Icons.error_outline,
+        iconColor: Theme.of(context).colorScheme.error,
+        message: AppLocalizations.of(context).practiceLoadFailure,
+        actionLabel: AppLocalizations.of(context).retry,
+        onAction: () => context.read<PracticeBloc>().add(const RetryPressed()),
       ),
       PracticeLoaded(
         questions: final questions,
         pendingBatchState: PendingBatchLoading(),
       )
           when questions.isEmpty =>
-        const _LoadingState(),
+        const AppLoadingIndicator(),
       PracticeLoaded(
         questions: final questions,
-        pendingBatchState: PendingBatchFailure(:final error),
+        pendingBatchState: PendingBatchFailure(),
       )
           when questions.isEmpty =>
-        _ErrorState(
-          error: error,
-          onRetry: () =>
+        AppMessagePanel(
+          icon: Icons.error_outline,
+          iconColor: Theme.of(context).colorScheme.error,
+          message: AppLocalizations.of(context).practiceLoadFailure,
+          actionLabel: AppLocalizations.of(context).retry,
+          onAction: () =>
               context.read<PracticeBloc>().add(const PendingBatchRetried()),
         ),
       PracticeLoaded(questions: final questions) when questions.isEmpty =>
@@ -278,9 +287,14 @@ class _PracticeContentLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 860),
+        constraints: const BoxConstraints(maxWidth: AppLayout.maxContentWidth),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+          padding: const EdgeInsets.fromLTRB(
+            AppLayout.pageHorizontalInset,
+            8,
+            AppLayout.pageHorizontalInset,
+            24,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -349,11 +363,18 @@ class _PracticeSessionFooterBar extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        minimum: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+        minimum: const EdgeInsets.fromLTRB(
+          AppLayout.pageHorizontalInset,
+          12,
+          AppLayout.pageHorizontalInset,
+          16,
+        ),
         child: Center(
           heightFactor: 1,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 860),
+            constraints: const BoxConstraints(
+              maxWidth: AppLayout.maxContentWidth,
+            ),
             child: child,
           ),
         ),
@@ -376,7 +397,7 @@ class _PendingBatchFailurePanel extends StatelessWidget {
       key: const ValueKey('pending-batch-failure'),
       decoration: BoxDecoration(
         color: colorScheme.errorContainer,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppLayout.cardRadius),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -395,63 +416,6 @@ class _PendingBatchFailurePanel extends StatelessWidget {
               key: const ValueKey('pending-batch-retry-button'),
               onPressed: onRetry,
               child: Text(localizations.retry),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _LoadingState extends StatelessWidget {
-  const _LoadingState();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: SizedBox.square(dimension: 36, child: CircularProgressIndicator()),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.error, required this.onRetry});
-
-  final Object error;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.error_outline,
-              size: 42,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            const SizedBox(height: 14),
-            Text(
-              localizations.practiceLoadFailure,
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '$error',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: 18),
-            FilledButton.icon(
-              onPressed: onRetry,
-              icon: const Icon(Icons.refresh),
-              label: Text(localizations.retry),
             ),
           ],
         ),
@@ -483,7 +447,10 @@ class _EmptyState extends StatelessWidget {
             onSectionSelected: onSectionSelected,
           ),
         Expanded(
-          child: Center(child: Text(localizations.noQuestionsAvailable)),
+          child: AppMessagePanel(
+            icon: Icons.quiz_outlined,
+            message: localizations.noQuestionsAvailable,
+          ),
         ),
       ],
     );
@@ -507,17 +474,7 @@ extension _PracticeLoadedPresentation on PracticeLoaded {
     return session.pendingQuestionCount ?? questions.length;
   }
 
-  List<PracticeProgressSegmentStatus> get progressSegments {
-    return [
-      for (final question in questions)
-        switch (sessionStatusFor(question)) {
-          SessionQuestionStatus.unanswered =>
-            PracticeProgressSegmentStatus.pending,
-          SessionQuestionStatus.correct =>
-            PracticeProgressSegmentStatus.correct,
-          SessionQuestionStatus.incorrect =>
-            PracticeProgressSegmentStatus.incorrect,
-        },
-    ];
+  List<SessionQuestionStatus> get progressSegments {
+    return [for (final question in questions) sessionStatusFor(question)];
   }
 }

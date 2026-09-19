@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-enum PracticeProgressSegmentStatus { pending, correct, incorrect }
+import '../../app/theme/app_theme.dart';
+import '../practice_question_policy.dart';
 
 class PracticeProgressDivider extends StatelessWidget {
   const PracticeProgressDivider({
@@ -9,7 +10,7 @@ class PracticeProgressDivider extends StatelessWidget {
     required this.currentIndex,
   });
 
-  final List<PracticeProgressSegmentStatus> segments;
+  final List<SessionQuestionStatus> segments;
   final int currentIndex;
 
   @override
@@ -42,36 +43,53 @@ class _PracticeProgressSegment extends StatelessWidget {
     required this.isCurrent,
   });
 
-  final PracticeProgressSegmentStatus status;
+  final SessionQuestionStatus status;
   final bool isCurrent;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final resultColors = AppResultColors.of(context);
+
     if (isCurrent) {
       return Container(
         height: 7,
         decoration: BoxDecoration(
-          color: status.color(isCurrent: true),
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(999),
+          color: status.color(
+            colorScheme: colorScheme,
+            resultColors: resultColors,
+            isCurrent: true,
+          ),
+          border: Border.all(color: colorScheme.surface),
+          borderRadius: BorderRadius.circular(AppLayout.pillRadius),
         ),
       );
     }
 
     return SizedBox(
       height: 3,
-      child: ColoredBox(color: status.color(isCurrent: false)),
+      child: ColoredBox(
+        color: status.color(
+          colorScheme: colorScheme,
+          resultColors: resultColors,
+          isCurrent: false,
+        ),
+      ),
     );
   }
 }
 
-extension _PracticeProgressSegmentStatusColor on PracticeProgressSegmentStatus {
-  Color color({required bool isCurrent}) {
+extension _SessionQuestionStatusProgressColor on SessionQuestionStatus {
+  Color color({
+    required ColorScheme colorScheme,
+    required AppResultColors resultColors,
+    required bool isCurrent,
+  }) {
     return switch (this) {
-      _ when isCurrent => const Color(0xFF1976D2),
-      PracticeProgressSegmentStatus.correct ||
-      PracticeProgressSegmentStatus.incorrect => const Color(0xFF2E7D32),
-      PracticeProgressSegmentStatus.pending => Colors.grey,
+      _ when isCurrent => colorScheme.primary,
+      SessionQuestionStatus.correct ||
+      SessionQuestionStatus.incorrect => resultColors.correct,
+      SessionQuestionStatus.unanswered => colorScheme.outline,
     };
   }
 }

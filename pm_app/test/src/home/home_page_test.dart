@@ -8,6 +8,32 @@ import '../../helpers/fake_question_progress_store.dart';
 import '../../helpers/pump_app.dart';
 
 void main() {
+  testWidgets('shows a localized load failure and retries', (tester) async {
+    final progressStore = FakeQuestionProgressStore();
+    var loadCount = 0;
+    addTearDown(progressStore.close);
+
+    await tester.pumpApp(
+      loadQuestions: (_) async {
+        loadCount += 1;
+        if (loadCount == 1) {
+          throw StateError('private loading details');
+        }
+        return buildQuestions();
+      },
+      questionProgressStore: progressStore,
+    );
+
+    expect(find.text('No se pudo cargar el progreso.'), findsOneWidget);
+    expect(find.textContaining('private loading details'), findsNothing);
+
+    await tester.tap(find.text('Reintentar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Tu progreso'), findsOneWidget);
+    expect(loadCount, 2);
+  });
+
   testWidgets('starts review practice from the review count', (tester) async {
     final progressStore = FakeQuestionProgressStore();
     final loadCalls = <String?>[];

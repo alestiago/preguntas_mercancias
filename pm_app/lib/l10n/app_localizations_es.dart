@@ -37,6 +37,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Todavía no has respondido ninguna pregunta.';
 
   @override
+  String get answerHistoryLoadFailure => 'No se pudo cargar el historial.';
+
+  @override
   String answerHistorySelection(String answerText) {
     return 'Elegida: $answerText';
   }

@@ -103,6 +103,8 @@ void main() {
     );
 
     expect(find.text('00:05'), findsOneWidget);
+    expect(find.text('No se pudieron cargar las preguntas.'), findsOneWidget);
+    expect(find.textContaining('Initial load failed'), findsNothing);
 
     sessionClock.elapsed = const Duration(seconds: 12);
     await tester.tap(find.text('Reintentar'));

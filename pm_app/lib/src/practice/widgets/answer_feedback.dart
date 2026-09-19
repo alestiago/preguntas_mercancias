@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/theme/app_theme.dart';
 import '../question_answer_presentation.dart';
 
 class AnswerFeedbackSwitcher extends StatelessWidget {
@@ -55,13 +56,17 @@ class _AnswerFeedback extends StatelessWidget {
     final correctDisplayOption = answerPresentation.displayOptionFor(
       question.correctOption,
     );
-    final feedbackStyle = _AnswerFeedbackStyle.forResult(isCorrect: isCorrect);
+    final feedbackStyle = _AnswerFeedbackStyle.forResult(
+      colorScheme: Theme.of(context).colorScheme,
+      resultColors: AppResultColors.of(context),
+      isCorrect: isCorrect,
+    );
 
     return DecoratedBox(
       decoration: BoxDecoration(
         color: feedbackStyle.backgroundColor,
         border: Border.all(color: feedbackStyle.borderColor),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppLayout.cardRadius),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -110,7 +115,7 @@ class _AnswerFeedbackHeader extends StatelessWidget {
           style: TextStyle(
             color: foregroundColor,
             fontSize: 18,
-            fontWeight: FontWeight.w800,
+            fontWeight: AppTypography.strongWeight,
           ),
         ),
       ],
@@ -166,19 +171,23 @@ final class _AnswerFeedbackStyle {
   final Color backgroundColor;
   final Color foregroundColor;
 
-  factory _AnswerFeedbackStyle.forResult({required bool isCorrect}) {
+  factory _AnswerFeedbackStyle.forResult({
+    required ColorScheme colorScheme,
+    required AppResultColors resultColors,
+    required bool isCorrect,
+  }) {
     return isCorrect
-        ? const _AnswerFeedbackStyle(
+        ? _AnswerFeedbackStyle(
             icon: Icons.check_circle,
-            borderColor: Color(0xFF2E7D32),
-            backgroundColor: Color(0xFFE8F5E9),
-            foregroundColor: Color(0xFF1B5E20),
+            borderColor: resultColors.correct,
+            backgroundColor: resultColors.correctContainer,
+            foregroundColor: resultColors.onCorrectContainer,
           )
-        : const _AnswerFeedbackStyle(
+        : _AnswerFeedbackStyle(
             icon: Icons.cancel,
-            borderColor: Color(0xFFC62828),
-            backgroundColor: Color(0xFFFFEBEE),
-            foregroundColor: Color(0xFFB71C1C),
+            borderColor: colorScheme.error,
+            backgroundColor: colorScheme.errorContainer,
+            foregroundColor: colorScheme.onErrorContainer,
           );
   }
 }

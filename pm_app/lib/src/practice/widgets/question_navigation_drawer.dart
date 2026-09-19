@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/theme/app_theme.dart';
 import '../bloc/practice_bloc.dart';
+import '../practice_question_policy.dart';
 
 class QuestionNavigationDrawer extends StatefulWidget {
   const QuestionNavigationDrawer({
@@ -88,7 +90,7 @@ class _QuestionNavigationDrawerState extends State<QuestionNavigationDrawer> {
                     child: Text(
                       localizations.questionNavigationTitle,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: AppTypography.strongWeight,
                       ),
                     ),
                   ),
@@ -117,7 +119,9 @@ class _QuestionNavigationDrawerState extends State<QuestionNavigationDrawer> {
                         child: _QuestionNavigationTile(
                           question: widget.state.questions[index],
                           number: index + 1,
-                          status: _statusFor(widget.state.questions[index]),
+                          status: widget.state.sessionStatusFor(
+                            widget.state.questions[index],
+                          ),
                           isCurrent: index == widget.state.currentIndex,
                           onTap: () => widget.onQuestionSelected(index),
                         ),
@@ -134,21 +138,7 @@ class _QuestionNavigationDrawerState extends State<QuestionNavigationDrawer> {
       ),
     );
   }
-
-  _QuestionNavigationStatus _statusFor(Question question) {
-    final selectedOption =
-        widget.state.selectedOptionsByQuestionCode[question.code];
-    if (selectedOption == null) {
-      return _QuestionNavigationStatus.pending;
-    }
-
-    return question.isCorrect(selectedOption)
-        ? _QuestionNavigationStatus.correct
-        : _QuestionNavigationStatus.incorrect;
-  }
 }
-
-enum _QuestionNavigationStatus { pending, correct, incorrect }
 
 class _QuestionNavigationTile extends StatelessWidget {
   const _QuestionNavigationTile({
@@ -161,7 +151,7 @@ class _QuestionNavigationTile extends StatelessWidget {
 
   final Question question;
   final int number;
-  final _QuestionNavigationStatus status;
+  final SessionQuestionStatus status;
   final bool isCurrent;
   final VoidCallback onTap;
 
@@ -221,12 +211,13 @@ class _QuestionNavigationTile extends StatelessWidget {
 class _QuestionStatusIcon extends StatelessWidget {
   const _QuestionStatusIcon({required this.status});
 
-  final _QuestionNavigationStatus status;
+  final SessionQuestionStatus status;
 
   @override
   Widget build(BuildContext context) {
     final style = _QuestionStatusIconStyle.forStatus(
       Theme.of(context).colorScheme,
+      AppResultColors.of(context),
       status,
     );
 
@@ -246,18 +237,19 @@ final class _QuestionStatusIconStyle {
 
   factory _QuestionStatusIconStyle.forStatus(
     ColorScheme colorScheme,
-    _QuestionNavigationStatus status,
+    AppResultColors resultColors,
+    SessionQuestionStatus status,
   ) {
     return switch (status) {
-      _QuestionNavigationStatus.correct => const _QuestionStatusIconStyle(
-        color: Color(0xFF2E7D32),
+      SessionQuestionStatus.correct => _QuestionStatusIconStyle(
+        color: resultColors.correct,
         icon: Icons.check,
       ),
-      _QuestionNavigationStatus.incorrect => const _QuestionStatusIconStyle(
-        color: Color(0xFFC62828),
+      SessionQuestionStatus.incorrect => _QuestionStatusIconStyle(
+        color: colorScheme.error,
         icon: Icons.close,
       ),
-      _QuestionNavigationStatus.pending => _QuestionStatusIconStyle(
+      SessionQuestionStatus.unanswered => _QuestionStatusIconStyle(
         color: colorScheme.onSurfaceVariant,
         icon: Icons.radio_button_unchecked,
       ),

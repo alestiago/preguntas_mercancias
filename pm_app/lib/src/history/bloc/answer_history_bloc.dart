@@ -16,10 +16,21 @@ final class AnswerHistoryBloc
     required Iterable<Question> questions,
   }) : _questionsByCode = _indexQuestionsByCode(questions),
        super(const AnswerHistoryLoading()) {
+    _questionProgressStore = questionProgressStore;
+    on<AnswerHistoryRetried>(_onRetried);
     on<_AnswerHistoryChanged>(_onHistoryChanged);
     on<_AnswerHistoryObservationFailed>(_onObservationFailed);
 
-    _historySubscription = questionProgressStore.watchAnswerHistory().listen(
+    _watchHistory();
+  }
+
+  late final QuestionProgressStore _questionProgressStore;
+  final Map<String, Question> _questionsByCode;
+  late final StreamSubscription<List<QuestionAnswerRecord>>
+  _historySubscription;
+
+  void _watchHistory() {
+    _historySubscription = _questionProgressStore.watchAnswerHistory().listen(
       (answers) {
         if (!isClosed) {
           add(_AnswerHistoryChanged(List.unmodifiable(answers)));
@@ -35,22 +46,42 @@ final class AnswerHistoryBloc
     );
   }
 
-  final Map<String, Question> _questionsByCode;
-  late final StreamSubscription<List<QuestionAnswerRecord>>
-  _historySubscription;
+  Future<void> _onRetried(
+    AnswerHistoryRetried event,
+    Emitter<AnswerHistoryState> emit,
+  ) async {
+    emit(const AnswerHistoryLoading());
+    try {
+      final answers = await _questionProgressStore.loadAnswerHistory();
+      if (!emit.isDone) {
+        _emitHistory(answers, emit);
+      }
+    } catch (error) {
+      if (!emit.isDone) {
+        emit(AnswerHistoryFailure(error));
+      }
+    }
+  }
 
   void _onHistoryChanged(
     _AnswerHistoryChanged event,
     Emitter<AnswerHistoryState> emit,
   ) {
-    if (event.answers.isEmpty) {
+    _emitHistory(event.answers, emit);
+  }
+
+  void _emitHistory(
+    Iterable<QuestionAnswerRecord> answers,
+    Emitter<AnswerHistoryState> emit,
+  ) {
+    if (answers.isEmpty) {
       emit(const AnswerHistoryEmpty());
       return;
     }
 
     emit(
       AnswerHistoryLoaded(
-        sections: _groupHistoryByDate(event.answers, _questionsByCode),
+        sections: _groupHistoryByDate(answers, _questionsByCode),
       ),
     );
   }

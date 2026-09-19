@@ -82,6 +82,27 @@ void main() {
 
     expect((bloc.state as AnswerHistoryFailure).error, error);
   });
+
+  test('retry reloads history without duplicating its subscription', () async {
+    final store = _CountingQuestionProgressStore();
+    final bloc = AnswerHistoryBloc(
+      questionProgressStore: store,
+      questions: buildQuestions(),
+    );
+    addTearDown(() async {
+      await bloc.close();
+      await store.close();
+    });
+    await _waitUntil(() => bloc.state is AnswerHistoryEmpty);
+
+    store.emitSnapshotError(StateError('History failed.'));
+    await _waitUntil(() => bloc.state is AnswerHistoryFailure);
+
+    bloc.add(const AnswerHistoryRetried());
+    await _waitUntil(() => bloc.state is AnswerHistoryEmpty);
+
+    expect(store.watchAnswerHistoryCallCount, 1);
+  });
 }
 
 Future<void> _waitUntil(bool Function() predicate) async {

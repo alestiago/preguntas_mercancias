@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/widgets/app_loading_indicator.dart';
+import '../../app/widgets/app_message_panel.dart';
 import '../../navigation/app_navigator.dart';
 import '../../practice/practice_page.dart';
 import '../../practice/practice_session_config.dart';
@@ -22,9 +24,20 @@ class AnswerHistoryView extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<AnswerHistoryBloc, AnswerHistoryState>(
           builder: (context, state) => switch (state) {
-            AnswerHistoryLoading() => const _LoadingState(),
-            AnswerHistoryFailure(:final error) => _ErrorState(error: error),
-            AnswerHistoryEmpty() => const _EmptyHistoryState(),
+            AnswerHistoryLoading() => const AppLoadingIndicator(),
+            AnswerHistoryFailure() => AppMessagePanel(
+              icon: Icons.error_outline,
+              iconColor: Theme.of(context).colorScheme.error,
+              message: localizations.answerHistoryLoadFailure,
+              actionLabel: localizations.retry,
+              onAction: () => context.read<AnswerHistoryBloc>().add(
+                const AnswerHistoryRetried(),
+              ),
+            ),
+            AnswerHistoryEmpty() => AppMessagePanel(
+              icon: Icons.history,
+              message: localizations.answerHistoryEmpty,
+            ),
             AnswerHistoryLoaded(:final sections) => AnswerHistoryList(
               sections: sections,
               onQuestionSelected: (question) =>
@@ -49,61 +62,6 @@ class AnswerHistoryView extends StatelessWidget {
         session: PracticeSessionConfig.singleQuestion(
           shuffleAnswers: shuffleAnswers,
         ),
-      ),
-    );
-  }
-}
-
-class _LoadingState extends StatelessWidget {
-  const _LoadingState();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: SizedBox.square(dimension: 36, child: CircularProgressIndicator()),
-    );
-  }
-}
-
-class _EmptyHistoryState extends StatelessWidget {
-  const _EmptyHistoryState();
-
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.history, size: 42, color: colorScheme.onSurfaceVariant),
-            const SizedBox(height: 14),
-            Text(
-              localizations.answerHistoryEmpty,
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.error});
-
-  final Object error;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Text('$error', textAlign: TextAlign.center),
       ),
     );
   }

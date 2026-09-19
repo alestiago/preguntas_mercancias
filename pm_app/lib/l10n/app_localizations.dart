@@ -130,6 +130,12 @@ abstract class AppLocalizations {
   /// **'Todavía no has respondido ninguna pregunta.'**
   String get answerHistoryEmpty;
 
+  /// No description provided for @answerHistoryLoadFailure.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cargar el historial.'**
+  String get answerHistoryLoadFailure;
+
   /// No description provided for @answerHistorySelection.
   ///
   /// In es, this message translates to:

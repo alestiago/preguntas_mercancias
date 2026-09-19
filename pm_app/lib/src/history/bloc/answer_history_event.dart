@@ -5,6 +5,10 @@ sealed class AnswerHistoryEvent {
   const AnswerHistoryEvent();
 }
 
+final class AnswerHistoryRetried extends AnswerHistoryEvent {
+  const AnswerHistoryRetried();
+}
+
 final class _AnswerHistoryChanged extends AnswerHistoryEvent {
   const _AnswerHistoryChanged(this.answers);
 

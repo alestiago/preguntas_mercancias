@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
+import '../../app/theme/app_theme.dart';
 import '../bloc/answer_history_bloc.dart';
 
 class AnswerHistoryDateHeader extends StatelessWidget {
@@ -33,14 +34,14 @@ class AnswerHistoryDateHeader extends StatelessWidget {
               Text(
                 formattedDate,
                 style: textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: AppTypography.strongWeight,
                 ),
               ),
               const Spacer(),
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: colorScheme.secondaryContainer,
-                  borderRadius: BorderRadius.circular(999),
+                  borderRadius: BorderRadius.circular(AppLayout.pillRadius),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -51,7 +52,7 @@ class AnswerHistoryDateHeader extends StatelessWidget {
                     '${section.entries.length}',
                     style: textTheme.labelLarge?.copyWith(
                       color: colorScheme.onSecondaryContainer,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: AppTypography.strongWeight,
                     ),
                   ),
                 ),

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../app/theme/app_theme.dart';
 import '../navigation/app_navigator.dart';
 import '../practice/format_elapsed_time.dart';
+import '../practice/practice_question_policy.dart';
 
 enum PracticeSummaryReturnDestination { home, answerHistory }
 
@@ -28,12 +30,17 @@ class PracticeSummaryPage extends StatelessWidget {
           slivers: [
             SliverToBoxAdapter(child: _SummaryHeader(summary: summary)),
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+              padding: const EdgeInsets.fromLTRB(
+                AppLayout.pageHorizontalInset,
+                8,
+                AppLayout.pageHorizontalInset,
+                8,
+              ),
               sliver: SliverToBoxAdapter(
                 child: Text(
                   localizations.practiceSummaryQuestionsTitle,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: AppTypography.strongWeight,
                   ),
                 ),
               ),
@@ -51,7 +58,7 @@ class PracticeSummaryPage extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(AppLayout.pageHorizontalInset),
                 child: FilledButton(
                   key: ValueKey(returnDestination.buttonKey),
                   onPressed: () => AppNavigator.pop(context),
@@ -79,7 +86,12 @@ class _SummaryHeader extends StatelessWidget {
     final scorePercentage = (summary.scoreRatio * 100).round();
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+      padding: const EdgeInsets.fromLTRB(
+        AppLayout.pageHorizontalInset,
+        24,
+        AppLayout.pageHorizontalInset,
+        16,
+      ),
       child: Column(
         children: [
           Icon(
@@ -95,7 +107,7 @@ class _SummaryHeader extends StatelessWidget {
               scorePercentage,
             ),
             style: textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w800,
+              fontWeight: AppTypography.strongWeight,
             ),
           ),
           const SizedBox(height: 8),
@@ -126,35 +138,35 @@ class _SummaryQuestionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final selectedOption = this.selectedOption;
-    final isCorrect =
-        selectedOption != null && question.isCorrect(selectedOption);
-    final isUnanswered = selectedOption == null;
-    final color = isUnanswered
-        ? Theme.of(context).colorScheme.onSurfaceVariant
-        : isCorrect
-        ? const Color(0xFF2E7D32)
-        : const Color(0xFFC62828);
+    final status = practiceQuestionPolicy.sessionStatusFor(
+      question,
+      selectedOption,
+    );
+    final colorScheme = Theme.of(context).colorScheme;
+    final color = switch (status) {
+      SessionQuestionStatus.unanswered => colorScheme.onSurfaceVariant,
+      SessionQuestionStatus.correct => AppResultColors.of(context).correct,
+      SessionQuestionStatus.incorrect => colorScheme.error,
+    };
 
     return ListTile(
       key: ValueKey('summary-question-${question.code}'),
       leading: CircleAvatar(
         backgroundColor: color.withValues(alpha: 0.12),
         foregroundColor: color,
-        child: Icon(
-          isUnanswered
-              ? Icons.horizontal_rule
-              : isCorrect
-              ? Icons.check
-              : Icons.close,
-        ),
+        child: Icon(switch (status) {
+          SessionQuestionStatus.unanswered => Icons.horizontal_rule,
+          SessionQuestionStatus.correct => Icons.check,
+          SessionQuestionStatus.incorrect => Icons.close,
+        }),
       ),
       title: Text(
         question.prompt,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontWeight: FontWeight.w700),
+        style: const TextStyle(fontWeight: AppTypography.emphasizedWeight),
       ),
-      subtitle: isUnanswered
+      subtitle: status == SessionQuestionStatus.unanswered
           ? Text(
               '${question.code} · ${localizations.practiceSummaryUnanswered}',
             )

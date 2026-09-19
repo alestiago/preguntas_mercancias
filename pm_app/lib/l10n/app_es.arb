@@ -13,6 +13,7 @@
   },
   "answerHistoryTitle": "Historial",
   "answerHistoryEmpty": "Todavía no has respondido ninguna pregunta.",
+  "answerHistoryLoadFailure": "No se pudo cargar el historial.",
   "answerHistorySelection": "Elegida: {answerText}",
   "@answerHistorySelection": {
     "placeholders": {

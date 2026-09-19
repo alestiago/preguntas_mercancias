@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/theme/app_theme.dart';
 import '../bloc/practice_bloc.dart';
 import '../format_elapsed_time.dart';
 import '../practice_session_clock.dart';
@@ -154,7 +155,7 @@ class _ScorePill extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(AppLayout.pillRadius),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -166,7 +167,7 @@ class _ScorePill extends StatelessWidget {
           ),
           style: TextStyle(
             color: colorScheme.onPrimaryContainer,
-            fontWeight: FontWeight.w800,
+            fontWeight: AppTypography.strongWeight,
           ),
         ),
       ),

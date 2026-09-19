@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/theme/app_theme.dart';
 import '../../questions/draw_simulacro_questions.dart';
 import '../bloc/home_bloc.dart';
 
@@ -56,12 +57,13 @@ class _ProgressSummaryBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final resultColors = AppResultColors.of(context);
 
     if (_total == 0) {
       return DecoratedBox(
         decoration: BoxDecoration(
           color: colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.circular(AppLayout.pillRadius),
         ),
         child: const SizedBox(height: 18),
       );
@@ -69,7 +71,7 @@ class _ProgressSummaryBar extends StatelessWidget {
 
     return ClipRRect(
       key: const ValueKey('home-progress-bar'),
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: BorderRadius.circular(AppLayout.pillRadius),
       child: SizedBox(
         height: 18,
         child: Row(
@@ -77,12 +79,12 @@ class _ProgressSummaryBar extends StatelessWidget {
             if (correctCount > 0)
               Expanded(
                 flex: correctCount,
-                child: const ColoredBox(color: Color(0xFF2E7D32)),
+                child: ColoredBox(color: resultColors.correct),
               ),
             if (incorrectCount > 0)
               Expanded(
                 flex: incorrectCount,
-                child: const ColoredBox(color: Color(0xFFC62828)),
+                child: ColoredBox(color: colorScheme.error),
               ),
             if (unansweredCount > 0)
               Expanded(
@@ -112,6 +114,7 @@ class _ProgressStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    final resultColors = AppResultColors.of(context);
 
     return Wrap(
       spacing: 10,
@@ -123,7 +126,7 @@ class _ProgressStats extends StatelessWidget {
           icon: Icons.check_circle,
           label: localizations.correctQuestions,
           count: state.correctQuestionCount,
-          color: const Color(0xFF2E7D32),
+          color: resultColors.correct,
         ),
         _ProgressStat(
           key: const ValueKey('home-incorrect-stat'),
@@ -131,7 +134,7 @@ class _ProgressStats extends StatelessWidget {
           icon: Icons.error,
           label: localizations.questionsToReview,
           count: state.incorrectQuestionCount,
-          color: const Color(0xFFC62828),
+          color: Theme.of(context).colorScheme.error,
           onTap: state.incorrectQuestionCount > 0
               ? onStartReviewPractice
               : null,
@@ -191,11 +194,11 @@ class _ProgressStat extends StatelessWidget {
         color: colorScheme.surface,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: colorScheme.outlineVariant),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppLayout.cardRadius),
         ),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppLayout.cardRadius),
           child: SizedBox(
             width: 170,
             child: Padding(
@@ -220,7 +223,7 @@ class _ProgressStat extends StatelessWidget {
                           '$count',
                           key: countKey,
                           style: textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w800,
+                            fontWeight: AppTypography.strongWeight,
                           ),
                         ),
                       ],

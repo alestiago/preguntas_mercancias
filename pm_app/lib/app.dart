@@ -4,6 +4,7 @@ import 'package:pm_persistence/pm_persistence.dart';
 
 import 'l10n/app_localizations.dart';
 import 'src/app/app_dependencies.dart';
+import 'src/app/theme/app_theme.dart';
 import 'src/home/home_page.dart';
 import 'src/questions/load_questions.dart';
 import 'src/settings/bloc/settings_bloc.dart';
@@ -40,13 +41,7 @@ final class PreguntasMercanciasApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color(0xFF136F63),
-            ),
-            scaffoldBackgroundColor: const Color(0xFFF6F7F9),
-            useMaterial3: true,
-          ),
+          theme: AppTheme.light,
           home: QuestionHomePage(loadQuestions: loadQuestions),
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../app/theme/app_theme.dart';
 
 class PracticeQuestionHeader extends StatelessWidget {
   const PracticeQuestionHeader({
@@ -73,7 +74,7 @@ class _QuestionProgressLabel extends StatelessWidget {
       message: localizations.questionNavigationOpen,
       child: InkWell(
         key: const ValueKey('question-navigation-open-button'),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(AppLayout.pillRadius),
         onTap: onOpenQuestionNavigator,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),

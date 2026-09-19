@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pm_questions_bank/pm_questions_bank.dart';
 
+import '../../app/theme/app_theme.dart';
 import '../question_answer_presentation.dart';
 
 class PracticeQuestionPanel extends StatelessWidget {
@@ -26,7 +27,7 @@ class PracticeQuestionPanel extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         border: Border.all(color: colorScheme.outlineVariant),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppLayout.cardRadius),
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -37,7 +38,7 @@ class PracticeQuestionPanel extends StatelessWidget {
               question.prompt,
               style: textTheme.titleLarge?.copyWith(
                 height: 1.25,
-                fontWeight: FontWeight.w700,
+                fontWeight: AppTypography.emphasizedWeight,
               ),
             ),
             const SizedBox(height: 20),
@@ -88,6 +89,7 @@ class _AnswerOptionButton extends StatelessWidget {
     final correct = correctOption == answer.option;
     final optionStyle = _AnswerOptionStyle.forState(
       colorScheme: colorScheme,
+      resultColors: AppResultColors.of(context),
       answered: answered,
       selected: selected,
       correct: correct,
@@ -108,7 +110,9 @@ class _AnswerOptionButton extends StatelessWidget {
           color: optionStyle.borderColor,
           width: answered ? 1.4 : 1,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppLayout.cardRadius),
+        ),
       ),
       child: _AnswerOptionButtonContent(
         answer: answer,
@@ -190,7 +194,7 @@ class _OptionBadge extends StatelessWidget {
         style: TextStyle(
           color: foregroundColor,
           fontSize: 14,
-          fontWeight: FontWeight.w800,
+          fontWeight: AppTypography.strongWeight,
         ),
       ),
     );
@@ -212,24 +216,25 @@ final class _AnswerOptionStyle {
 
   factory _AnswerOptionStyle.forState({
     required ColorScheme colorScheme,
+    required AppResultColors resultColors,
     required bool answered,
     required bool selected,
     required bool correct,
   }) {
     if (answered && correct) {
-      return const _AnswerOptionStyle(
-        borderColor: Color(0xFF2E7D32),
-        backgroundColor: Color(0xFFE8F5E9),
-        foregroundColor: Color(0xFF1B5E20),
+      return _AnswerOptionStyle(
+        borderColor: resultColors.correct,
+        backgroundColor: resultColors.correctContainer,
+        foregroundColor: resultColors.onCorrectContainer,
         trailingIcon: Icons.check_circle,
       );
     }
 
     if (answered && selected) {
-      return const _AnswerOptionStyle(
-        borderColor: Color(0xFFC62828),
-        backgroundColor: Color(0xFFFFEBEE),
-        foregroundColor: Color(0xFFB71C1C),
+      return _AnswerOptionStyle(
+        borderColor: colorScheme.error,
+        backgroundColor: colorScheme.errorContainer,
+        foregroundColor: colorScheme.onErrorContainer,
         trailingIcon: Icons.cancel,
       );
     }
