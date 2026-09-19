@@ -136,6 +136,12 @@ abstract class AppLocalizations {
   /// **'No se pudo cargar el historial.'**
   String get answerHistoryLoadFailure;
 
+  /// No description provided for @answerHistoryLoadMore.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargar más'**
+  String get answerHistoryLoadMore;
+
   /// No description provided for @answerHistorySelection.
   ///
   /// In es, this message translates to:

@@ -40,6 +40,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get answerHistoryLoadFailure => 'No se pudo cargar el historial.';
 
   @override
+  String get answerHistoryLoadMore => 'Cargar más';
+
+  @override
   String answerHistorySelection(String answerText) {
     return 'Elegida: $answerText';
   }

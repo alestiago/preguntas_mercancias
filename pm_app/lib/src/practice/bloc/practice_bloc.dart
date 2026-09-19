@@ -309,16 +309,17 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   }
 
   PracticeLoaded? _nextFilteredState(PracticeLoaded state) {
-    final remainingQuestions = state.remainingFilteredQuestions;
-    if (remainingQuestions.isEmpty) {
+    final nextQuestionIndex = practiceQuestionPolicy.nextEligibleIndex(
+      questions: state.questions,
+      currentIndex: state.currentIndex,
+      mode: state.mode,
+      progressSnapshot: state.progressSnapshot,
+    );
+    if (nextQuestionIndex == null) {
       return null;
     }
 
-    final currentQuestionIndex = state.currentIndex;
-    final nextQuestion = remainingQuestions.firstWhere(
-      (question) => state.questions.indexOf(question) > currentQuestionIndex,
-      orElse: () => remainingQuestions.first,
-    );
+    final nextQuestion = state.questions[nextQuestionIndex];
 
     final selectedOptionsByQuestionCode = {
       ...state.selectedOptionsByQuestionCode,
@@ -332,7 +333,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     }
 
     return state.copyWith(
-      currentIndex: state.questions.indexOf(nextQuestion),
+      currentIndex: nextQuestionIndex,
       selectedOptionsByQuestionCode: selectedOptionsByQuestionCode,
     );
   }

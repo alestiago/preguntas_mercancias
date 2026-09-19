@@ -32,6 +32,9 @@ void main() {
               entries: [AnswerHistoryEntry(answer: answer, question: question)],
             ),
           ],
+          hasMore: false,
+          isLoadingMore: false,
+          onLoadMore: () {},
           onQuestionSelected: (value) => selectedQuestion = value,
         ),
       ),
@@ -44,5 +47,25 @@ void main() {
 
     expect(selectedQuestion, same(question));
     semantics.dispose();
+  });
+
+  testWidgets('requests an older bounded history prefix', (tester) async {
+    var loadMoreCallCount = 0;
+
+    await tester.pumpLocalizedPage(
+      Scaffold(
+        body: AnswerHistoryList(
+          sections: const [],
+          hasMore: true,
+          isLoadingMore: false,
+          onLoadMore: () => loadMoreCallCount += 1,
+          onQuestionSelected: (_) {},
+        ),
+      ),
+    );
+
+    await tester.tap(find.byKey(const ValueKey('answer-history-load-more')));
+
+    expect(loadMoreCallCount, 1);
   });
 }

@@ -9,10 +9,14 @@ final class AnswerHistoryRetried extends AnswerHistoryEvent {
   const AnswerHistoryRetried();
 }
 
-final class _AnswerHistoryChanged extends AnswerHistoryEvent {
-  const _AnswerHistoryChanged(this.answers);
+final class AnswerHistoryMoreRequested extends AnswerHistoryEvent {
+  const AnswerHistoryMoreRequested();
+}
 
-  final List<QuestionAnswerRecord> answers;
+final class _AnswerHistoryChanged extends AnswerHistoryEvent {
+  const _AnswerHistoryChanged(this.page);
+
+  final QuestionAnswerHistoryPage page;
 }
 
 final class _AnswerHistoryObservationFailed extends AnswerHistoryEvent {

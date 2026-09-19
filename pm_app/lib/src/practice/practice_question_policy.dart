@@ -112,6 +112,38 @@ final class PracticeQuestionPolicy {
     };
   }
 
+  /// Finds the next eligible question with one circular scan.
+  ///
+  /// The scan starts after [currentIndex] and may wrap back to that index. This
+  /// supports a one-question review retry without repeatedly searching the
+  /// question list for the indices of already-filtered objects.
+  int? nextEligibleIndex({
+    required List<Question> questions,
+    required int currentIndex,
+    required PracticeMode mode,
+    required QuestionProgressSnapshot progressSnapshot,
+  }) {
+    if (questions.isEmpty) {
+      return null;
+    }
+    if (currentIndex < 0 || currentIndex >= questions.length) {
+      throw RangeError.index(currentIndex, questions, 'currentIndex');
+    }
+
+    for (var offset = 1; offset <= questions.length; offset += 1) {
+      final index = (currentIndex + offset) % questions.length;
+      if (isEligible(
+        question: questions[index],
+        mode: mode,
+        progressSnapshot: progressSnapshot,
+      )) {
+        return index;
+      }
+    }
+
+    return null;
+  }
+
   List<Question> selectEligible({
     required Iterable<Question> questions,
     required PracticeMode mode,

@@ -123,6 +123,54 @@ void main() {
       ]);
     });
 
+    test('next eligible index wraps with one circular scan', () {
+      final questions = buildManyQuestions(4);
+      final snapshot = QuestionProgressSnapshot(
+        byQuestionCode: {
+          for (final index in [0, 2, 3])
+            questions[index].code: _progress(
+              questions[index],
+              correctAttempts: 1,
+              incorrectAttempts: 0,
+              lastAnswerWasCorrect: true,
+            ),
+        },
+      );
+
+      final nextIndex = policy.nextEligibleIndex(
+        questions: questions,
+        currentIndex: 3,
+        mode: PracticeMode.pending,
+        progressSnapshot: snapshot,
+      );
+
+      expect(nextIndex, 1);
+    });
+
+    test('next eligible index can return the current review question', () {
+      final question = buildQuestions().first;
+      final snapshot = QuestionProgressSnapshot(
+        byQuestionCode: {
+          question.code: _progress(
+            question,
+            correctAttempts: 0,
+            incorrectAttempts: 1,
+            lastAnswerWasCorrect: false,
+          ),
+        },
+      );
+
+      expect(
+        policy.nextEligibleIndex(
+          questions: [question],
+          currentIndex: 0,
+          mode: PracticeMode.review,
+          progressSnapshot: snapshot,
+        ),
+        0,
+      );
+    });
+
     test('classifies current-session answers separately', () {
       final question = buildQuestions().first;
 

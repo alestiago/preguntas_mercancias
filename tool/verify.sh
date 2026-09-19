@@ -61,13 +61,21 @@ readonly generated_paths=(
   "pm_app/lib/l10n/app_localizations_es.dart"
   "packages/pm_questions_bank/assets/pm_260326_json"
 )
-generated_status="$(
-  git -C "$repository_root" status --short --untracked-files=all -- \
+generated_diff="$(
+  git -C "$repository_root" diff --name-status -- "${generated_paths[@]}"
+)"
+generated_untracked="$(
+  git -C "$repository_root" ls-files --others --exclude-standard -- \
     "${generated_paths[@]}"
 )"
-if [[ -n "$generated_status" ]]; then
-  echo "Generated files are out of date. Regenerate and commit these changes:"
-  echo "$generated_status"
+if [[ -n "$generated_diff" || -n "$generated_untracked" ]]; then
+  echo "Generated output differs from the staged snapshot. Regenerate and stage these changes:"
+  if [[ -n "$generated_diff" ]]; then
+    echo "$generated_diff"
+  fi
+  if [[ -n "$generated_untracked" ]]; then
+    echo "$generated_untracked"
+  fi
   git -C "$repository_root" --no-pager diff -- "${generated_paths[@]}"
   exit 1
 fi

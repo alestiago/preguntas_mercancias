@@ -29,13 +29,31 @@ final class AnswerHistoryEmpty extends AnswerHistoryState {
 }
 
 final class AnswerHistoryLoaded extends AnswerHistoryState {
-  AnswerHistoryLoaded({required Iterable<AnswerHistorySection> sections})
-    : sections = List.unmodifiable(sections);
+  AnswerHistoryLoaded({
+    required Iterable<AnswerHistorySection> sections,
+    required this.hasMore,
+    this.isLoadingMore = false,
+  }) : sections = List.unmodifiable(sections);
 
   final List<AnswerHistorySection> sections;
+  final bool hasMore;
+  final bool isLoadingMore;
+
+  AnswerHistoryLoaded copyWith({bool? isLoadingMore}) {
+    return AnswerHistoryLoaded(
+      sections: sections,
+      hasMore: hasMore,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+    );
+  }
 
   @override
-  List<Object?> get props => [AnswerHistoryLoaded, sections];
+  List<Object?> get props => [
+    AnswerHistoryLoaded,
+    sections,
+    hasMore,
+    isLoadingMore,
+  ];
 }
 
 final class AnswerHistorySection extends Equatable {

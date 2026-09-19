@@ -13,10 +13,16 @@ class AnswerHistoryList extends StatelessWidget {
   const AnswerHistoryList({
     super.key,
     required this.sections,
+    required this.hasMore,
+    required this.isLoadingMore,
+    required this.onLoadMore,
     required this.onQuestionSelected,
   });
 
   final List<AnswerHistorySection> sections;
+  final bool hasMore;
+  final bool isLoadingMore;
+  final VoidCallback onLoadMore;
   final ValueChanged<Question> onQuestionSelected;
 
   @override
@@ -40,6 +46,23 @@ class AnswerHistoryList extends StatelessWidget {
                       : () => onQuestionSelected(question),
                 );
               },
+            ),
+          ),
+        if (hasMore)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Center(
+                child: isLoadingMore
+                    ? const CircularProgressIndicator()
+                    : FilledButton.tonal(
+                        key: const ValueKey('answer-history-load-more'),
+                        onPressed: onLoadMore,
+                        child: Text(
+                          AppLocalizations.of(context).answerHistoryLoadMore,
+                        ),
+                      ),
+              ),
             ),
           ),
       ],

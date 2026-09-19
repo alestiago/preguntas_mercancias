@@ -119,7 +119,7 @@ void main() {
     expect((bloc.state as AnswerHistoryFailure).error, error);
   });
 
-  test('retry reloads history without duplicating its subscription', () async {
+  test('retry replaces the bounded history subscription', () async {
     final store = _CountingQuestionProgressStore();
     final bloc = AnswerHistoryBloc(
       questionProgressStore: store,
@@ -137,8 +137,62 @@ void main() {
     bloc.add(const AnswerHistoryRetried());
     await _waitUntil(() => bloc.state is AnswerHistoryEmpty);
 
-    expect(store.watchAnswerHistoryCallCount, 1);
+    expect(store.watchAnswerHistoryCallCount, 2);
+    expect(store.watchLimits, [100, 100]);
+    expect(store.loadLimits, everyElement(100));
   });
+
+  test('loads older history by expanding the bounded prefix', () async {
+    final store = _CountingQuestionProgressStore();
+    final questions = buildQuestions();
+    for (var index = 0; index < 3; index += 1) {
+      await store.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: questions[index % questions.length].code,
+          section: '1A',
+          selectedOption: QuestionOption.a,
+          correctOption: QuestionOption.b,
+          answeredAt: DateTime(2026, 8, 1, 10 + index),
+        ),
+      );
+    }
+    final bloc = AnswerHistoryBloc(
+      questionProgressStore: store,
+      questions: questions,
+      pageSize: 1,
+    );
+    addTearDown(() async {
+      await bloc.close();
+      await store.close();
+    });
+
+    await _waitUntil(
+      () =>
+          bloc.state is AnswerHistoryLoaded &&
+          _entryCount(bloc.state as AnswerHistoryLoaded) == 1,
+    );
+    expect((bloc.state as AnswerHistoryLoaded).hasMore, isTrue);
+
+    bloc.add(const AnswerHistoryMoreRequested());
+    await _waitUntil(
+      () =>
+          bloc.state is AnswerHistoryLoaded &&
+          _entryCount(bloc.state as AnswerHistoryLoaded) == 2,
+    );
+
+    final loaded = bloc.state as AnswerHistoryLoaded;
+    expect(loaded.hasMore, isTrue);
+    expect(loaded.isLoadingMore, isFalse);
+    expect(store.watchLimits, [1, 2]);
+    expect(store.loadLimits, containsAllInOrder([1, 2, 2]));
+  });
+}
+
+int _entryCount(AnswerHistoryLoaded state) {
+  return state.sections.fold(
+    0,
+    (count, section) => count + section.entries.length,
+  );
 }
 
 Future<void> _waitUntil(bool Function() predicate) async {
@@ -153,10 +207,19 @@ Future<void> _waitUntil(bool Function() predicate) async {
 
 final class _CountingQuestionProgressStore extends FakeQuestionProgressStore {
   int watchAnswerHistoryCallCount = 0;
+  final List<int> watchLimits = [];
+  final List<int> loadLimits = [];
 
   @override
-  Stream<List<QuestionAnswerRecord>> watchAnswerHistory() {
+  Stream<QuestionAnswerHistoryPage> watchAnswerHistory({required int limit}) {
     watchAnswerHistoryCallCount += 1;
-    return super.watchAnswerHistory();
+    watchLimits.add(limit);
+    return super.watchAnswerHistory(limit: limit);
+  }
+
+  @override
+  Future<QuestionAnswerHistoryPage> loadAnswerHistory({required int limit}) {
+    loadLimits.add(limit);
+    return super.loadAnswerHistory(limit: limit);
   }
 }

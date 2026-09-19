@@ -17,16 +17,18 @@ abstract interface class QuestionProgressStore {
   /// same underlying database.
   Stream<QuestionProgressSnapshot> watchSnapshot();
 
-  /// Loads immutable answer attempts in reverse chronological order.
+  /// Loads at most [limit] immutable answer attempts, newest first.
   ///
-  /// Callers must not use the relative order of equal timestamps as identity.
-  Future<List<QuestionAnswerRecord>> loadAnswerHistory();
+  /// Equal timestamps are ordered by newest insertion first. The returned
+  /// page reports whether increasing [limit] can reveal older attempts. Callers
+  /// must not use the relative order of equal timestamps as record identity.
+  Future<QuestionAnswerHistoryPage> loadAnswerHistory({required int limit});
 
-  /// Emits the current history on subscription, then every observed change.
+  /// Emits a bounded history prefix on subscription and observed changes.
   ///
   /// Ordering, errors, and cross-store visibility follow
   /// [loadAnswerHistory] and [watchSnapshot].
-  Stream<List<QuestionAnswerRecord>> watchAnswerHistory();
+  Stream<QuestionAnswerHistoryPage> watchAnswerHistory({required int limit});
 
   /// Atomically appends [answer] and updates its aggregate question progress.
   Future<void> recordAnswer(QuestionAnswerRecord answer);

@@ -54,6 +54,7 @@ hosting or build output.
 | [`packages/pm_questions_bank/`](packages/pm_questions_bank/) | Canonical bank sources, compiled Flutter assets, compiler, and asset loader |
 | [`packages/pm_persistence/`](packages/pm_persistence/) | Drift-backed attempts/progress and shared-preferences settings |
 | [`docs/decisions/`](docs/decisions/) | Accepted behavioral and persistence decisions |
+| [`docs/performance/`](docs/performance/) | Reproducible measurements supporting scaling changes |
 | [`tool/verify.sh`](tool/verify.sh) | Repository-wide generation and quality gate |
 
 The app is organized by feature under `pm_app/lib/src`. Each feature keeps its

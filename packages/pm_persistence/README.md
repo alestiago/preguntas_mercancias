@@ -24,9 +24,11 @@ The public interfaces in `lib/src/stores` are the source of truth. In summary:
 
 - Snapshot and settings watch streams emit the current value after each
   subscription, then later observed values.
-- Answer-history reads and emissions are newest first. Drift breaks equal
-  timestamps by newest insertion first; callers must not use tie order as
-  record identity.
+- Answer-history reads and emissions are bounded by a caller-supplied positive
+  limit and report whether an older prefix exists. They are newest first;
+  Drift breaks equal timestamps by newest insertion first. Increasing the
+  limit grows the prefix without offset drift when new attempts arrive, but
+  callers must not use tie order as record identity.
 - Drift watchers observe writes made by another store backed by the same
   database. The shared-preferences watcher only reports successful writes made
   through its own store instance.

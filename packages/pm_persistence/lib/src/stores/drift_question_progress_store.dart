@@ -31,14 +31,18 @@ final class DriftQuestionProgressStore implements QuestionProgressStore {
   }
 
   @override
-  Future<List<QuestionAnswerRecord>> loadAnswerHistory() async {
-    final rows = await _answerHistorySelect().get();
-    return _answerHistoryFromRows(rows);
+  Future<QuestionAnswerHistoryPage> loadAnswerHistory({
+    required int limit,
+  }) async {
+    final rows = await _answerHistorySelect(limit).get();
+    return _answerHistoryPageFromRows(rows, limit);
   }
 
   @override
-  Stream<List<QuestionAnswerRecord>> watchAnswerHistory() {
-    return _answerHistorySelect().watch().map(_answerHistoryFromRows);
+  Stream<QuestionAnswerHistoryPage> watchAnswerHistory({required int limit}) {
+    return _answerHistorySelect(
+      limit,
+    ).watch().map((rows) => _answerHistoryPageFromRows(rows, limit));
   }
 
   @override
@@ -82,12 +86,23 @@ final class DriftQuestionProgressStore implements QuestionProgressStore {
   }
 
   SimpleSelectStatement<$QuestionAttemptRecordsTable, QuestionAttemptRecord>
-  _answerHistorySelect() {
-    return _database.select(_database.questionAttemptRecords)..orderBy([
-      (record) =>
-          OrderingTerm(expression: record.answeredAt, mode: OrderingMode.desc),
-      (record) => OrderingTerm(expression: record.id, mode: OrderingMode.desc),
-    ]);
+  _answerHistorySelect(int limit) {
+    if (limit <= 0) {
+      throw ArgumentError.value(limit, 'limit', 'must be greater than zero');
+    }
+
+    return _database.select(_database.questionAttemptRecords)
+      ..orderBy([
+        (record) => OrderingTerm(
+          expression: record.answeredAt,
+          mode: OrderingMode.desc,
+        ),
+        (record) =>
+            OrderingTerm(expression: record.id, mode: OrderingMode.desc),
+      ])
+      // The extra row determines whether an older prefix is available without
+      // materializing the complete history.
+      ..limit(limit + 1);
   }
 }
 
@@ -163,18 +178,22 @@ QuestionProgressSnapshot _snapshotFromRows(
   );
 }
 
-List<QuestionAnswerRecord> _answerHistoryFromRows(
-  Iterable<QuestionAttemptRecord> rows,
+QuestionAnswerHistoryPage _answerHistoryPageFromRows(
+  List<QuestionAttemptRecord> rows,
+  int limit,
 ) {
-  return List<QuestionAnswerRecord>.unmodifiable(
-    rows.map(
-      (row) => QuestionAnswerRecord(
-        questionCode: row.questionCode,
-        section: row.section,
-        selectedOption: QuestionOption.fromCode(row.selectedOption),
-        correctOption: QuestionOption.fromCode(row.correctOption),
-        answeredAt: row.answeredAt,
-      ),
-    ),
+  return QuestionAnswerHistoryPage(
+    hasMore: rows.length > limit,
+    answers: rows
+        .take(limit)
+        .map(
+          (row) => QuestionAnswerRecord(
+            questionCode: row.questionCode,
+            section: row.section,
+            selectedOption: QuestionOption.fromCode(row.selectedOption),
+            correctOption: QuestionOption.fromCode(row.correctOption),
+            answeredAt: row.answeredAt,
+          ),
+        ),
   );
 }

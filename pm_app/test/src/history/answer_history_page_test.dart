@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pm_app/src/history/bloc/answer_history_bloc.dart';
-import 'package:pm_app/src/history/view/answer_history_view.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions/pm_questions.dart';
 
@@ -186,29 +183,12 @@ void main() {
     expect(find.text('No se pudo cargar el historial.'), findsOneWidget);
     expect(find.textContaining('private storage details'), findsNothing);
 
-    final historyBloc = tester
-        .element(find.byType(AnswerHistoryView))
-        .read<AnswerHistoryBloc>();
     await tester.tap(find.text('Reintentar'));
-    await tester.pump();
-    await tester.runAsync(
-      () => _waitUntil(() => historyBloc.state is AnswerHistoryEmpty),
-    );
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(
       find.text('Todavía no has respondido ninguna pregunta.'),
       findsOneWidget,
     );
   });
-}
-
-Future<void> _waitUntil(bool Function() predicate) async {
-  final deadline = DateTime.now().add(const Duration(seconds: 2));
-  while (!predicate()) {
-    if (DateTime.now().isAfter(deadline)) {
-      throw TestFailure('Timed out waiting for a test condition.');
-    }
-    await Future<void>.delayed(Duration.zero);
-  }
 }

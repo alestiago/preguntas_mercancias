@@ -93,12 +93,50 @@ void main() {
         ),
       );
 
-      final history = await store.loadAnswerHistory();
+      final history = await store.loadAnswerHistory(limit: 100);
 
-      expect(history.map((answer) => answer.questionCode), [
+      expect(history.answers.map((answer) => answer.questionCode), [
         '1B01001',
         '1A01001',
       ]);
+      expect(history.hasMore, isFalse);
+    });
+
+    test(
+      'bounds history and orders equal timestamps by newest insert',
+      () async {
+        final answeredAt = DateTime(2026, 8, 1, 10);
+        for (final code in ['1A01001', '1A01002', '1A01003']) {
+          await store.recordAnswer(
+            QuestionAnswerRecord(
+              questionCode: code,
+              section: '1A',
+              selectedOption: QuestionOption.a,
+              correctOption: QuestionOption.b,
+              answeredAt: answeredAt,
+            ),
+          );
+        }
+
+        final firstPrefix = await store.loadAnswerHistory(limit: 2);
+        final expandedPrefix = await store.loadAnswerHistory(limit: 3);
+
+        expect(firstPrefix.answers.map((answer) => answer.questionCode), [
+          '1A01003',
+          '1A01002',
+        ]);
+        expect(firstPrefix.hasMore, isTrue);
+        expect(expandedPrefix.answers.map((answer) => answer.questionCode), [
+          '1A01003',
+          '1A01002',
+          '1A01001',
+        ]);
+        expect(expandedPrefix.hasMore, isFalse);
+      },
+    );
+
+    test('rejects a non-positive history limit', () async {
+      expect(() => store.loadAnswerHistory(limit: 0), throwsArgumentError);
     });
 
     test('watchSnapshot emits the current value and later writes', () async {
@@ -152,7 +190,10 @@ void main() {
     });
 
     test('watchAnswerHistory emits current history and later writes', () async {
-      final historyFuture = store.watchAnswerHistory().take(2).toList();
+      final historyFuture = store
+          .watchAnswerHistory(limit: 100)
+          .take(2)
+          .toList();
       await pumpEventQueue();
 
       await store.recordAnswer(
@@ -165,8 +206,8 @@ void main() {
       );
       final history = await historyFuture;
 
-      expect(history.first, isEmpty);
-      expect(history.last.single.questionCode, '1A01001');
+      expect(history.first.answers, isEmpty);
+      expect(history.last.answers.single.questionCode, '1A01001');
     });
   });
 }

@@ -38,11 +38,21 @@ class AnswerHistoryView extends StatelessWidget {
               icon: Icons.history,
               message: localizations.answerHistoryEmpty,
             ),
-            AnswerHistoryLoaded(:final sections) => AnswerHistoryList(
-              sections: sections,
-              onQuestionSelected: (question) =>
-                  _openQuestionPractice(context, question),
-            ),
+            AnswerHistoryLoaded(
+              :final sections,
+              :final hasMore,
+              :final isLoadingMore,
+            ) =>
+              AnswerHistoryList(
+                sections: sections,
+                hasMore: hasMore,
+                isLoadingMore: isLoadingMore,
+                onLoadMore: () => context.read<AnswerHistoryBloc>().add(
+                  const AnswerHistoryMoreRequested(),
+                ),
+                onQuestionSelected: (question) =>
+                    _openQuestionPractice(context, question),
+              ),
           },
         ),
       ),

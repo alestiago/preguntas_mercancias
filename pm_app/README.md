@@ -28,7 +28,7 @@ Use `fvm flutter run` with an available Android device to run the Android app.
 | `lib/src/home/` | Catalog summary and practice entry points |
 | `lib/src/practice/` | Session configuration, eligibility policy, summaries, BLoC state transitions, and practice UI |
 | `lib/src/practice_summary/` | Completed simulacro/single-question summary |
-| `lib/src/history/` | Ordered attempt history and one-question launch |
+| `lib/src/history/` | Bounded, incrementally expanded attempt history and one-question launch |
 | `lib/src/settings/` | Answer-shuffle preference and progress reset |
 | `lib/src/questions/` | Adapters for loading the bank, drawing a simulacro, and pending batches |
 | `lib/src/navigation/` | Central page-route construction |

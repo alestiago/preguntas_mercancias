@@ -22,16 +22,30 @@ class FakeQuestionProgressStore implements QuestionProgressStore {
   }
 
   @override
-  Future<List<QuestionAnswerRecord>> loadAnswerHistory() async {
-    final answers = List<QuestionAnswerRecord>.of(recordedAnswers);
-    answers.sort((a, b) => b.answeredAt.compareTo(a.answeredAt));
-    return List.unmodifiable(answers);
+  Future<QuestionAnswerHistoryPage> loadAnswerHistory({
+    required int limit,
+  }) async {
+    if (limit <= 0) {
+      throw ArgumentError.value(limit, 'limit', 'must be greater than zero');
+    }
+
+    final indexedAnswers = recordedAnswers.indexed.toList(growable: false)
+      ..sort((a, b) {
+        final timestampOrder = b.$2.answeredAt.compareTo(a.$2.answeredAt);
+        return timestampOrder != 0 ? timestampOrder : b.$1.compareTo(a.$1);
+      });
+    return QuestionAnswerHistoryPage(
+      answers: indexedAnswers.take(limit).map((entry) => entry.$2),
+      hasMore: indexedAnswers.length > limit,
+    );
   }
 
   @override
-  Stream<List<QuestionAnswerRecord>> watchAnswerHistory() async* {
-    yield await loadAnswerHistory();
-    yield* _controller.stream.asyncMap((_) => loadAnswerHistory());
+  Stream<QuestionAnswerHistoryPage> watchAnswerHistory({
+    required int limit,
+  }) async* {
+    yield await loadAnswerHistory(limit: limit);
+    yield* _controller.stream.asyncMap((_) => loadAnswerHistory(limit: limit));
   }
 
   @override
