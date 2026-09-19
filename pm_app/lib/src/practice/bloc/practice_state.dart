@@ -120,6 +120,8 @@ final class PracticeLoaded extends PracticeState {
     required Iterable<Question> questions,
     int currentIndex = 0,
     Map<String, QuestionOption> selectedOptionsByQuestionCode = const {},
+    Map<String, QuestionAnswerPresentation> answerPresentationsByQuestionCode =
+        const {},
     bool isRecordingAnswer = false,
     PendingBatchState pendingBatchState = const PendingBatchExhausted(),
     required PracticeSessionConfig session,
@@ -131,13 +133,23 @@ final class PracticeLoaded extends PracticeState {
     assert(correctAttemptCount >= 0);
     assert(incorrectAttemptCount >= 0);
 
+    final normalizedQuestions = List<Question>.unmodifiable(questions);
+    final normalizedPresentations =
+        Map<String, QuestionAnswerPresentation>.unmodifiable({
+          for (final question in normalizedQuestions)
+            question.code:
+                answerPresentationsByQuestionCode[question.code] ??
+                QuestionAnswerPresentation.inSourceOrder(question),
+        });
+
     return PracticeLoaded._(
       selectedSection: selectedSection,
-      questions: List.unmodifiable(questions),
+      questions: normalizedQuestions,
       currentIndex: currentIndex,
       selectedOptionsByQuestionCode: Map.unmodifiable(
         selectedOptionsByQuestionCode,
       ),
+      answerPresentationsByQuestionCode: normalizedPresentations,
       isRecordingAnswer: isRecordingAnswer,
       pendingBatchState: pendingBatchState,
       session: session,
@@ -152,6 +164,7 @@ final class PracticeLoaded extends PracticeState {
     required this.questions,
     required this.currentIndex,
     required this.selectedOptionsByQuestionCode,
+    required this.answerPresentationsByQuestionCode,
     required this.isRecordingAnswer,
     required this.pendingBatchState,
     required super.session,
@@ -168,11 +181,16 @@ final class PracticeLoaded extends PracticeState {
   /// Review navigation may temporarily remove an entry to reopen a retry;
   /// attempt totals remain available separately on [PracticeState].
   final Map<String, QuestionOption> selectedOptionsByQuestionCode;
+  final Map<String, QuestionAnswerPresentation>
+  answerPresentationsByQuestionCode;
   final bool isRecordingAnswer;
   final PendingBatchState pendingBatchState;
 
   QuestionOption? get selectedOption =>
       selectedOptionsByQuestionCode[currentQuestion.code];
+
+  QuestionAnswerPresentation get currentAnswerPresentation =>
+      answerPresentationsByQuestionCode[currentQuestion.code]!;
 
   SessionQuestionStatus sessionStatusFor(Question question) {
     return practiceQuestionPolicy.sessionStatusFor(
@@ -251,6 +269,7 @@ final class PracticeLoaded extends PracticeState {
     List<Question>? questions,
     int? currentIndex,
     Map<String, QuestionOption>? selectedOptionsByQuestionCode,
+    Map<String, QuestionAnswerPresentation>? answerPresentationsByQuestionCode,
     bool? isRecordingAnswer,
     PendingBatchState? pendingBatchState,
     int? correctAttemptCount,
@@ -264,6 +283,9 @@ final class PracticeLoaded extends PracticeState {
       currentIndex: currentIndex ?? this.currentIndex,
       selectedOptionsByQuestionCode:
           selectedOptionsByQuestionCode ?? this.selectedOptionsByQuestionCode,
+      answerPresentationsByQuestionCode:
+          answerPresentationsByQuestionCode ??
+          this.answerPresentationsByQuestionCode,
       isRecordingAnswer: isRecordingAnswer ?? this.isRecordingAnswer,
       pendingBatchState: pendingBatchState ?? this.pendingBatchState,
       correctAttemptCount: correctAttemptCount ?? this.correctAttemptCount,
@@ -278,6 +300,7 @@ final class PracticeLoaded extends PracticeState {
       selectedSection: selectedSection,
       session: session,
       questions: questions,
+      answerPresentationsByQuestionCode: answerPresentationsByQuestionCode,
       progressSnapshot: progressSnapshot,
       pendingBatchState: pendingBatchState,
     );
@@ -290,6 +313,7 @@ final class PracticeLoaded extends PracticeState {
     questions,
     currentIndex,
     selectedOptionsByQuestionCode,
+    answerPresentationsByQuestionCode,
     isRecordingAnswer,
     pendingBatchState,
   ];

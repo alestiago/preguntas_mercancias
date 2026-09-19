@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_questions_bank/pm_questions_bank.dart';
 
 import '../../fixtures/question_fixtures.dart';
 import '../../helpers/fake_question_progress_store.dart';
@@ -42,6 +43,45 @@ void main() {
     expect(
       tester.getBottomLeft(lastAnswer).dy,
       lessThan(tester.getTopLeft(footer).dy),
+    );
+  });
+
+  testWidgets('uses the displayed answer label in correctness feedback', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    final question = buildQuestions().first;
+    addTearDown(progressStore.close);
+
+    await tester.pumpApp(
+      loadQuestions: (_) async => [question],
+      questionProgressStore: progressStore,
+    );
+    await tester.tap(find.byKey(const ValueKey('home-unanswered-stat')));
+    await tester.pumpAndSettle();
+
+    final correctButton = find.byKey(const ValueKey('answer-B'));
+    expect(
+      find.descendant(
+        of: correctButton,
+        matching: find.text(question.answerFor(QuestionOption.b).text),
+      ),
+      findsOneWidget,
+    );
+    final displayedOption = tester
+        .widgetList<Text>(
+          find.descendant(of: correctButton, matching: find.byType(Text)),
+        )
+        .map((text) => text.data)
+        .whereType<String>()
+        .firstWhere((text) => const {'A', 'B', 'C', 'D'}.contains(text));
+
+    await tester.tap(find.byKey(const ValueKey('answer-A')));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Respuesta correcta: $displayedOption. Respuesta B'),
+      findsOneWidget,
     );
   });
 }

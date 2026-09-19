@@ -74,6 +74,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get progressReset => 'Progreso reiniciado';
 
   @override
+  String get progressResetFailure => 'No se pudo reiniciar el progreso.';
+
+  @override
   String get startSimulacro => 'Simulacro';
 
   @override

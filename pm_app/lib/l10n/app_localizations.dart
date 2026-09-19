@@ -196,6 +196,12 @@ abstract class AppLocalizations {
   /// **'Progreso reiniciado'**
   String get progressReset;
 
+  /// No description provided for @progressResetFailure.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo reiniciar el progreso.'**
+  String get progressResetFailure;
+
   /// No description provided for @startSimulacro.
   ///
   /// In es, this message translates to:

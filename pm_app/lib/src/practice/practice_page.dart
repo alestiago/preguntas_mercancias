@@ -11,6 +11,7 @@ import 'bloc/practice_bloc.dart';
 import 'practice_question_policy.dart';
 import 'practice_session_clock.dart';
 import 'practice_session_config.dart';
+import 'question_answer_presentation.dart';
 import 'widgets/exit_practice_button.dart';
 import 'widgets/practice_page_app_bar.dart';
 import 'widgets/practice_progress_divider.dart';
@@ -377,6 +378,7 @@ class _PracticeContentLayout extends StatelessWidget {
               ),
               _QuestionPanel(
                 question: question,
+                answerPresentation: state.currentAnswerPresentation,
                 selectedOption: state.selectedOption,
                 onAnswer: onAnswer,
               ),
@@ -384,6 +386,7 @@ class _PracticeContentLayout extends StatelessWidget {
               _AnswerFeedbackSwitcher(
                 answered: state.answered,
                 question: question,
+                answerPresentation: state.currentAnswerPresentation,
                 selectedOption: state.selectedOption,
               ),
               if (state.pendingBatchState case PendingBatchLoading()) ...[
@@ -453,11 +456,13 @@ class _AnswerFeedbackSwitcher extends StatelessWidget {
   const _AnswerFeedbackSwitcher({
     required this.answered,
     required this.question,
+    required this.answerPresentation,
     required this.selectedOption,
   });
 
   final bool answered;
   final Question question;
+  final QuestionAnswerPresentation answerPresentation;
   final QuestionOption? selectedOption;
 
   @override
@@ -470,6 +475,7 @@ class _AnswerFeedbackSwitcher extends StatelessWidget {
           ? _AnswerFeedback(
               key: ValueKey(selectedOption),
               question: question,
+              answerPresentation: answerPresentation,
               selectedOption: selectedOption,
             )
           : const SizedBox.shrink(),
@@ -525,11 +531,13 @@ class _SectionSelector extends StatelessWidget {
 class _QuestionPanel extends StatelessWidget {
   const _QuestionPanel({
     required this.question,
+    required this.answerPresentation,
     required this.selectedOption,
     required this.onAnswer,
   });
 
   final Question question;
+  final QuestionAnswerPresentation answerPresentation;
   final QuestionOption? selectedOption;
   final ValueChanged<QuestionOption> onAnswer;
 
@@ -559,15 +567,18 @@ class _QuestionPanel extends StatelessWidget {
             const SizedBox(height: 20),
             for (
               var index = 0;
-              index < question.answers.length;
+              index < answerPresentation.answers.length;
               index += 1
             ) ...[
               _AnswerOptionButton(
-                answer: question.answers[index],
-                displayOption: QuestionOption.values[index],
+                answer: answerPresentation.answers[index],
+                displayOption: answerPresentation.displayOptionFor(
+                  answerPresentation.answers[index].option,
+                ),
                 correctOption: question.correctOption,
                 selectedOption: selectedOption,
-                onPressed: () => onAnswer(question.answers[index].option),
+                onPressed: () =>
+                    onAnswer(answerPresentation.answers[index].option),
               ),
               const SizedBox(height: 10),
             ],
@@ -760,17 +771,19 @@ class _AnswerFeedback extends StatelessWidget {
   const _AnswerFeedback({
     super.key,
     required this.question,
+    required this.answerPresentation,
     required this.selectedOption,
   });
 
   final Question question;
+  final QuestionAnswerPresentation answerPresentation;
   final QuestionOption selectedOption;
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final isCorrect = question.isCorrect(selectedOption);
-    final correctDisplayOption = question.displayOptionFor(
+    final correctDisplayOption = answerPresentation.displayOptionFor(
       question.correctOption,
     );
     final feedbackStyle = _AnswerFeedbackStyle.forResult(isCorrect: isCorrect);
@@ -1020,16 +1033,5 @@ extension _PracticeLoadedPresentation on PracticeLoaded {
             PracticeProgressSegmentStatus.incorrect,
         },
     ];
-  }
-}
-
-extension _QuestionDisplayOptions on Question {
-  QuestionOption displayOptionFor(QuestionOption option) {
-    final answerIndex = answers.indexWhere((answer) => answer.option == option);
-    if (answerIndex < 0 || answerIndex >= QuestionOption.values.length) {
-      return option;
-    }
-
-    return QuestionOption.values[answerIndex];
   }
 }

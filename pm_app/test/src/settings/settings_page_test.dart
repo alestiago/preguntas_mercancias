@@ -119,4 +119,39 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('shows reset failures', (tester) async {
+    final error = StateError('Clear failed.');
+    final progressStore = _FailingClearProgressStore(error);
+    addTearDown(progressStore.close);
+
+    await tester.pumpApp(
+      loadQuestions: (_) async => buildQuestions(),
+      questionProgressStore: progressStore,
+    );
+    await tester.tap(find.byKey(const ValueKey('settings-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('reset-progress-tile')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(const ValueKey('confirm-reset-progress-button')),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('No se pudo reiniciar el progreso.'), findsOneWidget);
+    expect(progressStore.clearCallCount, 1);
+  });
+}
+
+final class _FailingClearProgressStore extends FakeQuestionProgressStore {
+  _FailingClearProgressStore(this.error);
+
+  final Object error;
+  int clearCallCount = 0;
+
+  @override
+  Future<void> clear() async {
+    clearCallCount += 1;
+    throw error;
+  }
 }

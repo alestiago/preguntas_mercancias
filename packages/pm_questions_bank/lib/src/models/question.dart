@@ -133,8 +133,24 @@ final class Question extends Equatable {
 
   QuestionAnswer get correctAnswer => answerFor(correctOption);
 
+  /// Looks up an answer by its canonical identity.
+  ///
+  /// Returns `null` when the option is not part of this question. This is
+  /// useful when displaying persisted data from a different bank edition.
+  QuestionAnswer? answerForOrNull(QuestionOption option) {
+    for (final answer in answers) {
+      if (answer.option == option) {
+        return answer;
+      }
+    }
+    return null;
+  }
+
   QuestionAnswer answerFor(QuestionOption option) {
-    return answers.firstWhere((answer) => answer.option == option);
+    return answerForOrNull(option) ??
+        (throw StateError(
+          'Question $code does not contain option ${option.code}.',
+        ));
   }
 
   bool isCorrect(QuestionOption option) {

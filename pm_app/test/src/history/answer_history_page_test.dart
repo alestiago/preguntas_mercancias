@@ -109,4 +109,60 @@ void main() {
     expect(find.text('Historial'), findsOneWidget);
     expect(find.text('Resumen'), findsNothing);
   });
+
+  testWidgets('keeps canonical answer text after shuffled practice', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+
+    await tester.pumpApp(
+      loadQuestions: (_) async => [buildQuestions().first],
+      questionProgressStore: progressStore,
+    );
+    await tester.tap(find.byKey(const ValueKey('home-unanswered-stat')));
+    await tester.pumpAndSettle();
+
+    final canonicalAnswer = find.byKey(const ValueKey('answer-A'));
+    expect(
+      find.descendant(of: canonicalAnswer, matching: find.text('Respuesta A')),
+      findsOneWidget,
+    );
+    await tester.tap(canonicalAnswer);
+    await tester.pumpAndSettle();
+
+    Navigator.of(tester.element(find.text('Primera pregunta'))).pop();
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('answer-history-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Elegida: Respuesta A'), findsOneWidget);
+  });
+
+  testWidgets('displays history entries whose question is unavailable', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+    await progressStore.recordAnswer(
+      QuestionAnswerRecord(
+        questionCode: 'missing',
+        section: '1A',
+        selectedOption: QuestionOption.c,
+        correctOption: QuestionOption.a,
+        answeredAt: DateTime(2026, 8, 2, 11),
+      ),
+    );
+
+    await tester.pumpApp(
+      loadQuestions: (_) async => buildQuestions(),
+      questionProgressStore: progressStore,
+    );
+    await tester.tap(find.byKey(const ValueKey('answer-history-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Pregunta no disponible'), findsOneWidget);
+    expect(find.text('Elegida: C'), findsOneWidget);
+    expect(find.text('missing · 11:00'), findsOneWidget);
+  });
 }

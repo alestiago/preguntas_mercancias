@@ -10,6 +10,7 @@ import 'package:pm_questions_bank/pm_questions_bank.dart';
 import '../../questions/load_questions.dart';
 import '../../questions/pending_question_batch.dart';
 import '../practice_question_policy.dart';
+import '../question_answer_presentation.dart';
 import '../practice_session_config.dart';
 
 part 'practice_event.dart';
@@ -204,13 +205,11 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     final latestQuestionCodes = latestState.questions
         .map((question) => question.code)
         .toSet();
-    final pendingQuestions = _questionsWithShuffledAnswers(
-      practiceQuestionPolicy.selectEligible(
-        questions: batch.questions,
-        mode: PracticeMode.pending,
-        progressSnapshot: latestState.progressSnapshot,
-        excludedQuestionCodes: latestQuestionCodes,
-      ),
+    final pendingQuestions = practiceQuestionPolicy.selectEligible(
+      questions: batch.questions,
+      mode: PracticeMode.pending,
+      progressSnapshot: latestState.progressSnapshot,
+      excludedQuestionCodes: latestQuestionCodes,
     );
     if (pendingQuestions.isEmpty && batch.hasMore) {
       emit(
@@ -232,6 +231,10 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
           ...latestState.questions,
           ...pendingQuestions,
         ]),
+        answerPresentationsByQuestionCode: {
+          ...latestState.answerPresentationsByQuestionCode,
+          ..._answerPresentationsFor(pendingQuestions),
+        },
         pendingBatchState: batch.hasMore
             ? const PendingBatchReady()
             : const PendingBatchExhausted(),
@@ -344,16 +347,17 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       if (!_isCurrentSession(generation, emit)) {
         return;
       }
-      final loadedQuestions = _questionsWithShuffledAnswers(
-        practiceQuestionPolicy.selectEligible(
-          questions: questions,
-          mode: session.mode,
-          progressSnapshot: progressSnapshot,
-        ),
+      final loadedQuestions = practiceQuestionPolicy.selectEligible(
+        questions: questions,
+        mode: session.mode,
+        progressSnapshot: progressSnapshot,
       );
       final loadedState = PracticeLoaded(
         selectedSection: selectedSection,
         questions: loadedQuestions,
+        answerPresentationsByQuestionCode: _answerPresentationsFor(
+          loadedQuestions,
+        ),
         progressSnapshot: progressSnapshot,
         pendingBatchState:
             session.mode == PracticeMode.pending && loadMoreQuestions != null
@@ -386,47 +390,17 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     return generation == _sessionGeneration && !emit.isDone && !isClosed;
   }
 
-  List<Question> _questionsWithShuffledAnswers(Iterable<Question> questions) {
-    return List<Question>.unmodifiable(
-      questions.map(_questionWithShuffledAnswers),
-    );
-  }
-
-  Question _questionWithShuffledAnswers(Question question) {
-    if (!session.shuffleAnswers || !question.shuffleable) {
-      return question;
-    }
-
-    final shuffledAnswers = List<QuestionAnswer>.of(question.answers);
-    if (shuffledAnswers.length < 2) {
-      return question;
-    }
-
-    final originalCorrectAnswerIndex = shuffledAnswers.indexWhere(
-      (answer) => answer.option == question.correctOption,
-    );
-    shuffledAnswers.shuffle(_answerShuffleRandom);
-
-    if (originalCorrectAnswerIndex >= 0 &&
-        shuffledAnswers[originalCorrectAnswerIndex].option ==
-            question.correctOption) {
-      final swapIndex =
-          (originalCorrectAnswerIndex + 1) % shuffledAnswers.length;
-      final swappedAnswer = shuffledAnswers[swapIndex];
-      shuffledAnswers[swapIndex] = shuffledAnswers[originalCorrectAnswerIndex];
-      shuffledAnswers[originalCorrectAnswerIndex] = swappedAnswer;
-    }
-
-    return Question(
-      code: question.code,
-      section: question.section,
-      prompt: question.prompt,
-      answers: shuffledAnswers,
-      correctOption: question.correctOption,
-      norma: question.norma,
-      doctrinalReference: question.doctrinalReference,
-      shuffleable: question.shuffleable,
-    );
+  Map<String, QuestionAnswerPresentation> _answerPresentationsFor(
+    Iterable<Question> questions,
+  ) {
+    return {
+      for (final question in questions)
+        question.code: QuestionAnswerPresentation.forSession(
+          question,
+          shuffleAnswers: session.shuffleAnswers,
+          random: _answerShuffleRandom,
+        ),
+    };
   }
 
   @override

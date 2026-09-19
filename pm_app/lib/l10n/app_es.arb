@@ -31,6 +31,7 @@
   "resetProgressConfirmationMessage": "Se borrarán tus respuestas y estadísticas. Esta acción no se puede deshacer.",
   "cancel": "Cancelar",
   "progressReset": "Progreso reiniciado",
+  "progressResetFailure": "No se pudo reiniciar el progreso.",
   "startSimulacro": "Simulacro",
   "correctQuestions": "Correctas",
   "questionsToReview": "Por repasar",

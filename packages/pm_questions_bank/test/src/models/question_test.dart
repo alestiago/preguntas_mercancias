@@ -4,6 +4,23 @@ import 'package:pm_questions_bank/pm_questions_bank.dart';
 import '../../matchers/matchers.dart';
 
 void main() {
+  test('offers explicit strict and nullable canonical answer lookups', () {
+    final question = Question(
+      code: '1A01001',
+      section: '1A',
+      prompt: 'Pregunta',
+      answers: const [
+        QuestionAnswer(option: QuestionOption.a, text: 'Respuesta A'),
+      ],
+      correctOption: QuestionOption.a,
+      norma: 'Norma',
+    );
+
+    expect(question.answerFor(QuestionOption.a).text, 'Respuesta A');
+    expect(question.answerForOrNull(QuestionOption.b), isNull);
+    expect(() => question.answerFor(QuestionOption.b), throwsStateError);
+  });
+
   group('Question.fromJson', () {
     test('creates a question from valid JSON', () async {
       final question = await Question.fromJson(_validQuestionJson());

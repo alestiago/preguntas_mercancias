@@ -10,6 +10,7 @@ import '../navigation/app_navigator.dart';
 import '../practice/practice_page.dart';
 import '../practice/practice_session_config.dart';
 import '../settings/bloc/settings_bloc.dart';
+import 'bloc/answer_history_bloc.dart';
 
 class AnswerHistoryPage extends StatelessWidget {
   const AnswerHistoryPage({super.key, required this.questions});
@@ -18,16 +19,37 @@ class AnswerHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AnswerHistoryBloc(
+        questionProgressStore: context.read<QuestionProgressStore>(),
+        questions: questions,
+      ),
+      child: const _AnswerHistoryView(),
+    );
+  }
+}
+
+class _AnswerHistoryView extends StatelessWidget {
+  const _AnswerHistoryView();
+
+  @override
+  Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(localizations.answerHistoryTitle)),
       body: SafeArea(
-        child: _AnswerHistoryBody(
-          questions: questions,
-          questionProgressStore: context.read<QuestionProgressStore>(),
-          onQuestionSelected: (question) =>
-              _openQuestionPractice(context, question),
+        child: BlocBuilder<AnswerHistoryBloc, AnswerHistoryState>(
+          builder: (context, state) => switch (state) {
+            AnswerHistoryLoading() => const _LoadingState(),
+            AnswerHistoryFailure(:final error) => _ErrorState(error: error),
+            AnswerHistoryEmpty() => const _EmptyHistoryState(),
+            AnswerHistoryLoaded(:final sections) => _AnswerHistoryList(
+              sections: sections,
+              onQuestionSelected: (question) =>
+                  _openQuestionPractice(context, question),
+            ),
+          },
         ),
       ),
     );
@@ -51,58 +73,13 @@ class AnswerHistoryPage extends StatelessWidget {
   }
 }
 
-class _AnswerHistoryBody extends StatelessWidget {
-  const _AnswerHistoryBody({
-    required this.questions,
-    required this.questionProgressStore,
-    required this.onQuestionSelected,
-  });
-
-  final List<Question> questions;
-  final QuestionProgressStore questionProgressStore;
-  final ValueChanged<Question> onQuestionSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final questionsByCode = {
-      for (final question in questions) question.code: question,
-    };
-
-    return StreamBuilder<List<QuestionAnswerRecord>>(
-      stream: questionProgressStore.watchAnswerHistory(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return _ErrorState(error: snapshot.error!);
-        }
-
-        final answers = snapshot.data;
-        if (answers == null) {
-          return const _LoadingState();
-        }
-
-        if (answers.isEmpty) {
-          return const _EmptyHistoryState();
-        }
-
-        return _AnswerHistoryList(
-          sections: _historySectionsFor(answers),
-          questionsByCode: questionsByCode,
-          onQuestionSelected: onQuestionSelected,
-        );
-      },
-    );
-  }
-}
-
 class _AnswerHistoryList extends StatelessWidget {
   const _AnswerHistoryList({
     required this.sections,
-    required this.questionsByCode,
     required this.onQuestionSelected,
   });
 
-  final List<_AnswerHistorySection> sections;
-  final Map<String, Question> questionsByCode;
+  final List<AnswerHistorySection> sections;
   final ValueChanged<Question> onQuestionSelected;
 
   @override
@@ -113,13 +90,13 @@ class _AnswerHistoryList extends StatelessWidget {
           SliverStickyHeader(
             header: _AnswerHistoryDateHeader(section: section),
             sliver: SliverList.separated(
-              itemCount: section.answers.length,
+              itemCount: section.entries.length,
               separatorBuilder: (_, _) => const Divider(height: 1),
               itemBuilder: (context, index) {
-                final answer = section.answers[index];
-                final question = questionsByCode[answer.questionCode];
+                final entry = section.entries[index];
+                final question = entry.question;
                 return _AnswerHistoryTile(
-                  answer: answer,
+                  answer: entry.answer,
                   question: question,
                   onTap: question == null
                       ? null
@@ -136,7 +113,7 @@ class _AnswerHistoryList extends StatelessWidget {
 class _AnswerHistoryDateHeader extends StatelessWidget {
   const _AnswerHistoryDateHeader({required this.section});
 
-  final _AnswerHistorySection section;
+  final AnswerHistorySection section;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +155,7 @@ class _AnswerHistoryDateHeader extends StatelessWidget {
                     vertical: 4,
                   ),
                   child: Text(
-                    '${section.answers.length}',
+                    '${section.entries.length}',
                     style: textTheme.labelLarge?.copyWith(
                       color: colorScheme.onSecondaryContainer,
                       fontWeight: FontWeight.w800,
@@ -212,7 +189,7 @@ class _AnswerHistoryTile extends StatelessWidget {
         ? const Color(0xFF2E7D32)
         : const Color(0xFFC62828);
     final selectedAnswerText =
-        question?.answerTextFor(answer.selectedOption) ??
+        question?.answerForOrNull(answer.selectedOption)?.text ??
         answer.selectedOption.code;
 
     return ListTile(
@@ -246,36 +223,6 @@ class _AnswerHistoryTile extends StatelessWidget {
       ),
       trailing: onTap == null ? null : const Icon(Icons.chevron_right),
     );
-  }
-}
-
-List<_AnswerHistorySection> _historySectionsFor(
-  List<QuestionAnswerRecord> answers,
-) {
-  final groupedAnswers = <DateTime, List<QuestionAnswerRecord>>{};
-  for (final answer in answers) {
-    final answeredAt = answer.answeredAt;
-    final date = DateTime(answeredAt.year, answeredAt.month, answeredAt.day);
-    groupedAnswers.putIfAbsent(date, () => []).add(answer);
-  }
-
-  return [
-    for (final entry in groupedAnswers.entries)
-      _AnswerHistorySection(
-        date: entry.key,
-        answers: List.unmodifiable(entry.value),
-      ),
-  ];
-}
-
-final class _AnswerHistorySection {
-  const _AnswerHistorySection({required this.date, required this.answers});
-
-  final DateTime date;
-  final List<QuestionAnswerRecord> answers;
-
-  String formattedDate(BuildContext context) {
-    return date.historyDate(context);
   }
 }
 
@@ -334,18 +281,6 @@ class _ErrorState extends StatelessWidget {
   }
 }
 
-extension _QuestionAnswerTextLookup on Question {
-  String? answerTextFor(QuestionOption option) {
-    for (final possibleAnswer in answers) {
-      if (possibleAnswer.option == option) {
-        return possibleAnswer.text;
-      }
-    }
-
-    return null;
-  }
-}
-
 extension _AnswerHistoryDateFormatting on DateTime {
   String historyTime(BuildContext context) {
     final locale = Localizations.localeOf(context).toString();
@@ -355,5 +290,11 @@ extension _AnswerHistoryDateFormatting on DateTime {
   String historyDate(BuildContext context) {
     final locale = Localizations.localeOf(context).toString();
     return intl.DateFormat('EEE d MMM y', locale).format(this);
+  }
+}
+
+extension on AnswerHistorySection {
+  String formattedDate(BuildContext context) {
+    return date.historyDate(context);
   }
 }

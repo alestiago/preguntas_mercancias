@@ -56,9 +56,10 @@ void main() {
 
     test('shuffles answer presentation for loaded questions', () async {
       final progressStore = FakeQuestionProgressStore();
+      final question = buildQuestions().first;
       addTearDown(progressStore.close);
       final bloc = PracticeBloc(
-        loadQuestions: (_) async => [buildQuestions().first],
+        loadQuestions: (_) async => [question],
         questionProgressStore: progressStore,
         answerShuffleRandom: Random(1),
       );
@@ -71,10 +72,16 @@ void main() {
       bloc.add(const PracticeStarted());
       final loaded = await loadedFuture as PracticeLoaded;
       final loadedQuestion = loaded.currentQuestion;
+      final answerPresentation = loaded.currentAnswerPresentation;
 
+      expect(identical(loadedQuestion, question), isTrue);
       expect(loadedQuestion.correctOption, QuestionOption.b);
       expect(
         loadedQuestion.answers.map((answer) => answer.option),
+        QuestionOption.values,
+      );
+      expect(
+        answerPresentation.answers.map((answer) => answer.option),
         isNot([
           QuestionOption.a,
           QuestionOption.b,
@@ -83,7 +90,7 @@ void main() {
         ]),
       );
       expect(
-        loadedQuestion.answers.indexWhere(
+        answerPresentation.answers.indexWhere(
           (answer) => answer.option == QuestionOption.b,
         ),
         isNot(1),
@@ -108,12 +115,10 @@ void main() {
       bloc.add(const PracticeStarted());
       final loaded = await loadedFuture as PracticeLoaded;
 
-      expect(loaded.currentQuestion.answers.map((answer) => answer.option), [
-        QuestionOption.a,
-        QuestionOption.b,
-        QuestionOption.c,
-        QuestionOption.d,
-      ]);
+      expect(
+        loaded.currentAnswerPresentation.answers.map((answer) => answer.option),
+        QuestionOption.values,
+      );
     });
 
     test(
@@ -152,12 +157,12 @@ void main() {
         bloc.add(const PracticeStarted());
         final loaded = await loadedFuture as PracticeLoaded;
 
-        expect(loaded.currentQuestion.answers.map((answer) => answer.option), [
-          QuestionOption.a,
-          QuestionOption.b,
-          QuestionOption.c,
-          QuestionOption.d,
-        ]);
+        expect(
+          loaded.currentAnswerPresentation.answers.map(
+            (answer) => answer.option,
+          ),
+          QuestionOption.values,
+        );
       },
     );
 
