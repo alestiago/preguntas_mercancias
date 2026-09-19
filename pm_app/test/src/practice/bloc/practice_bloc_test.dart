@@ -595,6 +595,78 @@ void main() {
     );
 
     test(
+      'review mode allows repeated attempts at one incorrect question',
+      () async {
+        final progressStore = FakeQuestionProgressStore();
+        addTearDown(progressStore.close);
+        await progressStore.recordAnswer(
+          QuestionAnswerRecord(
+            questionCode: '1A01001',
+            section: '1A',
+            selectedOption: QuestionOption.a,
+            correctOption: QuestionOption.b,
+          ),
+        );
+        final bloc = PracticeBloc(
+          loadQuestions: (_) async => [_questions.first],
+          questionProgressStore: progressStore,
+          isReviewMode: true,
+        );
+        addTearDown(bloc.close);
+
+        final loadedFuture = bloc.stream.firstWhere(
+          (state) => state is PracticeLoaded,
+        );
+        bloc.add(const PracticeStarted());
+        await loadedFuture;
+
+        for (var attempt = 1; attempt <= 2; attempt += 1) {
+          final answeredFuture = bloc.stream.firstWhere(
+            (state) =>
+                state is PracticeLoaded &&
+                state.incorrectCount == attempt &&
+                state.answered &&
+                !state.isRecordingAnswer,
+          );
+          bloc.add(const AnswerPressed(QuestionOption.a));
+          await answeredFuture;
+
+          final reopenedFuture = bloc.stream.firstWhere(
+            (state) =>
+                state is PracticeLoaded &&
+                state.incorrectCount == attempt &&
+                !state.answered,
+          );
+          bloc.add(const NextQuestionPressed());
+          await reopenedFuture;
+        }
+
+        final completedFuture = bloc.stream.firstWhere(
+          (state) =>
+              state is PracticeLoaded &&
+              state.correctCount == 1 &&
+              state.incorrectCount == 2 &&
+              state.answered &&
+              !state.isRecordingAnswer &&
+              state.isFilteredPracticeComplete,
+        );
+        bloc.add(const AnswerPressed(QuestionOption.b));
+        await completedFuture;
+
+        expect(progressStore.recordedAnswers, hasLength(4));
+        expect(
+          progressStore.recordedAnswers.map((answer) => answer.selectedOption),
+          [
+            QuestionOption.a,
+            QuestionOption.a,
+            QuestionOption.a,
+            QuestionOption.b,
+          ],
+        );
+      },
+    );
+
+    test(
       'pending mode loops remaining unanswered questions until all are answered',
       () async {
         final progressStore = FakeQuestionProgressStore();

@@ -261,7 +261,21 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       orElse: () => remainingQuestions.first,
     );
 
-    return state.copyWith(currentIndex: state.questions.indexOf(nextQuestion));
+    final selectedOptionsByQuestionCode = {
+      ...state.selectedOptionsByQuestionCode,
+    };
+    if (state.isReviewMode) {
+      // A review question remains eligible after an incorrect answer. Reopen
+      // its selection when it becomes the active retry so the previous
+      // result does not prevent another attempt. Attempt totals remain in
+      // correctCount and incorrectCount.
+      selectedOptionsByQuestionCode.remove(nextQuestion.code);
+    }
+
+    return state.copyWith(
+      currentIndex: state.questions.indexOf(nextQuestion),
+      selectedOptionsByQuestionCode: selectedOptionsByQuestionCode,
+    );
   }
 
   Future<void> _onRetryPressed(
