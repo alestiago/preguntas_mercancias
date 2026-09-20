@@ -50,6 +50,7 @@ hosting or build output.
 | Path | Responsibility |
 | --- | --- |
 | [`pm_app/`](pm_app/) | Flutter UI, feature state, navigation, localization, and application composition |
+| [`widgetbook/`](widgetbook/) | Web component catalog for isolated `pm_app` widget states and interactions |
 | [`packages/pm_questions/`](packages/pm_questions/) | Pure Dart question domain, JSON ingestion, and source parser |
 | [`packages/pm_questions_bank/`](packages/pm_questions_bank/) | Canonical bank sources, compiled Flutter assets, compiler, and asset loader |
 | [`packages/pm_persistence/`](packages/pm_persistence/) | Drift-backed attempts/progress and shared-preferences settings |
@@ -115,6 +116,13 @@ For a focused test while developing:
 ```sh
 cd pm_app
 fvm flutter test test/src/practice/bloc/practice_bloc_test.dart
+```
+
+To browse the component catalog:
+
+```sh
+cd widgetbook
+fvm flutter run -d chrome -t src/main.dart
 ```
 
 Keep changes scoped, include tests for behavioral changes, and include any

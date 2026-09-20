@@ -9,6 +9,7 @@ readonly dart_packages=(
 )
 readonly flutter_packages=(
   "pm_app"
+  "widgetbook"
   "packages/pm_questions_bank"
   "packages/pm_persistence"
 )

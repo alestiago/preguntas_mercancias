@@ -1,0 +1,30 @@
+name: pm_widgetbook
+description: Interactive component catalog for Preguntas Mercancias.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  pm_app:
+    path: ../pm_app
+  pm_persistence:
+    path: ../packages/pm_persistence
+  pm_questions:
+    path: ../packages/pm_questions
+  pm_questions_bank:
+    path: ../packages/pm_questions_bank
+  widgetbook: ^3.25.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

@@ -29,6 +29,14 @@
         "--web-port",
         "5111"
       ]
+    },
+    {
+      "name": "widgetbook (Chrome)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "widgetbook",
+      "program": "src/main.dart",
+      "deviceId": "chrome"
     }
   ]
 }
