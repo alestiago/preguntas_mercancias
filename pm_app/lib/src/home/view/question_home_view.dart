@@ -9,6 +9,7 @@ import '../../history/answer_history_page.dart';
 import '../../navigation/app_navigator.dart';
 import '../../practice/practice_launch.dart';
 import '../../practice/practice_page.dart';
+import '../../practice/practice_session_config.dart';
 import '../../questions/draw_simulacro_questions.dart';
 import '../../settings/bloc/settings_bloc.dart';
 import '../../settings/settings_page.dart';
@@ -125,8 +126,10 @@ class QuestionHomeView extends StatelessWidget {
       practiceLaunchFactory.pending(
         catalog: state.catalog,
         shuffleAnswers: shuffleAnswers,
-        pendingQuestionCount: state.unansweredQuestionCount,
-        pendingQuestionCountsBySection: state.pendingQuestionCountsBySection,
+        options: PendingPracticeOptions(
+          initialQuestionCount: state.unansweredQuestionCount,
+          initialQuestionCountsBySection: state.pendingQuestionCountsBySection,
+        ),
       ),
     );
   }

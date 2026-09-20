@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_app/l10n/app_localizations.dart';
+import 'package:pm_app/src/app/theme/app_theme.dart';
+import 'package:pm_app/src/practice/practice_launch.dart';
+import 'package:pm_app/src/practice/practice_page.dart';
+import 'package:pm_app/src/practice/practice_session_config.dart';
+import 'package:pm_app/src/practice/session_question_source.dart';
+import 'package:pm_app/src/practice/widgets/practice_section_selector.dart';
+import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions/pm_questions.dart';
 
 import '../../fixtures/question_fixtures.dart';
@@ -7,6 +16,47 @@ import '../../helpers/fake_question_progress_store.dart';
 import '../../helpers/pump_app.dart';
 
 void main() {
+  testWidgets('empty sessions use each mode section-selector capability', (
+    tester,
+  ) async {
+    final progressStore = FakeQuestionProgressStore();
+    addTearDown(progressStore.close);
+    final configs = <PracticeSessionConfig>[
+      const PracticeSessionConfig.standard(),
+      const PracticeSessionConfig.review(),
+      PracticeSessionConfig.pending(),
+      const PracticeSessionConfig.simulacro(),
+      const PracticeSessionConfig.singleQuestion(),
+    ];
+
+    for (final config in configs) {
+      await tester.pumpWidget(
+        RepositoryProvider<QuestionProgressStore>.value(
+          value: progressStore,
+          child: MaterialApp(
+            theme: AppTheme.light,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: QuestionPracticePage(
+              key: ValueKey(config.mode),
+              launch: PracticeLaunch(
+                config: config,
+                source: _EmptyQuestionSource(config.mode),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byType(PracticeSectionSelector),
+        config.allowsSectionSelection ? findsOneWidget : findsNothing,
+        reason: config.mode.name,
+      );
+    }
+  });
+
   testWidgets('keeps footer pinned above scrollable content', (tester) async {
     final progressStore = FakeQuestionProgressStore();
     addTearDown(progressStore.close);
@@ -84,4 +134,16 @@ void main() {
       findsOneWidget,
     );
   });
+}
+
+final class _EmptyQuestionSource implements SessionQuestionSource {
+  const _EmptyQuestionSource(this.mode);
+
+  @override
+  final PracticeMode mode;
+
+  @override
+  Future<SessionQuestionBatch> load(SessionQuestionRequest request) async {
+    return SessionQuestionBatch(questions: const [], hasMore: false);
+  }
 }

@@ -34,10 +34,10 @@ class PracticePageAppBar extends StatelessWidget
     final localizations = AppLocalizations.of(context);
 
     return AppBar(
-      leading: state is PracticeLoaded && state.mode == PracticeMode.simulacro
+      leading: state is PracticeLoaded && state.session.showsExitAction
           ? ExitPracticeIconButton(onPressed: onExitRequested)
           : null,
-      title: state.mode == PracticeMode.simulacro
+      title: state.session.showsElapsedTime
           ? _SimulacroModeTitle(
               title: state.localize(localizations),
               sessionClock: sessionClock,

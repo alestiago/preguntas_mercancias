@@ -174,8 +174,10 @@ void main() {
         practiceLaunchFactory.pending(
           catalog: catalog,
           shuffleAnswers: false,
-          pendingQuestionCount: 2,
-          pendingQuestionCountsBySection: const {'1A': 2},
+          options: PendingPracticeOptions(
+            initialQuestionCount: 2,
+            initialQuestionCountsBySection: const {'1A': 2},
+          ),
         ),
         practiceLaunchFactory.simulacro(
           questions: catalog.questions,

@@ -44,27 +44,25 @@ sealed class PracticeState extends Equatable {
   const PracticeState({
     required this.selectedSection,
     required this.session,
-    this.correctAttemptCount = 0,
-    this.incorrectAttemptCount = 0,
     this.progressSnapshot = const QuestionProgressSnapshot.empty(),
   });
 
   final String? selectedSection;
   final PracticeSessionConfig session;
-
-  /// Correct attempts made in this session, including review retries.
-  final int correctAttemptCount;
-
-  /// Incorrect attempts made in this session, including review retries.
-  final int incorrectAttemptCount;
   final QuestionProgressSnapshot progressSnapshot;
 
-  int get totalAttemptCount => correctAttemptCount + incorrectAttemptCount;
+  SessionAnswers get answers => const SessionAnswers.empty();
+
+  int get correctAttemptCount => answers.correctAttemptCount;
+
+  int get incorrectAttemptCount => answers.incorrectAttemptCount;
+
+  int get totalAttemptCount => answers.totalAttemptCount;
 
   PracticeMode get mode => session.mode;
 
   bool get isQuestionDrawerNavigationEnabled =>
-      this is PracticeLoaded && mode == PracticeMode.simulacro;
+      this is PracticeLoaded && session.allowsQuestionNavigation;
 
   PracticeExitPolicy get exitPolicy {
     final state = this;
@@ -74,21 +72,14 @@ sealed class PracticeState extends Equatable {
     if (state.isRecordingAnswer) {
       return PracticeExitPolicy.blocked;
     }
-    if (mode == PracticeMode.simulacro &&
-        state.selectedOptionsByQuestionCode.isNotEmpty) {
+    if (session.confirmsExitAfterAnswer && state.answers.hasSelections) {
       return PracticeExitPolicy.confirm;
     }
     return PracticeExitPolicy.allow;
   }
 
   @override
-  List<Object?> get props => [
-    selectedSection,
-    session,
-    correctAttemptCount,
-    incorrectAttemptCount,
-    progressSnapshot,
-  ];
+  List<Object?> get props => [selectedSection, session, progressSnapshot];
 }
 
 final class PracticeLoading extends PracticeState {
@@ -115,87 +106,42 @@ final class PracticeLoadFailure extends PracticeState {
 }
 
 final class PracticeLoaded extends PracticeState {
-  factory PracticeLoaded({
-    required String? selectedSection,
-    required Iterable<Question> questions,
-    int currentIndex = 0,
-    Map<String, QuestionOption> selectedOptionsByQuestionCode = const {},
-    Map<String, QuestionAnswerPresentation> answerPresentationsByQuestionCode =
-        const {},
-    bool isRecordingAnswer = false,
-    PendingBatchState pendingBatchState = const PendingBatchExhausted(),
-    required PracticeSessionConfig session,
-    int correctAttemptCount = 0,
-    int incorrectAttemptCount = 0,
-    QuestionProgressSnapshot progressSnapshot =
-        const QuestionProgressSnapshot.empty(),
-  }) {
-    assert(correctAttemptCount >= 0);
-    assert(incorrectAttemptCount >= 0);
-
-    final normalizedQuestions = List<Question>.unmodifiable(questions);
-    final normalizedPresentations =
-        Map<String, QuestionAnswerPresentation>.unmodifiable({
-          for (final question in normalizedQuestions)
-            question.code:
-                answerPresentationsByQuestionCode[question.code] ??
-                QuestionAnswerPresentation.inSourceOrder(question),
-        });
-
-    return PracticeLoaded._(
-      selectedSection: selectedSection,
-      questions: normalizedQuestions,
-      currentIndex: currentIndex,
-      selectedOptionsByQuestionCode: Map.unmodifiable(
-        selectedOptionsByQuestionCode,
-      ),
-      answerPresentationsByQuestionCode: normalizedPresentations,
-      isRecordingAnswer: isRecordingAnswer,
-      pendingBatchState: pendingBatchState,
-      session: session,
-      correctAttemptCount: correctAttemptCount,
-      incorrectAttemptCount: incorrectAttemptCount,
-      progressSnapshot: progressSnapshot,
-    );
-  }
-
-  const PracticeLoaded._({
+  const PracticeLoaded({
     required super.selectedSection,
-    required this.questions,
-    required this.currentIndex,
-    required this.selectedOptionsByQuestionCode,
-    required this.answerPresentationsByQuestionCode,
-    required this.isRecordingAnswer,
-    required this.pendingBatchState,
     required super.session,
-    required super.correctAttemptCount,
-    required super.incorrectAttemptCount,
-    required super.progressSnapshot,
+    required this.practiceSession,
+    this.isRecordingAnswer = false,
+    this.pendingBatchState = const PendingBatchExhausted(),
+    super.progressSnapshot,
   });
 
-  final List<Question> questions;
-  final int currentIndex;
-
-  /// The latest retained answer result for each question in this session.
-  ///
-  /// Review navigation may temporarily remove an entry to reopen a retry;
-  /// attempt totals remain available separately on [PracticeState].
-  final Map<String, QuestionOption> selectedOptionsByQuestionCode;
-  final Map<String, QuestionAnswerPresentation>
-  answerPresentationsByQuestionCode;
+  final PracticeSession practiceSession;
   final bool isRecordingAnswer;
   final PendingBatchState pendingBatchState;
 
-  QuestionOption? get selectedOption =>
-      selectedOptionsByQuestionCode[currentQuestion.code];
+  List<Question> get questions => practiceSession.questions.questions;
+
+  Map<String, QuestionAnswerPresentation>
+  get answerPresentationsByQuestionCode =>
+      practiceSession.questions.presentationsByQuestionCode;
+
+  int get currentIndex => practiceSession.currentIndex;
+
+  Map<String, QuestionOption> get selectedOptionsByQuestionCode =>
+      answers.selectedOptionsByQuestionCode;
+
+  @override
+  SessionAnswers get answers => practiceSession.answers;
+
+  QuestionOption? get selectedOption => practiceSession.selectedOption;
 
   QuestionAnswerPresentation get currentAnswerPresentation =>
-      answerPresentationsByQuestionCode[currentQuestion.code]!;
+      practiceSession.currentAnswerPresentation;
 
   SessionQuestionStatus sessionStatusFor(Question question) {
     return practiceQuestionPolicy.sessionStatusFor(
       question,
-      selectedOptionsByQuestionCode[question.code],
+      answers.selectedOptionFor(question),
     );
   }
 
@@ -206,8 +152,7 @@ final class PracticeLoaded extends PracticeState {
 
   PracticeCompletionPolicy get completionPolicy => session.completionPolicy;
 
-  bool get isFilteredPracticeMode =>
-      mode == PracticeMode.review || mode == PracticeMode.pending;
+  bool get isFilteredPracticeMode => session.usesFilteredQuestionEligibility;
 
   List<Question> get remainingFilteredQuestions {
     if (!isFilteredPracticeMode) {
@@ -225,12 +170,12 @@ final class PracticeLoaded extends PracticeState {
     if (!isFilteredPracticeMode || remainingFilteredQuestions.isNotEmpty) {
       return false;
     }
-    return mode != PracticeMode.pending ||
+    return session.pendingOptions == null ||
         pendingBatchState is PendingBatchExhausted;
   }
 
   bool get isAwaitingPendingBatch =>
-      mode == PracticeMode.pending &&
+      session.pendingOptions != null &&
       remainingFilteredQuestions.isEmpty &&
       pendingBatchState is! PendingBatchExhausted;
 
@@ -263,57 +208,33 @@ final class PracticeLoaded extends PracticeState {
   double get progress =>
       questions.isEmpty ? 0 : (currentIndex + 1) / questions.length;
 
-  Question get currentQuestion => questions[currentIndex];
+  Question get currentQuestion => practiceSession.currentQuestion;
 
   PracticeLoaded copyWith({
-    List<Question>? questions,
-    int? currentIndex,
-    Map<String, QuestionOption>? selectedOptionsByQuestionCode,
-    Map<String, QuestionAnswerPresentation>? answerPresentationsByQuestionCode,
+    PracticeSession? practiceSession,
     bool? isRecordingAnswer,
     PendingBatchState? pendingBatchState,
-    int? correctAttemptCount,
-    int? incorrectAttemptCount,
     QuestionProgressSnapshot? progressSnapshot,
   }) {
     return PracticeLoaded(
       selectedSection: selectedSection,
       session: session,
-      questions: questions ?? this.questions,
-      currentIndex: currentIndex ?? this.currentIndex,
-      selectedOptionsByQuestionCode:
-          selectedOptionsByQuestionCode ?? this.selectedOptionsByQuestionCode,
-      answerPresentationsByQuestionCode:
-          answerPresentationsByQuestionCode ??
-          this.answerPresentationsByQuestionCode,
+      practiceSession: practiceSession ?? this.practiceSession,
       isRecordingAnswer: isRecordingAnswer ?? this.isRecordingAnswer,
       pendingBatchState: pendingBatchState ?? this.pendingBatchState,
-      correctAttemptCount: correctAttemptCount ?? this.correctAttemptCount,
-      incorrectAttemptCount:
-          incorrectAttemptCount ?? this.incorrectAttemptCount,
       progressSnapshot: progressSnapshot ?? this.progressSnapshot,
     );
   }
 
   PracticeLoaded restart() {
-    return PracticeLoaded(
-      selectedSection: selectedSection,
-      session: session,
-      questions: questions,
-      answerPresentationsByQuestionCode: answerPresentationsByQuestionCode,
-      progressSnapshot: progressSnapshot,
-      pendingBatchState: pendingBatchState,
-    );
+    return copyWith(practiceSession: practiceSession.restart());
   }
 
   @override
   List<Object?> get props => [
     PracticeLoaded,
     ...super.props,
-    questions,
-    currentIndex,
-    selectedOptionsByQuestionCode,
-    answerPresentationsByQuestionCode,
+    practiceSession,
     isRecordingAnswer,
     pendingBatchState,
   ];

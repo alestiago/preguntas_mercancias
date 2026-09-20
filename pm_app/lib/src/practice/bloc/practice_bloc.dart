@@ -9,9 +9,12 @@ import 'package:pm_questions/pm_questions.dart';
 
 import '../practice_launch.dart';
 import '../practice_question_policy.dart';
+import '../practice_session.dart';
 import '../question_answer_presentation.dart';
 import '../practice_session_config.dart';
+import '../session_answers.dart';
 import '../session_question_source.dart';
+import '../session_questions.dart';
 
 part 'practice_event.dart';
 part 'practice_state.dart';
@@ -79,17 +82,11 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
 
     final generation = _sessionGeneration;
     final question = currentState.currentQuestion;
-    final isCorrect = question.isCorrect(event.option);
     final answeredState = currentState.copyWith(
-      selectedOptionsByQuestionCode: {
-        ...currentState.selectedOptionsByQuestionCode,
-        question.code: event.option,
-      },
+      practiceSession: currentState.practiceSession.recordSelection(
+        event.option,
+      ),
       isRecordingAnswer: true,
-      correctAttemptCount:
-          currentState.correctAttemptCount + (isCorrect ? 1 : 0),
-      incorrectAttemptCount:
-          currentState.incorrectAttemptCount + (isCorrect ? 0 : 1),
     );
 
     emit(answeredState);
@@ -164,13 +161,14 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     int generation,
     Emitter<PracticeState> emit,
   ) async {
+    final pendingOptions = session.pendingOptions;
     // Refill requests are advisory. Ignore them until pending mode reaches its
     // threshold, and while a load or terminal exhaustion is already known.
-    if (currentState.mode != PracticeMode.pending ||
+    if (pendingOptions == null ||
         currentState.pendingBatchState is PendingBatchExhausted ||
         currentState.pendingBatchState is PendingBatchLoading ||
         currentState.remainingFilteredQuestions.length >
-            session.pendingLoadThreshold) {
+            pendingOptions.loadThreshold) {
       return;
     }
 
@@ -186,7 +184,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
           section: currentState.selectedSection,
           excludedQuestionCodes: loadedQuestionCodes,
           progressSnapshot: currentState.progressSnapshot,
-          requestedSize: session.pendingBatchSize,
+          requestedSize: pendingOptions.batchSize,
         ),
       );
     } catch (error, stackTrace) {
@@ -234,14 +232,14 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
 
     emit(
       latestState.copyWith(
-        questions: List<Question>.unmodifiable([
-          ...latestState.questions,
-          ...pendingQuestions,
-        ]),
-        answerPresentationsByQuestionCode: {
-          ...latestState.answerPresentationsByQuestionCode,
-          ..._answerPresentationsFor(pendingQuestions),
-        },
+        practiceSession: latestState.practiceSession.appendQuestions(
+          SessionQuestions(
+            questions: pendingQuestions,
+            presentationsByQuestionCode: _answerPresentationsFor(
+              pendingQuestions,
+            ),
+          ),
+        ),
         pendingBatchState: batch.hasMore
             ? const PendingBatchReady()
             : const PendingBatchExhausted(),
@@ -264,9 +262,12 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     }
 
     if (currentState.isFilteredPracticeMode) {
-      final nextState = _nextFilteredState(currentState);
-      if (nextState != null) {
-        emit(nextState);
+      final nextSession = currentState.practiceSession.moveToNextEligible(
+        mode: currentState.mode,
+        progressSnapshot: currentState.progressSnapshot,
+      );
+      if (nextSession != null) {
+        emit(currentState.copyWith(practiceSession: nextSession));
       }
       return;
     }
@@ -276,7 +277,11 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
-    emit(currentState.copyWith(currentIndex: currentState.currentIndex + 1));
+    emit(
+      currentState.copyWith(
+        practiceSession: currentState.practiceSession.moveToNext(),
+      ),
+    );
   }
 
   void _onPreviousQuestionPressed(
@@ -290,7 +295,11 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
-    emit(currentState.copyWith(currentIndex: currentState.currentIndex - 1));
+    emit(
+      currentState.copyWith(
+        practiceSession: currentState.practiceSession.moveToPrevious(),
+      ),
+    );
   }
 
   void _onQuestionNavigationPressed(
@@ -306,36 +315,10 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       return;
     }
 
-    emit(currentState.copyWith(currentIndex: event.index));
-  }
-
-  PracticeLoaded? _nextFilteredState(PracticeLoaded state) {
-    final nextQuestionIndex = practiceQuestionPolicy.nextEligibleIndex(
-      questions: state.questions,
-      currentIndex: state.currentIndex,
-      mode: state.mode,
-      progressSnapshot: state.progressSnapshot,
-    );
-    if (nextQuestionIndex == null) {
-      return null;
-    }
-
-    final nextQuestion = state.questions[nextQuestionIndex];
-
-    final selectedOptionsByQuestionCode = {
-      ...state.selectedOptionsByQuestionCode,
-    };
-    if (state.mode == PracticeMode.review) {
-      // A review question remains eligible after an incorrect answer. Reopen
-      // its selection when it becomes the active retry so the previous
-      // result does not prevent another attempt. Attempt totals remain in
-      // correctAttemptCount and incorrectAttemptCount.
-      selectedOptionsByQuestionCode.remove(nextQuestion.code);
-    }
-
-    return state.copyWith(
-      currentIndex: nextQuestionIndex,
-      selectedOptionsByQuestionCode: selectedOptionsByQuestionCode,
+    emit(
+      currentState.copyWith(
+        practiceSession: currentState.practiceSession.moveTo(event.index),
+      ),
     );
   }
 
@@ -351,14 +334,13 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       if (!_isCurrentSession(generation, emit)) {
         return;
       }
+      final pendingOptions = session.pendingOptions;
       final batch = await questionSource.load(
         SessionQuestionRequest(
           section: selectedSection,
           excludedQuestionCodes: const {},
           progressSnapshot: sourceProgressSnapshot,
-          requestedSize: session.mode == PracticeMode.pending
-              ? session.pendingBatchSize
-              : null,
+          requestedSize: pendingOptions?.batchSize,
         ),
       );
       if (!_isCurrentSession(generation, emit)) {
@@ -377,21 +359,21 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
       );
       final loadedState = PracticeLoaded(
         selectedSection: selectedSection,
-        questions: loadedQuestions,
-        answerPresentationsByQuestionCode: _answerPresentationsFor(
-          loadedQuestions,
+        practiceSession: PracticeSession.fromQuestions(
+          questions: loadedQuestions,
+          presentationsByQuestionCode: _answerPresentationsFor(loadedQuestions),
         ),
         progressSnapshot: progressSnapshot,
-        pendingBatchState: session.mode == PracticeMode.pending && batch.hasMore
+        pendingBatchState: pendingOptions != null && batch.hasMore
             ? const PendingBatchReady()
             : const PendingBatchExhausted(),
         session: session,
       );
       emit(loadedState);
-      if (loadedState.mode == PracticeMode.pending &&
+      if (pendingOptions != null &&
           loadedState.pendingBatchState is PendingBatchReady &&
           loadedState.remainingFilteredQuestions.length <=
-              session.pendingLoadThreshold) {
+              pendingOptions.loadThreshold) {
         add(_PendingRefillRequested(generation));
       }
     } catch (error) {

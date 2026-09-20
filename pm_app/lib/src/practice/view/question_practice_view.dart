@@ -141,10 +141,13 @@ class _QuestionPracticeViewState extends State<QuestionPracticeView> {
   void _performPrimaryAction(BuildContext context, PracticeLoaded state) {
     switch (state.primaryAction) {
       case PracticePrimaryAction.finish:
-        if (state.mode == PracticeMode.simulacro) {
-          _finishSimulacro(context, state);
-        } else {
-          AppNavigator.pop(context);
+        switch (state.session.completionDestination) {
+          case PracticeCompletionDestination.summary:
+            _finishWithSummary(context, state);
+          case PracticeCompletionDestination.previousRoute:
+            AppNavigator.pop(context);
+          case null:
+            throw StateError('A finishing session needs a destination.');
         }
         return;
       case PracticePrimaryAction.next || PracticePrimaryAction.restart:
@@ -153,12 +156,9 @@ class _QuestionPracticeViewState extends State<QuestionPracticeView> {
     }
   }
 
-  void _finishSimulacro(BuildContext context, PracticeLoaded state) {
+  void _finishWithSummary(BuildContext context, PracticeLoaded state) {
     final summary = PracticeSummary(
-      questions: state.questions,
-      selectedOptionsByQuestionCode: state.selectedOptionsByQuestionCode,
-      correctAttemptCount: state.correctAttemptCount,
-      incorrectAttemptCount: state.incorrectAttemptCount,
+      session: state.practiceSession,
       elapsedTime: widget.sessionClock.elapsed,
     );
 
@@ -218,9 +218,7 @@ class _PracticeBody extends StatelessWidget {
       PracticeLoaded(questions: final questions) when questions.isEmpty =>
         _EmptyState(
           selectedSection: state.selectedSection,
-          showSectionSelector:
-              state.mode != PracticeMode.simulacro &&
-              state.mode != PracticeMode.singleQuestion,
+          showSectionSelector: state.session.allowsSectionSelection,
           onSectionSelected: (section) =>
               context.read<PracticeBloc>().add(SectionSelected(section)),
         ),
@@ -247,8 +245,7 @@ class _PracticeContent extends StatelessWidget {
 
     return CustomScrollView(
       slivers: [
-        if (state.mode != PracticeMode.simulacro &&
-            state.mode != PracticeMode.singleQuestion)
+        if (state.session.allowsSectionSelection)
           SliverToBoxAdapter(
             child: PracticeSectionSelector(
               selectedSection: state.selectedSection,
@@ -462,17 +459,18 @@ extension _PracticeLoadedPresentation on PracticeLoaded {
   int get displayQuestionNumber => currentIndex + 1;
 
   int get displayQuestionCount {
-    if (mode != PracticeMode.pending) {
+    final pendingOptions = session.pendingOptions;
+    if (pendingOptions == null) {
       return questions.length;
     }
 
     final selectedSection = this.selectedSection;
     if (selectedSection != null) {
-      return session.pendingQuestionCountsBySection[selectedSection] ??
+      return pendingOptions.initialQuestionCountsBySection[selectedSection] ??
           questions.length;
     }
 
-    return session.pendingQuestionCount ?? questions.length;
+    return pendingOptions.initialQuestionCount ?? questions.length;
   }
 
   List<SessionQuestionStatus> get progressSegments {

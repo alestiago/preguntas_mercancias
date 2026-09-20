@@ -56,20 +56,14 @@ final class PracticeLaunchFactory {
     required QuestionCatalog catalog,
     required bool shuffleAnswers,
     String? initialSection,
-    int? pendingQuestionCount,
-    Map<String, int> pendingQuestionCountsBySection = const {},
-    int pendingBatchSize = 10,
-    int pendingLoadThreshold = 5,
+    PendingPracticeOptions? options,
   }) {
     return _catalogLaunch(
       catalog: catalog,
       config: PracticeSessionConfig.pending(
         initialSection: initialSection,
         shuffleAnswers: shuffleAnswers,
-        pendingBatchSize: pendingBatchSize,
-        pendingLoadThreshold: pendingLoadThreshold,
-        pendingQuestionCount: pendingQuestionCount,
-        pendingQuestionCountsBySection: pendingQuestionCountsBySection,
+        options: options,
       ),
     );
   }

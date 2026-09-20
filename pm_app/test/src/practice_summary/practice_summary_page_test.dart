@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_app/src/practice/practice_session.dart';
 import 'package:pm_app/src/practice/practice_summary.dart';
+import 'package:pm_app/src/practice/session_answers.dart';
 import 'package:pm_app/src/practice_summary/practice_summary_page.dart';
 import 'package:pm_questions/pm_questions.dart';
 
@@ -14,13 +16,17 @@ void main() {
     final semantics = tester.ensureSemantics();
     final questions = buildQuestions();
     final summary = PracticeSummary(
-      questions: questions,
-      selectedOptionsByQuestionCode: {
-        questions.first.code: QuestionOption.b,
-        questions.last.code: QuestionOption.b,
-      },
-      correctAttemptCount: 1,
-      incorrectAttemptCount: 1,
+      session: PracticeSession.fromQuestions(
+        questions: questions,
+        answers: SessionAnswers(
+          selectedOptionsByQuestionCode: {
+            questions.first.code: QuestionOption.b,
+            questions.last.code: QuestionOption.b,
+          },
+          correctAttemptCount: 1,
+          incorrectAttemptCount: 1,
+        ),
+      ),
       elapsedTime: const Duration(minutes: 1, seconds: 1),
     );
 
@@ -55,10 +61,7 @@ void main() {
     final semantics = tester.ensureSemantics();
     final question = buildQuestions().first;
     final summary = PracticeSummary(
-      questions: [question],
-      selectedOptionsByQuestionCode: const {},
-      correctAttemptCount: 0,
-      incorrectAttemptCount: 0,
+      session: PracticeSession.fromQuestions(questions: [question]),
       elapsedTime: Duration.zero,
     );
 

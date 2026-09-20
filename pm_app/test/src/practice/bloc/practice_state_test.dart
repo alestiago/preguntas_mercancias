@@ -1,22 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/practice/bloc/practice_bloc.dart';
+import 'package:pm_app/src/practice/practice_session.dart';
 import 'package:pm_app/src/practice/practice_session_config.dart';
+import 'package:pm_app/src/practice/session_answers.dart';
 import 'package:pm_questions/pm_questions.dart';
 
 import '../../../fixtures/question_fixtures.dart';
 
 void main() {
   group('PracticeLoaded', () {
-    test('defensively copies collection inputs', () {
+    test('exposes immutable session collections', () {
       final questions = buildQuestions();
       final selections = <String, QuestionOption>{
         questions.first.code: QuestionOption.b,
       };
-      final state = PracticeLoaded(
-        selectedSection: '1A',
-        session: const PracticeSessionConfig.standard(),
+      final state = _state(
         questions: questions,
-        selectedOptionsByQuestionCode: selections,
+        selections: selections,
+        correctAttempts: 1,
       );
 
       questions.clear();
@@ -34,39 +35,40 @@ void main() {
     });
 
     test('uses deep value equality for meaningful session data', () {
-      final stateA = PracticeLoaded(
-        selectedSection: '1A',
-        session: const PracticeSessionConfig.standard(),
-        questions: buildQuestions(),
-        selectedOptionsByQuestionCode: const {'1A01001': QuestionOption.b},
-        correctAttemptCount: 1,
-        incorrectAttemptCount: 2,
+      final stateA = _state(
+        selections: const {'1A01001': QuestionOption.b},
+        correctAttempts: 1,
+        incorrectAttempts: 2,
       );
-      final stateB = PracticeLoaded(
-        selectedSection: '1A',
-        session: const PracticeSessionConfig.standard(),
-        questions: buildQuestions(),
-        selectedOptionsByQuestionCode: const {'1A01001': QuestionOption.b},
-        correctAttemptCount: 1,
-        incorrectAttemptCount: 2,
+      final stateB = _state(
+        selections: const {'1A01001': QuestionOption.b},
+        correctAttempts: 1,
+        incorrectAttempts: 2,
       );
 
       expect(stateA, stateB);
       expect(stateA.hashCode, stateB.hashCode);
-      expect(stateA.copyWith(currentIndex: 1), isNot(stateA));
+      expect(
+        stateA.copyWith(practiceSession: stateA.practiceSession.moveTo(1)),
+        isNot(stateA),
+      );
     });
 
     test('keeps attempt totals when a review selection is reopened', () {
-      final state = PracticeLoaded(
-        selectedSection: null,
-        session: const PracticeSessionConfig.review(),
+      final state = _state(
+        config: const PracticeSessionConfig.review(),
         questions: [buildQuestions().first],
-        selectedOptionsByQuestionCode: const {'1A01001': QuestionOption.a},
-        correctAttemptCount: 1,
-        incorrectAttemptCount: 2,
+        selections: const {'1A01001': QuestionOption.a},
+        correctAttempts: 1,
+        incorrectAttempts: 2,
       );
 
-      final reopened = state.copyWith(selectedOptionsByQuestionCode: const {});
+      final reopened = state.copyWith(
+        practiceSession: PracticeSession(
+          questions: state.practiceSession.questions,
+          answers: state.answers.reopenQuestion('1A01001'),
+        ),
+      );
 
       expect(reopened.answered, isFalse);
       expect(reopened.correctAttemptCount, 1);
@@ -75,12 +77,12 @@ void main() {
 
     test('exposes a finish action that permits earlier skipped questions', () {
       final questions = buildQuestions();
-      final state = PracticeLoaded(
-        selectedSection: null,
-        session: const PracticeSessionConfig.simulacro(),
+      final state = _state(
+        config: const PracticeSessionConfig.simulacro(),
         questions: questions,
         currentIndex: 1,
-        selectedOptionsByQuestionCode: {questions.last.code: QuestionOption.a},
+        selections: {questions.last.code: QuestionOption.a},
+        correctAttempts: 1,
       );
 
       expect(
@@ -93,14 +95,17 @@ void main() {
 
     test('disables a terminal action until the current answer is saved', () {
       final questions = buildQuestions();
-      final unanswered = PracticeLoaded(
-        selectedSection: null,
-        session: const PracticeSessionConfig.simulacro(),
+      final unanswered = _state(
+        config: const PracticeSessionConfig.simulacro(),
         questions: questions,
         currentIndex: 1,
       );
-      final saving = unanswered.copyWith(
-        selectedOptionsByQuestionCode: {questions.last.code: QuestionOption.a},
+      final saving = _state(
+        config: const PracticeSessionConfig.simulacro(),
+        questions: questions,
+        currentIndex: 1,
+        selections: {questions.last.code: QuestionOption.a},
+        correctAttempts: 1,
         isRecordingAnswer: true,
       );
 
@@ -112,14 +117,39 @@ void main() {
 
     test('uses the same confirmation policy for every simulacro exit', () {
       final question = buildQuestions().first;
-      final state = PracticeLoaded(
-        selectedSection: null,
-        session: const PracticeSessionConfig.simulacro(),
+      final state = _state(
+        config: const PracticeSessionConfig.simulacro(),
         questions: [question],
-        selectedOptionsByQuestionCode: {question.code: QuestionOption.b},
+        selections: {question.code: QuestionOption.b},
+        correctAttempts: 1,
       );
 
       expect(state.exitPolicy, PracticeExitPolicy.confirm);
     });
   });
+}
+
+PracticeLoaded _state({
+  PracticeSessionConfig config = const PracticeSessionConfig.standard(),
+  List<Question>? questions,
+  int currentIndex = 0,
+  Map<String, QuestionOption> selections = const {},
+  int correctAttempts = 0,
+  int incorrectAttempts = 0,
+  bool isRecordingAnswer = false,
+}) {
+  return PracticeLoaded(
+    selectedSection: config.initialSection,
+    session: config,
+    practiceSession: PracticeSession.fromQuestions(
+      questions: questions ?? buildQuestions(),
+      currentIndex: currentIndex,
+      answers: SessionAnswers(
+        selectedOptionsByQuestionCode: selections,
+        correctAttemptCount: correctAttempts,
+        incorrectAttemptCount: incorrectAttempts,
+      ),
+    ),
+    isRecordingAnswer: isRecordingAnswer,
+  );
 }

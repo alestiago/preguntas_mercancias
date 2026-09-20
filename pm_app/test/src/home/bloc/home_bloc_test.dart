@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/home/bloc/home_bloc.dart';
 import 'package:pm_app/src/practice/practice_launch.dart';
+import 'package:pm_app/src/practice/practice_session_config.dart';
 import 'package:pm_app/src/practice/session_question_source.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions/pm_questions.dart';
@@ -177,8 +178,10 @@ void main() {
       final pendingLaunch = practiceLaunchFactory.pending(
         catalog: loaded.catalog,
         shuffleAnswers: false,
-        pendingQuestionCount: loaded.unansweredQuestionCount,
-        pendingQuestionCountsBySection: loaded.pendingQuestionCountsBySection,
+        options: PendingPracticeOptions(
+          initialQuestionCount: loaded.unansweredQuestionCount,
+          initialQuestionCountsBySection: loaded.pendingQuestionCountsBySection,
+        ),
       );
       final reviewBatch = await reviewLaunch.source.load(
         SessionQuestionRequest(
@@ -193,7 +196,7 @@ void main() {
           section: null,
           excludedQuestionCodes: const {},
           progressSnapshot: loaded.progressSnapshot,
-          requestedSize: pendingLaunch.config.pendingBatchSize,
+          requestedSize: pendingLaunch.config.pendingOptions!.batchSize,
         ),
       );
 
@@ -202,10 +205,13 @@ void main() {
       expect(loaded.unansweredQuestionCount, pendingBatch.questions.length);
       expect(loaded.pendingQuestionCountsBySection, {'1A': 1});
       expect(
-        pendingLaunch.config.pendingQuestionCount,
+        pendingLaunch.config.pendingOptions!.initialQuestionCount,
         pendingBatch.questions.length,
       );
-      expect(pendingLaunch.config.pendingQuestionCountsBySection, {'1A': 1});
+      expect(
+        pendingLaunch.config.pendingOptions!.initialQuestionCountsBySection,
+        {'1A': 1},
+      );
       expect(pendingLaunch.config.shuffleAnswers, isFalse);
       expect(reviewBatch.questions.map((question) => question.code), [
         '1A01002',

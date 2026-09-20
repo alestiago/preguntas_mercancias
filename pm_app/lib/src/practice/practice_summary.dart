@@ -1,53 +1,35 @@
 import 'package:equatable/equatable.dart';
 import 'package:pm_questions/pm_questions.dart';
 
-/// A snapshot of the results of a completed practice session.
+import 'practice_session.dart';
+import 'session_answers.dart';
+import 'session_questions.dart';
+
+/// A frozen result from a completed practice session.
 ///
 /// Questions absent from [selectedOptionsByQuestionCode] are retained as
 /// unanswered results.
 final class PracticeSummary extends Equatable {
   factory PracticeSummary({
-    required Iterable<Question> questions,
-    required Map<String, QuestionOption> selectedOptionsByQuestionCode,
-    required int correctAttemptCount,
-    required int incorrectAttemptCount,
+    required PracticeSession session,
     required Duration elapsedTime,
   }) {
-    if (correctAttemptCount < 0) {
-      throw ArgumentError.value(
-        correctAttemptCount,
-        'correctAttemptCount',
-        'Must not be negative.',
-      );
-    }
-    if (incorrectAttemptCount < 0) {
-      throw ArgumentError.value(
-        incorrectAttemptCount,
-        'incorrectAttemptCount',
-        'Must not be negative.',
-      );
-    }
-
     final summary = PracticeSummary._(
-      questions: List.unmodifiable(questions),
-      selectedOptionsByQuestionCode: Map.unmodifiable(
-        selectedOptionsByQuestionCode,
-      ),
-      correctAttemptCount: correctAttemptCount,
-      incorrectAttemptCount: incorrectAttemptCount,
+      sessionQuestions: session.questions,
+      answers: session.answers,
       elapsedTime: elapsedTime,
     );
-    if (correctAttemptCount < summary.correctQuestionCount) {
+    if (summary.correctAttemptCount < summary.correctQuestionCount) {
       throw ArgumentError.value(
-        correctAttemptCount,
-        'correctAttemptCount',
+        summary.correctAttemptCount,
+        'session.answers.correctAttemptCount',
         'Cannot be lower than the number of correctly answered questions.',
       );
     }
-    if (incorrectAttemptCount < summary.incorrectQuestionCount) {
+    if (summary.incorrectAttemptCount < summary.incorrectQuestionCount) {
       throw ArgumentError.value(
-        incorrectAttemptCount,
-        'incorrectAttemptCount',
+        summary.incorrectAttemptCount,
+        'session.answers.incorrectAttemptCount',
         'Cannot be lower than the number of incorrectly answered questions.',
       );
     }
@@ -56,22 +38,23 @@ final class PracticeSummary extends Equatable {
   }
 
   const PracticeSummary._({
-    required this.questions,
-    required this.selectedOptionsByQuestionCode,
-    required this.correctAttemptCount,
-    required this.incorrectAttemptCount,
+    required this.sessionQuestions,
+    required this.answers,
     required this.elapsedTime,
   });
 
-  final List<Question> questions;
-  final Map<String, QuestionOption> selectedOptionsByQuestionCode;
-
-  /// All correct attempts made during the session, including retries.
-  final int correctAttemptCount;
-
-  /// All incorrect attempts made during the session, including retries.
-  final int incorrectAttemptCount;
+  final SessionQuestions sessionQuestions;
+  final SessionAnswers answers;
   final Duration elapsedTime;
+
+  List<Question> get questions => sessionQuestions.questions;
+
+  Map<String, QuestionOption> get selectedOptionsByQuestionCode =>
+      answers.selectedOptionsByQuestionCode;
+
+  int get correctAttemptCount => answers.correctAttemptCount;
+
+  int get incorrectAttemptCount => answers.incorrectAttemptCount;
 
   int get totalQuestionCount => questions.length;
 
@@ -91,8 +74,9 @@ final class PracticeSummary extends Equatable {
   double get scoreRatio =>
       totalQuestionCount == 0 ? 0 : correctQuestionCount / totalQuestionCount;
 
-  QuestionOption? selectedOptionFor(Question question) =>
-      selectedOptionsByQuestionCode[question.code];
+  QuestionOption? selectedOptionFor(Question question) {
+    return answers.selectedOptionFor(question);
+  }
 
   bool isCorrect(Question question) {
     final selectedOption = selectedOptionFor(question);
@@ -102,10 +86,8 @@ final class PracticeSummary extends Equatable {
   @override
   List<Object?> get props => [
     PracticeSummary,
-    questions,
-    selectedOptionsByQuestionCode,
-    correctAttemptCount,
-    incorrectAttemptCount,
+    sessionQuestions,
+    answers,
     elapsedTime,
   ];
 }

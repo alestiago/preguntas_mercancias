@@ -16,54 +16,48 @@ enum PracticeCompletionPolicy {
   finishWhenEligibleQuestionsExhausted,
 }
 
+enum PracticeCompletionDestination { previousRoute, summary }
+
 @immutable
-final class PracticeSessionConfig extends Equatable {
-  const PracticeSessionConfig.standard({
-    this.initialSection = '1A',
-    this.shuffleAnswers = true,
-  }) : mode = PracticeMode.standard,
-       pendingBatchSize = 10,
-       pendingLoadThreshold = 5,
-       pendingQuestionCount = null,
-       pendingQuestionCountsBySection = const {};
-
-  const PracticeSessionConfig.review({
-    this.initialSection,
-    this.shuffleAnswers = true,
-  }) : mode = PracticeMode.review,
-       pendingBatchSize = 10,
-       pendingLoadThreshold = 5,
-       pendingQuestionCount = null,
-       pendingQuestionCountsBySection = const {};
-
-  factory PracticeSessionConfig.pending({
-    String? initialSection,
-    bool shuffleAnswers = true,
-    int pendingBatchSize = 10,
-    int pendingLoadThreshold = 5,
-    int? pendingQuestionCount,
-    Map<String, int> pendingQuestionCountsBySection = const {},
+final class PendingPracticeOptions extends Equatable {
+  factory PendingPracticeOptions({
+    int batchSize = 10,
+    int loadThreshold = 5,
+    int? initialQuestionCount,
+    Map<String, int> initialQuestionCountsBySection = const {},
   }) {
-    assert(pendingBatchSize > 0);
-    assert(pendingLoadThreshold >= 0);
-    if (pendingQuestionCount != null && pendingQuestionCount < 0) {
+    if (batchSize <= 0) {
       throw ArgumentError.value(
-        pendingQuestionCount,
-        'pendingQuestionCount',
+        batchSize,
+        'batchSize',
+        'Must be greater than zero.',
+      );
+    }
+    if (loadThreshold < 0) {
+      throw ArgumentError.value(
+        loadThreshold,
+        'loadThreshold',
         'Must not be negative.',
       );
     }
-    if (pendingQuestionCountsBySection.values.any((count) => count < 0)) {
+    if (initialQuestionCount != null && initialQuestionCount < 0) {
       throw ArgumentError.value(
-        pendingQuestionCountsBySection,
-        'pendingQuestionCountsBySection',
+        initialQuestionCount,
+        'initialQuestionCount',
+        'Must not be negative.',
+      );
+    }
+    if (initialQuestionCountsBySection.values.any((count) => count < 0)) {
+      throw ArgumentError.value(
+        initialQuestionCountsBySection,
+        'initialQuestionCountsBySection',
         'Counts must not be negative.',
       );
     }
-    if (pendingQuestionCount != null &&
-        pendingQuestionCountsBySection.isNotEmpty &&
-        pendingQuestionCount !=
-            pendingQuestionCountsBySection.values.fold(
+    if (initialQuestionCount != null &&
+        initialQuestionCountsBySection.isNotEmpty &&
+        initialQuestionCount !=
+            initialQuestionCountsBySection.values.fold(
               0,
               (sum, count) => sum + count,
             )) {
@@ -72,43 +66,84 @@ final class PracticeSessionConfig extends Equatable {
       );
     }
 
+    return PendingPracticeOptions._(
+      batchSize: batchSize,
+      loadThreshold: loadThreshold,
+      initialQuestionCount: initialQuestionCount,
+      initialQuestionCountsBySection: Map.unmodifiable(
+        initialQuestionCountsBySection,
+      ),
+    );
+  }
+
+  const PendingPracticeOptions._({
+    required this.batchSize,
+    required this.loadThreshold,
+    required this.initialQuestionCount,
+    required this.initialQuestionCountsBySection,
+  });
+
+  final int batchSize;
+  final int loadThreshold;
+
+  /// Launch-time display metadata, not the session's current eligibility.
+  final int? initialQuestionCount;
+
+  /// Launch-time display metadata, not the session's current eligibility.
+  final Map<String, int> initialQuestionCountsBySection;
+
+  @override
+  List<Object?> get props => [
+    PendingPracticeOptions,
+    batchSize,
+    loadThreshold,
+    initialQuestionCount,
+    initialQuestionCountsBySection,
+  ];
+}
+
+@immutable
+final class PracticeSessionConfig extends Equatable {
+  const PracticeSessionConfig.standard({
+    this.initialSection = '1A',
+    this.shuffleAnswers = true,
+  }) : mode = PracticeMode.standard,
+       pendingOptions = null;
+
+  const PracticeSessionConfig.review({
+    this.initialSection,
+    this.shuffleAnswers = true,
+  }) : mode = PracticeMode.review,
+       pendingOptions = null;
+
+  factory PracticeSessionConfig.pending({
+    String? initialSection,
+    bool shuffleAnswers = true,
+    PendingPracticeOptions? options,
+  }) {
     return PracticeSessionConfig._(
       mode: PracticeMode.pending,
       initialSection: initialSection,
       shuffleAnswers: shuffleAnswers,
-      pendingBatchSize: pendingBatchSize,
-      pendingLoadThreshold: pendingLoadThreshold,
-      pendingQuestionCount: pendingQuestionCount,
-      pendingQuestionCountsBySection: Map.unmodifiable(
-        pendingQuestionCountsBySection,
-      ),
+      pendingOptions: options ?? PendingPracticeOptions(),
     );
   }
 
   const PracticeSessionConfig.simulacro({this.shuffleAnswers = true})
     : mode = PracticeMode.simulacro,
       initialSection = null,
-      pendingBatchSize = 10,
-      pendingLoadThreshold = 5,
-      pendingQuestionCount = null,
-      pendingQuestionCountsBySection = const {};
+      pendingOptions = null;
 
   const PracticeSessionConfig.singleQuestion({this.shuffleAnswers = true})
     : mode = PracticeMode.singleQuestion,
       initialSection = null,
-      pendingBatchSize = 10,
-      pendingLoadThreshold = 5,
-      pendingQuestionCount = null,
-      pendingQuestionCountsBySection = const {};
+      pendingOptions = null;
 
   const PracticeSessionConfig._({
     required this.mode,
     required this.initialSection,
     required this.shuffleAnswers,
-    required this.pendingBatchSize,
-    required this.pendingLoadThreshold,
-    required this.pendingQuestionCount,
-    required this.pendingQuestionCountsBySection,
+    required this.pendingOptions,
   });
 
   final PracticeMode mode;
@@ -116,10 +151,21 @@ final class PracticeSessionConfig extends Equatable {
   /// The initially selected section, or `null` to include every section.
   final String? initialSection;
   final bool shuffleAnswers;
-  final int pendingBatchSize;
-  final int pendingLoadThreshold;
-  final int? pendingQuestionCount;
-  final Map<String, int> pendingQuestionCountsBySection;
+  final PendingPracticeOptions? pendingOptions;
+
+  bool get allowsSectionSelection =>
+      mode != PracticeMode.simulacro && mode != PracticeMode.singleQuestion;
+
+  bool get allowsQuestionNavigation => mode == PracticeMode.simulacro;
+
+  bool get showsElapsedTime => mode == PracticeMode.simulacro;
+
+  bool get showsExitAction => mode == PracticeMode.simulacro;
+
+  bool get confirmsExitAfterAnswer => mode == PracticeMode.simulacro;
+
+  bool get usesFilteredQuestionEligibility =>
+      mode == PracticeMode.review || mode == PracticeMode.pending;
 
   PracticeCompletionPolicy get completionPolicy => switch (mode) {
     PracticeMode.standard => PracticeCompletionPolicy.restartAtTerminalQuestion,
@@ -129,15 +175,20 @@ final class PracticeSessionConfig extends Equatable {
       PracticeCompletionPolicy.finishWhenEligibleQuestionsExhausted,
   };
 
+  PracticeCompletionDestination? get completionDestination => switch (mode) {
+    PracticeMode.standard => null,
+    PracticeMode.simulacro => PracticeCompletionDestination.summary,
+    PracticeMode.review ||
+    PracticeMode.pending ||
+    PracticeMode.singleQuestion => PracticeCompletionDestination.previousRoute,
+  };
+
   @override
   List<Object?> get props => [
     PracticeSessionConfig,
     mode,
     initialSection,
     shuffleAnswers,
-    pendingBatchSize,
-    pendingLoadThreshold,
-    pendingQuestionCount,
-    pendingQuestionCountsBySection,
+    pendingOptions,
   ];
 }

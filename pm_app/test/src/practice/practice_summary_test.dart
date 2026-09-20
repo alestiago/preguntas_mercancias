@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pm_app/src/practice/practice_session.dart';
 import 'package:pm_app/src/practice/practice_summary.dart';
+import 'package:pm_app/src/practice/session_answers.dart';
 import 'package:pm_questions/pm_questions.dart';
 
 void main() {
@@ -14,7 +16,7 @@ void main() {
     );
 
     test('reports the total question count', () {
-      final summary = PracticeSummary(
+      final summary = _summary(
         questions: [questionA, questionB],
         selectedOptionsByQuestionCode: const {},
         correctAttemptCount: 0,
@@ -26,7 +28,7 @@ void main() {
     });
 
     test('isCorrect reflects the selected option', () {
-      final summary = PracticeSummary(
+      final summary = _summary(
         questions: [questionA, questionB],
         selectedOptionsByQuestionCode: {
           questionA.code: QuestionOption.b,
@@ -42,7 +44,7 @@ void main() {
     });
 
     test('isCorrect is false when the question was not answered', () {
-      final summary = PracticeSummary(
+      final summary = _summary(
         questions: [questionA],
         selectedOptionsByQuestionCode: const {},
         correctAttemptCount: 0,
@@ -54,7 +56,7 @@ void main() {
     });
 
     test('scoreRatio divides correct answers by the total', () {
-      final summary = PracticeSummary(
+      final summary = _summary(
         questions: [questionA, questionB],
         selectedOptionsByQuestionCode: {
           questionA.code: QuestionOption.b,
@@ -75,7 +77,7 @@ void main() {
     });
 
     test('scoreRatio is zero when there are no questions', () {
-      final summary = PracticeSummary(
+      final summary = _summary(
         questions: const [],
         selectedOptionsByQuestionCode: const {},
         correctAttemptCount: 0,
@@ -87,14 +89,14 @@ void main() {
     });
 
     test('supports value equality', () {
-      final summaryA = PracticeSummary(
+      final summaryA = _summary(
         questions: [questionA],
         selectedOptionsByQuestionCode: {questionA.code: QuestionOption.b},
         correctAttemptCount: 1,
         incorrectAttemptCount: 0,
         elapsedTime: const Duration(minutes: 1),
       );
-      final summaryB = PracticeSummary(
+      final summaryB = _summary(
         questions: [questionA],
         selectedOptionsByQuestionCode: {questionA.code: QuestionOption.b},
         correctAttemptCount: 1,
@@ -109,7 +111,7 @@ void main() {
     test('defensively copies questions and selected options', () {
       final questions = [questionA];
       final selectedOptions = {questionA.code: QuestionOption.b};
-      final summary = PracticeSummary(
+      final summary = _summary(
         questions: questions,
         selectedOptionsByQuestionCode: selectedOptions,
         correctAttemptCount: 1,
@@ -133,7 +135,7 @@ void main() {
 
     test('rejects attempt totals below the selected results', () {
       expect(
-        () => PracticeSummary(
+        () => _summary(
           questions: [questionA],
           selectedOptionsByQuestionCode: {questionA.code: QuestionOption.b},
           correctAttemptCount: 0,
@@ -144,6 +146,26 @@ void main() {
       );
     });
   });
+}
+
+PracticeSummary _summary({
+  required Iterable<Question> questions,
+  required Map<String, QuestionOption> selectedOptionsByQuestionCode,
+  required int correctAttemptCount,
+  required int incorrectAttemptCount,
+  required Duration elapsedTime,
+}) {
+  return PracticeSummary(
+    session: PracticeSession.fromQuestions(
+      questions: questions,
+      answers: SessionAnswers(
+        selectedOptionsByQuestionCode: selectedOptionsByQuestionCode,
+        correctAttemptCount: correctAttemptCount,
+        incorrectAttemptCount: incorrectAttemptCount,
+      ),
+    ),
+    elapsedTime: elapsedTime,
+  );
 }
 
 Question _question({

@@ -5,6 +5,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/practice/bloc/practice_bloc.dart';
 import 'package:pm_app/src/practice/practice_launch.dart';
+import 'package:pm_app/src/practice/practice_session.dart';
 import 'package:pm_app/src/practice/practice_session_config.dart';
 import 'package:pm_app/src/practice/session_question_source.dart';
 import 'package:pm_persistence/pm_persistence.dart';
@@ -836,7 +837,7 @@ void main() {
             PendingQuestionBatch(questions: questions.skip(1), hasMore: false),
         questionProgressStore: progressStore,
         session: PracticeSessionConfig.pending(
-          pendingBatchSize: 10,
+          options: PendingPracticeOptions(batchSize: 10),
           shuffleAnswers: false,
         ),
       );
@@ -888,8 +889,10 @@ void main() {
         launch: practiceLaunchFactory.pending(
           catalog: QuestionCatalog(buildManyQuestions(2)),
           shuffleAnswers: false,
-          pendingQuestionCount: 2,
-          pendingQuestionCountsBySection: const {'1A': 2},
+          options: PendingPracticeOptions(
+            initialQuestionCount: 2,
+            initialQuestionCountsBySection: const {'1A': 2},
+          ),
         ),
         questionProgressStore: progressStore,
       );
@@ -1385,8 +1388,10 @@ PracticeLoaded _unansweredPracticeState({
   return PracticeLoaded(
     selectedSection: '1A',
     session: session,
-    questions: buildQuestions(),
-    currentIndex: currentIndex,
+    practiceSession: PracticeSession.fromQuestions(
+      questions: buildQuestions(),
+      currentIndex: currentIndex,
+    ),
   );
 }
 
