@@ -7,7 +7,7 @@ import '../navigation/app_navigator.dart';
 import '../practice/format_elapsed_time.dart';
 import '../practice/practice_question_policy.dart';
 import '../practice/practice_summary.dart';
-import '../practice/session_question_status_localizations.dart';
+import '../practice/widgets/session_question_status_badge.dart';
 
 enum PracticeSummaryReturnDestination { home, answerHistory }
 
@@ -144,30 +144,10 @@ class _SummaryQuestionTile extends StatelessWidget {
       question,
       selectedOption,
     );
-    final colorScheme = Theme.of(context).colorScheme;
-    final color = switch (status) {
-      SessionQuestionStatus.unanswered => colorScheme.onSurfaceVariant,
-      SessionQuestionStatus.correct => AppResultColors.of(context).correct,
-      SessionQuestionStatus.incorrect => colorScheme.error,
-    };
 
     return ListTile(
       key: ValueKey('summary-question-${question.code}'),
-      leading: Semantics(
-        container: true,
-        label: status.localizedLabel(localizations),
-        child: ExcludeSemantics(
-          child: CircleAvatar(
-            backgroundColor: color.withValues(alpha: 0.12),
-            foregroundColor: color,
-            child: Icon(switch (status) {
-              SessionQuestionStatus.unanswered => Icons.horizontal_rule,
-              SessionQuestionStatus.correct => Icons.check,
-              SessionQuestionStatus.incorrect => Icons.close,
-            }),
-          ),
-        ),
-      ),
+      leading: SessionQuestionStatusBadge.summary(status: status),
       title: Text(
         question.prompt,
         maxLines: 2,

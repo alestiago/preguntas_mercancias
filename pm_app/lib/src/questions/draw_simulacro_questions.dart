@@ -78,7 +78,7 @@ Map<String, List<Question>> _shuffledQuestionPoolsBySection(
   final randomSource = random ?? Random();
   final questionPoolsBySection = <String, List<Question>>{};
 
-  for (final section in QuestionBankLoader.sections) {
+  for (final section in questionBankManifest.sections) {
     final sectionQuestions = catalog.bySection[section];
     if (sectionQuestions == null || sectionQuestions.isEmpty) {
       continue;

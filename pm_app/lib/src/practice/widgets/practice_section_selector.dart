@@ -34,7 +34,7 @@ class PracticeSectionSelector extends StatelessWidget {
               onSelected: (_) => onSectionSelected(null),
             ),
             const SizedBox(width: 8),
-            for (final section in QuestionBankLoader.sections) ...[
+            for (final section in questionBankManifest.sections) ...[
               ChoiceChip(
                 label: Text(section),
                 selected: selectedSection == section,

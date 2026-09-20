@@ -27,7 +27,7 @@ void main() {
 
       expect(
         questionCountBySection.keys,
-        unorderedEquals(QuestionBankLoader.sections),
+        unorderedEquals(questionBankManifest.sections),
       );
       expect(
         questionCountBySection.values.where((count) => count == 4),
@@ -81,7 +81,7 @@ List<Question> _questionsBySection({
   Map<String, int> overrides = const {},
 }) {
   return [
-    for (final section in QuestionBankLoader.sections)
+    for (final section in questionBankManifest.sections)
       for (
         var questionNumber = 1;
         questionNumber <= (overrides[section] ?? questionCountBySection);

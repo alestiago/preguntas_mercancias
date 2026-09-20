@@ -113,7 +113,7 @@ List<Question> buildManyQuestions(int count) {
 
 List<Question> buildSimulacroQuestions() {
   return [
-    for (final section in QuestionBankLoader.sections)
+    for (final section in questionBankManifest.sections)
       for (var questionNumber = 1; questionNumber <= 8; questionNumber += 1)
         Question(
           code: '$section${questionNumber.toString().padLeft(5, '0')}',

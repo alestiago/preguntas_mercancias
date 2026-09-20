@@ -37,7 +37,7 @@ void main() {
 
     expect(catalog.questions, hasLength(4475));
     expect(catalog.byCode, hasLength(4475));
-    expect(catalog.bySection.keys, QuestionBankLoader.sections);
+    expect(catalog.bySection.keys, questionBankManifest.sections);
     expect(
       catalog.bySection.values.fold<int>(
         0,

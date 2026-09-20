@@ -5,7 +5,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../app/theme/app_theme.dart';
 import '../bloc/practice_bloc.dart';
 import '../practice_question_policy.dart';
-import '../session_question_status_localizations.dart';
+import 'session_question_status_badge.dart';
 
 class QuestionNavigationDrawer extends StatefulWidget {
   const QuestionNavigationDrawer({
@@ -173,7 +173,7 @@ class _QuestionNavigationTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _QuestionStatusIcon(status: status),
+              SessionQuestionStatusBadge.navigation(status: status),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
@@ -206,60 +206,5 @@ class _QuestionNavigationTile extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _QuestionStatusIcon extends StatelessWidget {
-  const _QuestionStatusIcon({required this.status});
-
-  final SessionQuestionStatus status;
-
-  @override
-  Widget build(BuildContext context) {
-    final style = _QuestionStatusIconStyle.forStatus(
-      Theme.of(context).colorScheme,
-      AppResultColors.of(context),
-      status,
-    );
-
-    return Semantics(
-      container: true,
-      label: status.localizedLabel(AppLocalizations.of(context)),
-      child: ExcludeSemantics(
-        child: CircleAvatar(
-          backgroundColor: style.color.withValues(alpha: 0.12),
-          foregroundColor: style.color,
-          child: Icon(style.icon),
-        ),
-      ),
-    );
-  }
-}
-
-final class _QuestionStatusIconStyle {
-  const _QuestionStatusIconStyle({required this.color, required this.icon});
-
-  final Color color;
-  final IconData icon;
-
-  factory _QuestionStatusIconStyle.forStatus(
-    ColorScheme colorScheme,
-    AppResultColors resultColors,
-    SessionQuestionStatus status,
-  ) {
-    return switch (status) {
-      SessionQuestionStatus.correct => _QuestionStatusIconStyle(
-        color: resultColors.correct,
-        icon: Icons.check,
-      ),
-      SessionQuestionStatus.incorrect => _QuestionStatusIconStyle(
-        color: colorScheme.error,
-        icon: Icons.close,
-      ),
-      SessionQuestionStatus.unanswered => _QuestionStatusIconStyle(
-        color: colorScheme.onSurfaceVariant,
-        icon: Icons.radio_button_unchecked,
-      ),
-    };
   }
 }
