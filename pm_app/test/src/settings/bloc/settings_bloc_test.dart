@@ -142,6 +142,17 @@ void main() {
 
       expect((await failureFuture).error, error);
     });
+
+    test('closing the bloc cancels its settings observation', () async {
+      final observedStore = _TrackedSettingsStore();
+      final bloc = SettingsBloc(settingsStore: observedStore);
+
+      await _waitUntil(() => bloc.state is SettingsLoaded);
+      await bloc.close();
+
+      expect(observedStore.watchCancellationCount, 1);
+      await observedStore.close();
+    });
   });
 }
 
@@ -194,5 +205,26 @@ final class _WatchOnlySettingsStore extends FakeSettingsStore {
     throw StateError(
       'SettingsBloc must initialize from watchAnswerShuffleEnabled().',
     );
+  }
+}
+
+final class _TrackedSettingsStore extends FakeSettingsStore {
+  _TrackedSettingsStore() {
+    _watchController = StreamController<bool>(
+      onListen: () => _watchController.add(true),
+      onCancel: () => watchCancellationCount += 1,
+    );
+  }
+
+  late final StreamController<bool> _watchController;
+  int watchCancellationCount = 0;
+
+  @override
+  Stream<bool> watchAnswerShuffleEnabled() => _watchController.stream;
+
+  @override
+  Future<void> close() async {
+    await _watchController.close();
+    await super.close();
   }
 }

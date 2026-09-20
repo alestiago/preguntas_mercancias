@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:pm_persistence/pm_persistence.dart';
@@ -23,62 +22,31 @@ final class AnswerHistoryBloc
     _questionProgressStore = questionProgressStore;
     on<AnswerHistoryRetried>(_onRetried);
     on<AnswerHistoryMoreRequested>(_onMoreRequested);
-    on<_AnswerHistoryChanged>(_onHistoryChanged);
-    on<_AnswerHistoryObservationFailed>(_onObservationFailed);
+    on<_AnswerHistoryObservationRequested>(
+      _onObservationRequested,
+      transformer: restartable(),
+    );
 
-    _watchHistory();
+    add(_AnswerHistoryObservationRequested(_visibleLimit));
   }
 
   late final QuestionProgressStore _questionProgressStore;
   final Map<String, Question> _questionsByCode;
   final int _pageSize;
   int _visibleLimit;
-  StreamSubscription<QuestionAnswerHistoryPage>? _historySubscription;
 
-  void _watchHistory() {
-    _historySubscription = _questionProgressStore
-        .watchAnswerHistory(limit: _visibleLimit)
-        .listen(
-          (page) {
-            if (!isClosed) {
-              add(_AnswerHistoryChanged(page));
-            }
-          },
-          onError: (Object error, StackTrace stackTrace) {
-            if (isClosed) {
-              return;
-            }
-            add(_AnswerHistoryObservationFailed(error));
-            addError(error, stackTrace);
-          },
-        );
-  }
-
-  Future<void> _onRetried(
+  void _onRetried(
     AnswerHistoryRetried event,
     Emitter<AnswerHistoryState> emit,
-  ) async {
+  ) {
     emit(const AnswerHistoryLoading());
-    _cancelHistoryWatch();
-    try {
-      final page = await _questionProgressStore.loadAnswerHistory(
-        limit: _visibleLimit,
-      );
-      if (!emit.isDone) {
-        _emitHistory(page, emit);
-        _watchHistory();
-      }
-    } catch (error) {
-      if (!emit.isDone) {
-        emit(AnswerHistoryFailure(error));
-      }
-    }
+    add(_AnswerHistoryObservationRequested(_visibleLimit));
   }
 
-  Future<void> _onMoreRequested(
+  void _onMoreRequested(
     AnswerHistoryMoreRequested event,
     Emitter<AnswerHistoryState> emit,
-  ) async {
+  ) {
     final currentState = state;
     if (currentState is! AnswerHistoryLoaded ||
         !currentState.hasMore ||
@@ -88,69 +56,32 @@ final class AnswerHistoryBloc
 
     emit(currentState.copyWith(isLoadingMore: true));
     _visibleLimit += _pageSize;
-    _cancelHistoryWatch();
-
-    try {
-      final page = await _questionProgressStore.loadAnswerHistory(
-        limit: _visibleLimit,
-      );
-      if (!emit.isDone) {
-        _emitHistory(page, emit);
-        _watchHistory();
-      }
-    } catch (error) {
-      if (!emit.isDone) {
-        emit(AnswerHistoryFailure(error));
-      }
-    }
+    add(_AnswerHistoryObservationRequested(_visibleLimit));
   }
 
-  void _onHistoryChanged(
-    _AnswerHistoryChanged event,
+  Future<void> _onObservationRequested(
+    _AnswerHistoryObservationRequested event,
     Emitter<AnswerHistoryState> emit,
   ) {
-    _emitHistory(event.page, emit);
-  }
-
-  void _emitHistory(
-    QuestionAnswerHistoryPage page,
-    Emitter<AnswerHistoryState> emit,
-  ) {
-    if (page.answers.isEmpty) {
-      emit(const AnswerHistoryEmpty());
-      return;
-    }
-
-    emit(
-      AnswerHistoryLoaded(
-        sections: _groupHistoryByDate(page.answers, _questionsByCode),
-        hasMore: page.hasMore,
-      ),
+    return emit.forEach<QuestionAnswerHistoryPage>(
+      _questionProgressStore.watchAnswerHistory(limit: event.limit),
+      onData: _stateForHistory,
+      onError: (error, stackTrace) {
+        addError(error, stackTrace);
+        return AnswerHistoryFailure(error);
+      },
     );
   }
 
-  void _onObservationFailed(
-    _AnswerHistoryObservationFailed event,
-    Emitter<AnswerHistoryState> emit,
-  ) {
-    emit(AnswerHistoryFailure(event.error));
-  }
-
-  void _cancelHistoryWatch() {
-    final subscription = _historySubscription;
-    _historySubscription = null;
-    if (subscription != null) {
-      // Cancellation takes effect immediately for event delivery, while some
-      // stream adapters complete their cleanup future on a later event turn.
-      // The replacement read must not be blocked on that adapter detail.
-      unawaited(subscription.cancel());
+  AnswerHistoryState _stateForHistory(QuestionAnswerHistoryPage page) {
+    if (page.answers.isEmpty) {
+      return const AnswerHistoryEmpty();
     }
-  }
 
-  @override
-  Future<void> close() async {
-    await _historySubscription?.cancel();
-    return super.close();
+    return AnswerHistoryLoaded(
+      sections: _groupHistoryByDate(page.answers, _questionsByCode),
+      hasMore: page.hasMore,
+    );
   }
 }
 

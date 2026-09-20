@@ -11,14 +11,6 @@ final class AnswerShuffleToggled extends SettingsEvent {
   final bool enabled;
 }
 
-final class _AnswerShuffleEnabledChanged extends SettingsEvent {
-  const _AnswerShuffleEnabledChanged(this.answerShuffleEnabled);
-
-  final bool answerShuffleEnabled;
-}
-
-final class _SettingsObservationFailed extends SettingsEvent {
-  const _SettingsObservationFailed(this.error);
-
-  final Object error;
+final class _SettingsObservationRequested extends SettingsEvent {
+  const _SettingsObservationRequested();
 }

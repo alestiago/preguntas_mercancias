@@ -13,14 +13,8 @@ final class AnswerHistoryMoreRequested extends AnswerHistoryEvent {
   const AnswerHistoryMoreRequested();
 }
 
-final class _AnswerHistoryChanged extends AnswerHistoryEvent {
-  const _AnswerHistoryChanged(this.page);
+final class _AnswerHistoryObservationRequested extends AnswerHistoryEvent {
+  const _AnswerHistoryObservationRequested(this.limit);
 
-  final QuestionAnswerHistoryPage page;
-}
-
-final class _AnswerHistoryObservationFailed extends AnswerHistoryEvent {
-  const _AnswerHistoryObservationFailed(this.error);
-
-  final Object error;
+  final int limit;
 }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
@@ -15,24 +13,12 @@ final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       _onAnswerShuffleToggled,
       transformer: sequential(),
     );
-    on<_AnswerShuffleEnabledChanged>(_onAnswerShuffleEnabledChanged);
-    on<_SettingsObservationFailed>(_onObservationFailed);
+    on<_SettingsObservationRequested>(_onObservationRequested);
 
-    _answerShuffleSubscription = settingsStore
-        .watchAnswerShuffleEnabled()
-        .listen(
-          (enabled) => add(_AnswerShuffleEnabledChanged(enabled)),
-          onError: (Object error, StackTrace stackTrace) {
-            if (!isClosed) {
-              add(_SettingsObservationFailed(error));
-            }
-            addError(error, stackTrace);
-          },
-        );
+    add(const _SettingsObservationRequested());
   }
 
   final SettingsStore settingsStore;
-  late final StreamSubscription<bool> _answerShuffleSubscription;
 
   Future<void> _onAnswerShuffleToggled(
     AnswerShuffleToggled event,
@@ -41,31 +27,26 @@ final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     return settingsStore.setAnswerShuffleEnabled(event.enabled);
   }
 
-  void _onAnswerShuffleEnabledChanged(
-    _AnswerShuffleEnabledChanged event,
+  Future<void> _onObservationRequested(
+    _SettingsObservationRequested event,
     Emitter<SettingsState> emit,
   ) {
-    final currentState = state;
-    if (currentState is! SettingsLoaded) {
-      emit(SettingsLoaded(answerShuffleEnabled: event.answerShuffleEnabled));
-      return;
-    }
-
-    emit(
-      currentState.copyWith(answerShuffleEnabled: event.answerShuffleEnabled),
+    return emit.forEach<bool>(
+      settingsStore.watchAnswerShuffleEnabled(),
+      onData: _stateForAnswerShuffle,
+      onError: (error, stackTrace) {
+        addError(error, stackTrace);
+        return SettingsLoadFailure(error);
+      },
     );
   }
 
-  void _onObservationFailed(
-    _SettingsObservationFailed event,
-    Emitter<SettingsState> emit,
-  ) {
-    emit(SettingsLoadFailure(event.error));
-  }
+  SettingsState _stateForAnswerShuffle(bool answerShuffleEnabled) {
+    final currentState = state;
+    if (currentState is! SettingsLoaded) {
+      return SettingsLoaded(answerShuffleEnabled: answerShuffleEnabled);
+    }
 
-  @override
-  Future<void> close() async {
-    await _answerShuffleSubscription.cancel();
-    return super.close();
+    return currentState.copyWith(answerShuffleEnabled: answerShuffleEnabled);
   }
 }
