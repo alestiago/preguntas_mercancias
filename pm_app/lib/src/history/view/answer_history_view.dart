@@ -6,8 +6,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../app/widgets/app_loading_indicator.dart';
 import '../../app/widgets/app_message_panel.dart';
 import '../../navigation/app_navigator.dart';
+import '../../practice/practice_launch.dart';
 import '../../practice/practice_page.dart';
-import '../../practice/practice_session_config.dart';
 import '../../settings/bloc/settings_bloc.dart';
 import '../bloc/answer_history_bloc.dart';
 import '../widgets/answer_history_list.dart';
@@ -68,8 +68,8 @@ class AnswerHistoryView extends StatelessWidget {
     AppNavigator.push<void>(
       context,
       QuestionPracticePage(
-        loadQuestions: (_) async => [question],
-        session: PracticeSessionConfig.singleQuestion(
+        launch: practiceLaunchFactory.singleQuestion(
+          question: question,
           shuffleAnswers: shuffleAnswers,
         ),
       ),

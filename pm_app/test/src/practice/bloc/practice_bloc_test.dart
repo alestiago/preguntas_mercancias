@@ -4,8 +4,9 @@ import 'dart:math';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/practice/bloc/practice_bloc.dart';
+import 'package:pm_app/src/practice/practice_launch.dart';
 import 'package:pm_app/src/practice/practice_session_config.dart';
-import 'package:pm_app/src/questions/pending_question_batch.dart';
+import 'package:pm_app/src/practice/session_question_source.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions/pm_questions.dart';
 
@@ -19,7 +20,7 @@ void main() {
     test('loads questions and records an answer', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
@@ -58,7 +59,7 @@ void main() {
       final progressStore = FakeQuestionProgressStore();
       final question = buildQuestions().first;
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => [question],
         questionProgressStore: progressStore,
         answerShuffleRandom: Random(1),
@@ -100,7 +101,7 @@ void main() {
     test('keeps original answer order when shuffling is disabled', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => [buildQuestions().first],
         questionProgressStore: progressStore,
         answerShuffleRandom: Random(1),
@@ -143,7 +144,7 @@ void main() {
           norma: 'Norma tercera',
           shuffleable: false,
         );
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (_) async => [nonShuffleableQuestion],
           questionProgressStore: progressStore,
           answerShuffleRandom: Random(1),
@@ -169,7 +170,7 @@ void main() {
     test('advances after answering', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
@@ -210,7 +211,7 @@ void main() {
     test('does not advance while an answer is being recorded', () async {
       final progressStore = _SlowQuestionProgressStore();
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
@@ -262,7 +263,7 @@ void main() {
     test('skips ahead without answering', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
@@ -294,7 +295,7 @@ void main() {
     test('goes back to a skipped question and can still answer it', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
       );
@@ -343,7 +344,7 @@ void main() {
       () async {
         final progressStore = FakeQuestionProgressStore();
         addTearDown(progressStore.close);
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
         );
@@ -394,7 +395,7 @@ void main() {
       setUp: () {
         noOpProgressStore = FakeQuestionProgressStore();
       },
-      build: () => PracticeBloc(
+      build: () => _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: noOpProgressStore,
       ),
@@ -407,7 +408,7 @@ void main() {
     test('jumps directly to a selected question', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: progressStore,
         session: const PracticeSessionConfig.simulacro(),
@@ -438,7 +439,7 @@ void main() {
       setUp: () {
         noOpProgressStore = FakeQuestionProgressStore();
       },
-      build: () => PracticeBloc(
+      build: () => _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: noOpProgressStore,
       ),
@@ -453,7 +454,7 @@ void main() {
       () async {
         final progressStore = _SlowQuestionProgressStore();
         addTearDown(progressStore.close);
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
         );
@@ -495,7 +496,7 @@ void main() {
       setUp: () {
         noOpProgressStore = FakeQuestionProgressStore();
       },
-      build: () => PracticeBloc(
+      build: () => _buildPracticeBloc(
         loadQuestions: (_) async => buildQuestions(),
         questionProgressStore: noOpProgressStore,
         session: const PracticeSessionConfig.simulacro(),
@@ -530,7 +531,7 @@ void main() {
             correctOption: QuestionOption.a,
           ),
         );
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
           session: const PracticeSessionConfig.review(),
@@ -621,7 +622,7 @@ void main() {
             correctOption: QuestionOption.b,
           ),
         );
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (_) async => [buildQuestions().first],
           questionProgressStore: progressStore,
           session: const PracticeSessionConfig.review(),
@@ -689,7 +690,7 @@ void main() {
       () async {
         final progressStore = FakeQuestionProgressStore();
         addTearDown(progressStore.close);
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (_) async => buildQuestions(),
           questionProgressStore: progressStore,
           session: PracticeSessionConfig.pending(),
@@ -749,7 +750,7 @@ void main() {
       final questions = buildManyQuestions(15);
       final loadMoreCalls = <Set<String>>[];
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => questions.take(10).toList(growable: false),
         loadMoreQuestions: (_, loadedQuestionCodes, progressSnapshot) async {
           loadMoreCalls.add({...loadedQuestionCodes});
@@ -829,7 +830,7 @@ void main() {
       final progressStore = FakeQuestionProgressStore();
       final questions = buildManyQuestions(11);
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => [questions.first],
         loadMoreQuestions: (_, _, _) async =>
             PendingQuestionBatch(questions: questions.skip(1), hasMore: false),
@@ -858,7 +859,7 @@ void main() {
     test('confirms exhaustion from an empty pending batch', () async {
       final progressStore = FakeQuestionProgressStore();
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => [],
         loadMoreQuestions: (_, _, _) async =>
             PendingQuestionBatch(questions: const [], hasMore: false),
@@ -880,11 +881,74 @@ void main() {
       expect(exhausted.isFilteredPracticeComplete, isTrue);
     });
 
+    test('reports exhaustion from the initial pending batch', () async {
+      final progressStore = FakeQuestionProgressStore();
+      addTearDown(progressStore.close);
+      final bloc = PracticeBloc(
+        launch: practiceLaunchFactory.pending(
+          catalog: QuestionCatalog(buildManyQuestions(2)),
+          shuffleAnswers: false,
+          pendingQuestionCount: 2,
+          pendingQuestionCountsBySection: const {'1A': 2},
+        ),
+        questionProgressStore: progressStore,
+      );
+      addTearDown(bloc.close);
+
+      final loadedFuture = _waitForPracticeState(
+        bloc,
+        (state) => state is PracticeLoaded,
+      );
+      bloc.add(const PracticeStarted());
+      final loaded = await loadedFuture as PracticeLoaded;
+
+      expect(loaded.questions, hasLength(2));
+      expect(loaded.pendingBatchState, isA<PendingBatchExhausted>());
+    });
+
+    test('revalidates an initial batch against newer progress', () async {
+      final progressStore = FakeQuestionProgressStore();
+      final questions = buildManyQuestions(2);
+      final initialBatch = Completer<List<Question>>();
+      var loadStarted = false;
+      addTearDown(progressStore.close);
+      final bloc = _buildPracticeBloc(
+        loadQuestions: (_) {
+          loadStarted = true;
+          return initialBatch.future;
+        },
+        questionProgressStore: progressStore,
+        session: PracticeSessionConfig.pending(shuffleAnswers: false),
+      );
+      addTearDown(bloc.close);
+
+      bloc.add(const PracticeStarted());
+      await _waitUntil(() => loadStarted);
+      await progressStore.recordAnswer(
+        QuestionAnswerRecord(
+          questionCode: questions.first.code,
+          section: questions.first.section,
+          selectedOption: questions.first.correctOption,
+          correctOption: questions.first.correctOption,
+        ),
+      );
+      final loadedFuture = _waitForPracticeState(
+        bloc,
+        (state) => state is PracticeLoaded,
+      );
+      initialBatch.complete(questions);
+      final loaded = await loadedFuture as PracticeLoaded;
+
+      expect(loaded.questions.map((question) => question.code), [
+        questions.last.code,
+      ]);
+    });
+
     test('filters duplicate questions from a pending batch', () async {
       final progressStore = FakeQuestionProgressStore();
       final questions = buildManyQuestions(2);
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) async => [questions.first],
         loadMoreQuestions: (_, _, _) async =>
             PendingQuestionBatch(questions: questions, hasMore: false),
@@ -909,13 +973,42 @@ void main() {
       );
     });
 
+    test('rejects a non-advancing pending source', () async {
+      final progressStore = FakeQuestionProgressStore();
+      final question = buildManyQuestions(1).single;
+      addTearDown(progressStore.close);
+      final bloc = _buildPracticeBloc(
+        loadQuestions: (_) async => [question],
+        loadMoreQuestions: (_, _, _) async =>
+            SessionQuestionBatch(questions: [question], hasMore: true),
+        questionProgressStore: progressStore,
+        session: PracticeSessionConfig.pending(shuffleAnswers: false),
+      );
+      addTearDown(bloc.close);
+
+      final failedFuture = _waitForPracticeState(
+        bloc,
+        (state) =>
+            state is PracticeLoaded &&
+            state.pendingBatchState is PendingBatchFailure,
+      );
+      bloc.add(const PracticeStarted());
+      final failed = await failedFuture as PracticeLoaded;
+
+      expect(failed.questions, [question]);
+      expect(
+        (failed.pendingBatchState as PendingBatchFailure).error,
+        isA<StateError>(),
+      );
+    });
+
     test(
       'retries a failed pending batch without restarting the session',
       () async {
         final progressStore = FakeQuestionProgressStore();
         var loadMoreCallCount = 0;
         addTearDown(progressStore.close);
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (_) async => [],
           loadMoreQuestions: (_, _, _) async {
             loadMoreCallCount += 1;
@@ -965,7 +1058,7 @@ void main() {
         final progressStore = FakeQuestionProgressStore();
         final pendingBatches = <String, Completer<PendingQuestionBatch>>{};
         addTearDown(progressStore.close);
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (section) async => [
             buildReviewQuestions().firstWhere(
               (question) => question.section == section,
@@ -1019,7 +1112,7 @@ void main() {
       final progressStore = FakeQuestionProgressStore();
       final pendingLoads = <String, Completer<List<Question>>>{};
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (section) {
           final completer = Completer<List<Question>>();
           pendingLoads[section!] = completer;
@@ -1055,7 +1148,7 @@ void main() {
       () async {
         final progressStore = _SlowQuestionProgressStore();
         addTearDown(progressStore.close);
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: loadReviewQuestions,
           questionProgressStore: progressStore,
           session: const PracticeSessionConfig.standard(shuffleAnswers: false),
@@ -1106,7 +1199,7 @@ void main() {
         final refill = Completer<PendingQuestionBatch>();
         final refillStarted = Completer<void>();
         addTearDown(progressStore.close);
-        final bloc = PracticeBloc(
+        final bloc = _buildPracticeBloc(
           loadQuestions: (_) async => buildManyQuestions(6),
           loadMoreQuestions: (_, _, _) {
             refillStarted.complete();
@@ -1179,7 +1272,7 @@ void main() {
       final loadCompleter = Completer<List<Question>>();
       var loadStarted = false;
       addTearDown(progressStore.close);
-      final bloc = PracticeBloc(
+      final bloc = _buildPracticeBloc(
         loadQuestions: (_) {
           loadStarted = true;
           return loadCompleter.future;
@@ -1198,6 +1291,66 @@ void main() {
       expect(progressStore.recordedAnswers, isEmpty);
     });
   });
+}
+
+typedef PendingQuestionBatch = SessionQuestionBatch;
+typedef _LoadQuestions = Future<List<Question>> Function(String? section);
+typedef _LoadMoreQuestions =
+    Future<SessionQuestionBatch> Function(
+      String? section,
+      Set<String> loadedQuestionCodes,
+      QuestionProgressSnapshot progressSnapshot,
+    );
+
+PracticeBloc _buildPracticeBloc({
+  required _LoadQuestions loadQuestions,
+  _LoadMoreQuestions? loadMoreQuestions,
+  required QuestionProgressStore questionProgressStore,
+  PracticeSessionConfig session = const PracticeSessionConfig.standard(),
+  Random? answerShuffleRandom,
+}) {
+  return PracticeBloc(
+    launch: PracticeLaunch(
+      config: session,
+      source: _CallbackSessionQuestionSource(
+        mode: session.mode,
+        loadQuestions: loadQuestions,
+        loadMoreQuestions: loadMoreQuestions,
+      ),
+    ),
+    questionProgressStore: questionProgressStore,
+    answerShuffleRandom: answerShuffleRandom,
+  );
+}
+
+final class _CallbackSessionQuestionSource implements SessionQuestionSource {
+  _CallbackSessionQuestionSource({
+    required this.mode,
+    required this.loadQuestions,
+    required this.loadMoreQuestions,
+  });
+
+  @override
+  final PracticeMode mode;
+  final _LoadQuestions loadQuestions;
+  final _LoadMoreQuestions? loadMoreQuestions;
+  final Set<String?> _initiallyLoadedSections = {};
+
+  @override
+  Future<SessionQuestionBatch> load(SessionQuestionRequest request) async {
+    final loadMore = loadMoreQuestions;
+    if (loadMore == null || _initiallyLoadedSections.add(request.section)) {
+      return SessionQuestionBatch(
+        questions: await loadQuestions(request.section),
+        hasMore: loadMore != null,
+      );
+    }
+    return loadMore(
+      request.section,
+      request.excludedQuestionCodes,
+      request.progressSnapshot,
+    );
+  }
 }
 
 Future<PracticeState> _waitForPracticeState(

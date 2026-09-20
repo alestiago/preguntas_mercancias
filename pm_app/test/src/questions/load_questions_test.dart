@@ -45,13 +45,4 @@ void main() {
     expect(await loadCatalog(), same(catalog));
     expect(loadCount, 2);
   });
-
-  test('creates section loaders from the catalog indexes', () async {
-    final catalog = QuestionCatalog(buildQuestions());
-    final loadQuestions = loadQuestionsFromCatalog(catalog);
-
-    expect(await loadQuestions(null), same(catalog.questions));
-    expect(await loadQuestions(' 1a '), same(catalog.bySection['1A']));
-    await expectLater(loadQuestions('missing'), throwsArgumentError);
-  });
 }

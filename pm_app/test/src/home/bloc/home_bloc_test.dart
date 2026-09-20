@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/src/home/bloc/home_bloc.dart';
+import 'package:pm_app/src/practice/practice_launch.dart';
+import 'package:pm_app/src/practice/session_question_source.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions/pm_questions.dart';
 
@@ -168,21 +170,49 @@ void main() {
       final loadedFuture = _waitForLoaded(bloc);
       bloc.add(const HomeStarted());
       final loaded = await loadedFuture;
-      final reviewQuestions = await loaded.reviewLoadQuestions()(null);
-      final pendingQuestions = await loaded.pendingLoadQuestions(batchSize: 10)(
-        null,
+      final reviewLaunch = practiceLaunchFactory.review(
+        catalog: loaded.catalog,
+        shuffleAnswers: false,
       );
-      final pendingSession = loaded.pendingSession(shuffleAnswers: false);
+      final pendingLaunch = practiceLaunchFactory.pending(
+        catalog: loaded.catalog,
+        shuffleAnswers: false,
+        pendingQuestionCount: loaded.unansweredQuestionCount,
+        pendingQuestionCountsBySection: loaded.pendingQuestionCountsBySection,
+      );
+      final reviewBatch = await reviewLaunch.source.load(
+        SessionQuestionRequest(
+          section: null,
+          excludedQuestionCodes: const {},
+          progressSnapshot: loaded.progressSnapshot,
+          requestedSize: null,
+        ),
+      );
+      final pendingBatch = await pendingLaunch.source.load(
+        SessionQuestionRequest(
+          section: null,
+          excludedQuestionCodes: const {},
+          progressSnapshot: loaded.progressSnapshot,
+          requestedSize: pendingLaunch.config.pendingBatchSize,
+        ),
+      );
 
       expect(loaded.totalQuestionCount, 3);
-      expect(loaded.incorrectQuestionCount, reviewQuestions.length);
-      expect(loaded.unansweredQuestionCount, pendingQuestions.length);
+      expect(loaded.incorrectQuestionCount, reviewBatch.questions.length);
+      expect(loaded.unansweredQuestionCount, pendingBatch.questions.length);
       expect(loaded.pendingQuestionCountsBySection, {'1A': 1});
-      expect(pendingSession.pendingQuestionCount, pendingQuestions.length);
-      expect(pendingSession.pendingQuestionCountsBySection, {'1A': 1});
-      expect(pendingSession.shuffleAnswers, isFalse);
-      expect(reviewQuestions.map((question) => question.code), ['1A01002']);
-      expect(pendingQuestions.map((question) => question.code), ['1A01003']);
+      expect(
+        pendingLaunch.config.pendingQuestionCount,
+        pendingBatch.questions.length,
+      );
+      expect(pendingLaunch.config.pendingQuestionCountsBySection, {'1A': 1});
+      expect(pendingLaunch.config.shuffleAnswers, isFalse);
+      expect(reviewBatch.questions.map((question) => question.code), [
+        '1A01002',
+      ]);
+      expect(pendingBatch.questions.map((question) => question.code), [
+        '1A01003',
+      ]);
     });
 
     test('updates when progress changes without a manual refresh', () async {

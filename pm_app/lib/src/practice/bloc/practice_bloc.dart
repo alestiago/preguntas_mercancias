@@ -7,27 +7,25 @@ import 'package:meta/meta.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions/pm_questions.dart';
 
-import '../../questions/load_questions.dart';
-import '../../questions/pending_question_batch.dart';
+import '../practice_launch.dart';
 import '../practice_question_policy.dart';
 import '../question_answer_presentation.dart';
 import '../practice_session_config.dart';
+import '../session_question_source.dart';
 
 part 'practice_event.dart';
 part 'practice_state.dart';
 
 class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   PracticeBloc({
-    this.loadQuestions = loadQuestionsFromBank,
-    this.loadMoreQuestions,
-    this.session = const PracticeSessionConfig.standard(),
+    required this.launch,
     required this.questionProgressStore,
     Random? answerShuffleRandom,
   }) : _answerShuffleRandom = answerShuffleRandom ?? Random(),
        super(
          PracticeLoading(
-           selectedSection: session.initialSection,
-           session: session,
+           selectedSection: launch.config.initialSection,
+           session: launch.config,
          ),
        ) {
     on<PracticeLoadRequested>(_onLoadRequested, transformer: restartable());
@@ -41,12 +39,14 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     on<QuestionNavigationPressed>(_onQuestionNavigationPressed);
   }
 
-  final LoadQuestions loadQuestions;
-  final LoadMoreQuestions? loadMoreQuestions;
-  final PracticeSessionConfig session;
+  final PracticeLaunch launch;
   final QuestionProgressStore questionProgressStore;
   final Random _answerShuffleRandom;
   int _sessionGeneration = 0;
+
+  PracticeSessionConfig get session => launch.config;
+
+  SessionQuestionSource get questionSource => launch.source;
 
   Future<void> _onLoadRequested(
     PracticeLoadRequested event,
@@ -164,11 +164,9 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     int generation,
     Emitter<PracticeState> emit,
   ) async {
-    final loadMore = loadMoreQuestions;
     // Refill requests are advisory. Ignore them until pending mode reaches its
     // threshold, and while a load or terminal exhaustion is already known.
     if (currentState.mode != PracticeMode.pending ||
-        loadMore == null ||
         currentState.pendingBatchState is PendingBatchExhausted ||
         currentState.pendingBatchState is PendingBatchLoading ||
         currentState.remainingFilteredQuestions.length >
@@ -181,12 +179,15 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     final loadedQuestionCodes = currentState.questions
         .map((question) => question.code)
         .toSet();
-    final PendingQuestionBatch batch;
+    final SessionQuestionBatch batch;
     try {
-      batch = await loadMore(
-        currentState.selectedSection,
-        loadedQuestionCodes,
-        currentState.progressSnapshot,
+      batch = await questionSource.load(
+        SessionQuestionRequest(
+          section: currentState.selectedSection,
+          excludedQuestionCodes: loadedQuestionCodes,
+          progressSnapshot: currentState.progressSnapshot,
+          requestedSize: session.pendingBatchSize,
+        ),
       );
     } catch (error, stackTrace) {
       if (_isCurrentSession(generation, emit)) {
@@ -346,16 +347,31 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
     emit(PracticeLoading(selectedSection: selectedSection, session: session));
 
     try {
-      final questions = await loadQuestions(selectedSection);
+      final sourceProgressSnapshot = await questionProgressStore.loadSnapshot();
       if (!_isCurrentSession(generation, emit)) {
         return;
       }
+      final batch = await questionSource.load(
+        SessionQuestionRequest(
+          section: selectedSection,
+          excludedQuestionCodes: const {},
+          progressSnapshot: sourceProgressSnapshot,
+          requestedSize: session.mode == PracticeMode.pending
+              ? session.pendingBatchSize
+              : null,
+        ),
+      );
+      if (!_isCurrentSession(generation, emit)) {
+        return;
+      }
+      // The source may complete after progress changes. Re-read and validate
+      // its candidates before committing them to the active session.
       final progressSnapshot = await questionProgressStore.loadSnapshot();
       if (!_isCurrentSession(generation, emit)) {
         return;
       }
       final loadedQuestions = practiceQuestionPolicy.selectEligible(
-        questions: questions,
+        questions: batch.questions,
         mode: session.mode,
         progressSnapshot: progressSnapshot,
       );
@@ -366,8 +382,7 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
           loadedQuestions,
         ),
         progressSnapshot: progressSnapshot,
-        pendingBatchState:
-            session.mode == PracticeMode.pending && loadMoreQuestions != null
+        pendingBatchState: session.mode == PracticeMode.pending && batch.hasMore
             ? const PendingBatchReady()
             : const PendingBatchExhausted(),
         session: session,

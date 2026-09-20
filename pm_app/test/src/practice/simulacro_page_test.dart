@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/l10n/app_localizations.dart';
 import 'package:pm_app/src/app/theme/app_theme.dart';
+import 'package:pm_app/src/practice/practice_launch.dart';
 import 'package:pm_app/src/practice/practice_page.dart';
 import 'package:pm_app/src/practice/practice_session_clock.dart';
 import 'package:pm_app/src/practice/practice_session_config.dart';
+import 'package:pm_app/src/practice/session_question_source.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 import 'package:pm_questions/pm_questions.dart';
 
@@ -391,12 +393,33 @@ Future<void> _pumpSimulacroPage(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: QuestionPracticePage(
-          loadQuestions: loadQuestions,
-          session: const PracticeSessionConfig.simulacro(shuffleAnswers: false),
+          launch: PracticeLaunch(
+            config: const PracticeSessionConfig.simulacro(
+              shuffleAnswers: false,
+            ),
+            source: _TestSessionQuestionSource(loadQuestions),
+          ),
           sessionClock: sessionClock,
         ),
       ),
     ),
   );
   await tester.pumpAndSettle();
+}
+
+final class _TestSessionQuestionSource implements SessionQuestionSource {
+  const _TestSessionQuestionSource(this.loadQuestions);
+
+  final Future<List<Question>> Function(String? section) loadQuestions;
+
+  @override
+  PracticeMode get mode => PracticeMode.simulacro;
+
+  @override
+  Future<SessionQuestionBatch> load(SessionQuestionRequest request) async {
+    return SessionQuestionBatch(
+      questions: await loadQuestions(request.section),
+      hasMore: false,
+    );
+  }
 }

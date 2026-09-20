@@ -7,10 +7,9 @@ import '../../app/widgets/app_loading_indicator.dart';
 import '../../app/widgets/app_message_panel.dart';
 import '../../history/answer_history_page.dart';
 import '../../navigation/app_navigator.dart';
+import '../../practice/practice_launch.dart';
 import '../../practice/practice_page.dart';
-import '../../practice/practice_session_config.dart';
 import '../../questions/draw_simulacro_questions.dart';
-import '../../questions/load_questions.dart';
 import '../../settings/bloc/settings_bloc.dart';
 import '../../settings/settings_page.dart';
 import '../bloc/home_bloc.dart';
@@ -77,20 +76,8 @@ class QuestionHomeView extends StatelessWidget {
     AppNavigator.push<void>(context, const SettingsPage());
   }
 
-  void _openPractice(
-    BuildContext context, {
-    required LoadQuestions loadQuestions,
-    LoadMoreQuestions? loadMoreQuestions,
-    required PracticeSessionConfig session,
-  }) {
-    AppNavigator.push<void>(
-      context,
-      QuestionPracticePage(
-        loadQuestions: loadQuestions,
-        loadMoreQuestions: loadMoreQuestions,
-        session: session,
-      ),
-    );
+  void _openPractice(BuildContext context, PracticeLaunch launch) {
+    AppNavigator.push<void>(context, QuestionPracticePage(launch: launch));
   }
 
   void _openAnswerHistory(BuildContext context, HomeLoaded state) {
@@ -106,8 +93,10 @@ class QuestionHomeView extends StatelessWidget {
 
     _openPractice(
       context,
-      loadQuestions: (_) async => simulacroQuestions,
-      session: PracticeSessionConfig.simulacro(shuffleAnswers: shuffleAnswers),
+      practiceLaunchFactory.simulacro(
+        questions: simulacroQuestions,
+        shuffleAnswers: shuffleAnswers,
+      ),
     );
   }
 
@@ -119,8 +108,10 @@ class QuestionHomeView extends StatelessWidget {
 
     _openPractice(
       context,
-      loadQuestions: state.reviewLoadQuestions(),
-      session: state.reviewSession(shuffleAnswers: shuffleAnswers),
+      practiceLaunchFactory.review(
+        catalog: state.catalog,
+        shuffleAnswers: shuffleAnswers,
+      ),
     );
   }
 
@@ -129,17 +120,14 @@ class QuestionHomeView extends StatelessWidget {
         .read<SettingsBloc>()
         .state
         .answerShuffleEnabled;
-    final session = state.pendingSession(shuffleAnswers: shuffleAnswers);
-
     _openPractice(
       context,
-      loadQuestions: state.pendingLoadQuestions(
-        batchSize: session.pendingBatchSize,
+      practiceLaunchFactory.pending(
+        catalog: state.catalog,
+        shuffleAnswers: shuffleAnswers,
+        pendingQuestionCount: state.unansweredQuestionCount,
+        pendingQuestionCountsBySection: state.pendingQuestionCountsBySection,
       ),
-      loadMoreQuestions: state.pendingLoadMoreQuestions(
-        batchSize: session.pendingBatchSize,
-      ),
-      session: session,
     );
   }
 }
