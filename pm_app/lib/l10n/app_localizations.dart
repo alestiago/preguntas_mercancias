@@ -482,6 +482,12 @@ abstract class AppLocalizations {
   /// **'Siguiente'**
   String get onboardingNext;
 
+  /// No description provided for @onboardingBack.
+  ///
+  /// In es, this message translates to:
+  /// **'Atrás'**
+  String get onboardingBack;
+
   /// No description provided for @onboardingStart.
   ///
   /// In es, this message translates to:

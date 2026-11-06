@@ -251,6 +251,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get onboardingNext => 'Siguiente';
 
   @override
+  String get onboardingBack => 'Atrás';
+
+  @override
   String get onboardingStart => 'Empezar';
 
   @override

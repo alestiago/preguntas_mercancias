@@ -196,6 +196,7 @@
   "replayOnboardingSubtitle": "Solo visible en modo depuración.",
   "onboardingSkip": "Saltar",
   "onboardingNext": "Siguiente",
+  "onboardingBack": "Atrás",
   "onboardingStart": "Empezar",
   "onboardingPageIndicatorSemantics": "Página {current} de {total}",
   "@onboardingPageIndicatorSemantics": {

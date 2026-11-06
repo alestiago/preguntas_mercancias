@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/l10n/app_localizations.dart';
@@ -15,6 +16,8 @@ const _steps = [
 const _skip = ValueKey('onboarding-skip-button');
 const _next = ValueKey('onboarding-next-button');
 const _start = ValueKey('onboarding-start-button');
+const _back = ValueKey('onboarding-back-button');
+const _pageView = ValueKey('onboarding-page-view');
 
 void main() {
   group('OnboardingView', () {
@@ -36,6 +39,56 @@ void main() {
       expect(find.text('Siguiente'), findsOneWidget);
       expect(find.byKey(_start), findsNothing);
       expect(find.bySemanticsLabel('Página 1 de 3'), findsOneWidget);
+      // Kept in the tree (maintainSize) so the layout doesn't jump, but hidden.
+      expect(find.text('Atrás').hitTestable(), findsNothing);
+    });
+
+    testWidgets('back returns to the previous step', (tester) async {
+      await pumpView(tester);
+
+      await tester.tap(find.byKey(_next));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(_back));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Uno'), findsOneWidget);
+      expect(find.bySemanticsLabel('Página 1 de 3'), findsOneWidget);
+    });
+
+    testWidgets('swiping right returns to the previous step', (tester) async {
+      await pumpView(tester);
+
+      await tester.tap(find.byKey(_next));
+      await tester.pumpAndSettle();
+      await tester.fling(find.byKey(_pageView), const Offset(400, 0), 1000);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Uno'), findsOneWidget);
+    });
+
+    testWidgets('dragging with a mouse changes the step', (tester) async {
+      await pumpView(tester);
+
+      await tester.drag(
+        find.byKey(_pageView),
+        const Offset(-500, 0),
+        kind: PointerDeviceKind.mouse,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Dos'), findsOneWidget);
+    });
+
+    testWidgets('system back goes to the previous step', (tester) async {
+      await pumpView(tester);
+
+      await tester.tap(find.byKey(_next));
+      await tester.pumpAndSettle();
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+
+      expect(find.text('Uno'), findsOneWidget);
+      expect(finishedCount, 0);
     });
 
     testWidgets('next advances one step at a time', (tester) async {

@@ -40,8 +40,11 @@ Four pages. The copy was approved by the product owner on 2026-11-06.
 | 3 | Review loop (ADR 0001, ADR 0002) | Los fallos vuelven hasta que los aciertas | Las preguntas que fallas se repiten hasta que las respondes bien. Tu progreso muestra lo que ya dominas y lo que te queda. |
 | 4 | Exam readiness and offline | Ponte a prueba | Haz simulacros de 30 preguntas como en el examen. Todo funciona sin conexión y tus datos se quedan en tu dispositivo. |
 
-Controls: "Saltar" on pages 1–3, "Siguiente" to go forward, and "Empezar" on
-the last page. A page indicator shows where the user is. Swiping works too.
+Controls: "Saltar" on pages 1–3, "Atrás" on pages 2–4, "Siguiente" to go
+forward, and "Empezar" on the last page. A page indicator shows where the user
+is. Swiping works in both directions with touch, mouse and trackpad (Flutter
+drags only with touch by default, which breaks swiping on web). The system back
+button goes to the previous page before it leaves onboarding.
 
 Every claim must match current behavior. If a claim stops being true (for
 example, the question count or the simulacro length), update the copy in the
