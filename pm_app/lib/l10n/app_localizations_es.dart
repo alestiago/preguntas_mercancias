@@ -239,6 +239,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get backToAnswerHistory => 'Volver al historial';
 
   @override
+  String get replayOnboarding => 'Ver introducción';
+
+  @override
+  String get replayOnboardingSubtitle => 'Solo visible en modo depuración.';
+
+  @override
   String get onboardingSkip => 'Saltar';
 
   @override

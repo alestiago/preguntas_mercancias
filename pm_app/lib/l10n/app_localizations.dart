@@ -458,6 +458,18 @@ abstract class AppLocalizations {
   /// **'Volver al historial'**
   String get backToAnswerHistory;
 
+  /// No description provided for @replayOnboarding.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver introducción'**
+  String get replayOnboarding;
+
+  /// No description provided for @replayOnboardingSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo visible en modo depuración.'**
+  String get replayOnboardingSubtitle;
+
   /// No description provided for @onboardingSkip.
   ///
   /// In es, this message translates to:

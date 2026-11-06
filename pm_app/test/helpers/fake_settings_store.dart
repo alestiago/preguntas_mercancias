@@ -18,6 +18,9 @@ class FakeSettingsStore implements SettingsStore {
 
   /// When set, [setOnboardingCompleted] throws this error without storing.
   Object? onboardingWriteError;
+
+  /// How many times [setOnboardingCompleted] was called.
+  int onboardingWriteCount = 0;
   final StreamController<bool> _controller = StreamController<bool>.broadcast();
   int closeCallCount = 0;
 
@@ -46,6 +49,7 @@ class FakeSettingsStore implements SettingsStore {
 
   @override
   Future<void> setOnboardingCompleted(bool completed) async {
+    onboardingWriteCount += 1;
     if (onboardingWriteError case final error?) {
       throw error;
     }

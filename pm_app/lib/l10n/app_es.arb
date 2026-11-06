@@ -192,6 +192,8 @@
   "practiceSummaryUnanswered": "Sin responder",
   "backToHome": "Volver al inicio",
   "backToAnswerHistory": "Volver al historial",
+  "replayOnboarding": "Ver introducción",
+  "replayOnboardingSubtitle": "Solo visible en modo depuración.",
   "onboardingSkip": "Saltar",
   "onboardingNext": "Siguiente",
   "onboardingStart": "Empezar",
