@@ -25,6 +25,7 @@ Use `fvm flutter run` with an available Android device to run the Android app.
 | `lib/bootstrap.dart` | Creates production dependencies and transfers their ownership to the widget tree |
 | `lib/app.dart` | Provides stores, app-wide settings state, theme, localization, and the home entry point |
 | `lib/src/app/` | Dependency lifetime, shared theme tokens, and shared loading/message widgets |
+| `lib/src/onboarding/` | First-launch onboarding pages and the gate that picks onboarding or home |
 | `lib/src/home/` | Catalog summary and practice entry points |
 | `lib/src/practice/` | Session configuration, eligibility policy, summaries, BLoC state transitions, and practice UI |
 | `lib/src/practice_summary/` | Completed simulacro/single-question summary |

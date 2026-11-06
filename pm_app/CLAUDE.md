@@ -17,9 +17,15 @@ agents most often get wrong:
 - **Ownership**: stores belong to `AppDependenciesOwner`. BLoCs and Cubits are
   consumers and must never close injected stores.
 - **Strings**: edit `lib/l10n/app_es.arb`, then run `fvm flutter gen-l10n`.
-  Never edit `app_localizations*.dart`.
+  Never edit `app_localizations*.dart`. Stage the generated files before
+  running `verify.sh`, which compares them against the git index.
 - **Tests**: use `test/helpers/pump_app.dart`, the fakes in `test/helpers/` and
   the builders in `test/fixtures/`. Mirror `lib/` paths under `test/src/`.
+- **Onboarding in app tests**: `pumpApp` defaults to an onboarded user. If you
+  pass your own `FakeSettingsStore`, set `onboardingCompleted: true` unless the
+  test is about onboarding. Otherwise the app opens on onboarding, not home.
+- **Onboarding never blocks**: the gate sends the user home when settings fail
+  to load or the flag can't be written. Don't turn it into a hard gate.
 - **Widgetbook**: a widget exported from `lib/component_library.dart` needs a
   use case in `../widgetbook/src/pm_app/lib/src/...` at the mirrored path.
 

@@ -13,7 +13,10 @@ void main() {
     tester,
   ) async {
     final progressStore = FakeQuestionProgressStore();
-    final settingsStore = FakeSettingsStore(answerShuffleEnabled: false);
+    final settingsStore = FakeSettingsStore(
+      answerShuffleEnabled: false,
+      onboardingCompleted: true,
+    );
     addTearDown(progressStore.close);
     addTearDown(settingsStore.close);
     await progressStore.recordAnswer(

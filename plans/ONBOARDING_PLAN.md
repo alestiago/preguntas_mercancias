@@ -68,7 +68,7 @@ New feature folder, following the feature-first layout:
 
 ```text
 pm_app/lib/src/onboarding/
-  onboarding_page.dart          # route entry; takes an OnboardingExit (complete vs. pop)
+  onboarding_page.dart          # route entry; takes an onFinished callback
   onboarding_gate.dart          # picks onboarding or home from SettingsBloc state
   onboarding_steps.dart         # the ordered list of OnboardingStep value objects (icon + l10n getters)
   view/onboarding_view.dart     # PageView, controls, page indicator
@@ -86,15 +86,17 @@ pm_app/lib/src/onboarding/
   `loadOnboardingCompleted()` and `setOnboardingCompleted(bool)`. No watch
   stream: only the gate reads the flag, and only `SettingsBloc` writes it.
 - **SettingsBloc.** `SettingsLoaded` gains `onboardingCompleted`. A new
-  `OnboardingCompleted` event writes through the store and emits the updated
-  state even when the write fails (log it with `addError`), so the gate always
+  `OnboardingCompleted` event emits the completed state first, then writes
+  through the store (a failed write goes to `addError`), so the gate always
   moves on.
+- **Widgetbook.** `component_library.dart` exports `OnboardingView`,
+  `OnboardingStep` and `onboardingSteps`. One use case shows the real flow.
 - **Gate.** In `app.dart`, `home:` becomes `OnboardingGate`. It builds
   `QuestionHomePage` or `OnboardingPage` from `SettingsBloc` state. Because the
   gate rebuilds when the state changes, completing onboarding needs no
   navigation call.
 - **Settings entry point.** In debug builds only (`kDebugMode`), a
-  "Ver introducción" list tile pushes `OnboardingPage(exit: OnboardingExit.pop)`
+  "Ver introducción" list tile pushes `OnboardingPage(onFinished: () => AppNavigator.pop(context))`
   through `AppNavigator`. Release builds don't show it.
 - **Illustrations.** Each `OnboardingStep` has an illustration slot. For now
   the slot renders `OnboardingIllustrationPlaceholder`, a neutral box with the

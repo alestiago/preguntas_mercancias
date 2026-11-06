@@ -457,6 +457,78 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Volver al historial'**
   String get backToAnswerHistory;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In es, this message translates to:
+  /// **'Saltar'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In es, this message translates to:
+  /// **'Siguiente'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In es, this message translates to:
+  /// **'Empezar'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingPageIndicatorSemantics.
+  ///
+  /// In es, this message translates to:
+  /// **'Página {current} de {total}'**
+  String onboardingPageIndicatorSemantics(int current, int total);
+
+  /// No description provided for @onboardingBankTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Prepara el examen de mercancías'**
+  String get onboardingBankTitle;
+
+  /// No description provided for @onboardingBankBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Todas las preguntas del banco oficial, organizadas por materias, en tu bolsillo. Sin papeles ni apuntes sueltos.'**
+  String get onboardingBankBody;
+
+  /// No description provided for @onboardingPracticeTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Practica a tu ritmo'**
+  String get onboardingPracticeTitle;
+
+  /// No description provided for @onboardingPracticeBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Responde por materias y continúa donde lo dejaste. Cada pregunta indica la norma en la que se basa.'**
+  String get onboardingPracticeBody;
+
+  /// No description provided for @onboardingReviewTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Los fallos vuelven hasta que los aciertas'**
+  String get onboardingReviewTitle;
+
+  /// No description provided for @onboardingReviewBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Las preguntas que fallas se repiten hasta que las respondes bien. Tu progreso muestra lo que ya dominas y lo que te queda.'**
+  String get onboardingReviewBody;
+
+  /// No description provided for @onboardingSimulacroTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Ponte a prueba'**
+  String get onboardingSimulacroTitle;
+
+  /// No description provided for @onboardingSimulacroBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Haz simulacros de 30 preguntas como en el examen. Todo funciona sin conexión y tus datos se quedan en tu dispositivo.'**
+  String get onboardingSimulacroBody;
 }
 
 class _AppLocalizationsDelegate

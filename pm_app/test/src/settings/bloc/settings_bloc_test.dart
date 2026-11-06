@@ -153,6 +153,111 @@ void main() {
       expect(observedStore.watchCancellationCount, 1);
       await observedStore.close();
     });
+
+    group('onboarding', () {
+      blocTest<SettingsBloc, SettingsState>(
+        'loads the persisted onboarding flag',
+        setUp: () {
+          settingsStore = FakeSettingsStore(onboardingCompleted: false);
+        },
+        build: () => SettingsBloc(settingsStore: settingsStore!),
+        expect: () => [
+          const SettingsLoaded(
+            answerShuffleEnabled: true,
+            onboardingCompleted: false,
+          ),
+        ],
+      );
+
+      blocTest<SettingsBloc, SettingsState>(
+        'treats an unreadable flag as completed',
+        setUp: () {
+          settingsStore = FakeSettingsStore()
+            ..onboardingLoadError = StateError('read failed');
+        },
+        build: () => SettingsBloc(settingsStore: settingsStore!),
+        expect: () => [
+          const SettingsLoaded(
+            answerShuffleEnabled: true,
+            onboardingCompleted: true,
+          ),
+        ],
+        errors: () => [isA<StateError>()],
+      );
+
+      blocTest<SettingsBloc, SettingsState>(
+        'persists completion and emits it',
+        setUp: () {
+          settingsStore = FakeSettingsStore(onboardingCompleted: false);
+        },
+        build: () => SettingsBloc(settingsStore: settingsStore!),
+        act: (bloc) async {
+          await Future<void>.delayed(Duration.zero);
+          bloc.add(const OnboardingCompleted());
+        },
+        expect: () => [
+          const SettingsLoaded(
+            answerShuffleEnabled: true,
+            onboardingCompleted: false,
+          ),
+          const SettingsLoaded(
+            answerShuffleEnabled: true,
+            onboardingCompleted: true,
+          ),
+        ],
+        verify: (_) {
+          expect(settingsStore!.onboardingCompleted, isTrue);
+        },
+      );
+
+      blocTest<SettingsBloc, SettingsState>(
+        'still emits completion when the write fails',
+        setUp: () {
+          settingsStore = FakeSettingsStore(onboardingCompleted: false)
+            ..onboardingWriteError = StateError('write failed');
+        },
+        build: () => SettingsBloc(settingsStore: settingsStore!),
+        act: (bloc) async {
+          await Future<void>.delayed(Duration.zero);
+          bloc.add(const OnboardingCompleted());
+        },
+        expect: () => [
+          const SettingsLoaded(
+            answerShuffleEnabled: true,
+            onboardingCompleted: false,
+          ),
+          const SettingsLoaded(
+            answerShuffleEnabled: true,
+            onboardingCompleted: true,
+          ),
+        ],
+        errors: () => [isA<StateError>()],
+        verify: (_) {
+          expect(settingsStore!.onboardingCompleted, isFalse);
+        },
+      );
+
+      blocTest<SettingsBloc, SettingsState>(
+        'keeps completion when answer shuffle changes later',
+        setUp: () {
+          settingsStore = FakeSettingsStore(onboardingCompleted: false);
+        },
+        build: () => SettingsBloc(settingsStore: settingsStore!),
+        act: (bloc) async {
+          await Future<void>.delayed(Duration.zero);
+          bloc.add(const OnboardingCompleted());
+          await Future<void>.delayed(Duration.zero);
+          bloc.add(const AnswerShuffleToggled(false));
+        },
+        skip: 2,
+        expect: () => [
+          const SettingsLoaded(
+            answerShuffleEnabled: false,
+            onboardingCompleted: true,
+          ),
+        ],
+      );
+    });
   });
 }
 

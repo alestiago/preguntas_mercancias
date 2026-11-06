@@ -9,6 +9,8 @@ Format: `- YYYY-MM-DD: decision. Why. (refs: #issue, ADR, plan, commit)`
 
 ## Entries
 
+- 2026-11-06: Onboarding never blocks the app. A failed flag read sends the user home, and a failed write still moves on (onboarding may show again next launch). `SettingsBloc` emits completion before persisting. Why: a preferences error must not lock someone out of an offline study app. (refs: #2, plans/ONBOARDING_PLAN.md)
+- 2026-11-06: `OnboardingPage` takes an `onFinished` callback instead of an exit-mode enum. The gate persists completion; a replay just pops. Why: the caller already knows what finishing means, and an enum would be a mode flag in disguise (see ADR 0003's spirit). (refs: #2)
 - 2026-11-06: The onboarding-completed flag lives in shared_preferences behind `SettingsStore`, not in Drift. Why: it is a device preference, not study data, so it needs no schema migration and survives a progress reset. (refs: #1, plans/ONBOARDING_PLAN.md)
 - 2026-11-06: Work tracking moves to GitHub Issues. Plans in `plans/` hold designs only and carry a status header. Why: parallel agents need a claimable, lockable list of who is doing what. Commit messages alone ("R23, R18") don't show which work is open. (refs: docs/workflow.md)
 - 2026-11-06: Agent instructions live in `CLAUDE.md` (root and one per package). `AGENTS.md` is a symlink to the root file. Why: one source of truth for every coding agent, and package rules load only when an agent works in that package.

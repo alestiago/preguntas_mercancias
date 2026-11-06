@@ -27,17 +27,34 @@ final class SettingsLoadFailure extends SettingsState {
 }
 
 final class SettingsLoaded extends SettingsState {
-  const SettingsLoaded({required this.answerShuffleEnabled});
+  const SettingsLoaded({
+    required this.answerShuffleEnabled,
+    this.onboardingCompleted = true,
+  });
 
   @override
   final bool answerShuffleEnabled;
 
-  SettingsLoaded copyWith({bool? answerShuffleEnabled}) {
+  /// Whether first-launch onboarding was finished or skipped.
+  ///
+  /// When the stored flag can't be read, this is `true` so that a storage
+  /// failure never keeps the user out of the app.
+  final bool onboardingCompleted;
+
+  SettingsLoaded copyWith({
+    bool? answerShuffleEnabled,
+    bool? onboardingCompleted,
+  }) {
     return SettingsLoaded(
       answerShuffleEnabled: answerShuffleEnabled ?? this.answerShuffleEnabled,
+      onboardingCompleted: onboardingCompleted ?? this.onboardingCompleted,
     );
   }
 
   @override
-  List<Object?> get props => [SettingsLoaded, answerShuffleEnabled];
+  List<Object?> get props => [
+    SettingsLoaded,
+    answerShuffleEnabled,
+    onboardingCompleted,
+  ];
 }
