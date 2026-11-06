@@ -1,7 +1,7 @@
 ---
 status: active
 updated: 2026-11-06
-issue: "#1 (O01), #2 (O02), #3 (O03)"
+issue: "#1 (O01), #2 (O02), #3 (O03), #5 (O04)"
 ---
 
 # Plan: first-launch onboarding
@@ -25,9 +25,10 @@ Non-goals:
 - No account, no permissions, no data collection. The app stays offline.
 - No configuration steps (such as picking sections or setting a daily goal).
   These can come later as separate pages, but they are out of scope here.
-- No final illustrations yet. Each page reserves a slot with a placeholder
-  (`OnboardingIllustrationPlaceholder`). The product owner will supply the
-  artwork later, and swapping it in must not change the page structure.
+- No per-page artwork, no mascot. All pages share one illustration: a
+  line-art truck that drives from page to page (O04, §4 "Illustration").
+  The product owner chose a sober look for adult professionals over
+  characters or cartoon art.
 
 ## 2. Content (draft copy, Spanish)
 
@@ -73,11 +74,11 @@ New feature folder, following the feature-first layout:
 pm_app/lib/src/onboarding/
   onboarding_page.dart          # route entry; takes an onFinished callback
   onboarding_gate.dart          # picks onboarding or home from SettingsBloc state
-  onboarding_steps.dart         # the ordered list of OnboardingStep value objects (icon + l10n getters)
+  onboarding_steps.dart         # the ordered list of OnboardingStep value objects (l10n getters)
   view/onboarding_view.dart     # PageView, controls, page indicator
   widgets/onboarding_step_view.dart
   widgets/onboarding_page_indicator.dart
-  widgets/onboarding_illustration_placeholder.dart  # replaced by real art later
+  widgets/onboarding_road.dart  # shared illustration: fixed truck, scrolling road (O04)
 ```
 
 - **State.** The current page index belongs to the `PageController`. It is
@@ -101,10 +102,18 @@ pm_app/lib/src/onboarding/
 - **Settings entry point.** In debug builds only (`kDebugMode`), a
   "Ver introducción" list tile pushes `OnboardingPage(onFinished: () => AppNavigator.pop(context))`
   through `AppNavigator`. Release builds don't show it.
-- **Illustrations.** Each `OnboardingStep` has an illustration slot. For now
-  the slot renders `OnboardingIllustrationPlaceholder`, a neutral box with the
-  step's icon and a fixed aspect ratio. Real art replaces it without layout
-  changes.
+- **Illustration (O04).** One `OnboardingRoad` scene sits on top of the
+  `PageView` in a `Stack`, behind `IgnorePointer`, so it stays still while the
+  pages slide and drags fall through to the `PageView`. Each page leaves the
+  same space empty at the top. The scene reads the fractional
+  `PageController.page`: the road and one milestone per page scroll by one
+  window width per page, and the wheels turn by distance / radius so they
+  roll without slipping. The body bobs slightly between pages, except when
+  `MediaQuery.disableAnimations` is on. The scene keeps a 4:3 ratio, at most
+  360 wide and 45 % of the available height. Assets: `truck_body.svg` (lines
+  plus a white fill silhouette, so the road doesn't show through) and
+  `truck_wheel.svg` (centred, with lug nuts so rotation is visible), both
+  split from `assets/onboarding/source/truck.svg`, which isn't bundled.
 
 Hotspots touched: `lib/app.dart` (app shell), `app_es.arb`, and the
 `SettingsStore` public API (not the schema). Keep each one in a separate,
@@ -117,8 +126,9 @@ small item so the PRs rebase easily.
 | O01 | `SettingsStore` onboarding flag, shared_preferences implementation, store tests, `FakeSettingsStore` update | `pm_persistence`, `pm_app/test/helpers` | — |
 | O02 | Onboarding feature (steps, view, widgets), `SettingsBloc` event and state, `OnboardingGate` in `app.dart`, ARB strings, Widgetbook use cases | `pm_app`, `widgetbook` | `app-shell`, `l10n` |
 | O03 | Debug-only Settings › "Ver introducción" | `pm_app` | `l10n` |
+| O04 | Shared truck illustration (`OnboardingRoad`), `flutter_svg`, assets, Widgetbook use case | `pm_app`, `widgetbook` | — |
 
-O02 depends on O01. O03 depends on O02.
+O02 depends on O01. O03 depends on O02. O04 depends on O02 (stacked on O03's branch, which has the latest view).
 
 ## 6. Tests
 
@@ -144,6 +154,7 @@ O02 depends on O01. O03 depends on O02.
 2. There are no existing users, so upgrade behavior is out of scope.
 3. Four pages.
 4. Use placeholders where the illustrations will go. Art comes later.
+   Superseded by O04: one shared truck illustration, no mascot (2026-11-06).
 5. Replay from Settings only in debug builds (`kDebugMode`).
 
 ## 8. Decisions to record in the implementing PRs

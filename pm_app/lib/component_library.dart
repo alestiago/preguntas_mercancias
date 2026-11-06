@@ -14,6 +14,7 @@ export 'src/home/widgets/home_progress_summary.dart' show HomeProgressSummary;
 export 'src/onboarding/onboarding_steps.dart'
     show OnboardingStep, onboardingSteps;
 export 'src/onboarding/view/onboarding_view.dart' show OnboardingView;
+export 'src/onboarding/widgets/onboarding_road.dart' show OnboardingRoad;
 export 'src/practice/bloc/practice_bloc.dart' show PracticePrimaryAction;
 export 'src/practice/practice_question_policy.dart' show SessionQuestionStatus;
 export 'src/practice/question_answer_presentation.dart'

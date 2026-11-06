@@ -4,13 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/l10n/app_localizations.dart';
 import 'package:pm_app/src/onboarding/onboarding_steps.dart';
 import 'package:pm_app/src/onboarding/view/onboarding_view.dart';
+import 'package:pm_app/src/onboarding/widgets/onboarding_road.dart';
 
 import '../../../helpers/pump_app.dart';
 
 const _steps = [
-  OnboardingStep(icon: Icons.looks_one, title: 'Uno', body: 'Primero'),
-  OnboardingStep(icon: Icons.looks_two, title: 'Dos', body: 'Segundo'),
-  OnboardingStep(icon: Icons.looks_3, title: 'Tres', body: 'Tercero'),
+  OnboardingStep(title: 'Uno', body: 'Primero'),
+  OnboardingStep(title: 'Dos', body: 'Segundo'),
+  OnboardingStep(title: 'Tres', body: 'Tercero'),
 ];
 
 const _skip = ValueKey('onboarding-skip-button');
@@ -89,6 +90,34 @@ void main() {
 
       expect(find.text('Uno'), findsOneWidget);
       expect(finishedCount, 0);
+    });
+
+    testWidgets('the truck follows a half swipe and settles on the page', (
+      tester,
+    ) async {
+      await pumpView(tester);
+      double roadPage() =>
+          tester.widget<OnboardingRoad>(find.byType(OnboardingRoad)).page;
+
+      expect(roadPage(), 0);
+
+      final pageWidth = tester.getSize(find.byKey(_pageView)).width;
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.byKey(_pageView)),
+      );
+      await gesture.moveBy(Offset(-pageWidth * 0.3, 0));
+      await tester.pump();
+
+      expect(roadPage(), closeTo(0.3, 0.05));
+      // The scene is shared: one truck, not one per page.
+      expect(find.byType(OnboardingRoad), findsOneWidget);
+
+      await gesture.moveBy(Offset(-pageWidth * 0.4, 0));
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(roadPage(), 1);
+      expect(find.text('Dos'), findsOneWidget);
     });
 
     testWidgets('next advances one step at a time', (tester) async {
