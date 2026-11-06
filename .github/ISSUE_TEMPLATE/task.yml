@@ -1,0 +1,39 @@
+name: Task
+description: A unit of work that one person or agent can claim and finish in one PR.
+labels: ["status:ready"]
+body:
+  - type: input
+    id: item
+    attributes:
+      label: Backlog item
+      description: R/A ID from plans/backlog.md, if any.
+      placeholder: A07
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should be true when this is done?
+    validations:
+      required: true
+  - type: checkboxes
+    id: packages
+    attributes:
+      label: Affected packages
+      options:
+        - label: pm_app
+        - label: widgetbook
+        - label: packages/pm_questions
+        - label: packages/pm_questions_bank
+        - label: packages/pm_persistence
+        - label: tool / CI
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Related decisions
+      description: ADRs or plan sections this must respect or change.
+      placeholder: ADR 0003; plans/ABSTRACTION_REFACTORING_PLAN.md#a07
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: Acceptance criteria, including the tests that prove it.

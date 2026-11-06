@@ -32,3 +32,10 @@ not define lifetime eligibility.
 - Review mode selects only attempted questions with no correct attempt.
 - UI wording and tests must not equate “last answer was correct” with
   “mastered.”
+
+## Related code
+
+- [`pm_app/lib/src/practice/practice_question_policy.dart`](../../pm_app/lib/src/practice/practice_question_policy.dart)
+- [`packages/pm_persistence/lib/src/models/question_progress.dart`](../../packages/pm_persistence/lib/src/models/question_progress.dart)
+- [`packages/pm_persistence/lib/src/stores/drift_question_progress_store.dart`](../../packages/pm_persistence/lib/src/stores/drift_question_progress_store.dart)
+- [`pm_app/lib/src/home/`](../../pm_app/lib/src/home/)

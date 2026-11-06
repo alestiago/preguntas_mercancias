@@ -35,3 +35,11 @@ requires confirmation; leaving an unanswered one does not.
   completion.
 - New session modes must choose an explicit completion policy and add focused
   tests.
+
+## Related code
+
+- [`pm_app/lib/src/practice/practice_session_config.dart`](../../pm_app/lib/src/practice/practice_session_config.dart)
+- [`pm_app/lib/src/practice/practice_session.dart`](../../pm_app/lib/src/practice/practice_session.dart)
+- [`pm_app/lib/src/practice/bloc/practice_bloc.dart`](../../pm_app/lib/src/practice/bloc/practice_bloc.dart)
+- [`pm_app/lib/src/practice/session_question_source.dart`](../../pm_app/lib/src/practice/session_question_source.dart)
+- [`pm_app/lib/src/practice_summary/`](../../pm_app/lib/src/practice_summary/)

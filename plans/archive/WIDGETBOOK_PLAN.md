@@ -1,3 +1,9 @@
+---
+status: done
+updated: 2026-11-06
+issue: none (implemented in a8bc271)
+---
+
 # Widgetbook implementation plan
 
 ## Goal

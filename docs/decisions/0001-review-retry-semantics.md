@@ -32,3 +32,10 @@ back/forward navigation and summaries.
 - Score counters can exceed the number of distinct questions.
 - `selectedOptionsByQuestionCode` is a presentation snapshot, not the durable
   attempt ledger.
+
+## Related code
+
+- [`pm_app/lib/src/practice/bloc/practice_bloc.dart`](../../pm_app/lib/src/practice/bloc/practice_bloc.dart)
+- [`pm_app/lib/src/practice/session_answers.dart`](../../pm_app/lib/src/practice/session_answers.dart)
+- [`pm_app/lib/src/practice/practice_question_policy.dart`](../../pm_app/lib/src/practice/practice_question_policy.dart)
+- [`pm_app/test/src/practice/bloc/practice_bloc_test.dart`](../../pm_app/test/src/practice/bloc/practice_bloc_test.dart)

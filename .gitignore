@@ -10,3 +10,7 @@
 **/coverage/
 **/doc/api/
 **/ios/Flutter/.last_build_id
+
+# Claude Code: personal settings and session worktrees
+.claude/settings.local.json
+.claude/worktrees/
