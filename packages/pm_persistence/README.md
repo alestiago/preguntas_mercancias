@@ -1,8 +1,8 @@
 # pm_persistence
 
 Persistence adapters for Preguntas Mercancías. The package stores question
-attempts and aggregate progress in Drift, and the answer-shuffle preference in
-shared preferences. It depends on the pure `pm_questions` domain for canonical
+attempts and aggregate progress in Drift, and device preferences (answer
+shuffle, onboarding completion) in shared preferences. It depends on the pure `pm_questions` domain for canonical
 option identity and does not depend on Flutter asset loading.
 
 ## Responsibilities
@@ -10,13 +10,15 @@ option identity and does not depend on Flutter asset loading.
 | API | Production implementation | Data |
 | --- | --- | --- |
 | `QuestionProgressStore` | `DriftQuestionProgressStore` | Every answer attempt, per-question aggregate counts, last selection, and timestamps |
-| `SettingsStore` | `SharedPreferencesSettingsStore` | Whether answer choices are shuffled |
+| `SettingsStore` | `SharedPreferencesSettingsStore` | Whether answer choices are shuffled; whether onboarding was completed |
 
 `QuestionProgressStore.recordAnswer` writes the attempt and its aggregate
 progress in one database transaction. Clearing progress removes both tables.
 The settings store is independent, so resetting question progress does not
 reset the shuffle preference. When no preference has been saved,
-`SharedPreferencesSettingsStore` defaults answer shuffling to enabled.
+`SharedPreferencesSettingsStore` defaults answer shuffling to enabled and
+onboarding to not completed. The onboarding flag has no watch stream because
+only app startup reads it.
 
 ## Store contracts
 

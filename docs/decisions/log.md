@@ -9,6 +9,7 @@ Format: `- YYYY-MM-DD: decision. Why. (refs: #issue, ADR, plan, commit)`
 
 ## Entries
 
+- 2026-11-06: The onboarding-completed flag lives in shared_preferences behind `SettingsStore`, not in Drift. Why: it is a device preference, not study data, so it needs no schema migration and survives a progress reset. (refs: #1, plans/ONBOARDING_PLAN.md)
 - 2026-11-06: Work tracking moves to GitHub Issues. Plans in `plans/` hold designs only and carry a status header. Why: parallel agents need a claimable, lockable list of who is doing what. Commit messages alone ("R23, R18") don't show which work is open. (refs: docs/workflow.md)
 - 2026-11-06: Agent instructions live in `CLAUDE.md` (root and one per package). `AGENTS.md` is a symlink to the root file. Why: one source of truth for every coding agent, and package rules load only when an agent works in that package.
 - 2026-11-06: Generated files stay committed. Parallel branches resolve conflicts by regenerating (`tool/regen.sh`), not by merging by hand. Why: the app and web build need the assets without running generators, and CI already checks that generated output matches its sources.

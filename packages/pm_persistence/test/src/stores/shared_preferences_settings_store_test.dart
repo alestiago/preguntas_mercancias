@@ -71,6 +71,41 @@ void main() {
       expect(await failingStore.loadAnswerShuffleEnabled(), isTrue);
     });
 
+    group('onboarding completed', () {
+      test('defaults to false', () async {
+        expect(await store.loadOnboardingCompleted(), isFalse);
+      });
+
+      test('persists across store instances', () async {
+        await store.setOnboardingCompleted(true);
+
+        final otherStore = SharedPreferencesSettingsStore();
+        addTearDown(otherStore.close);
+
+        expect(await otherStore.loadOnboardingCompleted(), isTrue);
+      });
+
+      test('throws and keeps the previous value on a failed write', () async {
+        final failingStore = SharedPreferencesSettingsStore(
+          writeBool: (_, _, _) async => false,
+        );
+        addTearDown(failingStore.close);
+
+        await expectLater(
+          failingStore.setOnboardingCompleted(true),
+          throwsStateError,
+        );
+
+        expect(await failingStore.loadOnboardingCompleted(), isFalse);
+      });
+
+      test('does not affect the answer shuffle preference', () async {
+        await store.setOnboardingCompleted(true);
+
+        expect(await store.loadAnswerShuffleEnabled(), isTrue);
+      });
+    });
+
     test('closes active watchers when disposed', () async {
       final done = expectLater(
         store.watchAnswerShuffleEnabled(),

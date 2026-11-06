@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'settings_store.dart';
 
 const _answerShuffleEnabledKey = 'answer_shuffle_enabled';
+const _onboardingCompletedKey = 'onboarding_completed';
 
 typedef LoadSharedPreferences = Future<SharedPreferences> Function();
 typedef WriteSharedPreferencesBool =
@@ -80,6 +81,25 @@ final class SharedPreferencesSettingsStore implements SettingsStore {
     _currentValue = enabled;
     _revision += 1;
     _answerShuffleController.add(enabled);
+  }
+
+  @override
+  Future<bool> loadOnboardingCompleted() async {
+    final preferences = await _preferences;
+    return preferences.getBool(_onboardingCompletedKey) ?? false;
+  }
+
+  @override
+  Future<void> setOnboardingCompleted(bool completed) async {
+    final preferences = await _preferences;
+    final didWrite = await _writeBool(
+      preferences,
+      _onboardingCompletedKey,
+      completed,
+    );
+    if (!didWrite) {
+      throw StateError('Could not persist the onboarding completion flag.');
+    }
   }
 
   @override

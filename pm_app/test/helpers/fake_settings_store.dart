@@ -3,9 +3,21 @@ import 'dart:async';
 import 'package:pm_persistence/pm_persistence.dart';
 
 class FakeSettingsStore implements SettingsStore {
-  FakeSettingsStore({this._answerShuffleEnabled = true});
+  FakeSettingsStore({
+    this._answerShuffleEnabled = true,
+    this.onboardingCompleted = false,
+  });
 
   bool _answerShuffleEnabled;
+
+  /// The stored onboarding flag. Tests read it to assert what was persisted.
+  bool onboardingCompleted;
+
+  /// When set, [loadOnboardingCompleted] throws this error.
+  Object? onboardingLoadError;
+
+  /// When set, [setOnboardingCompleted] throws this error without storing.
+  Object? onboardingWriteError;
   final StreamController<bool> _controller = StreamController<bool>.broadcast();
   int closeCallCount = 0;
 
@@ -22,6 +34,22 @@ class FakeSettingsStore implements SettingsStore {
   Future<void> setAnswerShuffleEnabled(bool enabled) async {
     _answerShuffleEnabled = enabled;
     _controller.add(enabled);
+  }
+
+  @override
+  Future<bool> loadOnboardingCompleted() async {
+    if (onboardingLoadError case final error?) {
+      throw error;
+    }
+    return onboardingCompleted;
+  }
+
+  @override
+  Future<void> setOnboardingCompleted(bool completed) async {
+    if (onboardingWriteError case final error?) {
+      throw error;
+    }
+    onboardingCompleted = completed;
   }
 
   void emitError(Object error, [StackTrace? stackTrace]) {

@@ -37,5 +37,6 @@ Rules:
 | --- | --- |
 | [ABSTRACTION_REFACTORING_PLAN.md](ABSTRACTION_REFACTORING_PLAN.md) | active |
 | [QUESTION_EXPLANATIONS_PLAN.md](QUESTION_EXPLANATIONS_PLAN.md) | draft |
+| [ONBOARDING_PLAN.md](ONBOARDING_PLAN.md) | active |
 | [archive/WIDGETBOOK_PLAN.md](archive/WIDGETBOOK_PLAN.md) | done |
 | [../docs/REFACTORING_REVIEW.md](../docs/REFACTORING_REVIEW.md) (R01–R27) | mostly done; see backlog |

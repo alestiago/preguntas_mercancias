@@ -191,6 +191,16 @@ final class _ControlledSettingsStore implements SettingsStore {
     _controller.add(enabled);
   }
 
+  bool onboardingCompleted = false;
+
+  @override
+  Future<bool> loadOnboardingCompleted() async => onboardingCompleted;
+
+  @override
+  Future<void> setOnboardingCompleted(bool completed) async {
+    onboardingCompleted = completed;
+  }
+
   void completeWrite(int index) => _pendingWrites[index].complete();
 
   @override
