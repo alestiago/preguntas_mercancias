@@ -16,7 +16,10 @@ extension PumpApp on WidgetTester {
     required QuestionProgressStore questionProgressStore,
     SettingsStore? settingsStore,
   }) async {
-    final resolvedSettingsStore = settingsStore ?? FakeSettingsStore();
+    // Default to an onboarded user so feature journeys start on home. Tests
+    // for onboarding pass their own store.
+    final resolvedSettingsStore =
+        settingsStore ?? FakeSettingsStore(onboardingCompleted: true);
     if (settingsStore == null) {
       addTearDown(resolvedSettingsStore.close);
     }

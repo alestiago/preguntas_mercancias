@@ -1,3 +1,9 @@
+---
+status: active
+updated: 2026-11-06
+issue: see plans/backlog.md (A07–A10 open)
+---
+
 # Abstraction and simplification plan
 
 Reviewed **2026-09-19**, against **`b5be853`**. This is a proposed follow-up to the recent refactoring, based on the current implementation rather than the earlier refactoring backlog. No application changes or dependency installations are included.

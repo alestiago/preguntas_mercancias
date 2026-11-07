@@ -11,6 +11,11 @@ final class AnswerShuffleToggled extends SettingsEvent {
   final bool enabled;
 }
 
+/// The user finished or skipped first-launch onboarding.
+final class OnboardingCompleted extends SettingsEvent {
+  const OnboardingCompleted();
+}
+
 final class _SettingsObservationRequested extends SettingsEvent {
   const _SettingsObservationRequested();
 }

@@ -13,12 +13,16 @@ final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       _onAnswerShuffleToggled,
       transformer: sequential(),
     );
+    on<OnboardingCompleted>(_onOnboardingCompleted);
     on<_SettingsObservationRequested>(_onObservationRequested);
 
     add(const _SettingsObservationRequested());
   }
 
   final SettingsStore settingsStore;
+
+  /// Read once at startup, then only changed by [OnboardingCompleted].
+  bool _onboardingCompleted = true;
 
   Future<void> _onAnswerShuffleToggled(
     AnswerShuffleToggled event,
@@ -27,10 +31,38 @@ final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     return settingsStore.setAnswerShuffleEnabled(event.enabled);
   }
 
+  /// Emits the completed state before persisting it, so the app moves on even
+  /// if the write fails. A failed write only means onboarding shows again on
+  /// the next launch.
+  Future<void> _onOnboardingCompleted(
+    OnboardingCompleted event,
+    Emitter<SettingsState> emit,
+  ) async {
+    _onboardingCompleted = true;
+    final currentState = state;
+    if (currentState is SettingsLoaded) {
+      emit(currentState.copyWith(onboardingCompleted: true));
+    }
+
+    try {
+      await settingsStore.setOnboardingCompleted(true);
+    } on Object catch (error, stackTrace) {
+      addError(error, stackTrace);
+    }
+  }
+
   Future<void> _onObservationRequested(
     _SettingsObservationRequested event,
     Emitter<SettingsState> emit,
-  ) {
+  ) async {
+    try {
+      _onboardingCompleted = await settingsStore.loadOnboardingCompleted();
+    } on Object catch (error, stackTrace) {
+      // Never block the app on a preferences error: treat it as completed.
+      addError(error, stackTrace);
+      _onboardingCompleted = true;
+    }
+
     return emit.forEach<bool>(
       settingsStore.watchAnswerShuffleEnabled(),
       onData: _stateForAnswerShuffle,
@@ -44,7 +76,10 @@ final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsState _stateForAnswerShuffle(bool answerShuffleEnabled) {
     final currentState = state;
     if (currentState is! SettingsLoaded) {
-      return SettingsLoaded(answerShuffleEnabled: answerShuffleEnabled);
+      return SettingsLoaded(
+        answerShuffleEnabled: answerShuffleEnabled,
+        onboardingCompleted: _onboardingCompleted,
+      );
     }
 
     return currentState.copyWith(answerShuffleEnabled: answerShuffleEnabled);

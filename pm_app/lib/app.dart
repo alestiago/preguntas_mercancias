@@ -6,6 +6,7 @@ import 'l10n/app_localizations.dart';
 import 'src/app/app_dependencies.dart';
 import 'src/app/theme/app_theme.dart';
 import 'src/home/home_page.dart';
+import 'src/onboarding/onboarding_gate.dart';
 import 'src/settings/bloc/settings_bloc.dart';
 
 export 'src/app/app_dependencies.dart' show AppDependencies;
@@ -36,8 +37,10 @@ final class PreguntasMercanciasApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: AppTheme.light,
-          home: QuestionHomePage(
-            loadQuestionCatalog: dependencies.loadQuestionCatalog,
+          home: OnboardingGate(
+            home: QuestionHomePage(
+              loadQuestionCatalog: dependencies.loadQuestionCatalog,
+            ),
           ),
         ),
       ),

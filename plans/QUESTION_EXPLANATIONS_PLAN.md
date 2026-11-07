@@ -1,3 +1,9 @@
+---
+status: draft
+updated: 2026-09-19
+issue: none yet
+---
+
 # Plan: self-contained explanations mapped to question codes
 
 Prepared on 2026-09-19. This document proposes the implementation; it does not create or approve the explanation corpus.

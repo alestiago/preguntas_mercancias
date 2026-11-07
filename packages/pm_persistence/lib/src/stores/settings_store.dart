@@ -20,6 +20,16 @@ abstract interface class SettingsStore {
   /// Persists [enabled] before emitting it to watchers.
   Future<void> setAnswerShuffleEnabled(bool enabled);
 
+  /// Loads whether the user has finished or skipped onboarding.
+  ///
+  /// Returns `false` when no value was saved.
+  Future<bool> loadOnboardingCompleted();
+
+  /// Persists whether onboarding is completed.
+  ///
+  /// Throws when the value could not be persisted.
+  Future<void> setOnboardingCompleted(bool completed);
+
   /// Releases resources owned by this store.
   ///
   /// Consumers must cancel subscriptions and stop using the store first.

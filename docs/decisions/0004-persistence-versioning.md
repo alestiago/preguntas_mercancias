@@ -37,3 +37,8 @@ compatibility decision in addition to a schema migration.
   progress.
 - A schema proposal is incomplete until its migration and rollback/recovery
   implications have been reviewed.
+
+## Related code
+
+- [`packages/pm_persistence/lib/src/database/pm_persistence_database.dart`](../../packages/pm_persistence/lib/src/database/pm_persistence_database.dart)
+- [`packages/pm_persistence/test/`](../../packages/pm_persistence/test/)

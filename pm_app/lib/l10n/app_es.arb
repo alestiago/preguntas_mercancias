@@ -191,5 +191,30 @@
   "practiceSummaryQuestionsTitle": "Detalle de respuestas",
   "practiceSummaryUnanswered": "Sin responder",
   "backToHome": "Volver al inicio",
-  "backToAnswerHistory": "Volver al historial"
+  "backToAnswerHistory": "Volver al historial",
+  "replayOnboarding": "Ver introducción",
+  "replayOnboardingSubtitle": "Solo visible en modo depuración.",
+  "onboardingSkip": "Saltar",
+  "onboardingNext": "Siguiente",
+  "onboardingBack": "Atrás",
+  "onboardingStart": "Empezar",
+  "onboardingPageIndicatorSemantics": "Página {current} de {total}",
+  "@onboardingPageIndicatorSemantics": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingBankTitle": "Prepara el examen de mercancías",
+  "onboardingBankBody": "Todas las preguntas del banco oficial, organizadas por materias, en tu bolsillo. Sin papeles ni apuntes sueltos.",
+  "onboardingPracticeTitle": "Practica a tu ritmo",
+  "onboardingPracticeBody": "Responde por materias y continúa donde lo dejaste. Cada pregunta indica la norma en la que se basa.",
+  "onboardingReviewTitle": "Los fallos vuelven hasta que los aciertas",
+  "onboardingReviewBody": "Las preguntas que fallas se repiten hasta que las respondes bien. Tu progreso muestra lo que ya dominas y lo que te queda.",
+  "onboardingSimulacroTitle": "Ponte a prueba",
+  "onboardingSimulacroBody": "Haz simulacros de 30 preguntas como en el examen. Todo funciona sin conexión y tus datos se quedan en tu dispositivo."
 }

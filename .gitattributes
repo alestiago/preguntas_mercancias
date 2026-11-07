@@ -1,0 +1,13 @@
+# Generated, checked-in output. GitHub collapses these in PR diffs and leaves
+# them out of language stats. On a merge conflict, don't merge them by hand:
+# resolve the source conflict, then run `fvm exec ./tool/regen.sh`
+# (see docs/workflow.md).
+packages/pm_questions_bank/assets/pm_260326_json/** linguist-generated=true
+**/*.g.dart linguist-generated=true
+pm_app/lib/l10n/app_localizations*.dart linguist-generated=true
+
+# Archival upstream copy of the question bank. Nothing reads it.
+pm_260326/** linguist-vendored=true
+
+# Keep shell scripts executable-friendly on every platform.
+*.sh text eol=lf

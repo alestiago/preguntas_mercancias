@@ -54,9 +54,13 @@ hosting or build output.
 | [`packages/pm_questions/`](packages/pm_questions/) | Pure Dart question domain, JSON ingestion, and source parser |
 | [`packages/pm_questions_bank/`](packages/pm_questions_bank/) | Canonical bank sources, compiled Flutter assets, compiler, and asset loader |
 | [`packages/pm_persistence/`](packages/pm_persistence/) | Drift-backed attempts/progress and shared-preferences settings |
-| [`docs/decisions/`](docs/decisions/) | Accepted behavioral and persistence decisions |
+| [`docs/decisions/`](docs/decisions/) | ADRs (behavioral and persistence decisions) and the decision log |
 | [`docs/performance/`](docs/performance/) | Reproducible measurements supporting scaling changes |
-| [`tool/verify.sh`](tool/verify.sh) | Repository-wide generation and quality gate |
+| [`docs/workflow.md`](docs/workflow.md) | Parallel work: issues, worktrees, conflicts, commit conventions |
+| [`plans/`](plans/) | Design proposals with a status lifecycle, plus the backlog index |
+| [`tool/`](tool/) | `bootstrap.sh` (set up a checkout), `verify.sh` (quality gate), `regen.sh` (all generators) |
+| [`CLAUDE.md`](CLAUDE.md) / `AGENTS.md` | Instructions for coding agents (root and per package) |
+| [`.claude/`](.claude/) | Shared Claude Code hooks (and skills) |
 
 The app is organized by feature under `pm_app/lib/src`. Each feature keeps its
 page/view widgets beside its BLoC or Cubit. Cross-feature composition lives in
@@ -94,8 +98,11 @@ must not be edited by hand.
 | Drift database code | `packages/pm_persistence` | `fvm dart run build_runner build` |
 | Compiled question JSON | `packages/pm_questions_bank` | `fvm dart run tools/compile_question_assets.dart` |
 
-The repository verification script runs all three generators and fails if they
-leave tracked output different from the committed files.
+`fvm exec ./tool/regen.sh` runs all three generators (or pass package names to
+run a subset). The repository verification script runs them too and fails if
+they leave tracked output different from the committed files. On a merge
+conflict in generated output, resolve the source conflict first, then
+regenerate (see [docs/workflow.md](docs/workflow.md)).
 
 ## Verify changes
 
@@ -110,6 +117,13 @@ gate resolves each package from its lockfile, checks formatting, regenerates
 checked-in files, runs static analysis, and runs tests in randomized order for
 the app and all three packages. The pure question package is resolved, analyzed,
 and tested with Dart rather than Flutter.
+
+To check only part of the repository while iterating:
+
+```sh
+fvm exec ./tool/verify.sh --changed        # changed packages plus their dependents
+fvm exec ./tool/verify.sh --only pm_app    # chosen packages (repeatable)
+```
 
 For a focused test while developing:
 

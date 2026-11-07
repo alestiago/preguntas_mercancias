@@ -45,3 +45,10 @@ persistence models, but not the generated Drift database API.
   constructors on domain entities.
 - A future non-Flutter catalog adapter can depend on `pm_questions` without a
   second domain-package split.
+
+## Related code
+
+- [`packages/pm_questions/lib/pm_questions.dart`](../../packages/pm_questions/lib/pm_questions.dart)
+- [`packages/pm_questions/lib/question_ingestion.dart`](../../packages/pm_questions/lib/question_ingestion.dart)
+- [`packages/pm_questions_bank/lib/pm_questions_bank.dart`](../../packages/pm_questions_bank/lib/pm_questions_bank.dart)
+- [`packages/pm_persistence/lib/pm_persistence.dart`](../../packages/pm_persistence/lib/pm_persistence.dart)

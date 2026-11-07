@@ -8,6 +8,8 @@ import 'pm_app/lib/src/app/widgets/app_message_panel.widgetbook.dart';
 import 'pm_app/lib/src/history/widgets/answer_history_date_header.widgetbook.dart';
 import 'pm_app/lib/src/history/widgets/answer_history_list.widgetbook.dart';
 import 'pm_app/lib/src/home/widgets/home_progress_summary.widgetbook.dart';
+import 'pm_app/lib/src/onboarding/view/onboarding_view.widgetbook.dart';
+import 'pm_app/lib/src/onboarding/widgets/onboarding_road.widgetbook.dart';
 import 'pm_app/lib/src/practice/widgets/answer_feedback.widgetbook.dart';
 import 'pm_app/lib/src/practice/widgets/exit_practice_button.widgetbook.dart';
 import 'pm_app/lib/src/practice/widgets/practice_progress_divider.widgetbook.dart';
@@ -42,6 +44,19 @@ final widgetbookDirectories = <WidgetbookNode>[
                   WidgetbookFolder(
                     name: 'widgets',
                     children: [homeProgressSummaryComponent],
+                  ),
+                ],
+              ),
+              WidgetbookFolder(
+                name: 'onboarding',
+                children: [
+                  WidgetbookFolder(
+                    name: 'view',
+                    children: [onboardingViewComponent],
+                  ),
+                  WidgetbookFolder(
+                    name: 'widgets',
+                    children: [onboardingRoadComponent],
                   ),
                 ],
               ),

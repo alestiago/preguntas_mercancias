@@ -14,7 +14,7 @@ void main() {
   ) async {
     final progressStore = FakeQuestionProgressStore();
     addTearDown(progressStore.close);
-    final settingsStore = FakeSettingsStore();
+    final settingsStore = FakeSettingsStore(onboardingCompleted: true);
     addTearDown(settingsStore.close);
     await progressStore.recordAnswer(
       QuestionAnswerRecord(

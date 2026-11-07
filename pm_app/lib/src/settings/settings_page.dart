@@ -1,15 +1,22 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pm_persistence/pm_persistence.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../navigation/app_navigator.dart';
+import '../onboarding/onboarding_page.dart';
 import 'bloc/settings_bloc.dart';
 import 'cubit/progress_reset_cubit.dart';
 
 const appVersion = '1.0.0+1';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({super.key, this.showDeveloperOptions = kDebugMode});
+
+  /// Shows tools for developers, such as replaying onboarding. Defaults to
+  /// debug builds only; tests pass it explicitly.
+  final bool showDeveloperOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +24,15 @@ class SettingsPage extends StatelessWidget {
       create: (context) => ProgressResetCubit(
         questionProgressStore: context.read<QuestionProgressStore>(),
       ),
-      child: const _SettingsView(),
+      child: _SettingsView(showDeveloperOptions: showDeveloperOptions),
     );
   }
 }
 
 class _SettingsView extends StatelessWidget {
-  const _SettingsView();
+  const _SettingsView({required this.showDeveloperOptions});
+
+  final bool showDeveloperOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +102,23 @@ class _SettingsView extends StatelessWidget {
                       ? null
                       : () => _confirmResetProgress(context),
                 ),
+                if (showDeveloperOptions) ...[
+                  const Divider(height: 1),
+                  ListTile(
+                    key: const ValueKey('replay-onboarding-tile'),
+                    leading: const Icon(Icons.slideshow_outlined),
+                    title: Text(localizations.replayOnboarding),
+                    subtitle: Text(localizations.replayOnboardingSubtitle),
+                    onTap: () => AppNavigator.push<void>(
+                      context,
+                      Builder(
+                        builder: (onboardingContext) => OnboardingPage(
+                          onFinished: () => AppNavigator.pop(onboardingContext),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

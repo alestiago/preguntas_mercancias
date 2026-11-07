@@ -1,5 +1,7 @@
 # Refactoring review: Preguntas Mercancías
 
+> **Status (2026-11-06):** most items are implemented. For each item's current status, see [plans/backlog.md](../plans/backlog.md). Open work is tracked in GitHub Issues. The baseline described below is historical.
+
 Reviewed on **2026-09-19**, against commit **`7c74c11` (`footer`)**.
 
 The highest-value work is to make practice sessions explicit and reliable, centralize question-selection rules, and reduce the responsibilities of the large screen files. The code already has useful boundaries; an incremental refactor can build on them.

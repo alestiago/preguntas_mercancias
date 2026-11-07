@@ -237,4 +237,56 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get backToAnswerHistory => 'Volver al historial';
+
+  @override
+  String get replayOnboarding => 'Ver introducción';
+
+  @override
+  String get replayOnboardingSubtitle => 'Solo visible en modo depuración.';
+
+  @override
+  String get onboardingSkip => 'Saltar';
+
+  @override
+  String get onboardingNext => 'Siguiente';
+
+  @override
+  String get onboardingBack => 'Atrás';
+
+  @override
+  String get onboardingStart => 'Empezar';
+
+  @override
+  String onboardingPageIndicatorSemantics(int current, int total) {
+    return 'Página $current de $total';
+  }
+
+  @override
+  String get onboardingBankTitle => 'Prepara el examen de mercancías';
+
+  @override
+  String get onboardingBankBody =>
+      'Todas las preguntas del banco oficial, organizadas por materias, en tu bolsillo. Sin papeles ni apuntes sueltos.';
+
+  @override
+  String get onboardingPracticeTitle => 'Practica a tu ritmo';
+
+  @override
+  String get onboardingPracticeBody =>
+      'Responde por materias y continúa donde lo dejaste. Cada pregunta indica la norma en la que se basa.';
+
+  @override
+  String get onboardingReviewTitle =>
+      'Los fallos vuelven hasta que los aciertas';
+
+  @override
+  String get onboardingReviewBody =>
+      'Las preguntas que fallas se repiten hasta que las respondes bien. Tu progreso muestra lo que ya dominas y lo que te queda.';
+
+  @override
+  String get onboardingSimulacroTitle => 'Ponte a prueba';
+
+  @override
+  String get onboardingSimulacroBody =>
+      'Haz simulacros de 30 preguntas como en el examen. Todo funciona sin conexión y tus datos se quedan en tu dispositivo.';
 }
