@@ -19,11 +19,17 @@ final onboardingRoadComponent = WidgetbookComponent(
           precision: 2,
         );
 
+        // The road fills its box and paints no background; in the app it sits
+        // in the onboarding band, so mimic that here.
         return PmAppAssets(
           child: UseCaseFrame(
-            builder: (_) => ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 360),
-              child: OnboardingRoad(page: page, pageCount: pageCount),
+            builder: (context) => ColoredBox(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: SizedBox(
+                width: 360,
+                height: 380,
+                child: OnboardingRoad(page: page, pageCount: pageCount),
+              ),
             ),
           ),
         );

@@ -41,9 +41,9 @@ Four pages. The copy was approved by the product owner on 2026-11-06.
 | 3 | Review loop (ADR 0001, ADR 0002) | Los fallos vuelven hasta que los aciertas | Las preguntas que fallas se repiten hasta que las respondes bien. Tu progreso muestra lo que ya dominas y lo que te queda. |
 | 4 | Exam readiness and offline | Ponte a prueba | Haz simulacros de 30 preguntas como en el examen. Todo funciona sin conexión y tus datos se quedan en tu dispositivo. |
 
-Controls: "Saltar" on pages 1–3, "Atrás" on pages 2–4, "Siguiente" to go
-forward, and "Empezar" on the last page. A page indicator shows where the user
-is. Swiping works in both directions with touch, mouse and trackpad (Flutter
+Controls: a back arrow (tooltip "Atrás") top left on pages 2–4, "Saltar" top
+right on pages 1–3, and one full-width main button at the bottom: "Siguiente",
+or "Empezar" on the last page. A page indicator shows where the user is. Swiping works in both directions with touch, mouse and trackpad (Flutter
 drags only with touch by default, which breaks swiping on web). The system back
 button goes to the previous page before it leaves onboarding.
 
@@ -102,16 +102,21 @@ pm_app/lib/src/onboarding/
 - **Settings entry point.** In debug builds only (`kDebugMode`), a
   "Ver introducción" list tile pushes `OnboardingPage(onFinished: () => AppNavigator.pop(context))`
   through `AppNavigator`. Release builds don't show it.
-- **Illustration (O04).** One `OnboardingRoad` scene sits on top of the
-  `PageView` in a `Stack`, behind `IgnorePointer`, so it stays still while the
-  pages slide and drags fall through to the `PageView`. Each page leaves the
-  same space empty at the top. The scene reads the fractional
-  `PageController.page`: the road and one milestone per page scroll by one
-  window width per page, and the wheels turn by distance / radius so they
-  roll without slipping. The body bobs slightly between pages, except when
-  `MediaQuery.disableAnimations` is on. The scene keeps a 4:3 ratio, at most
-  360 wide and 45 % of the available height. Assets: `truck_body.svg` (lines
-  plus a white fill silhouette, so the road doesn't show through) and
+- **Illustration (O04).** A full-width band in `primaryContainer` fills the
+  top of the screen, behind the status bar and the back and skip buttons. It
+  aims for two thirds of the screen height but always leaves 240 for the page
+  text. One `OnboardingRoad` scene sits in the band, on top of the
+  `PageView` and behind `IgnorePointer`, so it stays still while the pages
+  slide and drags fall through to the `PageView`. Each page leaves the band's
+  height empty at the top, then shows its title and body at most 320 wide so
+  the body keeps the title's measure. The scene fills the band without a
+  background of its own; the truck sits near the bottom, centred, scaled to
+  fit both width and height. It reads the fractional `PageController.page`:
+  the road and one milestone per page scroll by one window width per page,
+  and the wheels turn by distance / radius so they roll without slipping. The
+  body bobs slightly between pages, except when
+  `MediaQuery.disableAnimations` is on. Assets: `truck_body.svg` (lines plus a
+  white fill silhouette, so the road doesn't show through) and
   `truck_wheel.svg` (centred, with lug nuts so rotation is visible), both
   split from `assets/onboarding/source/truck.svg`, which isn't bundled.
 

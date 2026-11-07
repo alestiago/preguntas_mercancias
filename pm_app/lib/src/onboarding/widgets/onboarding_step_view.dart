@@ -19,6 +19,10 @@ class OnboardingStepView extends StatelessWidget {
   final OnboardingStep step;
   final double illustrationSpace;
 
+  /// Keeps the title and body to a similar measure. A body that runs the full
+  /// width of the screen looks unbalanced under a shorter title.
+  static const textMaxWidth = 320.0;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -30,24 +34,31 @@ class OnboardingStepView extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               horizontal: AppLayout.pageHorizontalInset,
-              vertical: 24,
+              vertical: 28,
             ),
-            child: Column(
-              children: [
-                Text(
-                  step.title,
-                  textAlign: TextAlign.center,
-                  style: textTheme.headlineSmall?.copyWith(
-                    fontWeight: AppTypography.emphasizedWeight,
-                  ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: textMaxWidth),
+                child: Column(
+                  children: [
+                    Text(
+                      step.title,
+                      key: const ValueKey('onboarding-step-title'),
+                      textAlign: TextAlign.center,
+                      style: textTheme.headlineSmall?.copyWith(
+                        fontWeight: AppTypography.emphasizedWeight,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      step.body,
+                      key: const ValueKey('onboarding-step-body'),
+                      textAlign: TextAlign.center,
+                      style: textTheme.bodyLarge,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  step.body,
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodyLarge,
-                ),
-              ],
+              ),
             ),
           ),
         ),

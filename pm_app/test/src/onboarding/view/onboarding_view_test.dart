@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pm_app/l10n/app_localizations.dart';
 import 'package:pm_app/src/onboarding/onboarding_steps.dart';
 import 'package:pm_app/src/onboarding/view/onboarding_view.dart';
+import 'package:pm_app/src/onboarding/widgets/onboarding_step_view.dart';
 import 'package:pm_app/src/onboarding/widgets/onboarding_road.dart';
 
 import '../../../helpers/pump_app.dart';
@@ -41,7 +42,75 @@ void main() {
       expect(find.byKey(_start), findsNothing);
       expect(find.bySemanticsLabel('Página 1 de 3'), findsOneWidget);
       // Kept in the tree (maintainSize) so the layout doesn't jump, but hidden.
-      expect(find.text('Atrás').hitTestable(), findsNothing);
+      expect(find.byKey(_back).hitTestable(), findsNothing);
+    });
+
+    testWidgets('the band spans the width and most of a phone screen', (
+      tester,
+    ) async {
+      tester.view
+        ..physicalSize = const Size(1080, 2340)
+        ..devicePixelRatio = 3;
+      addTearDown(tester.view.reset);
+      await pumpView(tester);
+
+      final screen = tester.getSize(find.byType(OnboardingView));
+      final band = tester.getRect(
+        find.byKey(const ValueKey('onboarding-illustration-band')),
+      );
+
+      expect(band.left, 0);
+      expect(band.top, 0);
+      expect(band.width, screen.width);
+      expect(band.height, greaterThan(screen.height / 2));
+      expect(band.height, lessThanOrEqualTo(screen.height * 2 / 3));
+    });
+
+    testWidgets('the band leaves room for the text on a short screen', (
+      tester,
+    ) async {
+      // The default test surface is 800 x 600, like a landscape phone.
+      await pumpView(tester);
+
+      final screen = tester.getSize(find.byType(OnboardingView));
+      final band = tester.getRect(
+        find.byKey(const ValueKey('onboarding-illustration-band')),
+      );
+      final next = tester.getRect(find.byKey(_next));
+
+      expect(band.height, lessThan(screen.height * 2 / 3));
+      expect(next.top - band.bottom, greaterThanOrEqualTo(200));
+    });
+
+    testWidgets('keeps the body text to the title measure', (tester) async {
+      await pumpView(tester);
+
+      final body = tester.getRect(
+        find.byKey(const ValueKey('onboarding-step-body')).first,
+      );
+
+      expect(body.width, lessThanOrEqualTo(OnboardingStepView.textMaxWidth));
+    });
+
+    testWidgets('back is top left, skip top right, next spans the bottom', (
+      tester,
+    ) async {
+      await pumpView(tester);
+      await tester.tap(find.byKey(_next));
+      await tester.pumpAndSettle();
+
+      final screen = tester.getSize(find.byType(OnboardingView));
+      final back = tester.getRect(find.byKey(_back));
+      final skip = tester.getRect(find.byKey(_skip));
+      final next = tester.getRect(find.byKey(_next));
+
+      expect(find.byTooltip('Atrás'), findsOneWidget);
+      expect(back.center.dx, lessThan(screen.width / 4));
+      expect(back.center.dy, lessThan(screen.height / 8));
+      expect(skip.center.dx, greaterThan(screen.width * 3 / 4));
+      expect(skip.center.dy, closeTo(back.center.dy, 1));
+      expect(next.center.dy, greaterThan(screen.height * 7 / 8));
+      expect(next.width, greaterThan(screen.width * 0.8));
     });
 
     testWidgets('back returns to the previous step', (tester) async {
